@@ -1,0 +1,14 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'FASTPython',
+      #directory : 'src'
+    }
+  ],
+  #testing : {
+    #coverage : {
+      #packages : [ 'FAST-Python.*' ],
+      #format : #lcov
+    }
+  }
+}
