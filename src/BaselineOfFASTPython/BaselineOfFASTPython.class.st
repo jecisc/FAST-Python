@@ -21,7 +21,14 @@ BaselineOfFASTPython >> baseline: spec [
 			"Packages"
 			spec
 				package: 'FAST-Python-Model' with: [ spec requires: #( 'FAST' 'TreeSitter' ) ];
-				package: 'FAST-Python-Model-Generator' ]
+				package: 'FAST-Python-Model-Generator';
+				package: 'FAST-Python-Model-Tests' with: [ spec requires: #( 'FAST-Python-Model' ) ].
+
+			"Groups"
+			spec
+				group: 'Core' with: #( 'Famix-Python-Model' );
+				group: 'Generator' with: #( 'FAST-Python-Model-Generator' );
+				group: 'Tests' with: #( 'Famix-Python-Model-Tests' ) ]
 ]
 
 { #category : 'dependencies' }
