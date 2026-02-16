@@ -26,9 +26,9 @@ BaselineOfFASTPython >> baseline: spec [
 
 			"Groups"
 			spec
-				group: 'Core' with: #( 'Famix-Python-Model' );
+				group: 'Core' with: #( 'FAST-Python-Model' );
 				group: 'Generator' with: #( 'FAST-Python-Model-Generator' );
-				group: 'Tests' with: #( 'Famix-Python-Model-Tests' ) ]
+				group: 'Tests' with: #( 'FAST-Python-Model-Tests' ) ]
 ]
 
 { #category : 'dependencies' }
