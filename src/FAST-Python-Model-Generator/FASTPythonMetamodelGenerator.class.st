@@ -127,7 +127,10 @@ Class {
 		'withClause',
 		'withItem',
 		'withStatement',
-		'yield'
+		'yield',
+		'tComment',
+		'tNamedBehaviouralEntity',
+		'tNamedEntity'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -288,6 +291,13 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	super defineHierarchy.
 
 	entity --|> tEntity.
+	
+	comment --|> tComment.
+	
+	functionDefinition --|> tNamedBehaviouralEntity.
+	
+	module --|> #THasImmediateSource.
+	"module withPrecedenceOf: #THasImmediateSource."
 ]
 
 { #category : 'definition' }
@@ -305,4 +315,11 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	"From FAST"
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 
+	tComment := self remoteTrait: #TComment withPrefix: #FAST.
+	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
+	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
+	"tScopableEntity := self remoteTrait: #TScopableEntity withPrefix: #FAST.
+	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
+	tWithComments := self remoteTrait: #TWithComments withPrefix: #FAST.
+	tWithParameters := self remoteTrait: #TWithParameters withPrefix: #FAST."
 ]

@@ -113,7 +113,21 @@ FASTPythonEntity >> genericParentGroup [
 ]
 
 { #category : 'testing' }
+FASTPythonEntity >> isBehaviouralEntity [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FASTPythonEntity >> isQueryable [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
+FASTPythonEntity >> isScopableEntity [
 
 	<generated>
 	^ false
