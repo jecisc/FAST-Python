@@ -88,7 +88,7 @@ Class {
 		'nonlocalStatement',
 		'notOperator',
 		'pair',
-		'parameters',
+		'parameter',
 		'parenthesizedExpression',
 		'parenthesizedListSplat',
 		'passStatement',
@@ -130,7 +130,8 @@ Class {
 		'yield',
 		'tComment',
 		'tNamedBehaviouralEntity',
-		'tNamedEntity'
+		'tNamedEntity',
+		'tVariableEntity'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -242,7 +243,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement.
 	notOperator := builder ensureClassNamed: #NotOperator.
 	pair := builder ensureClassNamed: #Pair.
-	parameters := builder ensureClassNamed: #Parameters.
+	parameter := builder ensureClassNamed: #Parameter.
 	parenthesizedExpression := builder ensureClassNamed: #ParenthesizedExpression.
 	parenthesizedListSplat := builder ensureClassNamed: #ParenthesizedListSplat.
 	passStatement := builder ensureClassNamed: #PassStatement.
@@ -296,6 +297,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	functionDefinition --|> tNamedBehaviouralEntity.
 	
+	parameter --|> tVariableEntity.
+	
 	module --|> #THasImmediateSource.
 	"module withPrecedenceOf: #THasImmediateSource."
 ]
@@ -319,7 +322,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
 	"tScopableEntity := self remoteTrait: #TScopableEntity withPrefix: #FAST.
-	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
-	tWithComments := self remoteTrait: #TWithComments withPrefix: #FAST.
-	tWithParameters := self remoteTrait: #TWithParameters withPrefix: #FAST."
+	"tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST."
+	tWithComments := self remoteTrait: #TWithComments withPrefix: #FAST."
+	"tWithParameters := self remoteTrait: #TWithParameters withPrefix: #FAST."
 ]

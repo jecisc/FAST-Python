@@ -132,3 +132,10 @@ FASTPythonEntity >> isScopableEntity [
 	<generated>
 	^ false
 ]
+
+{ #category : 'testing' }
+FASTPythonEntity >> isVariableEntity [
+
+	<generated>
+	^ false
+]

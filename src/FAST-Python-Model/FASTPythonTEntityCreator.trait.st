@@ -609,10 +609,10 @@ FASTPythonTEntityCreator >> newPair [
 ]
 
 { #category : 'entity creation' }
-FASTPythonTEntityCreator >> newParameters [
+FASTPythonTEntityCreator >> newParameter [
 
 	<generated>
-	^ self add: FASTPythonParameters new
+	^ self add: FASTPythonParameter new
 ]
 
 { #category : 'entity creation' }

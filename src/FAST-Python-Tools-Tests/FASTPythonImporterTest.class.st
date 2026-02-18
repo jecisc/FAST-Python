@@ -27,6 +27,32 @@ FASTPythonImporterTest >> setUp [
 ]
 
 { #category : 'tests' }
+FASTPythonImporterTest >> testFileWithAFunctionDefinition [
+
+	self parse: 'def test():
+	return 1'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testFileWithAFunctionDefinitionAndParameters [
+
+	| function |
+	self parse: 'def add(a, b):
+	return a + b'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1.
+	function := (fast allWithType: FASTPythonFunctionDefinition) anyOne.
+
+	self assert: (fast allWithType: FASTPythonParameter) size equals: 2.
+	self assertCollection: (fast allWithType: FASTPythonParameter) hasSameElements: function parameters.
+	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ]
+]
+
+{ #category : 'tests' }
 FASTPythonImporterTest >> testFileWithOneComment [
 
 	| entity |
