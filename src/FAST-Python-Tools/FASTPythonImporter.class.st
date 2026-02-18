@@ -14,19 +14,6 @@ FASTPythonImporter >> deleteTreeSitterParser [
 	self tsParser delete
 ]
 
-{ #category : 'parsing' }
-FASTPythonImporter >> importToFAST: tsTree usingSourceCode: aString [
-
-	| tsLanguage importer |
-	tsLanguage := TSLanguage python.
-	importer := TSFASTImporter new.
-	importer tsLanguage: tsLanguage.
-	importer languageName: 'Python'.
-	importer originString: aString.
-
-	^ importer import: tsTree
-]
-
 { #category : 'as yet unclassified' }
 FASTPythonImporter >> initialiseTreeSitterParser [ 
 
@@ -41,7 +28,9 @@ FASTPythonImporter >> parse: aString [
 	self initialiseTreeSitterParser.
 
 	tsTree := self tsParser parseString: aString.
-	fastTree := self importToFAST: tsTree rootNode usingSourceCode: aString.
+	fastTree := TSFASTPythonImporter new
+		            originString: aString;
+		            import: tsTree rootNode.
 
 	self deleteTreeSitterParser.
 
