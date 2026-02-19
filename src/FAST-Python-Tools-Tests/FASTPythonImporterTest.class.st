@@ -27,7 +27,7 @@ FASTPythonImporterTest >> setUp [
 ]
 
 { #category : 'tests' }
-FASTPythonImporterTest >> testFileWithAClassDefinition [
+FASTPythonImporterTest >> testClassDefinition [
 
 	self parse: 'class AClass():
 	pass'.
@@ -37,7 +37,7 @@ FASTPythonImporterTest >> testFileWithAClassDefinition [
 ]
 
 { #category : 'tests' }
-FASTPythonImporterTest >> testFileWithAFunctionDefinition [
+FASTPythonImporterTest >> testFunctionDefinition [
 
 	self parse: 'def test():
 	return 1'.
@@ -47,7 +47,34 @@ FASTPythonImporterTest >> testFileWithAFunctionDefinition [
 ]
 
 { #category : 'tests' }
-FASTPythonImporterTest >> testFileWithAFunctionDefinitionAndParameters [
+FASTPythonImporterTest >> testMethodDefinition [
+
+	self parse: 'class AClass():
+	def method(self):
+		pass'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPythonMethodDefinition) size equals: 1.
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testOneComment [
+
+	| entity |
+	self parse: '#There is only one comment'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	entity := (fast allWithType: FASTPythonModule) anyOne.
+	self assert: entity sourceCode equals: '#There is only one comment'.
+
+	self assert: (fast allWithType: FASTPythonComment) size equals: 1.
+	entity := (fast allWithType: FASTPythonComment) anyOne.
+	self assert: entity sourceCode equals: '#There is only one comment'
+]
+
+{ #category : 'tests - parameters' }
+FASTPythonImporterTest >> testParameters [
 
 	| function |
 	self parse: 'def add(a, b):
@@ -65,34 +92,7 @@ FASTPythonImporterTest >> testFileWithAFunctionDefinitionAndParameters [
 ]
 
 { #category : 'tests' }
-FASTPythonImporterTest >> testFileWithAMethodDefinition [
-
-	self parse: 'class AClass():
-	def method(self):
-		pass'.
-
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPythonMethodDefinition) size equals: 1.
-]
-
-{ #category : 'tests' }
-FASTPythonImporterTest >> testFileWithOneComment [
-
-	| entity |
-	self parse: '#There is only one comment'.
-
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	entity := (fast allWithType: FASTPythonModule) anyOne.
-	self assert: entity sourceCode equals: '#There is only one comment'.
-
-	self assert: (fast allWithType: FASTPythonComment) size equals: 1.
-	entity := (fast allWithType: FASTPythonComment) anyOne.
-	self assert: entity sourceCode equals: '#There is only one comment'
-]
-
-{ #category : 'tests' }
-FASTPythonImporterTest >> testFileWithTwoComments [
+FASTPythonImporterTest >> testTwoComments [
 
 	| entity |
 	self parse: '# Comment 1
