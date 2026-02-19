@@ -87,7 +87,6 @@ FASTPythonImporterTest >> testParameters [
 	self assert: (fast allWithType: FASTPythonParameter) size equals: 2.
 	self assertCollection: (fast allWithType: FASTPythonParameter) hasSameElements: function parameters.
 	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ].
-	self skip.
 	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
