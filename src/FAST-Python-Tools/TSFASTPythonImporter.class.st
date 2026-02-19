@@ -13,6 +13,15 @@ TSFASTPythonImporter >> initialize [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitFunctionDefinition: aNode [
+	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
+
+	^ (context anySatisfy: #isClassDefinition)
+		  ifTrue: [ self createEntityForNode: aNode kind: FASTPythonMethodDefinition ]
+		  ifFalse: [ self createEntityForNode: aNode kind: FASTPythonFunctionDefinition ]
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitParameters: aNode [
 	"For parameters we want one by parameter. Not one node for multiple ones."
 

@@ -27,6 +27,16 @@ FASTPythonImporterTest >> setUp [
 ]
 
 { #category : 'tests' }
+FASTPythonImporterTest >> testFileWithAClassDefinition [
+
+	self parse: 'class AClass():
+	pass'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1
+]
+
+{ #category : 'tests' }
 FASTPythonImporterTest >> testFileWithAFunctionDefinition [
 
 	self parse: 'def test():
@@ -49,7 +59,21 @@ FASTPythonImporterTest >> testFileWithAFunctionDefinitionAndParameters [
 
 	self assert: (fast allWithType: FASTPythonParameter) size equals: 2.
 	self assertCollection: (fast allWithType: FASTPythonParameter) hasSameElements: function parameters.
-	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ]
+	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ].
+	self skip.
+	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testFileWithAMethodDefinition [
+
+	self parse: 'class AClass():
+	def method(self):
+		pass'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPythonMethodDefinition) size equals: 1.
 ]
 
 { #category : 'tests' }

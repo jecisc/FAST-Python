@@ -14,3 +14,10 @@ FASTPythonClassDefinition class >> annotation [
 	<generated>
 	^ self
 ]
+
+{ #category : 'testing' }
+FASTPythonClassDefinition >> isClassDefinition [
+
+	<generated>
+	^ true
+]

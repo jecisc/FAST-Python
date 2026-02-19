@@ -567,6 +567,13 @@ FASTPythonTEntityCreator >> newMemberType [
 ]
 
 { #category : 'entity creation' }
+FASTPythonTEntityCreator >> newMethodDefinition [
+
+	<generated>
+	^ self add: FASTPythonMethodDefinition new
+]
+
+{ #category : 'entity creation' }
 FASTPythonTEntityCreator >> newModule [
 
 	<generated>

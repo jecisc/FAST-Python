@@ -120,6 +120,13 @@ FASTPythonEntity >> isBehaviouralEntity [
 ]
 
 { #category : 'testing' }
+FASTPythonEntity >> isClassDefinition [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FASTPythonEntity >> isQueryable [
 
 	<generated>

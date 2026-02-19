@@ -131,7 +131,8 @@ Class {
 		'tComment',
 		'tNamedBehaviouralEntity',
 		'tNamedEntity',
-		'tVariableEntity'
+		'tVariableEntity',
+		'methodDefinition'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -178,6 +179,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	casePattern := builder ensureClassNamed: #CasePattern.
 	chevron := builder ensureClassNamed: #Chevron.
 	classDefinition := builder ensureClassNamed: #ClassDefinition.
+	classDefinition withTesting.
 	classPattern := builder ensureClassNamed: #ClassPattern.
 	comment := builder ensureClassNamed: #Comment.
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
@@ -237,6 +239,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	listSplatPattern := builder ensureClassNamed: #ListSplatPattern.
 	matchStatement := builder ensureClassNamed: #MatchStatement.
 	memberType := builder ensureClassNamed: #MemberType.
+	methodDefinition := builder ensureClassNamed: #MethodDefinition.
 	module := builder ensureClassNamed: #Module.
 	namedExpression := builder ensureClassNamed: #NamedExpression.
 	none := builder ensureClassNamed: #None.
@@ -298,6 +301,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	functionDefinition --|> tNamedBehaviouralEntity.
 	
 	parameter --|> tVariableEntity.
+	
+	methodDefinition --|> tNamedBehaviouralEntity.
 	
 	module --|> #THasImmediateSource.
 	"module withPrecedenceOf: #THasImmediateSource."
