@@ -16,9 +16,19 @@ TSFASTPythonImporter >> initialize [
 TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 
-	^ (context anySatisfy: #isClassDefinition)
+	| definition |
+	definition := (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
 		  ifTrue: [ self createEntityForNode: aNode kind: FASTPythonMethodDefinition ]
 		  ifFalse: [ self createEntityForNode: aNode kind: FASTPythonFunctionDefinition ]
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitIdentifier: aNode [
+
+	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
+	(context anySatisfy: [ :entry | entry field = #name ]) ifTrue: [ ^ context top fastEntity name: (self sourceCodeOf: aNode) ].
+
+	^ self createEntityForNode: aNode
 ]
 
 { #category : 'visiting' }

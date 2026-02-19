@@ -296,6 +296,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	entity --|> tEntity.
 	
+	classDefinition --|> tNamedEntity.
+	
 	comment --|> tComment.
 	
 	functionDefinition --|> tNamedBehaviouralEntity.

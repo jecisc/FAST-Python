@@ -29,26 +29,52 @@ FASTPythonImporterTest >> setUp [
 { #category : 'tests' }
 FASTPythonImporterTest >> testClassDefinition [
 
+	| class |
 	self parse: 'class AClass():
 	pass'.
 
 	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1
+	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
+
+	class := (fast allWithType: FASTPythonClassDefinition) anyOne.
+	self assert: class name equals: 'AClass'
 ]
 
 { #category : 'tests' }
 FASTPythonImporterTest >> testFunctionDefinition [
 
+	| function |
 	self parse: 'def test():
 	return 1'.
 
 	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1
+	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1.
+
+	function := (fast allWithType: FASTPythonFunctionDefinition) anyOne.
+	self assert: function name equals: 'test'
+]
+
+{ #category : 'tests - parameters' }
+FASTPythonImporterTest >> testFunctionParameters [
+
+	| function |
+	self parse: 'def add(a, b):
+	return a + b'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1.
+	function := (fast allWithType: FASTPythonFunctionDefinition) anyOne.
+
+	self assert: (fast allWithType: FASTPythonParameter) size equals: 2.
+	self assertCollection: (fast allWithType: FASTPythonParameter) hasSameElements: function parameters.
+	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ].
+	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
 { #category : 'tests' }
 FASTPythonImporterTest >> testMethodDefinition [
 
+	| method |
 	self parse: 'class AClass():
 	def method(self):
 		pass'.
@@ -56,6 +82,9 @@ FASTPythonImporterTest >> testMethodDefinition [
 	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
 	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPythonMethodDefinition) size equals: 1.
+
+	method := (fast allWithType: FASTPythonMethodDefinition) anyOne.
+	self assert: method name equals: 'method'
 ]
 
 { #category : 'tests' }
@@ -71,23 +100,6 @@ FASTPythonImporterTest >> testOneComment [
 	self assert: (fast allWithType: FASTPythonComment) size equals: 1.
 	entity := (fast allWithType: FASTPythonComment) anyOne.
 	self assert: entity sourceCode equals: '#There is only one comment'
-]
-
-{ #category : 'tests - parameters' }
-FASTPythonImporterTest >> testParameters [
-
-	| function |
-	self parse: 'def add(a, b):
-	return a + b'.
-
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1.
-	function := (fast allWithType: FASTPythonFunctionDefinition) anyOne.
-
-	self assert: (fast allWithType: FASTPythonParameter) size equals: 2.
-	self assertCollection: (fast allWithType: FASTPythonParameter) hasSameElements: function parameters.
-	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ].
-	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
 { #category : 'tests' }
