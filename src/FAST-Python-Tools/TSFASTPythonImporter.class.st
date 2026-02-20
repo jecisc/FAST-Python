@@ -41,3 +41,24 @@ TSFASTPythonImporter >> visitParameters: aNode [
 			parameter := self createEntityForNode: parameterNode kind: FASTPythonParameter parentManagementBlock: [ :entity :parent | parent addParameter: entity ].
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
 ]
+
+{ #category : 'visiting - noop' }
+TSFASTPythonImporter >> visitStringContent: aNode [
+	"We only want one node for the string, my parent."
+
+	
+]
+
+{ #category : 'visiting - noop' }
+TSFASTPythonImporter >> visitStringEnd: aNode [
+	"We only want one node for the string, my parent."
+
+	
+]
+
+{ #category : 'visiting - noop' }
+TSFASTPythonImporter >> visitStringStart: aNode [
+	"We only want one node for the string, my parent."
+
+	
+]

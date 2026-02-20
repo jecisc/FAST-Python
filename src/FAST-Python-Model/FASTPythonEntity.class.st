@@ -127,6 +127,20 @@ FASTPythonEntity >> isClassDefinition [
 ]
 
 { #category : 'testing' }
+FASTPythonEntity >> isExpression [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
+FASTPythonEntity >> isLiteral [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FASTPythonEntity >> isQueryable [
 
 	<generated>
@@ -135,6 +149,13 @@ FASTPythonEntity >> isQueryable [
 
 { #category : 'testing' }
 FASTPythonEntity >> isScopableEntity [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
+FASTPythonEntity >> isStringLiteral [
 
 	<generated>
 	^ false

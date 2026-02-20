@@ -103,6 +103,21 @@ FASTPythonImporterTest >> testOneComment [
 ]
 
 { #category : 'tests' }
+FASTPythonImporterTest >> testString [
+
+	| string |
+	self parse: '"This is a string"'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonString) size equals: 1.
+
+	string := (fast allWithType: FASTPythonString) anyOne.
+	self assert: string sourceCode equals: '"This is a string"'.
+	self assert: (string isOfType: FASTTStringLiteral).
+	self assertEmpty: string allContainedEntities "This is because TreeSitter has nodes inside a string but we do not care about that in FAST. This is to avoid a regression"
+]
+
+{ #category : 'tests' }
 FASTPythonImporterTest >> testTwoComments [
 
 	| entity |

@@ -104,9 +104,6 @@ Class {
 		'splatPattern',
 		'splatType',
 		'string',
-		'stringContent',
-		'stringEnd',
-		'stringStart',
 		'subscript',
 		'trueClass',
 		'tryStatement',
@@ -132,7 +129,8 @@ Class {
 		'tNamedBehaviouralEntity',
 		'tNamedEntity',
 		'tVariableEntity',
-		'methodDefinition'
+		'methodDefinition',
+		'tStringLiteral'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -262,9 +260,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	splatPattern := builder ensureClassNamed: #SplatPattern.
 	splatType := builder ensureClassNamed: #SplatType.
 	string := builder ensureClassNamed: #String.
-	stringContent := builder ensureClassNamed: #StringContent.
-	stringEnd := builder ensureClassNamed: #StringEnd.
-	stringStart := builder ensureClassNamed: #StringStart.
 	subscript := builder ensureClassNamed: #Subscript.
 	trueClass := builder ensureClassNamed: #True.
 	tryStatement := builder ensureClassNamed: #TryStatement.
@@ -307,7 +302,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	methodDefinition --|> tNamedBehaviouralEntity.
 	
 	module --|> #THasImmediateSource.
-	"module withPrecedenceOf: #THasImmediateSource."
+	
+	string --|> tStringLiteral
 ]
 
 { #category : 'definition' }
@@ -328,8 +324,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
-	"tScopableEntity := self remoteTrait: #TScopableEntity withPrefix: #FAST.
-	"tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST."
-	tWithComments := self remoteTrait: #TWithComments withPrefix: #FAST."
-	"tWithParameters := self remoteTrait: #TWithParameters withPrefix: #FAST."
+	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
+	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
 ]

@@ -728,27 +728,6 @@ FASTPythonTEntityCreator >> newString [
 ]
 
 { #category : 'entity creation' }
-FASTPythonTEntityCreator >> newStringContent [
-
-	<generated>
-	^ self add: FASTPythonStringContent new
-]
-
-{ #category : 'entity creation' }
-FASTPythonTEntityCreator >> newStringEnd [
-
-	<generated>
-	^ self add: FASTPythonStringEnd new
-]
-
-{ #category : 'entity creation' }
-FASTPythonTEntityCreator >> newStringStart [
-
-	<generated>
-	^ self add: FASTPythonStringStart new
-]
-
-{ #category : 'entity creation' }
 FASTPythonTEntityCreator >> newSubscript [
 
 	<generated>
