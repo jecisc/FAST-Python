@@ -8,6 +8,52 @@ Class {
 	#package : 'FAST-Python-Tools'
 }
 
+{ #category : 'development support' }
+FASTPythonImporter class >> devParseAll [
+	"Command specific to help me develop. this is useful to know the file to parse everything and detect if this raises any error.
+	We do not save the models to not flood the memory and allow their GC."
+
+	<script>
+	self devParseFiles: ('/Users/cyril/marius/selected_notebooks_converted' asFileReference allFiles select: [ :f | f extension = 'py' ])
+]
+
+{ #category : 'development support' }
+FASTPythonImporter class >> devParseBatch1 [
+
+	<script>
+	self devParseBatchNumber: '001'
+]
+
+{ #category : 'development support' }
+FASTPythonImporter class >> devParseBatchNumber: aString [
+	"Command specific to help me develop. this is useful to know the file to parse everything and detect if this raises any error.
+	We do not save the models to not flood the memory and allow their GC."
+
+	<script>
+	self devParseFiles: (('/Users/cyril/marius/selected_notebooks_converted/batch_' , aString) asFileReference files select: [ :f | f extension = 'py' ])
+]
+
+{ #category : 'development support' }
+FASTPythonImporter class >> devParseFiles: aCollection [
+	"Command specific to help me develop. this is useful to know the file to parse everything and detect if this raises any error.
+	We do not save the models to not flood the memory and allow their GC..
+	
+	I save as last element the time it took to run on the full batch."
+
+	| result |
+	result := OrderedCollection new.
+
+	result add: [
+			aCollection
+				do: [ :file |
+						| timeToRun |
+						timeToRun := [ self parseFile: file ] millisecondsToRun.
+						result add: file -> timeToRun ]
+				displayingProgress: [ :file | file pathString ] ] millisecondsToRun.
+
+	result inspect
+]
+
 { #category : 'parsing' }
 FASTPythonImporter class >> parse: aString [
 
