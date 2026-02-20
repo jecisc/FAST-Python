@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : 'parsing' }
+FASTPythonImporter class >> parse: aString [
+
+	^ self new parse: aString
+]
+
+{ #category : 'parsing' }
 FASTPythonImporter >> deleteTreeSitterParser [
 
 	self tsParser delete

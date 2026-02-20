@@ -26,7 +26,8 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
-	(context anySatisfy: [ :entry | entry field = #name ]) ifTrue: [ ^ context top fastEntity name: (self sourceCodeOf: aNode) ].
+	(context anySatisfy: [ :entry | entry field = #name and: [ #( 'function_definition' 'class_definition' ) includes: entry tsNode type ] ]) ifTrue: [
+		^ context top fastEntity name: (self sourceCodeOf: aNode) ].
 
 	^ self createEntityForNode: aNode
 ]
