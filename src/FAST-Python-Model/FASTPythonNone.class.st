@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPythonNone',
-	#superclass : 'FASTPythonEntity',
+	#superclass : 'FASTPythonLiteral',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPythonNone class >> annotation [
 
-	<FMClass: #None super: #FASTPythonEntity>
+	<FMClass: #None super: #FASTPythonLiteral>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

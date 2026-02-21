@@ -131,7 +131,8 @@ Class {
 		'boolean',
 		'tStringLiteral',
 		'tBooleanLiteral',
-		'literal'
+		'literal',
+		'tLiteral'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -299,7 +300,15 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comment --|> tComment.
 	
+	float --|> literal.
+	
 	functionDefinition --|> tNamedBehaviouralEntity.
+	
+	integer --|> literal.
+	
+	literal --|> tLiteral.
+	
+	none --|> literal.
 	
 	parameter --|> tVariableEntity.
 	
@@ -328,6 +337,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
+	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.

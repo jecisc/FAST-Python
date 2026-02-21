@@ -41,6 +41,35 @@ FASTPythonImporterTest >> testClassDefinition [
 ]
 
 { #category : 'tests - literals' }
+FASTPythonImporterTest >> testComplex [
+
+	| boolean |
+	self parse: '42j'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonInteger) size equals: 1.
+
+	boolean := (fast allWithType: FASTPythonInteger) anyOne.
+	self assert: boolean sourceCode equals: '42j'.
+	self assert: (boolean isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testDoubleQuotedString [
+
+	| string |
+	self parse: '"This is a string"'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonString) size equals: 1.
+
+	string := (fast allWithType: FASTPythonString) anyOne.
+	self assert: string sourceCode equals: '"This is a string"'.
+	self assert: (string isOfType: FASTTStringLiteral).
+	self assertEmpty: string allContainedEntities "This is because TreeSitter has nodes inside a string but we do not care about that in FAST. This is to avoid a regression"
+]
+
+{ #category : 'tests - literals' }
 FASTPythonImporterTest >> testFalse [
 
 	| boolean |
@@ -52,6 +81,20 @@ FASTPythonImporterTest >> testFalse [
 	boolean := (fast allWithType: FASTPythonBoolean) anyOne.
 	self assert: boolean sourceCode equals: 'False'.
 	self assert: (boolean isOfType: FASTTBooleanLiteral)
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testFloat [
+
+	| boolean |
+	self parse: '42.0'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonFloat) size equals: 1.
+
+	boolean := (fast allWithType: FASTPythonFloat) anyOne.
+	self assert: boolean sourceCode equals: '42.0'.
+	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests' }
@@ -85,6 +128,20 @@ FASTPythonImporterTest >> testFunctionParameters [
 	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testInteger [
+
+	| boolean |
+	self parse: '42'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonInteger) size equals: 1.
+
+	boolean := (fast allWithType: FASTPythonInteger) anyOne.
+	self assert: boolean sourceCode equals: '42'.
+	self assert: (boolean isOfType: FASTTLiteral)
+]
+
 { #category : 'tests' }
 FASTPythonImporterTest >> testMethodDefinition [
 
@@ -99,6 +156,20 @@ FASTPythonImporterTest >> testMethodDefinition [
 
 	method := (fast allWithType: FASTPythonMethodDefinition) anyOne.
 	self assert: method name equals: 'method'
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testNone [
+
+	| boolean |
+	self parse: 'None'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonNone) size equals: 1.
+
+	boolean := (fast allWithType: FASTPythonNone) anyOne.
+	self assert: boolean sourceCode equals: 'None'.
+	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests' }
@@ -117,18 +188,33 @@ FASTPythonImporterTest >> testOneComment [
 ]
 
 { #category : 'tests - literals' }
-FASTPythonImporterTest >> testString [
+FASTPythonImporterTest >> testRawString [
 
 	| string |
-	self parse: '"This is a string"'.
+	self parse: 'r''This is a \string'''.
 
 	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
 	self assert: (fast allWithType: FASTPythonString) size equals: 1.
 
 	string := (fast allWithType: FASTPythonString) anyOne.
-	self assert: string sourceCode equals: '"This is a string"'.
+	self assert: string sourceCode equals: 'r''This is a \string'''.
 	self assert: (string isOfType: FASTTStringLiteral).
-	self assertEmpty: string allContainedEntities "This is because TreeSitter has nodes inside a string but we do not care about that in FAST. This is to avoid a regression"
+	self assertEmpty: string allContainedEntities
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testSingleQuotedString [
+
+	| string |
+	self parse: '''This is a string'''.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonString) size equals: 1.
+
+	string := (fast allWithType: FASTPythonString) anyOne.
+	self assert: string sourceCode equals: '''This is a string'''.
+	self assert: (string isOfType: FASTTStringLiteral).
+	self assertEmpty: string allContainedEntities
 ]
 
 { #category : 'tests - literals' }
