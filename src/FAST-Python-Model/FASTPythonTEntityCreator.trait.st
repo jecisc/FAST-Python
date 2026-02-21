@@ -98,6 +98,13 @@ FASTPythonTEntityCreator >> newBlock [
 ]
 
 { #category : 'entity creation' }
+FASTPythonTEntityCreator >> newBoolean [
+
+	<generated>
+	^ self add: FASTPythonBoolean new
+]
+
+{ #category : 'entity creation' }
 FASTPythonTEntityCreator >> newBooleanOperator [
 
 	<generated>
@@ -336,13 +343,6 @@ FASTPythonTEntityCreator >> newExpressionList [
 ]
 
 { #category : 'entity creation' }
-FASTPythonTEntityCreator >> newFalse [
-
-	<generated>
-	^ self add: FASTPythonFalse new
-]
-
-{ #category : 'entity creation' }
 FASTPythonTEntityCreator >> newFinallyClause [
 
 	<generated>
@@ -553,6 +553,13 @@ FASTPythonTEntityCreator >> newListSplatPattern [
 ]
 
 { #category : 'entity creation' }
+FASTPythonTEntityCreator >> newLiteral [
+
+	<generated>
+	^ self add: FASTPythonLiteral new
+]
+
+{ #category : 'entity creation' }
 FASTPythonTEntityCreator >> newMatchStatement [
 
 	<generated>
@@ -732,13 +739,6 @@ FASTPythonTEntityCreator >> newSubscript [
 
 	<generated>
 	^ self add: FASTPythonSubscript new
-]
-
-{ #category : 'entity creation' }
-FASTPythonTEntityCreator >> newTrue [
-
-	<generated>
-	^ self add: FASTPythonTrue new
 ]
 
 { #category : 'entity creation' }

@@ -13,6 +13,12 @@ TSFASTPythonImporter >> initialize [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitFalse: aNode [
+
+	^ self createEntityForNode: aNode kind: FASTPythonBoolean
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 
@@ -61,4 +67,10 @@ TSFASTPythonImporter >> visitStringStart: aNode [
 	"We only want one node for the string, my parent."
 
 	
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitTrue: aNode [
+
+	^ self createEntityForNode: aNode kind: FASTPythonBoolean
 ]

@@ -40,6 +40,20 @@ FASTPythonImporterTest >> testClassDefinition [
 	self assert: class name equals: 'AClass'
 ]
 
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testFalse [
+
+	| boolean |
+	self parse: 'False'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonBoolean) size equals: 1.
+
+	boolean := (fast allWithType: FASTPythonBoolean) anyOne.
+	self assert: boolean sourceCode equals: 'False'.
+	self assert: (boolean isOfType: FASTTBooleanLiteral)
+]
+
 { #category : 'tests' }
 FASTPythonImporterTest >> testFunctionDefinition [
 
@@ -102,7 +116,7 @@ FASTPythonImporterTest >> testOneComment [
 	self assert: entity sourceCode equals: '#There is only one comment'
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - literals' }
 FASTPythonImporterTest >> testString [
 
 	| string |
@@ -115,6 +129,20 @@ FASTPythonImporterTest >> testString [
 	self assert: string sourceCode equals: '"This is a string"'.
 	self assert: (string isOfType: FASTTStringLiteral).
 	self assertEmpty: string allContainedEntities "This is because TreeSitter has nodes inside a string but we do not care about that in FAST. This is to avoid a regression"
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testTrue [
+
+	| boolean |
+	self parse: 'True'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonBoolean) size equals: 1.
+
+	boolean := (fast allWithType: FASTPythonBoolean) anyOne.
+	self assert: boolean sourceCode equals: 'True'.
+	self assert: (boolean isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests' }

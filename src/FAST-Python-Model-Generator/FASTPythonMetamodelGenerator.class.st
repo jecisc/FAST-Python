@@ -49,7 +49,6 @@ Class {
 		'exceptClause',
 		'execStatement',
 		'expressionList',
-		'falseClass',
 		'finallyClause',
 		'float',
 		'forInClause',
@@ -105,7 +104,6 @@ Class {
 		'splatType',
 		'string',
 		'subscript',
-		'trueClass',
 		'tryStatement',
 		'tuple',
 		'tupleExpression',
@@ -130,7 +128,10 @@ Class {
 		'tNamedEntity',
 		'tVariableEntity',
 		'methodDefinition',
-		'tStringLiteral'
+		'boolean',
+		'tStringLiteral',
+		'tBooleanLiteral',
+		'literal'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -170,6 +171,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	await := builder ensureClassNamed: #Await.
 	binaryOperator := builder ensureClassNamed: #BinaryOperator.
 	block := builder ensureClassNamed: #Block.
+	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement.
 	call := builder ensureClassNamed: #Call.
@@ -204,7 +206,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	exceptClause := builder ensureClassNamed: #ExceptClause.
 	execStatement := builder ensureClassNamed: #ExecStatement.
 	expressionList := builder ensureClassNamed: #ExpressionList.
-	falseClass := builder ensureClassNamed: #False.
 	finallyClause := builder ensureClassNamed: #FinallyClause.
 	float := builder ensureClassNamed: #Float.
 	forInClause := builder ensureClassNamed: #ForInClause.
@@ -235,6 +236,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	listPattern := builder ensureClassNamed: #ListPattern.
 	listSplat := builder ensureClassNamed: #ListSplat.
 	listSplatPattern := builder ensureClassNamed: #ListSplatPattern.
+	literal := builder ensureClassNamed: #Literal.
 	matchStatement := builder ensureClassNamed: #MatchStatement.
 	memberType := builder ensureClassNamed: #MemberType.
 	methodDefinition := builder ensureClassNamed: #MethodDefinition.
@@ -261,7 +263,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	splatType := builder ensureClassNamed: #SplatType.
 	string := builder ensureClassNamed: #String.
 	subscript := builder ensureClassNamed: #Subscript.
-	trueClass := builder ensureClassNamed: #True.
 	tryStatement := builder ensureClassNamed: #TryStatement.
 	tuple := builder ensureClassNamed: #Tuple.
 	tupleExpression := builder ensureClassNamed: #TupleExpression.
@@ -291,6 +292,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	entity --|> tEntity.
 	
+	boolean --|> literal.
+	boolean --|> tBooleanLiteral.
+	
 	classDefinition --|> tNamedEntity.
 	
 	comment --|> tComment.
@@ -303,6 +307,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	module --|> #THasImmediateSource.
 	
+	string --|> literal.
 	string --|> tStringLiteral
 ]
 
@@ -321,6 +326,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	"From FAST"
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 
+	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.

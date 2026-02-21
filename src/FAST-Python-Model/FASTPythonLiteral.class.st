@@ -1,5 +1,5 @@
 Class {
-	#name : 'FASTPythonFalse',
+	#name : 'FASTPythonLiteral',
 	#superclass : 'FASTPythonEntity',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : 'meta' }
-FASTPythonFalse class >> annotation [
+FASTPythonLiteral class >> annotation [
 
-	<FMClass: #False super: #FASTPythonEntity>
+	<FMClass: #Literal super: #FASTPythonEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

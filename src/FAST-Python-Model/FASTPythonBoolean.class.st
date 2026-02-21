@@ -26,19 +26,19 @@
 
 "
 Class {
-	#name : 'FASTPythonString',
+	#name : 'FASTPythonBoolean',
 	#superclass : 'FASTPythonLiteral',
-	#traits : 'FASTTStringLiteral',
-	#classTraits : 'FASTTStringLiteral classTrait',
+	#traits : 'FASTTBooleanLiteral',
+	#classTraits : 'FASTTBooleanLiteral classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPythonString class >> annotation [
+FASTPythonBoolean class >> annotation [
 
-	<FMClass: #String super: #FASTPythonLiteral>
+	<FMClass: #Boolean super: #FASTPythonLiteral>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
