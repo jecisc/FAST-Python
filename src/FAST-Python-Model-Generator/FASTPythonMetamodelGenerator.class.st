@@ -150,7 +150,7 @@ FASTPythonMetamodelGenerator class >> packageName [
 { #category : 'accessing' }
 FASTPythonMetamodelGenerator class >> prefix [
 
-	^ #FASTPython
+	^ #FASTPy
 ]
 
 { #category : 'accessing' }

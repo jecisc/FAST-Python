@@ -9,14 +9,14 @@ Class {
 TSFASTPythonImporter >> initialize [
 
 	super initialize.
-	self languageName: 'Python'
+	self languageName: 'Py'
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 
 	| fastEntity |
-	fastEntity := self instantiateFastEntity: FASTPythonBinaryOperator from: aTSNode.
+	fastEntity := self instantiateFastEntity: FASTPyBinaryOperator from: aTSNode.
 
 	context top fastEntity addGenericChildren: fastEntity. "Should this be a generic child?"
 
@@ -31,7 +31,7 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitFalse: aNode [
 
-	^ self createEntityForNode: aNode kind: FASTPythonBoolean
+	^ self createEntityForNode: aNode kind: FASTPyBoolean
 ]
 
 { #category : 'visiting' }
@@ -40,8 +40,8 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 
 	| definition |
 	definition := (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
-		  ifTrue: [ self createEntityForNode: aNode kind: FASTPythonMethodDefinition ]
-		  ifFalse: [ self createEntityForNode: aNode kind: FASTPythonFunctionDefinition ]
+		  ifTrue: [ self createEntityForNode: aNode kind: FASTPyMethodDefinition ]
+		  ifFalse: [ self createEntityForNode: aNode kind: FASTPyFunctionDefinition ]
 ]
 
 { #category : 'visiting' }
@@ -60,7 +60,7 @@ TSFASTPythonImporter >> visitParameters: aNode [
 
 	aNode collectNamedChild do: [ :parameterNode |
 			| parameter |
-			parameter := self createEntityForNode: parameterNode kind: FASTPythonParameter parentManagementBlock: [ :entity :parent | parent addParameter: entity ].
+			parameter := self createEntityForNode: parameterNode kind: FASTPyParameter parentManagementBlock: [ :entity :parent | parent addParameter: entity ].
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
 ]
 
@@ -88,5 +88,5 @@ TSFASTPythonImporter >> visitStringStart: aNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitTrue: aNode [
 
-	^ self createEntityForNode: aNode kind: FASTPythonBoolean
+	^ self createEntityForNode: aNode kind: FASTPyBoolean
 ]

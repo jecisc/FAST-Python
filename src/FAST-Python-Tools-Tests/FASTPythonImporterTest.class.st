@@ -32,16 +32,16 @@ FASTPythonImporterTest >> testBinaryOperator [
 	| operator |
 	self parse: '40 + 2'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
 
-	operator := (fast allWithType: FASTPythonBinaryOperator) anyOne.
+	operator := (fast allWithType: FASTPyBinaryOperator) anyOne.
 	self assert: operator sourceCode equals: '40 + 2'.
 	self assert: (operator isOfType: FASTTBinaryExpression).
 	self assert: operator leftOperand sourceCode equals: '40'.
-	self assert: (operator leftOperand isOfType: FASTPythonInteger).
+	self assert: (operator leftOperand isOfType: FASTPyInteger).
 	self assert: operator rightOperand sourceCode equals: '2'.
-	self assert: (operator rightOperand isOfType: FASTPythonInteger)
+	self assert: (operator rightOperand isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests' }
@@ -51,10 +51,10 @@ FASTPythonImporterTest >> testClassDefinition [
 	self parse: 'class AClass():
 	pass'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyClassDefinition) size equals: 1.
 
-	class := (fast allWithType: FASTPythonClassDefinition) anyOne.
+	class := (fast allWithType: FASTPyClassDefinition) anyOne.
 	self assert: class name equals: 'AClass'
 ]
 
@@ -64,10 +64,10 @@ FASTPythonImporterTest >> testComplex [
 	| boolean |
 	self parse: '42j'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 
-	boolean := (fast allWithType: FASTPythonInteger) anyOne.
+	boolean := (fast allWithType: FASTPyInteger) anyOne.
 	self assert: boolean sourceCode equals: '42j'.
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
@@ -78,10 +78,10 @@ FASTPythonImporterTest >> testDoubleQuotedString [
 	| string |
 	self parse: '"This is a string"'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonString) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
 
-	string := (fast allWithType: FASTPythonString) anyOne.
+	string := (fast allWithType: FASTPyString) anyOne.
 	self assert: string sourceCode equals: '"This is a string"'.
 	self assert: (string isOfType: FASTTStringLiteral).
 	self assertEmpty: string allContainedEntities "This is because TreeSitter has nodes inside a string but we do not care about that in FAST. This is to avoid a regression"
@@ -93,10 +93,10 @@ FASTPythonImporterTest >> testFalse [
 	| boolean |
 	self parse: 'False'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
 
-	boolean := (fast allWithType: FASTPythonBoolean) anyOne.
+	boolean := (fast allWithType: FASTPyBoolean) anyOne.
 	self assert: boolean sourceCode equals: 'False'.
 	self assert: (boolean isOfType: FASTTBooleanLiteral)
 ]
@@ -107,10 +107,10 @@ FASTPythonImporterTest >> testFloat [
 	| boolean |
 	self parse: '42.0'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonFloat) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFloat) size equals: 1.
 
-	boolean := (fast allWithType: FASTPythonFloat) anyOne.
+	boolean := (fast allWithType: FASTPyFloat) anyOne.
 	self assert: boolean sourceCode equals: '42.0'.
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
@@ -122,10 +122,10 @@ FASTPythonImporterTest >> testFunctionDefinition [
 	self parse: 'def test():
 	return 1'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 
-	function := (fast allWithType: FASTPythonFunctionDefinition) anyOne.
+	function := (fast allWithType: FASTPyFunctionDefinition) anyOne.
 	self assert: function name equals: 'test'
 ]
 
@@ -136,13 +136,13 @@ FASTPythonImporterTest >> testFunctionParameters [
 	self parse: 'def add(a, b):
 	return a + b'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonFunctionDefinition) size equals: 1.
-	function := (fast allWithType: FASTPythonFunctionDefinition) anyOne.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	function := (fast allWithType: FASTPyFunctionDefinition) anyOne.
 
-	self assert: (fast allWithType: FASTPythonParameter) size equals: 2.
-	self assertCollection: (fast allWithType: FASTPythonParameter) hasSameElements: function parameters.
-	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPythonParameter) ].
+	self assert: (fast allWithType: FASTPyParameter) size equals: 2.
+	self assertCollection: (fast allWithType: FASTPyParameter) hasSameElements: function parameters.
+	function parameters do: [ :parameter | self assert: (parameter isOfType: FASTPyParameter) ].
 	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
@@ -152,10 +152,10 @@ FASTPythonImporterTest >> testInteger [
 	| boolean |
 	self parse: '42'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 
-	boolean := (fast allWithType: FASTPythonInteger) anyOne.
+	boolean := (fast allWithType: FASTPyInteger) anyOne.
 	self assert: boolean sourceCode equals: '42'.
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
@@ -168,11 +168,11 @@ FASTPythonImporterTest >> testMethodDefinition [
 	def method(self):
 		pass'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonClassDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPythonMethodDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyMethodDefinition) size equals: 1.
 
-	method := (fast allWithType: FASTPythonMethodDefinition) anyOne.
+	method := (fast allWithType: FASTPyMethodDefinition) anyOne.
 	self assert: method name equals: 'method'
 ]
 
@@ -182,10 +182,10 @@ FASTPythonImporterTest >> testNone [
 	| boolean |
 	self parse: 'None'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonNone) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyNone) size equals: 1.
 
-	boolean := (fast allWithType: FASTPythonNone) anyOne.
+	boolean := (fast allWithType: FASTPyNone) anyOne.
 	self assert: boolean sourceCode equals: 'None'.
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
@@ -196,12 +196,12 @@ FASTPythonImporterTest >> testOneComment [
 	| entity |
 	self parse: '#There is only one comment'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	entity := (fast allWithType: FASTPythonModule) anyOne.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	entity := (fast allWithType: FASTPyModule) anyOne.
 	self assert: entity sourceCode equals: '#There is only one comment'.
 
-	self assert: (fast allWithType: FASTPythonComment) size equals: 1.
-	entity := (fast allWithType: FASTPythonComment) anyOne.
+	self assert: (fast allWithType: FASTPyComment) size equals: 1.
+	entity := (fast allWithType: FASTPyComment) anyOne.
 	self assert: entity sourceCode equals: '#There is only one comment'
 ]
 
@@ -211,10 +211,10 @@ FASTPythonImporterTest >> testRawString [
 	| string |
 	self parse: 'r''This is a \string'''.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonString) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
 
-	string := (fast allWithType: FASTPythonString) anyOne.
+	string := (fast allWithType: FASTPyString) anyOne.
 	self assert: string sourceCode equals: 'r''This is a \string'''.
 	self assert: (string isOfType: FASTTStringLiteral).
 	self assertEmpty: string allContainedEntities
@@ -226,10 +226,10 @@ FASTPythonImporterTest >> testSingleQuotedString [
 	| string |
 	self parse: '''This is a string'''.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonString) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
 
-	string := (fast allWithType: FASTPythonString) anyOne.
+	string := (fast allWithType: FASTPyString) anyOne.
 	self assert: string sourceCode equals: '''This is a string'''.
 	self assert: (string isOfType: FASTTStringLiteral).
 	self assertEmpty: string allContainedEntities
@@ -241,10 +241,10 @@ FASTPythonImporterTest >> testTrue [
 	| boolean |
 	self parse: 'True'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	self assert: (fast allWithType: FASTPythonBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
 
-	boolean := (fast allWithType: FASTPythonBoolean) anyOne.
+	boolean := (fast allWithType: FASTPyBoolean) anyOne.
 	self assert: boolean sourceCode equals: 'True'.
 	self assert: (boolean isOfType: FASTTBooleanLiteral)
 ]
@@ -257,12 +257,12 @@ FASTPythonImporterTest >> testTwoComments [
 	
 # Comment 2'.
 
-	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
-	entity := (fast allWithType: FASTPythonModule) anyOne.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	entity := (fast allWithType: FASTPyModule) anyOne.
 	self assert: entity sourceCode equals: '# Comment 1
 	
 # Comment 2' withPlatformLineEndings.
 
-	self assert: (fast allWithType: FASTPythonComment) size equals: 2.
-	self assertCollection: ((fast allWithType: FASTPythonComment) collect: #sourceCode as: Array) hasSameElements: { '# Comment 1'. '# Comment 2' }
+	self assert: (fast allWithType: FASTPyComment) size equals: 2.
+	self assertCollection: ((fast allWithType: FASTPyComment) collect: #sourceCode as: Array) hasSameElements: { '# Comment 1'. '# Comment 2' }
 ]
