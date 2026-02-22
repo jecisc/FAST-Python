@@ -24,6 +24,10 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 			context top add: 'leftOperand' asAliasOfField: 'left'.
 			context top add: 'rightOperand' asAliasOfField: 'right'.
 			self visitChildren: aTSNode in: fastEntity ].
+	
+	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328
+	So I try to het this property manually."
+	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity leftOperand endPos + 1 to: fastEntity rightOperand startPos - 1) trim.
 
 	^ fastEntity
 ]

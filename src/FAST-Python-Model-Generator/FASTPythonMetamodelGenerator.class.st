@@ -173,7 +173,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	attribute := builder ensureClassNamed: #Attribute."Todo"
 	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
 	await := builder ensureClassNamed: #Await."Todo"
-	binaryOperator := builder ensureClassNamed: #BinaryOperator."Todo"
+	binaryOperator := builder ensureClassNamed: #BinaryOperator.
 	block := builder ensureClassNamed: #Block."Todo"
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator."Todo"

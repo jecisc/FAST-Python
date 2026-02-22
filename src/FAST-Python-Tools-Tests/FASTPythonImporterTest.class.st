@@ -41,7 +41,8 @@ FASTPythonImporterTest >> testBinaryOperator [
 	self assert: operator leftOperand sourceCode equals: '40'.
 	self assert: (operator leftOperand isOfType: FASTPyInteger).
 	self assert: operator rightOperand sourceCode equals: '2'.
-	self assert: (operator rightOperand isOfType: FASTPyInteger)
+	self assert: (operator rightOperand isOfType: FASTPyInteger).
+	self assert: operator operator equals: '+'
 ]
 
 { #category : 'tests' }
