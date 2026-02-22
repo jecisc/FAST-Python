@@ -12,13 +12,13 @@ TSFASTPythonImporter >> initialize [
 	self languageName: 'Py'
 ]
 
-{ #category : 'visiting' }
-TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
+{ #category : 'private' }
+TSFASTPythonImporter >> manageBinaryAndBooleanOperator: aTSNode fastClass: aClass [
 
 	| fastEntity |
-	fastEntity := self instantiateFastEntity: FASTPyBinaryOperator from: aTSNode.
+	fastEntity := self instantiateFastEntity: aClass from: aTSNode.
 
-	context top fastEntity addGenericChildren: fastEntity. "Should this be a generic child?"
+	self setParentOf: fastEntity.
 
 	self pushContext: fastEntity node: aTSNode during: [
 			context top add: 'leftOperand' asAliasOfField: 'left'.
@@ -30,6 +30,18 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity leftOperand endPos + 1 to: fastEntity rightOperand startPos - 1) trim.
 
 	^ fastEntity
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
+
+	^ self manageBinaryAndBooleanOperator: aTSNode fastClass: FASTPyBinaryOperator
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitBooleanOperator: aTSNode [
+
+	^ self manageBinaryAndBooleanOperator: aTSNode fastClass: FASTPyBooleanOperator
 ]
 
 { #category : 'visiting' }
@@ -53,7 +65,7 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
 	(context anySatisfy: [ :entry | entry field = #name and: [ #( 'function_definition' 'class_definition' ) includes: entry tsNode type ] ]) ifTrue: [
-		^ context top fastEntity name: (self sourceCodeOf: aNode) ].
+		^ self topFastEntity name: (self sourceCodeOf: aNode) ].
 
 	^ self createEntityForNode: aNode
 ]
@@ -64,7 +76,7 @@ TSFASTPythonImporter >> visitParameters: aNode [
 
 	aNode collectNamedChild do: [ :parameterNode |
 			| parameter |
-			parameter := self createEntityForNode: parameterNode kind: FASTPyParameter parentManagementBlock: [ :entity :parent | parent addParameter: entity ].
+			parameter := self createEntityForNode: parameterNode kind: FASTPyParameter parentManagementBlock: [ :entity | self topFastEntity addParameter: entity ].
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
 ]
 

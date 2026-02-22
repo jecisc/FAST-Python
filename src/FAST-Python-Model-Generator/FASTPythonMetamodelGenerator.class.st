@@ -176,7 +176,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	binaryOperator := builder ensureClassNamed: #BinaryOperator.
 	block := builder ensureClassNamed: #Block."Todo"
 	boolean := builder ensureClassNamed: #Boolean.
-	booleanOperator := builder ensureClassNamed: #BooleanOperator."Todo"
+	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
 	call := builder ensureClassNamed: #Call."Todo"
 	caseClause := builder ensureClassNamed: #CaseClause."Todo"
@@ -298,6 +298,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	entity --|> tEntity.
 	self flag: #todo. "The next line is WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
+	
+	booleanOperator --|> expression.
+	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
 	
 	binaryOperator --|> expression.
 	binaryOperator --|> tBinaryExpression.

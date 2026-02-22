@@ -26,7 +26,7 @@ FASTPythonImporterTest >> setUp [
 	importer := FASTPythonImporter new
 ]
 
-{ #category : 'tests - literals' }
+{ #category : 'tests - opererators' }
 FASTPythonImporterTest >> testBinaryOperator [
 
 	| operator |
@@ -43,6 +43,77 @@ FASTPythonImporterTest >> testBinaryOperator [
 	self assert: operator rightOperand sourceCode equals: '2'.
 	self assert: (operator rightOperand isOfType: FASTPyInteger).
 	self assert: operator operator equals: '+'
+]
+
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testBinaryOperatorInBinaryOperator [
+
+	| operator left |
+	self parse: '40 + 2 - 0'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 2.
+
+	operator := (fast allWithType: FASTPyBinaryOperator) anyOne.
+	self assert: operator sourceCode equals: '40 + 2 - 0'.
+	self assert: (operator isOfType: FASTTBinaryExpression).
+
+	self assert: operator operator equals: '-'.
+	self assert: operator rightOperand sourceCode equals: '0'.
+	self assert: (operator rightOperand isOfType: FASTPyInteger).
+
+	left := operator leftOperand.
+	self assert: left sourceCode equals: '40 + 2'.
+	self assert: (left isOfType: FASTPyBinaryOperator).
+	self assert: (left leftOperand isOfType: FASTPyInteger).
+	self assert: (left leftOperand sourceCode) equals: '40'.
+	self assert: (left rightOperand sourceCode) equals: '2'.
+	self assert: left operator equals: '+'
+]
+
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testBooleanOperator [
+
+	| operator |
+	self parse: 'True and False'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBooleanOperator) size equals: 1.
+
+	operator := (fast allWithType: FASTPyBooleanOperator) anyOne.
+	self assert: operator sourceCode equals: 'True and False'.
+	self assert: (operator isOfType: FASTTBinaryExpression).
+	self assert: operator leftOperand sourceCode equals: 'True'.
+	self assert: (operator leftOperand isOfType: FASTPyBoolean).
+	self assert: operator rightOperand sourceCode equals: 'False'.
+	self assert: (operator rightOperand isOfType: FASTPyBoolean).
+	self assert: operator operator equals: 'and'
+]
+
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testBooleanOperatorInBooleanOperator [
+
+	| operator left |
+	self parse: 'True and True or False'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBooleanOperator) size equals: 2.
+
+	operator := (fast allWithType: FASTPyBooleanOperator) anyOne.
+	self assert: operator sourceCode equals: 'True and True or False'.
+	self assert: (operator isOfType: FASTTBinaryExpression).
+
+	self assert: operator operator equals: 'or'.
+	self assert: operator rightOperand sourceCode equals: 'False'.
+	self assert: (operator rightOperand isOfType: FASTPyBoolean).
+
+	left := operator leftOperand.
+	self assert: left sourceCode equals: 'True and True'.
+	self assert: (left isOfType: FASTPyBooleanOperator).
+	self assert: (left leftOperand isOfType: FASTPyBoolean).
+	self assert: (left leftOperand sourceCode) equals: 'True'.
+	self assert: (left rightOperand sourceCode) equals: 'True'.
+	self assert: left operator equals: 'and'
 ]
 
 { #category : 'tests' }
