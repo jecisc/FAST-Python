@@ -5,7 +5,15 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
+| `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
+| `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `genericParent` | `FASTPythonEntity` | `genericChildren` | `FASTPythonEntity` | |
+| `parentConditionalStatement` | `FASTTExpression` | `condition` | `FASTTConditionalStatement` | Optional condition statement where this expression is used|
+| `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
+| `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
+| `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
+| `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -25,8 +33,8 @@
 Class {
 	#name : 'FASTPythonEntity',
 	#superclass : 'MooseEntity',
-	#traits : 'FASTTEntity',
-	#classTraits : 'FASTTEntity classTrait',
+	#traits : 'FASTTEntity + FASTTExpression',
+	#classTraits : 'FASTTEntity classTrait + FASTTExpression classTrait',
 	#instVars : [
 		'#genericChildren => FMMany type: #FASTPythonEntity opposite: #genericParent',
 		'#genericParent => FMOne type: #FASTPythonEntity opposite: #genericChildren'
@@ -120,6 +128,13 @@ FASTPythonEntity >> isBehaviouralEntity [
 ]
 
 { #category : 'testing' }
+FASTPythonEntity >> isBinaryExpression [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FASTPythonEntity >> isBooleanLiteral [
 
 	<generated>
@@ -128,13 +143,6 @@ FASTPythonEntity >> isBooleanLiteral [
 
 { #category : 'testing' }
 FASTPythonEntity >> isClassDefinition [
-
-	<generated>
-	^ false
-]
-
-{ #category : 'testing' }
-FASTPythonEntity >> isExpression [
 
 	<generated>
 	^ false

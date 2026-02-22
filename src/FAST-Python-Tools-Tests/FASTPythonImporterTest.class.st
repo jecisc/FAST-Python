@@ -26,6 +26,24 @@ FASTPythonImporterTest >> setUp [
 	importer := FASTPythonImporter new
 ]
 
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testBinaryOperator [
+
+	| operator |
+	self parse: '40 + 2'.
+
+	self assert: (fast allWithType: FASTPythonModule) size equals: 1.
+	self assert: (fast allWithType: FASTPythonBinaryOperator) size equals: 1.
+
+	operator := (fast allWithType: FASTPythonBinaryOperator) anyOne.
+	self assert: operator sourceCode equals: '40 + 2'.
+	self assert: (operator isOfType: FASTTBinaryExpression).
+	self assert: operator leftOperand sourceCode equals: '40'.
+	self assert: (operator leftOperand isOfType: FASTPythonInteger).
+	self assert: operator rightOperand sourceCode equals: '2'.
+	self assert: (operator rightOperand isOfType: FASTPythonInteger)
+]
+
 { #category : 'tests' }
 FASTPythonImporterTest >> testClassDefinition [
 

@@ -132,7 +132,10 @@ Class {
 		'tStringLiteral',
 		'tBooleanLiteral',
 		'literal',
-		'tLiteral'
+		'tLiteral',
+		'tExpression',
+		'expression',
+		'tBinaryExpression'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -161,128 +164,129 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	super defineClasses.
 	entity := builder ensureClassNamed: #Entity.
 	_ERROR := builder ensureClassNamed: #ERROR.
-	aliasedImport := builder ensureClassNamed: #AliasedImport.
-	argumentList := builder ensureClassNamed: #ArgumentList.
-	asPattern := builder ensureClassNamed: #AsPattern.
-	asPatternTarget := builder ensureClassNamed: #AsPatternTarget.
-	assertStatement := builder ensureClassNamed: #AssertStatement.
-	assignment := builder ensureClassNamed: #Assignment.
-	attribute := builder ensureClassNamed: #Attribute.
-	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment.
-	await := builder ensureClassNamed: #Await.
-	binaryOperator := builder ensureClassNamed: #BinaryOperator.
-	block := builder ensureClassNamed: #Block.
+	aliasedImport := builder ensureClassNamed: #AliasedImport."Todo"
+	argumentList := builder ensureClassNamed: #ArgumentList."Todo"
+	asPattern := builder ensureClassNamed: #AsPattern."Todo"
+	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
+	assertStatement := builder ensureClassNamed: #AssertStatement."Todo"
+	assignment := builder ensureClassNamed: #Assignment."Todo"
+	attribute := builder ensureClassNamed: #Attribute."Todo"
+	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
+	await := builder ensureClassNamed: #Await."Todo"
+	binaryOperator := builder ensureClassNamed: #BinaryOperator."Todo"
+	block := builder ensureClassNamed: #Block."Todo"
 	boolean := builder ensureClassNamed: #Boolean.
-	booleanOperator := builder ensureClassNamed: #BooleanOperator.
-	breakStatement := builder ensureClassNamed: #BreakStatement.
-	call := builder ensureClassNamed: #Call.
-	caseClause := builder ensureClassNamed: #CaseClause.
-	casePattern := builder ensureClassNamed: #CasePattern.
-	chevron := builder ensureClassNamed: #Chevron.
-	classDefinition := builder ensureClassNamed: #ClassDefinition.
+	booleanOperator := builder ensureClassNamed: #BooleanOperator."Todo"
+	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
+	call := builder ensureClassNamed: #Call."Todo"
+	caseClause := builder ensureClassNamed: #CaseClause."Todo"
+	casePattern := builder ensureClassNamed: #CasePattern."Todo"
+	chevron := builder ensureClassNamed: #Chevron."Todo"
+	classDefinition := builder ensureClassNamed: #ClassDefinition."ToReview"
 	classDefinition withTesting.
-	classPattern := builder ensureClassNamed: #ClassPattern.
-	comment := builder ensureClassNamed: #Comment.
-	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
-	complexPattern := builder ensureClassNamed: #ComplexPattern.
-	concatenatedString := builder ensureClassNamed: #ConcatenatedString.
-	conditionalExpression := builder ensureClassNamed: #ConditionalExpression.
-	constrainedType := builder ensureClassNamed: #ConstrainedType.
-	continueStatement := builder ensureClassNamed: #ContinueStatement.
-	decoratedDefinition := builder ensureClassNamed: #DecoratedDefinition.
-	decorator := builder ensureClassNamed: #Decorator.
-	defaultParameter := builder ensureClassNamed: #DefaultParameter.
-	deleteStatement := builder ensureClassNamed: #DeleteStatement.
-	dictPattern := builder ensureClassNamed: #DictPattern.
-	dictionary := builder ensureClassNamed: #Dictionary.
-	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension.
-	dictionarySplat := builder ensureClassNamed: #DictionarySplat.
-	dictionarySplatPattern := builder ensureClassNamed: #DictionarySplatPattern.
-	dottedName := builder ensureClassNamed: #DottedName.
-	elifClause := builder ensureClassNamed: #ElifClause.
-	ellipsis := builder ensureClassNamed: #Ellipsis.
-	elseClause := builder ensureClassNamed: #ElseClause.
-	escapeInterpolation := builder ensureClassNamed: #EscapeInterpolation.
-	escapeSequence := builder ensureClassNamed: #EscapeSequence.
-	exceptClause := builder ensureClassNamed: #ExceptClause.
-	execStatement := builder ensureClassNamed: #ExecStatement.
-	expressionList := builder ensureClassNamed: #ExpressionList.
-	finallyClause := builder ensureClassNamed: #FinallyClause.
+	classPattern := builder ensureClassNamed: #ClassPattern."Todo"
+	comment := builder ensureClassNamed: #Comment."Todo"
+	comparisonOperator := builder ensureClassNamed: #ComparisonOperator."Todo"
+	complexPattern := builder ensureClassNamed: #ComplexPattern."Todo"
+	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
+	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
+	constrainedType := builder ensureClassNamed: #ConstrainedType."Todo"
+	continueStatement := builder ensureClassNamed: #ContinueStatement."Todo"
+	decoratedDefinition := builder ensureClassNamed: #DecoratedDefinition."Todo"
+	decorator := builder ensureClassNamed: #Decorator."Todo"
+	defaultParameter := builder ensureClassNamed: #DefaultParameter."Todo"
+	deleteStatement := builder ensureClassNamed: #DeleteStatement."Todo"
+	dictPattern := builder ensureClassNamed: #DictPattern."Todo"
+	dictionary := builder ensureClassNamed: #Dictionary."Todo"
+	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
+	dictionarySplat := builder ensureClassNamed: #DictionarySplat."Todo"
+	dictionarySplatPattern := builder ensureClassNamed: #DictionarySplatPattern."Todo"
+	dottedName := builder ensureClassNamed: #DottedName."Todo"
+	elifClause := builder ensureClassNamed: #ElifClause."Todo"
+	ellipsis := builder ensureClassNamed: #Ellipsis."Todo"
+	elseClause := builder ensureClassNamed: #ElseClause."Todo"
+	escapeInterpolation := builder ensureClassNamed: #EscapeInterpolation."Todo"
+	escapeSequence := builder ensureClassNamed: #EscapeSequence."Todo"
+	exceptClause := builder ensureClassNamed: #ExceptClause."Todo"
+	execStatement := builder ensureClassNamed: #ExecStatement."Todo"
+	expression := builder ensureClassNamed: #Expression.
+	expressionList := builder ensureClassNamed: #ExpressionList."Todo"
+	finallyClause := builder ensureClassNamed: #FinallyClause."Todo"
 	float := builder ensureClassNamed: #Float.
-	forInClause := builder ensureClassNamed: #ForInClause.
-	forStatement := builder ensureClassNamed: #ForStatement.
-	formatExpression := builder ensureClassNamed: #FormatExpression.
-	formatSpecifier := builder ensureClassNamed: #FormatSpecifier.
-	functionDefinition := builder ensureClassNamed: #FunctionDefinition.
-	futureImportStatement := builder ensureClassNamed: #FutureImportStatement.
-	generatorExpression := builder ensureClassNamed: #GeneratorExpression.
-	genericType := builder ensureClassNamed: #GenericType.
-	globalStatement := builder ensureClassNamed: #GlobalStatement.
-	identifier := builder ensureClassNamed: #Identifier.
-	ifClause := builder ensureClassNamed: #IfClause.
-	ifStatement := builder ensureClassNamed: #IfStatement.
-	importFromStatement := builder ensureClassNamed: #ImportFromStatement.
-	importPrefix := builder ensureClassNamed: #ImportPrefix.
-	importStatement := builder ensureClassNamed: #ImportStatement.
+	forInClause := builder ensureClassNamed: #ForInClause."Todo"
+	forStatement := builder ensureClassNamed: #ForStatement."Todo"
+	formatExpression := builder ensureClassNamed: #FormatExpression."Todo"
+	formatSpecifier := builder ensureClassNamed: #FormatSpecifier."Todo"
+	functionDefinition := builder ensureClassNamed: #FunctionDefinition."ToReview"
+	futureImportStatement := builder ensureClassNamed: #FutureImportStatement."Todo"
+	generatorExpression := builder ensureClassNamed: #GeneratorExpression."Todo"
+	genericType := builder ensureClassNamed: #GenericType."Todo"
+	globalStatement := builder ensureClassNamed: #GlobalStatement."Todo"
+	identifier := builder ensureClassNamed: #Identifier."Todo"
+	ifClause := builder ensureClassNamed: #IfClause."Todo"
+	ifStatement := builder ensureClassNamed: #IfStatement."Todo"
+	importFromStatement := builder ensureClassNamed: #ImportFromStatement."Todo"
+	importPrefix := builder ensureClassNamed: #ImportPrefix."Todo"
+	importStatement := builder ensureClassNamed: #ImportStatement."Todo"
 	integer := builder ensureClassNamed: #Integer.
 	interpolation := builder ensureClassNamed: #Interpolation.
-	keywordArgument := builder ensureClassNamed: #KeywordArgument.
-	keywordPattern := builder ensureClassNamed: #KeywordPattern.
-	keywordSeparator := builder ensureClassNamed: #KeywordSeparator.
-	lambda := builder ensureClassNamed: #Lambda.
-	lambdaParameters := builder ensureClassNamed: #LambdaParameters.
-	lineContinuation := builder ensureClassNamed: #LineContinuation.
-	list := builder ensureClassNamed: #List.
-	listComprehension := builder ensureClassNamed: #ListComprehension.
-	listPattern := builder ensureClassNamed: #ListPattern.
-	listSplat := builder ensureClassNamed: #ListSplat.
-	listSplatPattern := builder ensureClassNamed: #ListSplatPattern.
+	keywordArgument := builder ensureClassNamed: #KeywordArgument."Todo"
+	keywordPattern := builder ensureClassNamed: #KeywordPattern."Todo"
+	keywordSeparator := builder ensureClassNamed: #KeywordSeparator."Todo"
+	lambda := builder ensureClassNamed: #Lambda."Todo"
+	lambdaParameters := builder ensureClassNamed: #LambdaParameters."Todo"
+	lineContinuation := builder ensureClassNamed: #LineContinuation."Todo"
+	list := builder ensureClassNamed: #List."Todo"
+	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
+	listPattern := builder ensureClassNamed: #ListPattern."Todo"
+	listSplat := builder ensureClassNamed: #ListSplat."Todo"
+	listSplatPattern := builder ensureClassNamed: #ListSplatPattern."Todo"
 	literal := builder ensureClassNamed: #Literal.
-	matchStatement := builder ensureClassNamed: #MatchStatement.
-	memberType := builder ensureClassNamed: #MemberType.
-	methodDefinition := builder ensureClassNamed: #MethodDefinition.
-	module := builder ensureClassNamed: #Module.
-	namedExpression := builder ensureClassNamed: #NamedExpression.
+	matchStatement := builder ensureClassNamed: #MatchStatement."Todo"
+	memberType := builder ensureClassNamed: #MemberType."Todo"
+	methodDefinition := builder ensureClassNamed: #MethodDefinition."ToReview"
+	module := builder ensureClassNamed: #Module."ToReview"
+	namedExpression := builder ensureClassNamed: #NamedExpression."Todo"
 	none := builder ensureClassNamed: #None.
-	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement.
-	notOperator := builder ensureClassNamed: #NotOperator.
-	pair := builder ensureClassNamed: #Pair.
-	parameter := builder ensureClassNamed: #Parameter.
-	parenthesizedExpression := builder ensureClassNamed: #ParenthesizedExpression.
-	parenthesizedListSplat := builder ensureClassNamed: #ParenthesizedListSplat.
-	passStatement := builder ensureClassNamed: #PassStatement.
-	patternList := builder ensureClassNamed: #PatternList.
-	positionalSeparator := builder ensureClassNamed: #PositionalSeparator.
-	printStatement := builder ensureClassNamed: #PrintStatement.
-	raiseStatement := builder ensureClassNamed: #RaiseStatement.
-	relativeImport := builder ensureClassNamed: #RelativeImport.
-	returnStatement := builder ensureClassNamed: #ReturnStatement.
-	set := builder ensureClassNamed: #Set.
-	setComprehension := builder ensureClassNamed: #SetComprehension.
-	slice := builder ensureClassNamed: #Slice.
-	splatPattern := builder ensureClassNamed: #SplatPattern.
-	splatType := builder ensureClassNamed: #SplatType.
+	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement."Todo"
+	notOperator := builder ensureClassNamed: #NotOperator."Todo"
+	pair := builder ensureClassNamed: #Pair."Todo"
+	parameter := builder ensureClassNamed: #Parameter."ToReview"
+	parenthesizedExpression := builder ensureClassNamed: #ParenthesizedExpression."Todo"
+	parenthesizedListSplat := builder ensureClassNamed: #ParenthesizedListSplat."Todo"
+	passStatement := builder ensureClassNamed: #PassStatement."Todo"
+	patternList := builder ensureClassNamed: #PatternList."Todo"
+	positionalSeparator := builder ensureClassNamed: #PositionalSeparator."Todo"
+	printStatement := builder ensureClassNamed: #PrintStatement."Todo"
+	raiseStatement := builder ensureClassNamed: #RaiseStatement."Todo"
+	relativeImport := builder ensureClassNamed: #RelativeImport."Todo"
+	returnStatement := builder ensureClassNamed: #ReturnStatement."Todo"
+	set := builder ensureClassNamed: #Set."Todo"
+	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
+	slice := builder ensureClassNamed: #Slice."Todo"
+	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
+	splatType := builder ensureClassNamed: #SplatType."Todo"
 	string := builder ensureClassNamed: #String.
-	subscript := builder ensureClassNamed: #Subscript.
-	tryStatement := builder ensureClassNamed: #TryStatement.
-	tuple := builder ensureClassNamed: #Tuple.
-	tupleExpression := builder ensureClassNamed: #TupleExpression.
-	tuplePattern := builder ensureClassNamed: #TuplePattern.
-	type := builder ensureClassNamed: #Type.
-	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement.
-	typeConversion := builder ensureClassNamed: #TypeConversion.
-	typeParameter := builder ensureClassNamed: #TypeParameter.
-	typedDefaultParameter := builder ensureClassNamed: #TypedDefaultParameter.
-	typedParameter := builder ensureClassNamed: #TypedParameter.
-	unaryOperator := builder ensureClassNamed: #UnaryOperator.
-	unionPattern := builder ensureClassNamed: #UnionPattern.
-	unionType := builder ensureClassNamed: #UnionType.
-	whileStatement := builder ensureClassNamed: #WhileStatement.
-	wildcardImport := builder ensureClassNamed: #WildcardImport.
-	withClause := builder ensureClassNamed: #WithClause.
-	withItem := builder ensureClassNamed: #WithItem.
-	withStatement := builder ensureClassNamed: #WithStatement.
-	yield := builder ensureClassNamed: #Yield.
+	subscript := builder ensureClassNamed: #Subscript."Todo"
+	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
+	tuple := builder ensureClassNamed: #Tuple."Todo"
+	tupleExpression := builder ensureClassNamed: #TupleExpression."Todo"
+	tuplePattern := builder ensureClassNamed: #TuplePattern."Todo"
+	type := builder ensureClassNamed: #Type."Todo"
+	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement."Todo"
+	typeConversion := builder ensureClassNamed: #TypeConversion."Todo"
+	typeParameter := builder ensureClassNamed: #TypeParameter."Todo"
+	typedDefaultParameter := builder ensureClassNamed: #TypedDefaultParameter."Todo"
+	typedParameter := builder ensureClassNamed: #TypedParameter."Todo"
+	unaryOperator := builder ensureClassNamed: #UnaryOperator."Todo"
+	unionPattern := builder ensureClassNamed: #UnionPattern."Todo"
+	unionType := builder ensureClassNamed: #UnionType."Todo"
+	whileStatement := builder ensureClassNamed: #WhileStatement."Todo"
+	wildcardImport := builder ensureClassNamed: #WildcardImport."Todo"
+	withClause := builder ensureClassNamed: #WithClause."Todo"
+	withItem := builder ensureClassNamed: #WithItem."Todo"
+	withStatement := builder ensureClassNamed: #WithStatement."Todo"
+	yield := builder ensureClassNamed: #Yield"Todo".
 ]
 
 { #category : 'definition' }
@@ -292,6 +296,11 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	super defineHierarchy.
 
 	entity --|> tEntity.
+	self flag: #todo. "The next line is WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
+	entity --|> tExpression.
+	
+	binaryOperator --|> expression.
+	binaryOperator --|> tBinaryExpression.
 	
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
@@ -299,6 +308,11 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	classDefinition --|> tNamedEntity.
 	
 	comment --|> tComment.
+	
+	expression --|> tExpression.
+	
+	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
+	identifier --|> expression. 
 	
 	float --|> literal.
 	
@@ -335,8 +349,10 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	"From FAST"
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 
+	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
+	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.

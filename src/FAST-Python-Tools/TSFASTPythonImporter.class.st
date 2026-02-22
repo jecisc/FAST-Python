@@ -13,6 +13,22 @@ TSFASTPythonImporter >> initialize [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPythonBinaryOperator from: aTSNode.
+
+	context top fastEntity addGenericChildren: fastEntity. "Should this be a generic child?"
+
+	self pushContext: fastEntity node: aTSNode during: [
+			context top add: 'leftOperand' asAliasOfField: 'left'.
+			context top add: 'rightOperand' asAliasOfField: 'right'.
+			self visitChildren: aTSNode in: fastEntity ].
+
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitFalse: aNode [
 
 	^ self createEntityForNode: aNode kind: FASTPythonBoolean

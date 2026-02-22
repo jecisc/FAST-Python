@@ -336,6 +336,13 @@ FASTPythonTEntityCreator >> newExecStatement [
 ]
 
 { #category : 'entity creation' }
+FASTPythonTEntityCreator >> newExpression [
+
+	<generated>
+	^ self add: FASTPythonExpression new
+]
+
+{ #category : 'entity creation' }
 FASTPythonTEntityCreator >> newExpressionList [
 
 	<generated>

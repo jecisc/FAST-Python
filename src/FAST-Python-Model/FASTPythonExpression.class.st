@@ -14,12 +14,6 @@
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 
-### Children
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `leftOperand` | `FASTTBinaryExpression` | `parentExpressionLeft` | `FASTTExpression` | left part of a binary expression|
-| `rightOperand` | `FASTTBinaryExpression` | `parentExpressionRight` | `FASTTExpression` | left part of the expression|
-
 
 ## Properties
 ======================
@@ -27,24 +21,23 @@
 | Name | Type | Default value | Comment |
 |---|
 | `endPos` | `Number` | nil | |
-| `operator` | `String` | nil | Binary expression operator|
 | `startPos` | `Number` | nil | |
 
 "
 Class {
-	#name : 'FASTPythonBinaryOperator',
-	#superclass : 'FASTPythonExpression',
-	#traits : 'FASTTBinaryExpression',
-	#classTraits : 'FASTTBinaryExpression classTrait',
+	#name : 'FASTPythonExpression',
+	#superclass : 'FASTPythonEntity',
+	#traits : 'FASTTExpression',
+	#classTraits : 'FASTTExpression classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPythonBinaryOperator class >> annotation [
+FASTPythonExpression class >> annotation [
 
-	<FMClass: #BinaryOperator super: #FASTPythonExpression>
+	<FMClass: #Expression super: #FASTPythonEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
