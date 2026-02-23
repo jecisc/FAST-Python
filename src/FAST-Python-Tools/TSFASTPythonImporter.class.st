@@ -13,7 +13,7 @@ TSFASTPythonImporter >> initialize [
 ]
 
 { #category : 'private' }
-TSFASTPythonImporter >> manageBinaryAndBooleanOperator: aTSNode fastClass: aClass [
+TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: aClass from: aTSNode.
@@ -35,13 +35,32 @@ TSFASTPythonImporter >> manageBinaryAndBooleanOperator: aTSNode fastClass: aClas
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 
-	^ self manageBinaryAndBooleanOperator: aTSNode fastClass: FASTPyBinaryOperator
+	^ self manageBinaryOperator: aTSNode ofKind: FASTPyBinaryOperator
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBooleanOperator: aTSNode [
 
-	^ self manageBinaryAndBooleanOperator: aTSNode fastClass: FASTPyBooleanOperator
+	^ self manageBinaryOperator: aTSNode ofKind: FASTPyBooleanOperator
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyComparisonOperator from: aTSNode.
+
+	self setParentOf: fastEntity.
+
+	self pushContext: fastEntity node: aTSNode during: [
+			context top add: 'operands' asAliasOfField: '<unnamedChild>'.
+			self visitChildren: aTSNode in: fastEntity ].
+		
+	"The node does not gives us the operators so we try to get them ourselves."
+	fastEntity operators:
+		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ]).
+
+	^ fastEntity
 ]
 
 { #category : 'visiting' }

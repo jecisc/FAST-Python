@@ -186,7 +186,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	classDefinition withTesting.
 	classPattern := builder ensureClassNamed: #ClassPattern."Todo"
 	comment := builder ensureClassNamed: #Comment."Todo"
-	comparisonOperator := builder ensureClassNamed: #ComparisonOperator."Todo"
+	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
 	complexPattern := builder ensureClassNamed: #ComplexPattern."Todo"
 	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
@@ -312,6 +312,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comment --|> tComment.
 	
+	comparisonOperator --|> expression.
+	
 	expression --|> tExpression.
 	
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
@@ -338,10 +340,25 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 ]
 
 { #category : 'definition' }
+FASTPythonMetamodelGenerator >> defineProperties [
+
+	super defineProperties.
+
+	(comparisonOperator property: #operators type: #String)
+		multivalued: true;
+		comment: 'The comparators applied in order. Possible operators:  <, <=, ==, !=, >=, >, <>, in, not in, is, is not'
+]
+
+{ #category : 'definition' }
 FASTPythonMetamodelGenerator >> defineRelations [
 
 	super defineRelations.
-	(entity property: #'genericChildren') <>-* (entity property: #'genericParent').
+
+	(entity property: #genericChildren) <>-* (entity property: #genericParent).
+
+	((comparisonOperator property: #operands) comment:
+		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
+	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.')
 ]
 
 { #category : 'definition' }

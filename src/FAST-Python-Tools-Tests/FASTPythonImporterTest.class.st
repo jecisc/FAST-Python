@@ -116,6 +116,30 @@ FASTPythonImporterTest >> testBooleanOperatorInBooleanOperator [
 	self assert: left operator equals: 'and'
 ]
 
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testChainedComparisonOperator [
+
+	| operator |
+	self parse: '14 > 13 < 15'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+
+	operator := (fast allWithType: FASTPyComparisonOperator) anyOne.
+	self assert: operator sourceCode equals: '14 > 13 < 15'.
+	self assert: (operator isOfType: FASTTExpression).
+	self assert: operator operands size equals: 3.
+	self assert: (operator operands first isOfType: FASTPyInteger).
+	self assert: (operator operands second isOfType: FASTPyInteger).
+	self assert: (operator operands third isOfType: FASTPyInteger).
+	self assert: operator operands first sourceCode equals: '14'.
+	self assert: operator operands second sourceCode equals: '13'.
+	self assert: operator operands third sourceCode equals: '15'.
+	self assert: operator operators size equals: 2.
+	self assert: operator operators first equals: '>'.
+	self assert: operator operators second equals: '<'
+]
+
 { #category : 'tests' }
 FASTPythonImporterTest >> testClassDefinition [
 
@@ -128,6 +152,27 @@ FASTPythonImporterTest >> testClassDefinition [
 
 	class := (fast allWithType: FASTPyClassDefinition) anyOne.
 	self assert: class name equals: 'AClass'
+]
+
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testComparisonOperator [
+
+	| operator |
+	self parse: '10 >= 1'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+
+	operator := (fast allWithType: FASTPyComparisonOperator) anyOne.
+	self assert: operator sourceCode equals: '10 >= 1'.
+	self assert: (operator isOfType: FASTTExpression).
+	self assert: operator operands size equals: 2.
+	self assert: (operator operands first isOfType: FASTPyInteger).
+	self assert: (operator operands second isOfType: FASTPyInteger).
+	self assert: operator operands first sourceCode equals: '10'.
+	self assert: operator operands second sourceCode equals: '1'.
+	self assert: operator operators size equals: 1.
+	self assert: operator operators anyOne equals: '>='
 ]
 
 { #category : 'tests - literals' }
