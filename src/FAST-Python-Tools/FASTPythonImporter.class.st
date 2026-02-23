@@ -49,7 +49,7 @@ FASTPythonImporter class >> devParseAll [
 FASTPythonImporter class >> devParseBatch1 [
 
 	<script>
-	self devParseBatchNumber: '001'
+	[ self devParseBatchNumber: '001' ] spy
 ]
 
 { #category : 'development support' }

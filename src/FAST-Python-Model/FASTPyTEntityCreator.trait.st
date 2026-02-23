@@ -623,6 +623,13 @@ FASTPyTEntityCreator >> newNotOperator [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newOperator [
+
+	<generated>
+	^ self add: FASTPyOperator new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newPair [
 
 	<generated>

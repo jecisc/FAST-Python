@@ -18,7 +18,7 @@
 "
 Class {
 	#name : 'FASTPyComparisonOperator',
-	#superclass : 'FASTPyExpression',
+	#superclass : 'FASTPyOperator',
 	#instVars : [
 		'#operators => FMProperty'
 	],
@@ -30,7 +30,7 @@ Class {
 { #category : 'meta' }
 FASTPyComparisonOperator class >> annotation [
 
-	<FMClass: #ComparisonOperator super: #FASTPyExpression>
+	<FMClass: #ComparisonOperator super: #FASTPyOperator>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

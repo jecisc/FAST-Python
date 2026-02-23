@@ -135,7 +135,8 @@ Class {
 		'tLiteral',
 		'tExpression',
 		'expression',
-		'tBinaryExpression'
+		'tBinaryExpression',
+		'operator'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -249,7 +250,8 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	namedExpression := builder ensureClassNamed: #NamedExpression."Todo"
 	none := builder ensureClassNamed: #None.
 	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement."Todo"
-	notOperator := builder ensureClassNamed: #NotOperator."Todo"
+	notOperator := builder ensureClassNamed: #NotOperator.
+	operator := builder ensureClassNamed: #Operator.
 	pair := builder ensureClassNamed: #Pair."Todo"
 	parameter := builder ensureClassNamed: #Parameter."ToReview"
 	parenthesizedExpression := builder ensureClassNamed: #ParenthesizedExpression."Todo"
@@ -286,7 +288,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	withClause := builder ensureClassNamed: #WithClause."Todo"
 	withItem := builder ensureClassNamed: #WithItem."Todo"
 	withStatement := builder ensureClassNamed: #WithStatement."Todo"
-	yield := builder ensureClassNamed: #Yield"Todo".
+	yield := builder ensureClassNamed: #Yield"Todo"
 ]
 
 { #category : 'definition' }
@@ -299,10 +301,10 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	self flag: #todo. "The next line is WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
 	
-	booleanOperator --|> expression.
+	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
 	
-	binaryOperator --|> expression.
+	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
 	
 	boolean --|> literal.
@@ -312,7 +314,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comment --|> tComment.
 	
-	comparisonOperator --|> expression.
+	comparisonOperator --|> operator.
 	
 	expression --|> tExpression.
 	
@@ -334,6 +336,10 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	methodDefinition --|> tNamedBehaviouralEntity.
 	
 	module --|> #THasImmediateSource.
+	
+	notOperator --|> operator.
+	
+	operator --|> expression.
 	
 	string --|> literal.
 	string --|> tStringLiteral
@@ -358,7 +364,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
-	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.')
+	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
+	
+	((notOperator property: #argument) comment:
+		 'Expression to negate.')
+	<>- ((tExpression property: #parentNotOperator) comment: 'Parent not operator in which I am.').
+		
 ]
 
 { #category : 'definition' }

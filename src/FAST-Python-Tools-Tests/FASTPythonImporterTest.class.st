@@ -307,6 +307,22 @@ FASTPythonImporterTest >> testNone [
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testNotOperator [
+
+	| operator |
+	self parse: 'not True'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyNotOperator) size equals: 1.
+
+	operator := (fast allWithType: FASTPyNotOperator) anyOne.
+	self assert: operator sourceCode equals: 'not True'.
+	self assert: (operator isOfType: FASTTExpression).
+	self assert: operator argument sourceCode equals: 'True'.
+	self assert: (operator argument isOfType: FASTPyBoolean)
+]
+
 { #category : 'tests' }
 FASTPythonImporterTest >> testOneComment [
 
