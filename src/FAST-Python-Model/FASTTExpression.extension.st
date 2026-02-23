@@ -20,28 +20,28 @@ FASTTExpression >> parentComparisonOperator: anObject [
 ]
 
 { #category : '*FAST-Python-Model-accessing' }
-FASTTExpression >> parentNotOperator [
-	"Relation named: #parentNotOperator type: #FASTPyNotOperator opposite: #argument"
+FASTTExpression >> parentUnaryOperator [
+	"Relation named: #parentUnaryOperator type: #FASTPyTUnaryOperator opposite: #argument"
 
 	<generated>
-	<FMComment: 'Parent not operator in which I am.'>
+	<FMComment: 'Parent unary operator in which I am.'>
 	<container>
 	<derived>
-	<FMProperty: #parentNotOperator type: #FASTPyNotOperator opposite: #argument>
+	<FMProperty: #parentUnaryOperator type: #FASTPyTUnaryOperator opposite: #argument>
 	<package: #'FAST-Python-Model'>
-	^ self attributeAt: #parentNotOperator ifAbsent: [ nil ]
+	^ self attributeAt: #parentUnaryOperator ifAbsent: [ nil ]
 ]
 
 { #category : '*FAST-Python-Model-accessing' }
-FASTTExpression >> parentNotOperator: anObject [
+FASTTExpression >> parentUnaryOperator: anObject [
 
 	<generated>
-	(self attributeAt: #parentNotOperator ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	(self attributeAt: #parentUnaryOperator ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
 	anObject ifNil: [ | otherSide |
-		otherSide :=  self parentNotOperator.
-		self attributeAt: #parentNotOperator put: anObject.
+		otherSide :=  self parentUnaryOperator.
+		self attributeAt: #parentUnaryOperator put: anObject.
 		otherSide argument: nil ]
 	ifNotNil: [ 
-		self attributeAt: #parentNotOperator put: anObject.
+		self attributeAt: #parentUnaryOperator put: anObject.
 		anObject argument: self ]
 ]

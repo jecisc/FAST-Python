@@ -136,7 +136,8 @@ Class {
 		'tExpression',
 		'expression',
 		'tBinaryExpression',
-		'operator'
+		'operator',
+		'tUnaryOperator'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -280,7 +281,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	typeParameter := builder ensureClassNamed: #TypeParameter."Todo"
 	typedDefaultParameter := builder ensureClassNamed: #TypedDefaultParameter."Todo"
 	typedParameter := builder ensureClassNamed: #TypedParameter."Todo"
-	unaryOperator := builder ensureClassNamed: #UnaryOperator."Todo"
+	unaryOperator := builder ensureClassNamed: #UnaryOperator.
 	unionPattern := builder ensureClassNamed: #UnionPattern."Todo"
 	unionType := builder ensureClassNamed: #UnionType."Todo"
 	whileStatement := builder ensureClassNamed: #WhileStatement."Todo"
@@ -338,11 +339,15 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	module --|> #THasImmediateSource.
 	
 	notOperator --|> operator.
+	notOperator --|> tUnaryOperator.
 	
 	operator --|> expression.
 	
 	string --|> literal.
-	string --|> tStringLiteral
+	string --|> tStringLiteral.
+	
+	unaryOperator --|> operator.
+	unaryOperator --|> tUnaryOperator
 ]
 
 { #category : 'definition' }
@@ -352,7 +357,9 @@ FASTPythonMetamodelGenerator >> defineProperties [
 
 	(comparisonOperator property: #operators type: #String)
 		multivalued: true;
-		comment: 'The comparators applied in order. Possible operators:  <, <=, ==, !=, >=, >, <>, in, not in, is, is not'
+		comment: 'The comparators applied in order. Possible operators:  <, <=, ==, !=, >=, >, <>, in, not in, is, is not'.
+		
+	unaryOperator property: #operator type: #String
 ]
 
 { #category : 'definition' }
@@ -366,9 +373,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
 	
-	((notOperator property: #argument) comment:
-		 'Expression to negate.')
-	<>- ((tExpression property: #parentNotOperator) comment: 'Parent not operator in which I am.').
+	((tUnaryOperator property: #argument) comment:
+		 'Expression influanced by the unary operator..')
+	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
 		
 ]
 
@@ -379,6 +386,9 @@ FASTPythonMetamodelGenerator >> defineTraits [
 
 	"From FAST"
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
+	
+	
+	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.

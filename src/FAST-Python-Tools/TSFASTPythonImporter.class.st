@@ -125,3 +125,15 @@ TSFASTPythonImporter >> visitTrue: aNode [
 
 	^ self createEntityForNode: aNode kind: FASTPyBoolean
 ]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitUnaryOperator: aTSNode [
+
+	| fastEntity |
+	fastEntity := self createEntityForNode: aTSNode.
+	
+	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328"
+	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity startPos to: fastEntity argument startPos - 1) trim.
+
+	^ fastEntity
+]

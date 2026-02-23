@@ -399,3 +399,20 @@ FASTPythonImporterTest >> testTwoComments [
 	self assert: (fast allWithType: FASTPyComment) size equals: 2.
 	self assertCollection: ((fast allWithType: FASTPyComment) collect: #sourceCode as: Array) hasSameElements: { '# Comment 1'. '# Comment 2' }
 ]
+
+{ #category : 'tests - opererators' }
+FASTPythonImporterTest >> testUnaryOperator [
+
+	| operator |
+	self parse: '-13'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	operator := (fast allWithType: FASTPyUnaryOperator) anyOne.
+	self assert: operator sourceCode equals: '-13'.
+	self assert: (operator isOfType: FASTTExpression).
+	self assert: operator argument sourceCode equals: '13'.
+	self assert: (operator argument isOfType: FASTPyInteger).
+	self assert: operator operator equals: '-'
+]

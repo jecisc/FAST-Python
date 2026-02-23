@@ -1,6 +1,29 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `argument` | `FASTPyTUnaryOperator` | `parentUnaryOperator` | `FASTTExpression` | Expression influanced by the unary operator..|
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `operator` | `String` | nil | |
+
+"
 Class {
 	#name : 'FASTPyUnaryOperator',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyOperator',
+	#traits : 'FASTPyTUnaryOperator',
+	#classTraits : 'FASTPyTUnaryOperator classTrait',
+	#instVars : [
+		'#operator => FMProperty'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,8 +32,22 @@ Class {
 { #category : 'meta' }
 FASTPyUnaryOperator class >> annotation [
 
-	<FMClass: #UnaryOperator super: #FASTPyEntity>
+	<FMClass: #UnaryOperator super: #FASTPyOperator>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyUnaryOperator >> operator [
+
+	<FMProperty: #operator type: #String>
+	<generated>
+	^ operator
+]
+
+{ #category : 'accessing' }
+FASTPyUnaryOperator >> operator: anObject [
+	<generated>
+	operator := anObject
 ]
