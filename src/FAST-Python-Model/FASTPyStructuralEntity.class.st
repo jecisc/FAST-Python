@@ -21,17 +21,19 @@
 
 "
 Class {
-	#name : 'FASTPyParameter',
-	#superclass : 'FASTPyStructuralEntity',
+	#name : 'FASTPyStructuralEntity',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTVariableEntity',
+	#classTraits : 'FASTTVariableEntity classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPyParameter class >> annotation [
+FASTPyStructuralEntity class >> annotation [
 
-	<FMClass: #Parameter super: #FASTPyStructuralEntity>
+	<FMClass: #StructuralEntity super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

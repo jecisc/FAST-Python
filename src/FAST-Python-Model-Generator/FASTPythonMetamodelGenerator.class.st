@@ -137,7 +137,10 @@ Class {
 		'expression',
 		'tBinaryExpression',
 		'operator',
-		'tUnaryOperator'
+		'tUnaryOperator',
+		'tAssignment',
+		'variable',
+		'structuralEntity'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -171,8 +174,8 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	asPattern := builder ensureClassNamed: #AsPattern."Todo"
 	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
 	assertStatement := builder ensureClassNamed: #AssertStatement."Todo"
-	assignment := builder ensureClassNamed: #Assignment."Todo"
-	attribute := builder ensureClassNamed: #Attribute."Todo"
+	assignment := builder ensureClassNamed: #Assignment."To review"
+	attribute := builder ensureClassNamed: #Attribute."To review"
 	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
 	await := builder ensureClassNamed: #Await."Todo"
 	binaryOperator := builder ensureClassNamed: #BinaryOperator.
@@ -270,6 +273,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	string := builder ensureClassNamed: #String.
+	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
 	tuple := builder ensureClassNamed: #Tuple."Todo"
@@ -284,6 +288,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	unaryOperator := builder ensureClassNamed: #UnaryOperator.
 	unionPattern := builder ensureClassNamed: #UnionPattern."Todo"
 	unionType := builder ensureClassNamed: #UnionType."Todo"
+	variable := builder ensureClassNamed: #Variable. "To review"
 	whileStatement := builder ensureClassNamed: #WhileStatement."Todo"
 	wildcardImport := builder ensureClassNamed: #WildcardImport."Todo"
 	withClause := builder ensureClassNamed: #WithClause."Todo"
@@ -301,6 +306,10 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	entity --|> tEntity.
 	self flag: #todo. "The next line is WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
+	
+	assignment --|> tAssignment.
+	
+	attribute --|> structuralEntity.
 	
 	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
@@ -332,7 +341,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	none --|> literal.
 	
-	parameter --|> tVariableEntity.
+	parameter --|> structuralEntity.
 	
 	methodDefinition --|> tNamedBehaviouralEntity.
 	
@@ -346,8 +355,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	string --|> literal.
 	string --|> tStringLiteral.
 	
+	structuralEntity --|> tVariableEntity.
+	
 	unaryOperator --|> operator.
-	unaryOperator --|> tUnaryOperator
+	unaryOperator --|> tUnaryOperator.
+	
+	variable --|> structuralEntity
 ]
 
 { #category : 'definition' }
@@ -383,13 +396,14 @@ FASTPythonMetamodelGenerator >> defineRelations [
 FASTPythonMetamodelGenerator >> defineTraits [
 
 	super defineTraits.
-
+	
 	"From FAST"
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
-	
-	
+
+
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 
+	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
@@ -398,5 +412,5 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
-	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
+	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST
 ]

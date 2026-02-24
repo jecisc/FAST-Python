@@ -33,6 +33,22 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitAssignment: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyAssignment from: aTSNode.
+
+	self setParentOf: fastEntity.
+
+	self pushContext: fastEntity node: aTSNode during: [
+			context top add: 'variable' asAliasOfField: 'left'.
+			context top add: 'expression' asAliasOfField: 'right'.
+			self visitChildren: aTSNode in: fastEntity ].
+
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 
 	^ self manageBinaryOperator: aTSNode ofKind: FASTPyBinaryOperator
@@ -83,8 +99,13 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
-	(context anySatisfy: [ :entry | entry field = #name and: [ #( 'function_definition' 'class_definition' ) includes: entry tsNode type ] ]) ifTrue: [
-		^ self topFastEntity name: (self sourceCodeOf: aNode) ].
+	(context anySatisfy: [ :entry |
+			 entry field = #name and: [
+					 { FASTPyMethodDefinition. FASTPyClassDefinition. FASTPyFunctionDefinition } anySatisfy: [ :class | entry isOfFASTType: class ] ] ]) ifTrue: [ ^ self topFastEntity name: (self sourceCodeOf: aNode) ].
+				
+	 "If I am on the left side of an assignation then I am a variable."
+	(context anySatisfy: [ :entry | entry field = #left and: [ entry isOfFASTType: FASTPyAssignment ] ]) ifTrue: [
+		^ self createEntityForNode: aNode kind: FASTPyVariable ].
 
 	^ self createEntityForNode: aNode
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : 'FASTPyAttribute',
+	#name : 'FASTPyVariable',
 	#superclass : 'FASTPyStructuralEntity',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : 'meta' }
-FASTPyAttribute class >> annotation [
+FASTPyVariable class >> annotation [
 
-	<FMClass: #Attribute super: #FASTPyStructuralEntity>
+	<FMClass: #Variable super: #FASTPyStructuralEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

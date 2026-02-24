@@ -749,6 +749,13 @@ FASTPyTEntityCreator >> newString [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newStructuralEntity [
+
+	<generated>
+	^ self add: FASTPyStructuralEntity new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newSubscript [
 
 	<generated>
@@ -844,6 +851,13 @@ FASTPyTEntityCreator >> newUnionType [
 
 	<generated>
 	^ self add: FASTPyUnionType new
+]
+
+{ #category : 'entity creation' }
+FASTPyTEntityCreator >> newVariable [
+
+	<generated>
+	^ self add: FASTPyVariable new
 ]
 
 { #category : 'entity creation' }

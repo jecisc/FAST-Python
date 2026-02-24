@@ -26,6 +26,24 @@ FASTPythonImporterTest >> setUp [
 	importer := FASTPythonImporter new
 ]
 
+{ #category : 'tests' }
+FASTPythonImporterTest >> testAssignment [
+
+	| assignment |
+	self parse: 'x = 1'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyAssignment) size equals: 1.
+
+	assignment := (fast allWithType: FASTPyAssignment) anyOne.
+	self assert: assignment sourceCode equals: 'x = 1'.
+	self assert: (assignment isOfType: FASTTAssignment).
+	self assert: assignment variable sourceCode equals: 'x'.
+	self assert: assignment expression sourceCode equals: '1'.
+	self assert: (assignment variable isOfType: FASTPyVariable).
+	self assert: (assignment expression isOfType: FASTPyInteger)
+]
+
 { #category : 'tests - opererators' }
 FASTPythonImporterTest >> testBinaryOperator [
 
