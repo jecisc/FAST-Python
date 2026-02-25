@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyImportStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyImport',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyImportStatement class >> annotation [
 
-	<FMClass: #ImportStatement super: #FASTPyEntity>
+	<FMClass: #ImportStatement super: #FASTPyImport>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

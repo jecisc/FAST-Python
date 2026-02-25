@@ -281,6 +281,19 @@ FASTPythonImporterTest >> testFunctionParameters [
 	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
+{ #category : 'tests' }
+FASTPythonImporterTest >> testImport [
+
+	| import |
+	self parse: 'import random'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+
+	import := (fast allWithType: FASTPyImportStatement) anyOne.
+	self assert: import sourceCode equals: 'import random'.
+]
+
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testInteger [
 

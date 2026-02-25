@@ -140,7 +140,8 @@ Class {
 		'tUnaryOperator',
 		'tAssignment',
 		'variable',
-		'structuralEntity'
+		'structuralEntity',
+		'import'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -230,6 +231,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	identifier := builder ensureClassNamed: #Identifier."Todo"
 	ifClause := builder ensureClassNamed: #IfClause."Todo"
 	ifStatement := builder ensureClassNamed: #IfStatement."Todo"
+	import := builder ensureClassNamed: #Import. "To review"
 	importFromStatement := builder ensureClassNamed: #ImportFromStatement."Todo"
 	importPrefix := builder ensureClassNamed: #ImportPrefix."Todo"
 	importStatement := builder ensureClassNamed: #ImportStatement."Todo"
@@ -330,6 +332,10 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
 	identifier --|> expression. 
+	
+	importStatement --|> import.
+	
+	importFromStatement --|> import.
 	
 	float --|> literal.
 	

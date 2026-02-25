@@ -448,6 +448,13 @@ FASTPyTEntityCreator >> newIfStatement [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newImport [
+
+	<generated>
+	^ self add: FASTPyImport new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newImportFromStatement [
 
 	<generated>

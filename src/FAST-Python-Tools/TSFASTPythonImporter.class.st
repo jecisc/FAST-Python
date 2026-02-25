@@ -16,14 +16,12 @@ TSFASTPythonImporter >> initialize [
 TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 
 	| fastEntity |
-	fastEntity := self instantiateFastEntity: aClass from: aTSNode.
+	self onNextContextDo: [ :contextEntry |
+			contextEntry
+				add: 'leftOperand' asAliasOfField: 'left';
+				add: 'rightOperand' asAliasOfField: 'right' ].
 
-	self setParentOf: fastEntity.
-
-	self pushContext: fastEntity node: aTSNode during: [
-			context top add: 'leftOperand' asAliasOfField: 'left'.
-			context top add: 'rightOperand' asAliasOfField: 'right'.
-			self visitChildren: aTSNode in: fastEntity ].
+	fastEntity := self createEntityForNode: aTSNode.
 	
 	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328
 	So I try to het this property manually."
@@ -35,17 +33,12 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAssignment: aTSNode [
 
-	| fastEntity |
-	fastEntity := self instantiateFastEntity: FASTPyAssignment from: aTSNode.
+	self onNextContextDo: [ :contextEntry |
+			contextEntry
+				add: 'variable' asAliasOfField: 'left';
+				add: 'expression' asAliasOfField: 'right' ].
 
-	self setParentOf: fastEntity.
-
-	self pushContext: fastEntity node: aTSNode during: [
-			context top add: 'variable' asAliasOfField: 'left'.
-			context top add: 'expression' asAliasOfField: 'right'.
-			self visitChildren: aTSNode in: fastEntity ].
-
-	^ fastEntity
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -64,14 +57,10 @@ TSFASTPythonImporter >> visitBooleanOperator: aTSNode [
 TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 
 	| fastEntity |
-	fastEntity := self instantiateFastEntity: FASTPyComparisonOperator from: aTSNode.
-
-	self setParentOf: fastEntity.
-
-	self pushContext: fastEntity node: aTSNode during: [
-			context top add: 'operands' asAliasOfField: '<unnamedChild>'.
-			self visitChildren: aTSNode in: fastEntity ].
-		
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'operands' asAliasOfField: '<unnamedChild>' ].
+	
+	fastEntity := self createEntityForNode: aTSNode.
+	
 	"The node does not gives us the operators so we try to get them ourselves."
 	fastEntity operators:
 		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ]).
