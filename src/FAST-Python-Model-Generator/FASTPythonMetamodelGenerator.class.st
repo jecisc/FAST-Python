@@ -141,7 +141,8 @@ Class {
 		'tAssignment',
 		'variable',
 		'structuralEntity',
-		'import'
+		'import',
+		'importedEntity'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -170,7 +171,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	super defineClasses.
 	entity := builder ensureClassNamed: #Entity.
 	_ERROR := builder ensureClassNamed: #ERROR.
-	aliasedImport := builder ensureClassNamed: #AliasedImport."Todo"
 	argumentList := builder ensureClassNamed: #ArgumentList."Todo"
 	asPattern := builder ensureClassNamed: #AsPattern."Todo"
 	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
@@ -224,7 +224,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	formatExpression := builder ensureClassNamed: #FormatExpression."Todo"
 	formatSpecifier := builder ensureClassNamed: #FormatSpecifier."Todo"
 	functionDefinition := builder ensureClassNamed: #FunctionDefinition."ToReview"
-	futureImportStatement := builder ensureClassNamed: #FutureImportStatement."Todo"
 	generatorExpression := builder ensureClassNamed: #GeneratorExpression."Todo"
 	genericType := builder ensureClassNamed: #GenericType."Todo"
 	globalStatement := builder ensureClassNamed: #GlobalStatement."Todo"
@@ -232,8 +231,8 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	ifClause := builder ensureClassNamed: #IfClause."Todo"
 	ifStatement := builder ensureClassNamed: #IfStatement."Todo"
 	import := builder ensureClassNamed: #Import. "To review"
+	importedEntity := builder ensureClassNamed: #ImportedEntity.
 	importFromStatement := builder ensureClassNamed: #ImportFromStatement."Todo"
-	importPrefix := builder ensureClassNamed: #ImportPrefix."Todo"
 	importStatement := builder ensureClassNamed: #ImportStatement."Todo"
 	integer := builder ensureClassNamed: #Integer.
 	interpolation := builder ensureClassNamed: #Interpolation.
@@ -292,7 +291,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	unionType := builder ensureClassNamed: #UnionType."Todo"
 	variable := builder ensureClassNamed: #Variable. "To review"
 	whileStatement := builder ensureClassNamed: #WhileStatement."Todo"
-	wildcardImport := builder ensureClassNamed: #WildcardImport."Todo"
 	withClause := builder ensureClassNamed: #WithClause."Todo"
 	withItem := builder ensureClassNamed: #WithItem."Todo"
 	withStatement := builder ensureClassNamed: #WithStatement."Todo"
@@ -377,7 +375,14 @@ FASTPythonMetamodelGenerator >> defineProperties [
 	(comparisonOperator property: #operators type: #String)
 		multivalued: true;
 		comment: 'The comparators applied in order. Possible operators:  <, <=, ==, !=, >=, >, <>, in, not in, is, is not'.
-		
+
+	(importedEntity property: #segments type: #String)
+		multivalued: true;
+		comment:
+			'The segments of the imported entity. For example if you import `xml.etree.ElementTree`, the segments will be { ''xml'' . ''etree'' . ''ElementTree''}.'.
+
+	(importedEntity property: #alias type: #String) comment: 'If the imported entity has an alias, I contain it.'.
+
 	unaryOperator property: #operator type: #String
 ]
 
@@ -391,11 +396,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
-	
-	((tUnaryOperator property: #argument) comment:
-		 'Expression influanced by the unary operator..')
+
+	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
-		
+
+	((import property: #importedEntities) comment: 'List of the imported entities.')
+	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.')
 ]
 
 { #category : 'definition' }

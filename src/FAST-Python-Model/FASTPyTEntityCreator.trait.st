@@ -21,13 +21,6 @@ FASTPyTEntityCreator classSide >> annotation [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newAliasedImport [
-
-	<generated>
-	^ self add: FASTPyAliasedImport new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newArgumentList [
 
 	<generated>
@@ -399,13 +392,6 @@ FASTPyTEntityCreator >> newFunctionDefinition [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newFutureImportStatement [
-
-	<generated>
-	^ self add: FASTPyFutureImportStatement new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newGeneratorExpression [
 
 	<generated>
@@ -462,17 +448,17 @@ FASTPyTEntityCreator >> newImportFromStatement [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newImportPrefix [
-
-	<generated>
-	^ self add: FASTPyImportPrefix new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newImportStatement [
 
 	<generated>
 	^ self add: FASTPyImportStatement new
+]
+
+{ #category : 'entity creation' }
+FASTPyTEntityCreator >> newImportedEntity [
+
+	<generated>
+	^ self add: FASTPyImportedEntity new
 ]
 
 { #category : 'entity creation' }
@@ -872,13 +858,6 @@ FASTPyTEntityCreator >> newWhileStatement [
 
 	<generated>
 	^ self add: FASTPyWhileStatement new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newWildcardImport [
-
-	<generated>
-	^ self add: FASTPyWildcardImport new
 ]
 
 { #category : 'entity creation' }

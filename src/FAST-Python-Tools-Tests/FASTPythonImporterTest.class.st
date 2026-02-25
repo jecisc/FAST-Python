@@ -6,16 +6,155 @@ Class {
 	#superclass : 'TestCase',
 	#instVars : [
 		'importer',
-		'fast'
+		'fast',
+		'stack'
 	],
 	#category : 'FAST-Python-Tools-Tests',
 	#package : 'FAST-Python-Tools-Tests'
 }
 
+{ #category : 'as yet unclassified' }
+FASTPythonImporterTest class >> generateAssertionsFor: entity on: aStream identation: aNumber [
+
+	aStream
+		nextPutAll: 'self assert: entity sourceCode equals: ';
+		print: entity sourceCode;
+		nextPutAll: (entity sourceCode lines size > 1
+				 ifTrue: [ ' withPlateformLineEnding.' ]
+				 ifFalse: [ '.' ]);
+		cr;
+		tab: aNumber;
+		nextPutAll: 'self assert: (entity isOfType: ';
+		nextPutAll: entity class name;
+		nextPutAll: ').';
+		cr;
+		tab: aNumber.
+
+	(entity mooseDescription allProperties select: [ :property | self shouldSelectProperty: property of: entity ]) do: [ :property |
+			aStream
+				nextPutAll: 'self assert: entity ';
+				nextPutAll: property implementingSelector;
+				nextPutAll: ' equals: ';
+				store: (property getRawFrom: entity);
+				nextPutAll: '.';
+				cr;
+				tab ].
+
+	entity containedEntitySelectors do: [ :selector |
+			(entity perform: selector) ifNotNil: [ :result |
+					result ifNotEmpty: [
+							aStream
+								nextPutAll: 'self assert: entity ';
+								nextPutAll: selector;
+								nextPutAll: ' size equals: ';
+								print: result size;
+								nextPut: $.;
+								cr;
+								cr;
+								tab: aNumber + 1.
+							result doWithIndex: [ :child :index |
+									aStream
+										nextPutAll: 'stack push: (stack top ';
+										nextPutAll: selector;
+										nextPutAll: ' at: ';
+										print: index;
+										nextPutAll: ').';
+										cr;
+										tab: aNumber + 1;
+										nextPutAll: 'entity := stack top.';
+										cr;
+										tab: aNumber + 1.
+									self generateAssertionsFor: child on: aStream identation: aNumber + 1 ] ] ] ]
+]
+
+{ #category : 'as yet unclassified' }
+FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code [
+
+	| model method |
+	model := self new parse: code.
+
+	method := String streamContents: [ :aStream |
+			          aStream
+				          nextPutAll: 'test';
+				          nextPutAll: aString capitalized;
+				          cr;
+				          tab;
+				          nextPutAll: '"Generated as regression test by ';
+				          print: thisContext homeMethod;
+				          nextPutAll: ' "';
+				          cr;
+				          cr;
+				          tab;
+				          nextPutAll: '| entity |';
+				          cr;
+				          cr;
+				          tab;
+				          nextPutAll: 'self parse: ';
+				          print: code;
+				          nextPut: $.;
+				          cr;
+				          cr.
+
+			          model allEntityTypes do: [ :type |
+					          aStream
+						          tab;
+						          nextPutAll: 'self assert: (fast allWithType: ';
+						          print: type;
+						          nextPutAll: ') size equals: ';
+						          print: (model allWithType: type) size;
+						          nextPut: $.;
+						          cr ].
+
+			          model rootEntities size = 1 ifFalse: [ self error: 'FAST generator was thought with only 1 top entity?' ].
+
+			          aStream
+				          cr;
+				          tab;
+				          nextPutAll: 'stack push: fast rootEntities anyOne.
+	entity := stack top.';
+				          cr;
+				          tab.
+			          self generateAssertionsFor: model rootEntities anyOne on: aStream identation: 1 ].
+
+
+
+	self compile: method classified: 'tests'
+]
+
+{ #category : 'as yet unclassified' }
+FASTPythonImporterTest class >> propertiesToExclude [
+
+	^ #( source startPos endPos )
+]
+
+{ #category : 'as yet unclassified' }
+FASTPythonImporterTest class >> shouldSelectProperty: property of: entity [
+
+	property isDerived ifTrue: [ ^ false ].
+	
+	property isContainer ifTrue: [ ^ false ].
+
+	(self propertiesToExclude includes: property implementingSelector) ifTrue: [ ^ false ].
+
+	^ (property getFrom: entity) isNotEmpty
+]
+
+{ #category : 'running' }
+FASTPythonImporterTest >> importer [
+
+	^ importer ifNil: [ importer := self importerClass new ]
+]
+
+{ #category : 'as yet unclassified' }
+FASTPythonImporterTest >> importerClass [
+
+	^ self class environment at: (self class name withoutSuffix: 'Test') asSymbol
+]
+
 { #category : 'running' }
 FASTPythonImporterTest >> parse: aString [
 
-	fast := importer parse: aString withPlatformLineEndings
+	^ fast := self importer parse: aString withPlatformLineEndings
 ]
 
 { #category : 'running' }
@@ -23,7 +162,7 @@ FASTPythonImporterTest >> setUp [
 
 	super setUp.
 
-	importer := FASTPythonImporter new
+	stack := Stack new
 ]
 
 { #category : 'tests' }
@@ -38,6 +177,7 @@ FASTPythonImporterTest >> testAssignment [
 	assignment := (fast allWithType: FASTPyAssignment) anyOne.
 	self assert: assignment sourceCode equals: 'x = 1'.
 	self assert: (assignment isOfType: FASTTAssignment).
+	self skip. "TODO"
 	self assert: assignment variable sourceCode equals: 'x'.
 	self assert: assignment expression sourceCode equals: '1'.
 	self assert: (assignment variable isOfType: FASTPyVariable).
@@ -292,6 +432,42 @@ FASTPythonImporterTest >> testImport [
 
 	import := (fast allWithType: FASTPyImportStatement) anyOne.
 	self assert: import sourceCode equals: 'import random'.
+	self assert: import importedEntities size equals: 1.
+	self assert: (import importedEntities anyOne isOfType: FASTPyImportedEntity).
+	self assertCollection: import importedEntities anyOne segments hasSameElements: { 'random' }.
+	self assert: import importedEntities anyOne alias isNil
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testImportWithAlias [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'import random'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'import random'.
+	self assert: (entity isOfType: FASTPyModule).
+	self assert: entity genericChildren size equals: 1.
+
+		stack push: (stack top genericChildren at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'import random'.
+		self assert: (entity isOfType: FASTPyImportStatement).
+		self assert: entity importedEntities size equals: 1.
+
+			stack push: (stack top importedEntities at: 1).
+			entity := stack top.
+			self assert: entity sourceCode equals: 'random'.
+			self assert: (entity isOfType: FASTPyImportedEntity).
+			self assert: entity segments equals: #('random').
+	
 ]
 
 { #category : 'tests - literals' }

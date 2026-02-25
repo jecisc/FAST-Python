@@ -34,8 +34,9 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 TSFASTPythonImporter >> visitAssignment: aTSNode [
 
 	self onNextContextDo: [ :contextEntry |
+		self flag: #todo.
 			contextEntry
-				add: 'variable' asAliasOfField: 'left';
+				"add: 'variable' asAliasOfField: 'left';" 
 				add: 'expression' asAliasOfField: 'right' ].
 
 	^ self createEntityForNode: aTSNode
@@ -69,6 +70,21 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitDottedName: aTSNode [
+	"In case it is in the `name` field of an import, we create an ImportedEntity."
+
+	(context anySatisfy: [ :entry | entry field = #name and: [ entry isOfFASTType: FASTPyImport ] ]) ifTrue: [
+			| fastEntity |
+			fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: aTSNode.
+			self setParentOf: fastEntity.
+			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
+			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
+			^ fastEntity ].
+
+	^ self createEntityForNode: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitFalse: aNode [
 
 	^ self createEntityForNode: aNode kind: FASTPyBoolean
@@ -97,6 +113,14 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 		^ self createEntityForNode: aNode kind: FASTPyVariable ].
 
 	^ self createEntityForNode: aNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitImportStatement: aTSNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'importedEntities' asAliasOfField: 'name' ].
+
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting' }

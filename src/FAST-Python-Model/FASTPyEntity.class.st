@@ -165,13 +165,6 @@ FASTPyEntity >> isLiteral [
 ]
 
 { #category : 'testing' }
-FASTPyEntity >> isQueryable [
-
-	<generated>
-	^ false
-]
-
-{ #category : 'testing' }
 FASTPyEntity >> isScopableEntity [
 
 	<generated>
