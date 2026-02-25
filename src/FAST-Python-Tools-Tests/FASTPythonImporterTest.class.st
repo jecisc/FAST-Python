@@ -110,11 +110,11 @@ FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code [
 			          aStream
 				          cr;
 				          tab;
-				          nextPutAll: 'stack push: fast rootEntities anyOne.
+				          nextPutAll: 'stack push: fast rootEntities anyOne genericChildren first.
 	entity := stack top.';
-				          cr;
+				          "We exclude assertions on module in generation"cr;
 				          tab.
-			          self generateAssertionsFor: model rootEntities anyOne on: aStream identation: 1 ].
+			          self generateAssertionsFor: model rootEntities anyOne genericChildren first on: aStream identation: 1 ].
 
 
 
@@ -450,23 +450,17 @@ FASTPythonImporterTest >> testImportWithAlias [
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
-	stack push: fast rootEntities anyOne.
+	stack push: fast rootEntities anyOne genericChildren first.
 	entity := stack top.
 	self assert: entity sourceCode equals: 'import random'.
-	self assert: (entity isOfType: FASTPyModule).
-	self assert: entity genericChildren size equals: 1.
+	self assert: (entity isOfType: FASTPyImportStatement).
+	self assert: entity importedEntities size equals: 1.
 
-		stack push: (stack top genericChildren at: 1).
+		stack push: (stack top importedEntities at: 1).
 		entity := stack top.
-		self assert: entity sourceCode equals: 'import random'.
-		self assert: (entity isOfType: FASTPyImportStatement).
-		self assert: entity importedEntities size equals: 1.
-
-			stack push: (stack top importedEntities at: 1).
-			entity := stack top.
-			self assert: entity sourceCode equals: 'random'.
-			self assert: (entity isOfType: FASTPyImportedEntity).
-			self assert: entity segments equals: #('random').
+		self assert: entity sourceCode equals: 'random'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('random').
 	
 ]
 
