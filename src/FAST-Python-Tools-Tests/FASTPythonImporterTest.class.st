@@ -38,7 +38,7 @@ FASTPythonImporterTest class >> generateAssertionsFor: entity on: aStream identa
 				store: (property getRawFrom: entity);
 				nextPutAll: '.';
 				cr;
-				tab ].
+				tab: aNumber ].
 
 	entity containedEntitySelectors do: [ :selector |
 			(entity perform: selector) ifNotNil: [ :result |
@@ -423,23 +423,6 @@ FASTPythonImporterTest >> testFunctionParameters [
 
 { #category : 'tests' }
 FASTPythonImporterTest >> testImport [
-
-	| import |
-	self parse: 'import random'.
-
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
-
-	import := (fast allWithType: FASTPyImportStatement) anyOne.
-	self assert: import sourceCode equals: 'import random'.
-	self assert: import importedEntities size equals: 1.
-	self assert: (import importedEntities anyOne isOfType: FASTPyImportedEntity).
-	self assertCollection: import importedEntities anyOne segments hasSameElements: { 'random' }.
-	self assert: import importedEntities anyOne alias isNil
-]
-
-{ #category : 'tests' }
-FASTPythonImporterTest >> testImportWithAlias [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
 	| entity |
@@ -461,7 +444,35 @@ FASTPythonImporterTest >> testImportWithAlias [
 		self assert: entity sourceCode equals: 'random'.
 		self assert: (entity isOfType: FASTPyImportedEntity).
 		self assert: entity segments equals: #('random').
+		self assert: entity alias isNil
 	
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testImportWithAlias [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'import random as rand'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'import random as rand'.
+	self assert: (entity isOfType: FASTPyImportStatement).
+	self assert: entity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'random as rand'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('random').
+		self assert: entity alias equals: 'rand'.
+		
 ]
 
 { #category : 'tests - literals' }

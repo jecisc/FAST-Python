@@ -31,6 +31,13 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitAliasedImport: aTSNode [
+	"Nothing to do. The visit of my children will take care of things."
+
+	^ self visitChildren: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitAssignment: aTSNode [
 
 	self onNextContextDo: [ :contextEntry |
@@ -75,8 +82,12 @@ TSFASTPythonImporter >> visitDottedName: aTSNode [
 
 	(context anySatisfy: [ :entry | entry field = #name and: [ entry isOfFASTType: FASTPyImport ] ]) ifTrue: [
 			| fastEntity |
-			fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: aTSNode.
+			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
+			fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: (aTSNode parent type = #aliased_import
+					               ifTrue: [ aTSNode parent ]
+					               ifFalse: [ aTSNode ]).
 			self setParentOf: fastEntity.
+			
 			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
 			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
 			^ fastEntity ].
@@ -111,6 +122,9 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	 "If I am on the left side of an assignation then I am a variable."
 	(context anySatisfy: [ :entry | entry field = #left and: [ entry isOfFASTType: FASTPyAssignment ] ]) ifTrue: [
 		^ self createEntityForNode: aNode kind: FASTPyVariable ].
+	
+	"In case we are in an alias, we edit the property alias of the last imported entity"
+	(aNode parent type = #aliased_import) ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ].
 
 	^ self createEntityForNode: aNode
 ]
