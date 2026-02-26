@@ -427,7 +427,7 @@ FASTPythonImporterTest >> testFunctionParameters [
 	self assertCollection: (function parameters collect: #name) hasSameElements: #( 'a' 'b' )
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testImport [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -454,7 +454,60 @@ FASTPythonImporterTest >> testImport [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
+FASTPythonImporterTest >> testImportDottedImport [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'import xml.etree.ElementTree'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'import xml.etree.ElementTree'.
+	self assert: (entity isOfType: FASTPyImportStatement).
+	self assert: entity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'xml.etree.ElementTree'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('xml' 'etree' 'ElementTree').
+		
+]
+
+{ #category : 'tests - imports' }
+FASTPythonImporterTest >> testImportDottedImportAndAlias [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'import xml.etree.ElementTree as ET'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'import xml.etree.ElementTree as ET'.
+	self assert: (entity isOfType: FASTPyImportStatement).
+	self assert: entity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'xml.etree.ElementTree as ET'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('xml' 'etree' 'ElementTree').
+		self assert: entity alias equals: 'ET'.
+		
+]
+
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportMultiple [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -487,7 +540,7 @@ FASTPythonImporterTest >> testImportMultiple [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportMultipleAndAliases [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -521,7 +574,7 @@ FASTPythonImporterTest >> testImportMultipleAndAliases [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportWithAlias [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
