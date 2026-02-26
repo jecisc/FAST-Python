@@ -693,13 +693,6 @@ FASTPyTEntityCreator >> newRaiseStatement [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newRelativeImport [
-
-	<generated>
-	^ self add: FASTPyRelativeImport new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newReturnStatement [
 
 	<generated>

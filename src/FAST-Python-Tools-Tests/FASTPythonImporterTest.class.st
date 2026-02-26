@@ -137,7 +137,7 @@ FASTPythonImporterTest class >> shouldSelectProperty: property of: entity [
 
 	(self propertiesToExclude includes: property implementingSelector) ifTrue: [ ^ false ].
 
-	^ (property getFrom: entity) isNotEmpty
+	^ (property getFrom: entity) isEmptyOrNil not
 ]
 
 { #category : 'running' }
@@ -146,7 +146,7 @@ FASTPythonImporterTest >> importer [
 	^ importer ifNil: [ importer := self importerClass new ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 FASTPythonImporterTest >> importerClass [
 
 	^ self class environment at: (self class name withoutSuffix: 'Test') asSymbol
@@ -391,7 +391,7 @@ FASTPythonImporterTest >> testFloat [
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImport [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -428,7 +428,7 @@ FASTPythonImporterTest >> testFromImport [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultiple [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -467,7 +467,7 @@ FASTPythonImporterTest >> testFromImportMultiple [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultipleWithAlias [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -513,7 +513,7 @@ FASTPythonImporterTest >> testFromImportMultipleWithAlias [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultipleWithParenthesis [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -558,7 +558,7 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesis [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -605,6 +605,39 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 ]
 
 { #category : 'tests' }
+FASTPythonImporterTest >> testFromImportRelative1 [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	self parse: 'from ..utils.extra import module'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'from ..utils.extra import module'.
+	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
+	self assert: self topEntity fromImportModule size equals: 1.
+
+		stack push: (stack top fromImportModule at: 1).
+		self assert: self topEntity sourceCode equals: '..'.
+		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: self topEntity segments equals: #('..' 'utils' 'extra').
+		stack pop.
+
+	self assert: self topEntity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'module'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('module').
+		stack pop.
+
+	
+]
+
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportWithAlias [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
@@ -640,6 +673,39 @@ FASTPythonImporterTest >> testFromImportWithAlias [
 		self assert: entity segments equals: #('date').
 		self assert: entity alias equals: 'd'.
 		
+]
+
+{ #category : 'tests - imports' }
+FASTPythonImporterTest >> testFromImportWithWildcard [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	self parse: 'from math import *'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'from math import *'.
+	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
+	self assert: self topEntity fromImportModule size equals: 1.
+
+		stack push: (stack top fromImportModule at: 1).
+		self assert: self topEntity sourceCode equals: 'math'.
+		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: self topEntity segments equals: #('math').
+		stack pop.
+
+	self assert: self topEntity genericChildren size equals: 1.
+
+		stack push: (stack top genericChildren at: 1).
+		self assert: self topEntity sourceCode equals: '*'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('*').
+		stack pop.
+
+	
 ]
 
 { #category : 'tests' }

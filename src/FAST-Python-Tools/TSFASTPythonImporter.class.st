@@ -32,16 +32,9 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAliasedImport: aTSNode [
-	"Nothing to do. The visit of my children will take care of things.
-	
-	I still backup the context so that it does not get affected by the visit of my children"
+	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
-	| backup |
-	backup := context top copy.
-	self visitChildren: aTSNode.
-	context
-		pop;
-		push: backup
+	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -99,8 +92,12 @@ TSFASTPythonImporter >> visitDottedName: aTSNode [
 			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
 			^ fastEntity ].
 		
+		
+	"In a relative import, I add my parts in the list of segments."
+	(aTSNode parent type = #relative_import) ifTrue: [  ^ self topFastEntity fromImportModule last addSegments: ((self sourceCodeOf: aTSNode) splitOn: $.) ].
+	
 	"In case it is in the `module_name` field of an import, we create a FromImportModule."
-	(context anySatisfy: [ :entry | entry field = #module_name and: [ entry isOfFASTType: FASTPyImportFromStatement ] ]) ifTrue: [
+	(context anySatisfy: [ :entry | (entry isOfFASTType: FASTPyImportFromStatement) and: [ entry field = #module_name ] ]) ifTrue: [
 			| fastEntity |
 			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
 			fastEntity := self instantiateFastEntity: FASTPyFromImportModule from: aTSNode.
@@ -159,6 +156,17 @@ TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitImportPrefix: aTSNode [
+
+	| fastEntity |
+	fastEntity := self createEntityForNode: aTSNode kind: FASTPyFromImportModule.
+
+	fastEntity segments: { (self sourceCodeOf: aTSNode) }.
+
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitImportStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'importedEntities' asAliasOfField: 'name' ].
@@ -174,6 +182,13 @@ TSFASTPythonImporter >> visitParameters: aNode [
 			| parameter |
 			parameter := self createEntityForNode: parameterNode kind: FASTPyParameter parentManagementBlock: [ :entity | self topFastEntity addParameter: entity ].
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitRelativeImport: aTSNode [
+	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
+
+	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - noop' }
@@ -212,5 +227,15 @@ TSFASTPythonImporter >> visitUnaryOperator: aTSNode [
 	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328"
 	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity startPos to: fastEntity argument startPos - 1) trim.
 
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitWildcardImport: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: aTSNode.
+	self setParentOf: fastEntity.
+	fastEntity segments: { '*' }.
 	^ fastEntity
 ]

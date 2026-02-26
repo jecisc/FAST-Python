@@ -37,6 +37,12 @@ FASTPyFromImportModule class >> annotation [
 	^ self
 ]
 
+{ #category : 'adding' }
+FASTPyFromImportModule >> addSegments: aCollection [
+
+	segments := segments , aCollection
+]
+
 { #category : 'accessing' }
 FASTPyFromImportModule >> import [
 	"Relation named: #import type: #FASTPyImportFromStatement opposite: #fromImportModule"

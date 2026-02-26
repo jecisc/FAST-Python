@@ -5,7 +5,6 @@ Class {
 		'entity',
 		'_ERROR',
 		'tEntity',
-		'aliasedImport',
 		'argumentList',
 		'asPattern',
 		'asPatternTarget',
@@ -56,7 +55,6 @@ Class {
 		'formatExpression',
 		'formatSpecifier',
 		'functionDefinition',
-		'futureImportStatement',
 		'generatorExpression',
 		'genericType',
 		'globalStatement',
@@ -64,7 +62,6 @@ Class {
 		'ifClause',
 		'ifStatement',
 		'importFromStatement',
-		'importPrefix',
 		'importStatement',
 		'integer',
 		'interpolation',
@@ -95,7 +92,6 @@ Class {
 		'positionalSeparator',
 		'printStatement',
 		'raiseStatement',
-		'relativeImport',
 		'returnStatement',
 		'set',
 		'setComprehension',
@@ -118,7 +114,6 @@ Class {
 		'unionPattern',
 		'unionType',
 		'whileStatement',
-		'wildcardImport',
 		'withClause',
 		'withItem',
 		'withStatement',
@@ -268,7 +263,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	positionalSeparator := builder ensureClassNamed: #PositionalSeparator."Todo"
 	printStatement := builder ensureClassNamed: #PrintStatement."Todo"
 	raiseStatement := builder ensureClassNamed: #RaiseStatement."Todo"
-	relativeImport := builder ensureClassNamed: #RelativeImport."Todo"
 	returnStatement := builder ensureClassNamed: #ReturnStatement."Todo"
 	set := builder ensureClassNamed: #Set."Todo"
 	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
