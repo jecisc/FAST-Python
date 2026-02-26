@@ -431,7 +431,7 @@ FASTPythonImporterTest >> testFromImport [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -439,11 +439,11 @@ FASTPythonImporterTest >> testFromImport [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'datetime'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('datetime').
 		stack pop.
 		
@@ -464,7 +464,7 @@ FASTPythonImporterTest >> testFromImportMultiple [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -472,11 +472,11 @@ FASTPythonImporterTest >> testFromImportMultiple [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'collections'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('collections').
 		stack pop.
 		
@@ -503,7 +503,7 @@ FASTPythonImporterTest >> testFromImportMultipleWithAlias [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 3.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -511,11 +511,11 @@ FASTPythonImporterTest >> testFromImportMultipleWithAlias [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'math'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('math').
 		stack pop.
 		
@@ -549,7 +549,7 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesis [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 3.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -557,11 +557,11 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesis [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'math'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('math').
 		stack pop.
 		
@@ -594,7 +594,7 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 3.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -602,11 +602,11 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'math'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('math').
 		stack pop.
 		
@@ -640,7 +640,7 @@ FASTPythonImporterTest >> testFromImportRelative [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -648,11 +648,11 @@ FASTPythonImporterTest >> testFromImportRelative [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: '..'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('..' 'utils' 'extra').
 		stack pop.
 		
@@ -673,7 +673,7 @@ FASTPythonImporterTest >> testFromImportRelativeWithAlias [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -681,11 +681,11 @@ FASTPythonImporterTest >> testFromImportRelativeWithAlias [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: '..'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('..' 'utils').
 		stack pop.
 		
@@ -707,7 +707,7 @@ FASTPythonImporterTest >> testFromImportRelativeWithDoubleDot [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -715,11 +715,11 @@ FASTPythonImporterTest >> testFromImportRelativeWithDoubleDot [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: '..'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('..').
 		stack pop.
 		
@@ -740,7 +740,7 @@ FASTPythonImporterTest >> testFromImportRelativeWithOnlyOneDot [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -748,11 +748,11 @@ FASTPythonImporterTest >> testFromImportRelativeWithOnlyOneDot [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: '.'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('.').
 		stack pop.
 		
@@ -773,7 +773,7 @@ FASTPythonImporterTest >> testFromImportWithAlias [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -781,11 +781,11 @@ FASTPythonImporterTest >> testFromImportWithAlias [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'datetime'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('datetime').
 		stack pop.
 		
@@ -807,7 +807,7 @@ FASTPythonImporterTest >> testFromImportWithWildcard [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -815,11 +815,11 @@ FASTPythonImporterTest >> testFromImportWithWildcard [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'math'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('math').
 		stack pop.
 		
@@ -871,7 +871,7 @@ FASTPythonImporterTest >> testFutureImport [
 
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -879,11 +879,11 @@ FASTPythonImporterTest >> testFutureImport [
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
 	"Testing value of monovalue relation fromImportModule"
-	self assert: self topEntity fromImportModule isNotNil.
+	self assert: self topEntity fromModule isNotNil.
 
-		stack push: self topEntity fromImportModule.
+		stack push: self topEntity fromModule.
 		self assert: self topEntity sourceCode equals: 'from __future__ import annotiations as ann, division'.
-		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: (self topEntity isOfType: FASTPyFromModule).
 		self assert: self topEntity segments equals: #('__future__').
 		stack pop.
 		

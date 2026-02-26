@@ -94,13 +94,13 @@ TSFASTPythonImporter >> visitDottedName: aTSNode [
 		
 		
 	"In a relative import, I add my parts in the list of segments."
-	(aTSNode parent type = #relative_import) ifTrue: [  ^ self topFastEntity fromImportModule addSegments: ((self sourceCodeOf: aTSNode) splitOn: $.) ].
+	(aTSNode parent type = #relative_import) ifTrue: [  ^ self topFastEntity fromModule addSegments: ((self sourceCodeOf: aTSNode) splitOn: $.) ].
 	
 	"In case it is in the `module_name` field of an import, we create a FromImportModule."
 	(context anySatisfy: [ :entry | (entry isOfFASTType: FASTPyImportFromStatement) and: [ entry field = #module_name ] ]) ifTrue: [
 			| fastEntity |
 			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
-			fastEntity := self instantiateFastEntity: FASTPyFromImportModule from: aTSNode.
+			fastEntity := self instantiateFastEntity: FASTPyFromModule from: aTSNode.
 			self setParentOf: fastEntity.
 			
 			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
@@ -128,16 +128,12 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitFutureImportStatement: aTSNode [
+	"We treat future import as an import from statement"
 
 	| fastEntity |
-	self onNextContextDo: [ :contextEntry |
-			contextEntry
-				add: 'importedEntities' asAliasOfField: 'name';
-				add: 'fromImportModule' asAliasOfField: 'module_name' ].
+	fastEntity := self visitImportFromStatement: aTSNode.
 
-	fastEntity := self createEntityForNode: aTSNode kind: FASTPyImportFromStatement.
-
-	fastEntity fromImportModule: ((self instantiateFastEntity: FASTPyFromImportModule from: aTSNode)
+	fastEntity fromModule: ((self instantiateFastEntity: FASTPyFromModule from: aTSNode)
 			 segments: { '__future__' };
 			 yourself).
 
@@ -168,7 +164,7 @@ TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 	self onNextContextDo: [ :contextEntry |
 			contextEntry
 				add: 'importedEntities' asAliasOfField: 'name';
-				add: 'fromImportModule' asAliasOfField: 'module_name' ].
+				add: 'fromModule' asAliasOfField: 'module_name' ].
 
 	^ self createEntityForNode: aTSNode kind: FASTPyImportFromStatement
 ]
@@ -177,10 +173,8 @@ TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 TSFASTPythonImporter >> visitImportPrefix: aTSNode [
 
 	| fastEntity |
-	fastEntity := self createEntityForNode: aTSNode kind: FASTPyFromImportModule.
-
+	fastEntity := self createEntityForNode: aTSNode kind: FASTPyFromModule.
 	fastEntity segments: { (self sourceCodeOf: aTSNode) }.
-
 	^ fastEntity
 ]
 

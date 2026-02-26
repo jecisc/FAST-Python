@@ -5,7 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `import` | `FASTPyFromImportModule` | `fromImportModule` | `FASTPyImportFromStatement` | Import declaring me as from import module.|
+| `import` | `FASTPyFromModule` | `fromModule` | `FASTPyImportFromStatement` | Import declaring me as from import module.|
 
 
 ## Properties
@@ -17,11 +17,11 @@
 
 "
 Class {
-	#name : 'FASTPyFromImportModule',
+	#name : 'FASTPyFromModule',
 	#superclass : 'FASTPyEntity',
 	#instVars : [
-		'#import => FMOne type: #FASTPyImportFromStatement opposite: #fromImportModule',
-		'#segments => FMProperty'
+		'#segments => FMProperty',
+		'#import => FMOne type: #FASTPyImportFromStatement opposite: #fromModule'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -29,23 +29,23 @@ Class {
 }
 
 { #category : 'meta' }
-FASTPyFromImportModule class >> annotation [
+FASTPyFromModule class >> annotation [
 
-	<FMClass: #FromImportModule super: #FASTPyEntity>
+	<FMClass: #FromModule super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
 ]
 
 { #category : 'adding' }
-FASTPyFromImportModule >> addSegments: aCollection [
+FASTPyFromModule >> addSegments: aCollection [
 
 	segments := segments , aCollection
 ]
 
 { #category : 'accessing' }
-FASTPyFromImportModule >> import [
-	"Relation named: #import type: #FASTPyImportFromStatement opposite: #fromImportModule"
+FASTPyFromModule >> import [
+	"Relation named: #import type: #FASTPyImportFromStatement opposite: #fromModule"
 
 	<generated>
 	<FMComment: 'Import declaring me as from import module.'>
@@ -55,21 +55,21 @@ FASTPyFromImportModule >> import [
 ]
 
 { #category : 'accessing' }
-FASTPyFromImportModule >> import: anObject [
+FASTPyFromModule >> import: anObject [
 
 	<generated>
 	import := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyFromImportModule >> importGroup [
+FASTPyFromModule >> importGroup [
 	<generated>
 	<navigation: 'Import'>
 	^ MooseSpecializedGroup with: self import
 ]
 
 { #category : 'accessing' }
-FASTPyFromImportModule >> segments [
+FASTPyFromModule >> segments [
 
 	<FMProperty: #segments type: #String>
 	<generated>
@@ -79,7 +79,7 @@ FASTPyFromImportModule >> segments [
 ]
 
 { #category : 'accessing' }
-FASTPyFromImportModule >> segments: anObject [
+FASTPyFromModule >> segments: anObject [
 	<generated>
 	segments := anObject
 ]

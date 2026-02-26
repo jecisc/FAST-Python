@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `fromImportModule` | `FASTPyImportFromStatement` | `import` | `FASTPyFromImportModule` | Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..|
+| `fromModule` | `FASTPyImportFromStatement` | `import` | `FASTPyFromModule` | Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..|
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyImportFromStatement',
 	#superclass : 'FASTPyImport',
 	#instVars : [
-		'#fromImportModule => FMOne type: #FASTPyFromImportModule opposite: #import'
+		'#fromModule => FMOne type: #FASTPyFromModule opposite: #import'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -31,24 +31,24 @@ FASTPyImportFromStatement class >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyImportFromStatement >> fromImportModule [
-	"Relation named: #fromImportModule type: #FASTPyFromImportModule opposite: #import"
+FASTPyImportFromStatement >> fromModule [
+	"Relation named: #fromModule type: #FASTPyFromModule opposite: #import"
 
 	<generated>
 	<FMComment: 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..'>
-	^ fromImportModule
+	^ fromModule
 ]
 
 { #category : 'accessing' }
-FASTPyImportFromStatement >> fromImportModule: anObject [
+FASTPyImportFromStatement >> fromModule: anObject [
 
 	<generated>
-	fromImportModule := anObject
+	fromModule := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyImportFromStatement >> fromImportModuleGroup [
+FASTPyImportFromStatement >> fromModuleGroup [
 	<generated>
-	<navigation: 'FromImportModule'>
-	^ MooseSpecializedGroup with: self fromImportModule
+	<navigation: 'FromModule'>
+	^ MooseSpecializedGroup with: self fromModule
 ]

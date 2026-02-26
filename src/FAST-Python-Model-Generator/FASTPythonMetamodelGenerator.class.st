@@ -138,7 +138,7 @@ Class {
 		'structuralEntity',
 		'import',
 		'importedEntity',
-		'fromImportModule'
+		'fromModule'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -219,7 +219,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	forStatement := builder ensureClassNamed: #ForStatement."Todo"
 	formatExpression := builder ensureClassNamed: #FormatExpression."Todo"
 	formatSpecifier := builder ensureClassNamed: #FormatSpecifier."Todo"
-	fromImportModule := builder ensureClassNamed: #FromImportModule.
+	fromModule := builder ensureClassNamed: #FromModule.
 	functionDefinition := builder ensureClassNamed: #FunctionDefinition."ToReview"
 	generatorExpression := builder ensureClassNamed: #GeneratorExpression."Todo"
 	genericType := builder ensureClassNamed: #GenericType."Todo"
@@ -372,7 +372,7 @@ FASTPythonMetamodelGenerator >> defineProperties [
 		multivalued: true;
 		comment: 'The comparators applied in order. Possible operators:  <, <=, ==, !=, >=, >, <>, in, not in, is, is not'.
 
-	(fromImportModule property: #segments type: #String)
+	(fromModule property: #segments type: #String)
 		multivalued: true;
 		comment:
 			'The segments of the module path. For example if you declare `xml.etree.ElementTree` as module, the segments will be { ''xml'' . ''etree'' . ''ElementTree''}.'.
@@ -401,8 +401,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
 
-	((importFromStatement property: #fromImportModule) comment: 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
-	<>- ((fromImportModule property: #import) comment: 'Import declaring me as from import module.').
+	((importFromStatement property: #fromModule) comment: 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
+	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

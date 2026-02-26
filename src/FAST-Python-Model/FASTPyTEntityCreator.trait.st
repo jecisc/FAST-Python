@@ -385,10 +385,10 @@ FASTPyTEntityCreator >> newFormatSpecifier [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newFromImportModule [
+FASTPyTEntityCreator >> newFromModule [
 
 	<generated>
-	^ self add: FASTPyFromImportModule new
+	^ self add: FASTPyFromModule new
 ]
 
 { #category : 'entity creation' }
