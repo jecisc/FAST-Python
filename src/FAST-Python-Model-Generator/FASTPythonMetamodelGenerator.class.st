@@ -138,7 +138,8 @@ Class {
 		'structuralEntity',
 		'import',
 		'importedEntity',
-		'fromModule'
+		'fromModule',
+		'tInvocation'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -316,6 +317,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
 	
+	call --|> tInvocation.
+	
 	classDefinition --|> tNamedEntity.
 	
 	comment --|> tComment.
@@ -424,6 +427,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
+	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST. 
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.

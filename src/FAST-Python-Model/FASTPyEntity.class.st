@@ -158,6 +158,13 @@ FASTPyEntity >> isClassDefinition [
 ]
 
 { #category : 'testing' }
+FASTPyEntity >> isInvocation [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FASTPyEntity >> isLiteral [
 
 	<generated>
