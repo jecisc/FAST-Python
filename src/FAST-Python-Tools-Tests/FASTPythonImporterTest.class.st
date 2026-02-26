@@ -64,7 +64,13 @@ FASTPythonImporterTest class >> generateAssertionsFor: entity on: aStream identa
 										nextPutAll: 'entity := stack top.';
 										cr;
 										tab: aNumber + 1.
-									self generateAssertionsFor: child on: aStream identation: aNumber + 1 ] ] ] ]
+									self generateAssertionsFor: child on: aStream identation: aNumber + 1.
+									index = result size ifFalse: [
+											aStream
+												nextPutAll: 'stack pop.';
+												cr;
+												cr;
+												tab: aNumber + 1 ] ] ] ] ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -446,6 +452,39 @@ FASTPythonImporterTest >> testImport [
 		self assert: entity segments equals: #('random').
 		self assert: entity alias isNil
 	
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testImportMultiple [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'import random, collections'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'import random, collections'.
+	self assert: (entity isOfType: FASTPyImportStatement).
+	self assert: entity importedEntities size equals: 2.
+
+		stack push: (stack top importedEntities at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'random'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('random').
+		stack pop.
+
+		stack push: (stack top importedEntities at: 2).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'collections'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('collections').
+		
 ]
 
 { #category : 'tests' }
