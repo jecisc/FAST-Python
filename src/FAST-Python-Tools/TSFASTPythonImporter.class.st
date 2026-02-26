@@ -32,9 +32,16 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAliasedImport: aTSNode [
-	"Nothing to do. The visit of my children will take care of things."
+	"Nothing to do. The visit of my children will take care of things.
+	
+	I still backup the context so that it does not get affected by the visit of my children"
 
-	^ self visitChildren: aTSNode
+	| backup |
+	backup := context top copy.
+	self visitChildren: aTSNode.
+	context
+		pop;
+		push: backup
 ]
 
 { #category : 'visiting' }

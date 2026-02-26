@@ -488,6 +488,40 @@ FASTPythonImporterTest >> testImportMultiple [
 ]
 
 { #category : 'tests' }
+FASTPythonImporterTest >> testImportMultipleAndAliases [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'import random as rand, collections'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'import random as rand, collections'.
+	self assert: (entity isOfType: FASTPyImportStatement).
+	self assert: entity importedEntities size equals: 2.
+
+		stack push: (stack top importedEntities at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'random as rand'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('random').
+		self assert: entity alias equals: 'rand'.
+		stack pop.
+
+		stack push: (stack top importedEntities at: 2).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'collections'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('collections').
+		
+]
+
+{ #category : 'tests' }
 FASTPythonImporterTest >> testImportWithAlias [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
