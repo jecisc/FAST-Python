@@ -40,37 +40,42 @@ FASTPythonImporterTest class >> generateAssertionsFor: entity on: aStream identa
 				cr;
 				tab: aNumber ].
 
-	entity containedEntitySelectors do: [ :selector |
-			(entity perform: selector) ifNotNil: [ :result |
-					result ifNotEmpty: [
-							aStream
-								nextPutAll: 'self assert: entity ';
-								nextPutAll: selector;
-								nextPutAll: ' size equals: ';
-								print: result size;
-								nextPut: $.;
-								cr;
-								cr;
-								tab: aNumber + 1.
-							result doWithIndex: [ :child :index |
+	(entity containedEntitySelectors select: [ :selector | (entity perform: selector) isEmptyOrNil not ]) ifNotEmpty: [ :properties |
+			properties do: [ :selector |
+					(entity perform: selector) ifNotNil: [ :result |
+							result ifNotEmpty: [
 									aStream
-										nextPutAll: 'stack push: (stack top ';
+										nextPutAll: 'self assert: entity ';
 										nextPutAll: selector;
-										nextPutAll: ' at: ';
-										print: index;
-										nextPutAll: ').';
+										nextPutAll: ' size equals: ';
+										print: result size;
+										nextPut: $.;
 										cr;
-										tab: aNumber + 1;
-										nextPutAll: 'entity := stack top.';
 										cr;
 										tab: aNumber + 1.
-									self generateAssertionsFor: child on: aStream identation: aNumber + 1.
-									index = result size ifFalse: [
+									result doWithIndex: [ :child :index |
 											aStream
-												nextPutAll: 'stack pop.';
+												nextPutAll: 'stack push: (stack top ';
+												nextPutAll: selector;
+												nextPutAll: ' at: ';
+												print: index;
+												nextPutAll: ').';
 												cr;
+												tab: aNumber + 1;
+												nextPutAll: 'entity := stack top.';
 												cr;
-												tab: aNumber + 1 ] ] ] ] ]
+												tab: aNumber + 1.
+											self generateAssertionsFor: child on: aStream identation: aNumber + 1.
+
+											properties last = selector ifFalse: [
+													aStream
+														nextPutAll: 'stack pop.';
+														cr;
+														cr;
+														tab: aNumber;
+														nextPutAll: 'entity := stack top.';
+														cr;
+														tab: aNumber ] ] ] ] ] ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -394,6 +399,43 @@ FASTPythonImporterTest >> testFloat [
 	boolean := (fast allWithType: FASTPyFloat) anyOne.
 	self assert: boolean sourceCode equals: '42.0'.
 	self assert: (boolean isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testFromImport [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	| entity |
+
+	self parse: 'from datetime import date'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	entity := stack top.
+	self assert: entity sourceCode equals: 'from datetime import date'.
+	self assert: (entity isOfType: FASTPyImportFromStatement).
+	self assert: entity fromImportModule size equals: 1.
+
+		stack push: (stack top fromImportModule at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'datetime'.
+		self assert: (entity isOfType: FASTPyFromImportModule).
+		self assert: entity segments equals: #('datetime').
+		stack pop.
+
+	entity := stack top.
+	self assert: entity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		entity := stack top.
+		self assert: entity sourceCode equals: 'date'.
+		self assert: (entity isOfType: FASTPyImportedEntity).
+		self assert: entity segments equals: #('date').
+		
 ]
 
 { #category : 'tests' }

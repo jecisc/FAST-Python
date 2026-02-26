@@ -85,14 +85,25 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDottedName: aTSNode [
-	"In case it is in the `name` field of an import, we create an ImportedEntity."
 
+	"In case it is in the `name` field of an import, we create an ImportedEntity."
 	(context anySatisfy: [ :entry | entry field = #name and: [ entry isOfFASTType: FASTPyImport ] ]) ifTrue: [
 			| fastEntity |
 			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
 			fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: (aTSNode parent type = #aliased_import
 					               ifTrue: [ aTSNode parent ]
 					               ifFalse: [ aTSNode ]).
+			self setParentOf: fastEntity.
+			
+			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
+			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
+			^ fastEntity ].
+		
+	"In case it is in the `module_name` field of an import, we create a FromImportModule."
+	(context anySatisfy: [ :entry | entry field = #module_name and: [ entry isOfFASTType: FASTPyImportFromStatement ] ]) ifTrue: [
+			| fastEntity |
+			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
+			fastEntity := self instantiateFastEntity: FASTPyFromImportModule from: aTSNode.
 			self setParentOf: fastEntity.
 			
 			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
@@ -134,6 +145,17 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	(aNode parent type = #aliased_import) ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ].
 
 	^ self createEntityForNode: aNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
+
+	self onNextContextDo: [ :contextEntry |
+			contextEntry
+				add: 'importedEntities' asAliasOfField: 'name';
+				add: 'fromImportModule' asAliasOfField: 'module_name' ].
+
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting' }

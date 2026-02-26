@@ -385,6 +385,13 @@ FASTPyTEntityCreator >> newFormatSpecifier [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newFromImportModule [
+
+	<generated>
+	^ self add: FASTPyFromImportModule new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newFunctionDefinition [
 
 	<generated>
