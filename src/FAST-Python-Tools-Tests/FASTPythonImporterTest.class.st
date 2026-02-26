@@ -605,7 +605,7 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 ]
 
 { #category : 'tests' }
-FASTPythonImporterTest >> testFromImportRelative1 [
+FASTPythonImporterTest >> testFromImportRelative [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
 
 	self parse: 'from ..utils.extra import module'.
@@ -624,6 +624,106 @@ FASTPythonImporterTest >> testFromImportRelative1 [
 		self assert: self topEntity sourceCode equals: '..'.
 		self assert: (self topEntity isOfType: FASTPyFromImportModule).
 		self assert: self topEntity segments equals: #('..' 'utils' 'extra').
+		stack pop.
+
+	self assert: self topEntity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'module'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('module').
+		stack pop.
+
+	
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testFromImportRelativeWithAlias [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	self parse: 'from ..utils import module as mod'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'from ..utils import module as mod'.
+	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
+	self assert: self topEntity fromImportModule size equals: 1.
+
+		stack push: (stack top fromImportModule at: 1).
+		self assert: self topEntity sourceCode equals: '..'.
+		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: self topEntity segments equals: #('..' 'utils').
+		stack pop.
+
+	self assert: self topEntity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'module as mod'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('module').
+		self assert: self topEntity alias equals: 'mod'.
+		stack pop.
+
+	
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testFromImportRelativeWithDoubleDot [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	self parse: 'from .. import module'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'from .. import module'.
+	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
+	self assert: self topEntity fromImportModule size equals: 1.
+
+		stack push: (stack top fromImportModule at: 1).
+		self assert: self topEntity sourceCode equals: '..'.
+		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: self topEntity segments equals: #('..').
+		stack pop.
+
+	self assert: self topEntity importedEntities size equals: 1.
+
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'module'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('module').
+		stack pop.
+
+	
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testFromImportRelativeWithOnlyDot [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+
+	self parse: 'from . import module'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyFromImportModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'from . import module'.
+	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
+	self assert: self topEntity fromImportModule size equals: 1.
+
+		stack push: (stack top fromImportModule at: 1).
+		self assert: self topEntity sourceCode equals: '.'.
+		self assert: (self topEntity isOfType: FASTPyFromImportModule).
+		self assert: self topEntity segments equals: #('.').
 		stack pop.
 
 	self assert: self topEntity importedEntities size equals: 1.
