@@ -402,7 +402,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
 
 	((importFromStatement property: #fromImportModule) comment: 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
-	<>-* ((fromImportModule property: #import) comment: 'Import declaring me as from import module.').
+	<>- ((fromImportModule property: #import) comment: 'Import declaring me as from import module.').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

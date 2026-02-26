@@ -50,6 +50,7 @@ FASTPyFromImportModule >> import [
 	<generated>
 	<FMComment: 'Import declaring me as from import module.'>
 	<container>
+	<derived>
 	^ import
 ]
 

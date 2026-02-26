@@ -94,7 +94,7 @@ TSFASTPythonImporter >> visitDottedName: aTSNode [
 		
 		
 	"In a relative import, I add my parts in the list of segments."
-	(aTSNode parent type = #relative_import) ifTrue: [  ^ self topFastEntity fromImportModule last addSegments: ((self sourceCodeOf: aTSNode) splitOn: $.) ].
+	(aTSNode parent type = #relative_import) ifTrue: [  ^ self topFastEntity fromImportModule addSegments: ((self sourceCodeOf: aTSNode) splitOn: $.) ].
 	
 	"In case it is in the `module_name` field of an import, we create a FromImportModule."
 	(context anySatisfy: [ :entry | (entry isOfFASTType: FASTPyImportFromStatement) and: [ entry field = #module_name ] ]) ifTrue: [
@@ -127,6 +127,24 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitFutureImportStatement: aTSNode [
+
+	| fastEntity |
+	self onNextContextDo: [ :contextEntry |
+			contextEntry
+				add: 'importedEntities' asAliasOfField: 'name';
+				add: 'fromImportModule' asAliasOfField: 'module_name' ].
+
+	fastEntity := self createEntityForNode: aTSNode kind: FASTPyImportFromStatement.
+
+	fastEntity fromImportModule: ((self instantiateFastEntity: FASTPyFromImportModule from: aTSNode)
+			 segments: { '__future__' };
+			 yourself).
+
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
@@ -152,7 +170,7 @@ TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 				add: 'importedEntities' asAliasOfField: 'name';
 				add: 'fromImportModule' asAliasOfField: 'module_name' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self createEntityForNode: aTSNode kind: FASTPyImportFromStatement
 ]
 
 { #category : 'visiting' }
