@@ -5,6 +5,13 @@ Class {
 	#package : 'FAST-Python-Tools'
 }
 
+{ #category : 'class initialization' }
+TSFASTPythonImporter class >> initialize [
+	"For now we use the bleeding edge"
+
+	TSLibrariesPython gitBranchToUse: 'master'
+]
+
 { #category : 'initialization' }
 TSFASTPythonImporter >> initialize [
 
