@@ -152,6 +152,13 @@ FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code protoc
 	self compile: method classified: protocol
 ]
 
+{ #category : 'class initialization' }
+FASTPythonImporterTest class >> initialize [
+	"We ensure the installation of the library before running the tests because it could cause a time limit to fails for the test installing the libraries."
+
+	TSLibrariesPython new ensurePythonLibraryExists
+]
+
 { #category : 'test generation' }
 FASTPythonImporterTest class >> propertiesToExclude [
 
