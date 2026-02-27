@@ -190,6 +190,17 @@ FASTPythonImporterTest >> parse: aString [
 	^ fast := self importer parse: aString withPlatformLineEndings
 ]
 
+{ #category : 'private' }
+FASTPythonImporterTest >> performTest [
+	"If an error happens, dump the AST in the message text so that we can have an idea of what is the problem in the logs."
+
+	[ super performTest ]
+		on: Error
+		do: [ :failure |
+				fast ifNotNil: [ failure messageText: failure messageText , ' FASTDump: ' , (RBParser parseExpression: fast rootEntities anyOne dump) formattedCode ].
+				failure pass ]
+]
+
 { #category : 'running' }
 FASTPythonImporterTest >> setUp [
 
