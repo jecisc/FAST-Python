@@ -63,6 +63,14 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitBlock: aTSNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'statements' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyBlock
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitBooleanOperator: aTSNode [
 
 	^ self manageBinaryOperator: aTSNode ofKind: FASTPyBooleanOperator
@@ -128,9 +136,11 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 
 	| definition |
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'statementBlock' asAliasOfField: 'body' ].
+
 	definition := (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
-		  ifTrue: [ self createEntityForNode: aNode kind: FASTPyMethodDefinition ]
-		  ifFalse: [ self createEntityForNode: aNode kind: FASTPyFunctionDefinition ]
+		              ifTrue: [ self createEntityForNode: aNode kind: FASTPyMethodDefinition ]
+		              ifFalse: [ self createEntityForNode: aNode kind: FASTPyFunctionDefinition ]
 ]
 
 { #category : 'visiting' }

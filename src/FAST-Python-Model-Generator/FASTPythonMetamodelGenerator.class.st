@@ -139,7 +139,10 @@ Class {
 		'import',
 		'importedEntity',
 		'fromModule',
-		'tInvocation'
+		'tInvocation',
+		'tStatementBlock',
+		'tReturnStatement',
+		'tStatement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -177,7 +180,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
 	await := builder ensureClassNamed: #Await."Todo"
 	binaryOperator := builder ensureClassNamed: #BinaryOperator.
-	block := builder ensureClassNamed: #Block."Todo"
+	block := builder ensureClassNamed: #Block."To review"
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
@@ -301,18 +304,21 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	super defineHierarchy.
 
 	entity --|> tEntity.
-	self flag: #todo. "The next line is WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
+	self flag: #todo. "The next two line are WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
+	entity --|> tStatement.
 	
 	assignment --|> tAssignment.
 	
 	attribute --|> structuralEntity.
 	
-	booleanOperator --|> operator.
-	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
-	
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
+
+	block --|> tStatementBlock.
+	
+	booleanOperator --|> operator.
+	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
 	
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
@@ -354,6 +360,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	notOperator --|> tUnaryOperator.
 	
 	operator --|> expression.
+	
+	returnStatement --|> tReturnStatement.
 	
 	string --|> literal.
 	string --|> tStringLiteral.
@@ -428,6 +436,9 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
 	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST. 
+	tReturnStatement := self remoteTrait: #TReturnStatement withPrefix: #FAST.
+	tStatement := self remoteTrait: #TStatement withPrefix: #FAST.
+	tStatementBlock := self remoteTrait: #TStatementBlock withPrefix: #FAST.
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
