@@ -49,6 +49,7 @@ BaselineOfFASTPython >> projectClass [
 
 { #category : 'dependencies' }
 BaselineOfFASTPython >> treeSitter: spec [
+	self flag: #todo. "Do a PR to TreeSitter and use 'github://Evref-BL/Pharo-Tree-Sitter:main/src'"
 	spec
-		baseline: 'TreeSitter' with: [ spec repository: 'github://Evref-BL/Pharo-Tree-Sitter:main/src' ]
+		baseline: 'TreeSitter' with: [ spec repository: 'github://jecisc/Pharo-Tree-Sitter:customizableimporter/src' ]
 ]
