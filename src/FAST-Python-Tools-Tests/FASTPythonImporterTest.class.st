@@ -187,18 +187,22 @@ FASTPythonImporterTest >> importerClass [
 { #category : 'running' }
 FASTPythonImporterTest >> parse: aString [
 
-	^ fast := self importer parse: aString withPlatformLineEndings
+	^ fast := self importer
+		          errorReportBlock: [ :i | i errors ifNotEmpty: [ self fail: 'Errors happened during parsing. Errors: ' , i errors printString ] ];
+		          parse: aString withPlatformLineEndings
 ]
 
 { #category : 'private' }
 FASTPythonImporterTest >> performTest [
 	"If an error happens, dump the AST in the message text so that we can have an idea of what is the problem in the logs."
 
-	[ super performTest ]
+	"[ super performTest ]
 		on: Error
 		do: [ :failure |
 				fast ifNotNil: [ failure messageText: failure messageText , ' FASTDump: ' , (RBParser parseExpression: fast rootEntities anyOne dump) formattedCode ].
-				failure pass ]
+				failure pass ]"
+
+	super performTest
 ]
 
 { #category : 'running' }

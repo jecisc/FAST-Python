@@ -2,7 +2,8 @@ Class {
 	#name : 'FASTPythonImporter',
 	#superclass : 'Object',
 	#instVars : [
-		'tsParser'
+		'tsParser',
+		'errorReportBlock'
 	],
 	#category : 'FAST-Python-Tools',
 	#package : 'FAST-Python-Tools'
@@ -103,6 +104,12 @@ FASTPythonImporter >> deleteTreeSitterParser [
 	self tsParser delete
 ]
 
+{ #category : 'accessing' }
+FASTPythonImporter >> errorReportBlock: aBlock [
+
+	errorReportBlock := aBlock
+]
+
 { #category : 'as yet unclassified' }
 FASTPythonImporter >> initialiseTreeSitterParser [ 
 
@@ -119,6 +126,7 @@ FASTPythonImporter >> parse: aString [
 	tsTree := self tsParser parseString: aString.
 	fastTree := TSFASTPythonImporter new
 		            originString: aString;
+		            in: [ :importer | errorReportBlock ifNotNil: [ importer errorReportBlock: errorReportBlock ] ];
 		            import: tsTree rootNode.
 
 	self deleteTreeSitterParser.
