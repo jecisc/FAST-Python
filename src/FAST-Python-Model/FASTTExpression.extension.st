@@ -1,22 +1,22 @@
 Extension { #name : 'FASTTExpression' }
 
 { #category : '*FAST-Python-Model-accessing' }
-FASTTExpression >> collectionInitializers [
+FASTTExpression >> collectionInitializer [
 	"Relation named: #collectionInitializers type: #FASTPyList opposite: #initializers"
 
 	<generated>
 	<FMComment: 'The owner of the expression'>
 	<container>
-	<FMProperty: #collectionInitializers type: #FASTPyList opposite: #initializers>
+	<FMProperty: #collectionInitializer type: #FASTPyList opposite: #initializers>
 	<package: #'FAST-Python-Model'>
-	^ self attributeAt: #collectionInitializers ifAbsent: [ nil ]
+	^ self attributeAt: #collectionInitializer ifAbsent: [ nil ]
 ]
 
 { #category : '*FAST-Python-Model-accessing' }
-FASTTExpression >> collectionInitializers: anObject [
+FASTTExpression >> collectionInitializer: anObject [
 
 	<generated>
-	self attributeAt: #collectionInitializers put: (FMMultivalueLink on: self update: #initializers from: self collectionInitializers to: anObject).
+	self attributeAt: #collectionInitializer put: (FMMultivalueLink on: self update: #initializers from: self collectionInitializer to: anObject).
 ]
 
 { #category : '*FAST-Python-Model-accessing' }

@@ -427,7 +427,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
-	<>-* ((tExpression property: #collectionInitializers) comment: 'The owner of the expression').
+	<>-* ((tExpression property: #collectionInitializer) comment: 'The owner of the expression').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

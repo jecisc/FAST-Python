@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `initializers` | `FASTPyCollectionInitializer` | `collectionInitializers` | `FASTTExpression` | Each initializer defines one element.|
+| `initializers` | `FASTPyCollectionInitializer` | `collectionInitializer` | `FASTTExpression` | Each initializer defines one element.|
 
 
 
@@ -35,14 +35,14 @@ FASTPyCollectionInitializer >> addInitializer: anObject [
 
 { #category : 'accessing' }
 FASTPyCollectionInitializer >> initializers [
-	"Relation named: #initializers type: #FASTTExpression opposite: #collectionInitializers"
+	"Relation named: #initializers type: #FASTTExpression opposite: #collectionInitializer"
 
 	<generated>
 	<FMComment: 'Each initializer defines one element.'>
 	<derived>
-	<FMProperty: #initializers type: #FASTTExpression opposite: #collectionInitializers>
+	<FMProperty: #initializers type: #FASTTExpression opposite: #collectionInitializer>
 	<multivalued>
-	^ self attributeAt: #initializers ifAbsentPut: [ FMMultivalueLink on: self opposite: #collectionInitializers: ]
+	^ self attributeAt: #initializers ifAbsentPut: [ FMMultivalueLink on: self opposite: #collectionInitializer: ]
 ]
 
 { #category : 'accessing' }
