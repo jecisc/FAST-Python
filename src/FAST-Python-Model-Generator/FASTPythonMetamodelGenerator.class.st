@@ -142,7 +142,8 @@ Class {
 		'tInvocation',
 		'tStatementBlock',
 		'tReturnStatement',
-		'tStatement'
+		'tStatement',
+		'collectionInitializer'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -184,6 +185,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
+	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
 	call := builder ensureClassNamed: #Call."Todo"
 	caseClause := builder ensureClassNamed: #CaseClause."Todo"
 	casePattern := builder ensureClassNamed: #CasePattern."Todo"
@@ -243,7 +245,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	lambda := builder ensureClassNamed: #Lambda."Todo"
 	lambdaParameters := builder ensureClassNamed: #LambdaParameters."Todo"
 	lineContinuation := builder ensureClassNamed: #LineContinuation."Todo"
-	list := builder ensureClassNamed: #List."Todo"
+	list := builder ensureClassNamed: #List.
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
 	listPattern := builder ensureClassNamed: #ListPattern."Todo"
 	listSplat := builder ensureClassNamed: #ListSplat."Todo"
@@ -268,7 +270,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	printStatement := builder ensureClassNamed: #PrintStatement."Todo"
 	raiseStatement := builder ensureClassNamed: #RaiseStatement."Todo"
 	returnStatement := builder ensureClassNamed: #ReturnStatement."Todo"
-	set := builder ensureClassNamed: #Set."Todo"
+	set := builder ensureClassNamed: #Set.
 	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
 	slice := builder ensureClassNamed: #Slice."Todo"
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
@@ -277,7 +279,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
-	tuple := builder ensureClassNamed: #Tuple."Todo"
+	tuple := builder ensureClassNamed: #Tuple."To Review"
 	tupleExpression := builder ensureClassNamed: #TupleExpression."Todo"
 	tuplePattern := builder ensureClassNamed: #TuplePattern."Todo"
 	type := builder ensureClassNamed: #Type."Todo"
@@ -327,6 +329,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	classDefinition --|> tNamedEntity.
 	
+	collectionInitializer --|> expression.
+	
 	comment --|> tComment.
 	
 	comparisonOperator --|> operator.
@@ -346,7 +350,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	integer --|> literal.
 	
-	list --|> expression.
+	list --|> collectionInitializer.
 
 	literal --|> tLiteral.
 	
@@ -365,10 +369,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	returnStatement --|> tReturnStatement.
 	
+	set --|> collectionInitializer.
+	
 	string --|> literal.
 	string --|> tStringLiteral.
 	
 	structuralEntity --|> tVariableEntity.
+	
+	tuple --|> collectionInitializer.
 	
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
@@ -418,7 +426,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
 
-	((list property: #initializers) comment: 'Each initializer defines one element.')
+	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((tExpression property: #collectionInitializers) comment: 'The owner of the expression').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
@@ -430,12 +438,13 @@ FASTPythonMetamodelGenerator >> defineTraits [
 
 	super defineTraits.
 	
-	"From FAST"
+	"Entity"
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 
-
+	"FAST-Python"
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
-
+	
+	"Remotes"
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.

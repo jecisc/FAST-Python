@@ -154,6 +154,13 @@ FASTPyTEntityCreator >> newClassPattern [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newCollectionInitializer [
+
+	<generated>
+	^ self add: FASTPyCollectionInitializer new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newComment [
 
 	<generated>

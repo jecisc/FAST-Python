@@ -7,7 +7,7 @@
 |---|
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
-| `collectionInitializers` | `FASTTExpression` | `initializers` | `FASTPyList` | The owner of the expression|
+| `collectionInitializers` | `FASTTExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `genericParent` | `FASTPyEntity` | `genericChildren` | `FASTPyEntity` | |
 | `parentComparisonOperator` | `FASTTExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|

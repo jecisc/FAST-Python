@@ -1266,6 +1266,40 @@ FASTPythonImporterTest >> testReturnEmpty [
 			
 ]
 
+{ #category : 'tests' }
+FASTPythonImporterTest >> testSet [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: '{1, 2, 3}'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPySet) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: '{1, 2, 3}'.
+	self assert: (self topEntity isOfType: FASTPySet).
+	
+	"Testing value of multivalued relation initializers"
+	self assert: self topEntity initializers size equals: 3.
+	
+		stack push: (stack top initializers at: 1).
+		self assert: self topEntity sourceCode equals: '1'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
+		stack push: (stack top initializers at: 2).
+		self assert: self topEntity sourceCode equals: '2'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
+		stack push: (stack top initializers at: 3).
+		self assert: self topEntity sourceCode equals: '3'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
+]
+
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testSingleQuotedString [
 
@@ -1293,6 +1327,40 @@ FASTPythonImporterTest >> testTrue [
 	boolean := (fast allWithType: FASTPyBoolean) anyOne.
 	self assert: boolean sourceCode equals: 'True'.
 	self assert: (boolean isOfType: FASTTBooleanLiteral)
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testTuple [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: '(1, 2, 3)'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: '(1, 2, 3)'.
+	self assert: (self topEntity isOfType: FASTPyTuple).
+	
+	"Testing value of multivalued relation initializers"
+	self assert: self topEntity initializers size equals: 3.
+	
+		stack push: (stack top initializers at: 1).
+		self assert: self topEntity sourceCode equals: '1'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
+		stack push: (stack top initializers at: 2).
+		self assert: self topEntity sourceCode equals: '2'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
+		stack push: (stack top initializers at: 3).
+		self assert: self topEntity sourceCode equals: '3'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
 ]
 
 { #category : 'tests' }
