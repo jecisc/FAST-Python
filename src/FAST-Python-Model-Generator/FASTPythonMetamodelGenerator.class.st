@@ -346,6 +346,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	integer --|> literal.
 	
+	list --|> expression.
+
 	literal --|> tLiteral.
 	
 	none --|> literal.
@@ -412,8 +414,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
 
-	((importFromStatement property: #fromModule) comment: 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
+	((importFromStatement property: #fromModule) comment:
+		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
+
+	((list property: #initializers) comment: 'Each initializer defines one element.')
+	<>-* ((tExpression property: #collectionInitializers) comment: 'The owner of the expression').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

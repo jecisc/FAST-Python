@@ -204,6 +204,14 @@ TSFASTPythonImporter >> visitImportStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitList: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyList
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitParameters: aNode [
 	"For parameters we want one by parameter. Not one node for multiple ones."
 

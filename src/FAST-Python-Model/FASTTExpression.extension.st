@@ -1,6 +1,25 @@
 Extension { #name : 'FASTTExpression' }
 
 { #category : '*FAST-Python-Model-accessing' }
+FASTTExpression >> collectionInitializers [
+	"Relation named: #collectionInitializers type: #FASTPyList opposite: #initializers"
+
+	<generated>
+	<FMComment: 'The owner of the expression'>
+	<container>
+	<FMProperty: #collectionInitializers type: #FASTPyList opposite: #initializers>
+	<package: #'FAST-Python-Model'>
+	^ self attributeAt: #collectionInitializers ifAbsent: [ nil ]
+]
+
+{ #category : '*FAST-Python-Model-accessing' }
+FASTTExpression >> collectionInitializers: anObject [
+
+	<generated>
+	self attributeAt: #collectionInitializers put: (FMMultivalueLink on: self update: #initializers from: self collectionInitializers to: anObject).
+]
+
+{ #category : '*FAST-Python-Model-accessing' }
 FASTTExpression >> parentComparisonOperator [
 	"Relation named: #parentComparisonOperator type: #FASTPyComparisonOperator opposite: #operands"
 
