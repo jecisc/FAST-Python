@@ -98,7 +98,7 @@ FASTPythonImporterTest >> testAssignment [
 	self assert: (assignment expression isOfType: FASTPyInteger)
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testBinaryOperator [
 
 	| operator |
@@ -117,7 +117,7 @@ FASTPythonImporterTest >> testBinaryOperator [
 	self assert: operator operator equals: '+'
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testBinaryOperatorInBinaryOperator [
 
 	| operator left |
@@ -143,7 +143,40 @@ FASTPythonImporterTest >> testBinaryOperatorInBinaryOperator [
 	self assert: left operator equals: '+'
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testBitwiseOperator [
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: '0b00101101 & 0b00011011'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: '0b00101101 & 0b00011011'.
+	self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+	
+	"Testing value of monovalue relation leftOperand"
+	self assert: self topEntity leftOperand isNotNil.
+
+		stack push: self topEntity leftOperand.
+		self assert: self topEntity sourceCode equals: '0b00101101'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		
+	"Testing value of monovalue relation rightOperand"
+	self assert: self topEntity rightOperand isNotNil.
+
+		stack push: self topEntity rightOperand.
+		self assert: self topEntity sourceCode equals: '0b00011011'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		stack pop.
+		self assert: self topEntity operator equals: '&'.
+	
+]
+
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testBooleanOperator [
 
 	| operator |
@@ -162,7 +195,7 @@ FASTPythonImporterTest >> testBooleanOperator [
 	self assert: operator operator equals: 'and'
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testBooleanOperatorInBooleanOperator [
 
 	| operator left |
@@ -188,7 +221,7 @@ FASTPythonImporterTest >> testBooleanOperatorInBooleanOperator [
 	self assert: left operator equals: 'and'
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testChainedComparisonOperator [
 
 	| operator |
@@ -226,7 +259,7 @@ FASTPythonImporterTest >> testClassDefinition [
 	self assert: class name equals: 'AClass'
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testComparisonOperator [
 
 	| operator |
@@ -1037,7 +1070,7 @@ FASTPythonImporterTest >> testNone [
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testNotOperator [
 
 	| operator |
@@ -1387,7 +1420,7 @@ FASTPythonImporterTest >> testTwoComments [
 	self assertCollection: ((fast allWithType: FASTPyComment) collect: #sourceCode as: Array) hasSameElements: { '# Comment 1'. '# Comment 2' }
 ]
 
-{ #category : 'tests - opererators' }
+{ #category : 'tests - operators' }
 FASTPythonImporterTest >> testUnaryOperator [
 
 	| operator |
