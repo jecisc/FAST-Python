@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyPair',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyPair class >> annotation [
 
-	<FMClass: #Pair super: #FASTPyEntity>
+	<FMClass: #Pair super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

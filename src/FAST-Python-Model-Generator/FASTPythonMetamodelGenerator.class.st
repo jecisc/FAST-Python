@@ -205,7 +205,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	defaultParameter := builder ensureClassNamed: #DefaultParameter."Todo"
 	deleteStatement := builder ensureClassNamed: #DeleteStatement."Todo"
 	dictPattern := builder ensureClassNamed: #DictPattern."Todo"
-	dictionary := builder ensureClassNamed: #Dictionary."Todo"
+	dictionary := builder ensureClassNamed: #Dictionary."To Review"
 	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
 	dictionarySplat := builder ensureClassNamed: #DictionarySplat."Todo"
 	dictionarySplatPattern := builder ensureClassNamed: #DictionarySplatPattern."Todo"
@@ -260,7 +260,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement."Todo"
 	notOperator := builder ensureClassNamed: #NotOperator.
 	operator := builder ensureClassNamed: #Operator.
-	pair := builder ensureClassNamed: #Pair."Todo"
+	pair := builder ensureClassNamed: #Pair.
 	parameter := builder ensureClassNamed: #Parameter."ToReview"
 	parenthesizedExpression := builder ensureClassNamed: #ParenthesizedExpression."Todo"
 	parenthesizedListSplat := builder ensureClassNamed: #ParenthesizedListSplat."Todo"
@@ -355,6 +355,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	literal --|> tLiteral.
 	
 	none --|> literal.
+	
+	pair --|> expression.
 	
 	parameter --|> structuralEntity.
 	

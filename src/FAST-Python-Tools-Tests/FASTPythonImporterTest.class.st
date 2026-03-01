@@ -14,102 +14,6 @@ Class {
 }
 
 { #category : 'test generation' }
-FASTPythonImporterTest class >> generateAssertionsFor: entity pushing: pushString on: aStream identation: aNumber popAtTheEnd: shouldPop [
-	
-	| propertiesToAssert |
-	aStream
-		cr;
-		tab: aNumber;
-		nextPutAll: 'stack push: ';
-		nextPutAll: pushString;
-		nextPutAll: '.';
-		cr;
-		tab: aNumber.
-
-	aStream
-		nextPutAll: 'self assert: self topEntity sourceCode equals: ';
-		print: entity sourceCode withInternalLineEndings;
-		nextPutAll: (entity sourceCode lines size > 1
-				 ifTrue: [ ' withPlatformLineEndings.' ]
-				 ifFalse: [ '.' ]);
-		cr;
-		tab: aNumber;
-		nextPutAll: 'self assert: (self topEntity isOfType: ';
-		nextPutAll: entity class name;
-		nextPutAll: ').';
-		cr;
-		tab: aNumber.
-
-	propertiesToAssert := (entity mooseDescription allProperties select: [ :property | self shouldSelectProperty: property of: entity ]).
-	propertiesToAssert do: [ :property |
-			| result selector skipPop |
-			result := property getRawFrom: entity.
-			selector := property implementingSelector.
-			skipPop := shouldPop and: [ property = propertiesToAssert last ].
-			(property isMultivalued and: [ property type isPrimitive not ])  "When we have a relation to a collection of entities we do recursively do the testing." 
-				ifTrue: [
-						result ifNotEmpty: [
-								aStream
-									cr;
-									tab: aNumber;
-									nextPutAll: '"Testing value of multivalued relation ';
-									nextPutAll: selector;
-									nextPutAll: '"';
-									cr;
-									tab: aNumber;
-									nextPutAll: 'self assert: self topEntity ';
-									nextPutAll: selector;
-									nextPutAll: ' size equals: ';
-									print: result size;
-									nextPut: $.;
-									cr;
-									tab: aNumber.
-								result doWithIndex: [ :child :index |
-										self
-											generateAssertionsFor: child
-											pushing: '(stack top ' , selector , ' at: ' , index asString , ')'
-											on: aStream
-											identation: aNumber + 1
-											popAtTheEnd: (skipPop not or: [ result size = index ]) ] ] ]
-				ifFalse: [
-						(result isMooseObject and: [ result isMooseEntity ])
-							ifTrue: [
-									aStream
-										cr;
-										tab: aNumber;
-										nextPutAll: '"Testing value of monovalue relation ';
-										nextPutAll: selector;
-										nextPutAll: '"';
-										cr;
-										tab: aNumber;
-										nextPutAll: 'self assert: self topEntity ';
-										nextPutAll: selector;
-										nextPutAll: ' isNotNil.';
-										cr.
-									self
-										generateAssertionsFor: result
-										pushing: 'self topEntity ' , selector
-										on: aStream
-										identation: aNumber + 1
-										popAtTheEnd: skipPop ]
-							ifFalse: [
-									aStream
-										nextPutAll: 'self assert: self topEntity ';
-										nextPutAll: selector;
-										nextPutAll: ' equals: ';
-										store: result;
-										nextPutAll: '.';
-										cr;
-										tab: aNumber ] ] ].
-
-	shouldPop ifTrue: [
-		aStream
-			nextPutAll: 'stack pop.';
-			cr;
-			tab: aNumber]
-]
-
-{ #category : 'test generation' }
 FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code [
 
 	^ self generateTestNamed: aString fromCode: code protocol: 'tests'
@@ -118,44 +22,7 @@ FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code [
 { #category : 'test generation' }
 FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code protocol: protocol [
 
-	| model method |
-	model := self new parse: code.
-
-	method := String streamContents: [ :aStream |
-			          aStream
-				          nextPutAll: 'test';
-				          nextPutAll: aString capitalized;
-				          cr;
-				          tab;
-				          nextPutAll: '"Generated as regression test by ';
-				          print: thisContext homeMethod;
-				          nextPutAll: ' "';
-				          cr;
-				          cr;
-				          tab;
-				          nextPutAll: 'self parse: ';
-				          print: code;
-				          nextPut: $.;
-				          cr;
-				          cr.
-
-			          model allEntityTypes do: [ :type |
-					          aStream
-						          tab;
-						          nextPutAll: 'self assert: (fast allWithType: ';
-						          print: type;
-						          nextPutAll: ') size equals: ';
-						          print: (model allWithType: type) size;
-						          nextPut: $.;
-						          cr ].
-
-			          model rootEntities size = 1 ifFalse: [ self error: 'FAST generator was thought with only 1 top entity?' ].
-
-			          self generateAssertionsFor: model rootEntities anyOne genericChildren first pushing: 'fast rootEntities anyOne genericChildren first' on: aStream identation: 1popAtTheEnd: false ].
-
-
-
-	self compile: method classified: protocol
+	(FASTPyImporterTestGenerator testCase: self) generateTestNamed: aString fromCode: code protocol: protocol
 ]
 
 { #category : 'class initialization' }
@@ -1122,7 +989,7 @@ FASTPythonImporterTest >> testInteger [
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - collections' }
 FASTPythonImporterTest >> testList [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1151,9 +1018,7 @@ FASTPythonImporterTest >> testList [
 		
 		stack push: (stack top initializers at: 3).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger).
-		stack pop.
-		
+		self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests' }
@@ -1232,7 +1097,7 @@ FASTPythonImporterTest >> testRawString [
 	self assertEmpty: string allContainedEntities
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - return' }
 FASTPythonImporterTest >> testReturnEmpty [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1266,7 +1131,166 @@ FASTPythonImporterTest >> testReturnEmpty [
 			
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - return' }
+FASTPythonImporterTest >> testReturnList [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'def aFunction():
+	return [1, 2, 3]'.
+
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'def aFunction():
+	return [1, 2, 3]' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: self topEntity name equals: 'aFunction'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'return [1, 2, 3]'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'return [1, 2, 3]'.
+			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: '[1, 2, 3]'.
+				self assert: (self topEntity isOfType: FASTPyList).
+				
+				"Testing value of multivalued relation initializers"
+				self assert: self topEntity initializers size equals: 3.
+				
+					stack push: (stack top initializers at: 1).
+					self assert: self topEntity sourceCode equals: '1'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					stack pop.
+					
+					stack push: (stack top initializers at: 2).
+					self assert: self topEntity sourceCode equals: '2'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					stack pop.
+					
+					stack push: (stack top initializers at: 3).
+					self assert: self topEntity sourceCode equals: '3'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					
+]
+
+{ #category : 'tests - return' }
+FASTPythonImporterTest >> testReturnLiteral [
+	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'def aFunction():
+	return 1'.
+
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'def aFunction():
+	return 1' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: self topEntity name equals: 'aFunction'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'return 1'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'return 1'.
+			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: '1'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				
+]
+
+{ #category : 'tests - return' }
+FASTPythonImporterTest >> testReturnOperator [
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'def aFunction():
+	return 10 > 13'.
+
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'def aFunction():
+	return 10 > 13' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: self topEntity name equals: 'aFunction'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'return 10 > 13'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'return 10 > 13'.
+			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: '10 > 13'.
+				self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+				
+				"Testing value of multivalued relation operands"
+				self assert: self topEntity operands size equals: 2.
+				
+					stack push: (stack top operands at: 1).
+					self assert: self topEntity sourceCode equals: '10'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					stack pop.
+					
+					stack push: (stack top operands at: 2).
+					self assert: self topEntity sourceCode equals: '13'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					stack pop.
+					self assert: self topEntity operators equals: #('>').
+				
+]
+
+{ #category : 'tests - collections' }
 FASTPythonImporterTest >> testSet [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1295,9 +1319,7 @@ FASTPythonImporterTest >> testSet [
 		
 		stack push: (stack top initializers at: 3).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger).
-		stack pop.
-		
+		self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests - literals' }
@@ -1329,7 +1351,7 @@ FASTPythonImporterTest >> testTrue [
 	self assert: (boolean isOfType: FASTTBooleanLiteral)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - collections' }
 FASTPythonImporterTest >> testTuple [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1358,9 +1380,7 @@ FASTPythonImporterTest >> testTuple [
 		
 		stack push: (stack top initializers at: 3).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger).
-		stack pop.
-		
+		self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests' }

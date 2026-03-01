@@ -94,9 +94,15 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 	
 	"The node does not gives us the operators so we try to get them ourselves."
 	fastEntity operators:
-		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ]).
+		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ]) asArray.
 
 	^ fastEntity
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitDictionary: aTSNode [
+
+	^ self visitCollection: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -232,6 +238,14 @@ TSFASTPythonImporter >> visitRelativeImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitReturnStatement: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting' }
