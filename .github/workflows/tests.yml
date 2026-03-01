@@ -21,12 +21,12 @@ jobs:
         shell: bash
         timeout-minutes: 30
 
-  finish-coveralls:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Finish Coveralls
-      uses: coverallsapp/github-action@v2
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+#  finish-coveralls:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Finish Coveralls
+#      uses: coverallsapp/github-action@v2
+#      with:
+#        github-token: ${{ secrets.github_token }}
+#        parallel-finished: true
