@@ -2,7 +2,9 @@ Class {
 	#name : 'FASTPyImporterTestGenerator',
 	#superclass : 'Object',
 	#instVars : [
-		'testCase'
+		'testCase',
+		'indentation',
+		'stream'
 	],
 	#category : 'FAST-Python-Tools-Tests',
 	#package : 'FAST-Python-Tools-Tests'
@@ -17,33 +19,34 @@ FASTPyImporterTestGenerator class >> testCase: aClass [
 ]
 
 { #category : 'test generation' }
-FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString on: aStream identation: aNumber popAtTheEnd: shouldPop [
+FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString popAtTheEnd: shouldPop [
 
 	| propertiesToAssert |
-	aStream
+	indentation := indentation + 1.
+	stream
 		cr;
-		tab: aNumber;
+		tab: indentation;
 		nextPutAll: 'stack push: ';
 		nextPutAll: pushString;
 		nextPutAll: '.';
 		cr;
-		tab: aNumber.
+		tab: indentation.
 
-	aStream
+	stream
 		nextPutAll: 'self assert: self topEntity sourceCode equals: ';
 		print: entity sourceCode withInternalLineEndings;
 		nextPutAll: (entity sourceCode lines size > 1
 				 ifTrue: [ ' withPlatformLineEndings.' ]
 				 ifFalse: [ '.' ]);
 		cr;
-		tab: aNumber;
+		tab: indentation;
 		nextPutAll: 'self assert: (self topEntity isOfType: ';
 		nextPutAll: entity class name;
 		nextPutAll: ').';
 		cr;
-		tab: aNumber.
+		tab: indentation.
 
-	propertiesToAssert := entity mooseDescription allProperties select: [ :property | self testCase shouldSelectProperty: property of: entity ].
+	propertiesToAssert := entity mooseDescription allProperties select: [ :property | self shouldSelectProperty: property of: entity ].
 	propertiesToAssert do: [ :property |
 			| result selector skipPop |
 			result := property getRawFrom: entity.
@@ -52,39 +55,37 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 			(property isMultivalued and: [ property type isPrimitive not ])
 				ifTrue: [
 						result ifNotEmpty: [
-								aStream
+								stream
 									cr;
-									tab: aNumber;
+									tab: indentation;
 									nextPutAll: '"Testing value of multivalued relation ';
 									nextPutAll: selector;
 									nextPutAll: '"';
 									cr;
-									tab: aNumber;
+									tab: indentation;
 									nextPutAll: 'self assert: self topEntity ';
 									nextPutAll: selector;
 									nextPutAll: ' size equals: ';
 									print: result size;
 									nextPut: $.;
 									cr;
-									tab: aNumber.
+									tab: indentation.
 								result doWithIndex: [ :child :index |
 										self
 											generateAssertionsFor: child
 											pushing: '(stack top ' , selector , ' at: ' , index asString , ')'
-											on: aStream
-											identation: aNumber + 1
 											popAtTheEnd: (skipPop not or: [ result size ~= index ]) ] ] ]
-				ifFalse: [
+				ifFalse: [ "When we have a relation to a collection of entities we do recursively do the testing."
 						(result isMooseObject and: [ result isMooseEntity ])
 							ifTrue: [
-									aStream
+									stream
 										cr;
-										tab: aNumber;
+										tab: indentation;
 										nextPutAll: '"Testing value of monovalue relation ';
 										nextPutAll: selector;
 										nextPutAll: '"';
 										cr;
-										tab: aNumber;
+										tab: indentation;
 										nextPutAll: 'self assert: self topEntity ';
 										nextPutAll: selector;
 										nextPutAll: ' isNotNil.';
@@ -92,72 +93,88 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 									self
 										generateAssertionsFor: result
 										pushing: 'self topEntity ' , selector
-										on: aStream
-										identation: aNumber + 1
 										popAtTheEnd: skipPop not ]
 							ifFalse: [
-									aStream
+									stream
 										nextPutAll: 'self assert: self topEntity ';
 										nextPutAll: selector;
 										nextPutAll: ' equals: ';
 										store: result;
 										nextPutAll: '.';
 										cr;
-										tab: aNumber ] ] "When we have a relation to a collection of entities we do recursively do the testing." ].
+										tab: indentation ] ] ].
 
 	shouldPop ifTrue: [
-			aStream
+			stream
 				nextPutAll: 'stack pop.';
 				cr;
-				tab: aNumber ]
+				tab: indentation.
+			indentation := indentation - 1 ]
 ]
 
 { #category : 'test generation' }
 FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protocol: protocol [
 
-	| model method |
+	| model |
 	model := self testCase new parse: code.
 
-	method := String streamContents: [ :aStream |
-			          aStream
-				          nextPutAll: 'test';
-				          nextPutAll: aString capitalized;
-				          cr;
-				          tab;
-				          nextPutAll: '"Generated as regression test by ';
-				          print: thisContext homeMethod;
-				          nextPutAll: ' "';
-				          cr;
-				          cr;
-				          tab;
-				          nextPutAll: 'self parse: ';
-				          print: code;
-				          nextPut: $.;
-				          cr;
-				          cr.
+	stream
+		nextPutAll: 'test';
+		nextPutAll: aString capitalized;
+		cr;
+		tab;
+		nextPutAll: '"Generated as regression test by ';
+		print: thisContext homeMethod;
+		nextPutAll: ' "';
+		cr;
+		cr;
+		tab;
+		nextPutAll: 'self parse: ';
+		print: code;
+		nextPut: $.;
+		cr;
+		cr.
 
-			          model allEntityTypes do: [ :type |
-					          aStream
-						          tab;
-						          nextPutAll: 'self assert: (fast allWithType: ';
-						          print: type;
-						          nextPutAll: ') size equals: ';
-						          print: (model allWithType: type) size;
-						          nextPut: $.;
-						          cr ].
+	model allEntityTypes do: [ :type |
+			stream
+				tab;
+				nextPutAll: 'self assert: (fast allWithType: ';
+				print: type;
+				nextPutAll: ') size equals: ';
+				print: (model allWithType: type) size;
+				nextPut: $.;
+				cr ].
 
-			          model rootEntities size = 1 ifFalse: [ self error: 'FAST generator was thought with only 1 top entity?' ].
+	model rootEntities size = 1 ifFalse: [ self error: 'FAST generator was thought with only 1 top entity?' ].
 
-			          self
-				          generateAssertionsFor: model rootEntities anyOne genericChildren first
-				          pushing: 'fast rootEntities anyOne genericChildren first'
-				          on: aStream
-				          identation: 1
-				          popAtTheEnd: false ].
+	self
+		generateAssertionsFor: model rootEntities anyOne genericChildren first
+		pushing: 'fast rootEntities anyOne genericChildren first'
+		popAtTheEnd: false.
 
+	self testCase compile: stream contents classified: protocol
+]
 
+{ #category : 'initialization' }
+FASTPyImporterTestGenerator >> initialize [
 
-	self testCase compile: method classified: protocol
+	super initialize.
+	indentation := 0.
+	stream := '' writeStream
+]
+
+{ #category : 'asserting' }
+FASTPyImporterTestGenerator >> shouldSelectProperty: property of: entity [
+
+	(self testCase propertiesToExclude includes: property implementingSelector) ifTrue: [ ^ false ].
+	
+	property isChildrenProperty ifTrue: [ ^  (property getFrom: entity) isEmptyOrNil not ].
+
+	property isDerived ifTrue: [ ^ false ]. "No need to check derived properties since they can be recomputed. I am not the place to test general mecanisms"
+
+	property isContainer ifTrue: [ ^ false ]. "We check from top to bottom. Not need to tests relations in both ways."
+
+	^ (property getFrom: entity) isEmptyOrNil not
 ]
 
 { #category : 'accessing' }

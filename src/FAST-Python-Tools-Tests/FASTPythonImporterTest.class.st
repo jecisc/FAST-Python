@@ -38,20 +38,6 @@ FASTPythonImporterTest class >> propertiesToExclude [
 	^ #( source startPos endPos )
 ]
 
-{ #category : 'test generation' }
-FASTPythonImporterTest class >> shouldSelectProperty: property of: entity [
-
-	(self propertiesToExclude includes: property implementingSelector) ifTrue: [ ^ false ].
-	
-	property isChildrenProperty ifTrue: [ ^  (property getFrom: entity) isEmptyOrNil not].
-
-	property isDerived ifTrue: [ ^ false ].
-
-	property isContainer ifTrue: [ ^ false ]. "We check from top to bottom. Not need to tests relations in both ways."
-
-	^ (property getFrom: entity) isEmptyOrNil not
-]
-
 { #category : 'running' }
 FASTPythonImporterTest >> importer [
 
