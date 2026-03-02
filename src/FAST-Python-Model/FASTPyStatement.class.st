@@ -19,17 +19,19 @@
 
 "
 Class {
-	#name : 'FASTPyPassStatement',
-	#superclass : 'FASTPyStatement',
+	#name : 'FASTPyStatement',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTStatement',
+	#classTraits : 'FASTTStatement classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPyPassStatement class >> annotation [
+FASTPyStatement class >> annotation [
 
-	<FMClass: #PassStatement super: #FASTPyStatement>
+	<FMClass: #Statement super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

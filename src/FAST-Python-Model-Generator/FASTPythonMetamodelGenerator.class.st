@@ -143,7 +143,8 @@ Class {
 		'tStatementBlock',
 		'tReturnStatement',
 		'tStatement',
-		'collectionInitializer'
+		'collectionInitializer',
+		'statement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -275,6 +276,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	slice := builder ensureClassNamed: #Slice."Todo"
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
+	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
 	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
@@ -312,7 +314,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	assignment --|> tAssignment.
 	
-	assertStatement --|> tStatement.
+	assertStatement --|> statement.
 	
 	attribute --|> structuralEntity.
 	
@@ -337,7 +339,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comparisonOperator --|> operator.
 	
-	deleteStatement --|> tStatement.
+	deleteStatement --|> statement.
 	
 	expression --|> tExpression.
 	
@@ -364,7 +366,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	parameter --|> structuralEntity.
 	
-	passStatement --|> tStatement.
+	passStatement --|> statement.
 	
 	methodDefinition --|> tNamedBehaviouralEntity.
 	
@@ -375,9 +377,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	operator --|> expression.
 	
+	returnStatement --|> statement.
 	returnStatement --|> tReturnStatement.
 	
 	set --|> collectionInitializer.
+	
+	statement --|> tStatement.
 	
 	string --|> literal.
 	string --|> tStringLiteral.
