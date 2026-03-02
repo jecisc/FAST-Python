@@ -26,9 +26,9 @@
 "
 Class {
 	#name : 'FASTPyIfStatement',
-	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTConditionalStatement',
-	#classTraits : 'FASTTConditionalStatement classTrait',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTConditionalStatement + FASTTStatement',
+	#classTraits : 'FASTTConditionalStatement classTrait + FASTTStatement classTrait',
 	#instVars : [
 		'#thenBlock => FMOne type: #FASTPyBlock opposite: #ifStatementOwner'
 	],
@@ -40,7 +40,7 @@ Class {
 { #category : 'meta' }
 FASTPyIfStatement class >> annotation [
 
-	<FMClass: #IfStatement super: #FASTPyStatement>
+	<FMClass: #IfStatement super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

@@ -175,6 +175,13 @@ FASTPyTEntityCreator >> newComparisonOperator [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newComplex [
+
+	<generated>
+	^ self add: FASTPyComplex new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newComplexPattern [
 
 	<generated>
@@ -739,13 +746,6 @@ FASTPyTEntityCreator >> newSplatType [
 
 	<generated>
 	^ self add: FASTPySplatType new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newStatement [
-
-	<generated>
-	^ self add: FASTPyStatement new
 ]
 
 { #category : 'entity creation' }

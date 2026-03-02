@@ -2,17 +2,32 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
+| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `variable` | `FASTPyNonlocalStatement` | `nonlocalOwner` | `FASTPyVariable` | The variable scoped|
 
 
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `endPos` | `Number` | nil | |
+| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyNonlocalStatement',
-	#superclass : 'FASTPyStatement',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTStatement',
+	#classTraits : 'FASTTStatement classTrait',
 	#instVars : [
 		'#variable => FMOne type: #FASTPyVariable opposite: #nonlocalOwner'
 	],
@@ -24,7 +39,7 @@ Class {
 { #category : 'meta' }
 FASTPyNonlocalStatement class >> annotation [
 
-	<FMClass: #NonlocalStatement super: #FASTPyStatement>
+	<FMClass: #NonlocalStatement super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

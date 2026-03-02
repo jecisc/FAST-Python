@@ -144,8 +144,8 @@ Class {
 		'tReturnStatement',
 		'tStatement',
 		'collectionInitializer',
-		'statement',
-		'tConditionalStatement'
+		'tConditionalStatement',
+		'complex'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -187,7 +187,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
-	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
 	call := builder ensureClassNamed: #Call."Todo"
 	caseClause := builder ensureClassNamed: #CaseClause."Todo"
 	casePattern := builder ensureClassNamed: #CasePattern."Todo"
@@ -195,8 +194,10 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	classDefinition := builder ensureClassNamed: #ClassDefinition."ToReview"
 	classDefinition withTesting.
 	classPattern := builder ensureClassNamed: #ClassPattern."Todo"
+	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
 	comment := builder ensureClassNamed: #Comment."Todo"
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
+	complex := builder ensureClassNamed: #Complex.
 	complexPattern := builder ensureClassNamed: #ComplexPattern."Todo"
 	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
@@ -277,7 +278,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	slice := builder ensureClassNamed: #Slice."Todo"
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
-	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
 	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
@@ -312,7 +312,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	assignment --|> tAssignment.
 	
-	assertStatement --|> statement.
+	assertStatement --|> tStatement.
 	
 	attribute --|> structuralEntity.
 	
@@ -337,14 +337,19 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comparisonOperator --|> operator.
 	
-	deleteStatement --|> statement.
+	complex --|> literal.
+	
+	deleteStatement --|> tStatement.
+	
+	dictionary --|> collectionInitializer.
 	
 	expression --|> tExpression.
+	expression --|> tStatement. "In python expressions can be statements"
 	
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
 	identifier --|> expression. 
 	
-	ifStatement --|> statement.
+	ifStatement --|> tStatement.
 	ifStatement --|> tConditionalStatement.
 	
 	importStatement --|> import.
@@ -355,7 +360,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	functionDefinition --|> tNamedBehaviouralEntity.
 	
-	globalStatement --|> statement.
+	globalStatement --|> tStatement.
 	
 	integer --|> literal.
 	
@@ -365,13 +370,13 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	none --|> literal.
 	
-	nonlocalStatement --|> statement.
+	nonlocalStatement --|> tStatement.
 	
 	pair --|> expression.
 	
 	parameter --|> structuralEntity.
 	
-	passStatement --|> statement.
+	passStatement --|> tStatement.
 	
 	methodDefinition --|> tNamedBehaviouralEntity.
 	
@@ -382,12 +387,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	operator --|> expression.
 	
-	returnStatement --|> statement.
+	pair --|> expression.
+	
+	returnStatement --|> tStatement.
 	returnStatement --|> tReturnStatement.
 	
 	set --|> collectionInitializer.
-	
-	statement --|> tStatement.
 	
 	string --|> literal.
 	string --|> tStringLiteral.
@@ -460,6 +465,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	((nonlocalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	
+	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
+	
+	(pair property: #value) <>- (tExpression property: #pairValueOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

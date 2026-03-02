@@ -252,6 +252,16 @@ TSFASTPythonImporter >> visitImportStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitInteger: aTSNode [
+	"In python we have integers and complex numbers.
+	A Complex ends with a j"
+
+	^ self createEntityForNode: aTSNode kind: ((self sourceCodeOf: aTSNode) last isLetter
+			   ifTrue: [ FASTPyComplex ]
+			   ifFalse: [ FASTPyInteger ])
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitList: aTSNode [
 
 	^ self visitCollection: aTSNode

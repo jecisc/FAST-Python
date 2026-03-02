@@ -1,15 +1,15 @@
 Class {
-	#name : 'FASTPyDictionary',
-	#superclass : 'FASTPyCollectionInitializer',
+	#name : 'FASTPyComplex',
+	#superclass : 'FASTPyLiteral',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPyDictionary class >> annotation [
+FASTPyComplex class >> annotation [
 
-	<FMClass: #Dictionary super: #FASTPyCollectionInitializer>
+	<FMClass: #Complex super: #FASTPyLiteral>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
