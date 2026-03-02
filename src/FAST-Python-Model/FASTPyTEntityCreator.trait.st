@@ -175,6 +175,13 @@ FASTPyTEntityCreator >> newComparisonOperator [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newComplex [
+
+	<generated>
+	^ self add: FASTPyComplex new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newComplexPattern [
 
 	<generated>

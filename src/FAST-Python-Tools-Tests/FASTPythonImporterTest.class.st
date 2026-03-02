@@ -372,16 +372,18 @@ FASTPythonImporterTest >> testComparisonOperator [
 
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testComplex [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testComplex 	"
 
-	| boolean |
 	self parse: '42j'.
 
+	self assert: (fast allWithType: FASTPyComplex) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 
-	boolean := (fast allWithType: FASTPyInteger) anyOne.
-	self assert: boolean sourceCode equals: '42j'.
-	self assert: (boolean isOfType: FASTTLiteral)
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: '42j'.
+	self assert: (self topEntity isOfType: FASTPyComplex)
 ]
 
 { #category : 'tests - statements' }

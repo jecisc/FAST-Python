@@ -145,7 +145,8 @@ Class {
 		'tStatement',
 		'collectionInitializer',
 		'statement',
-		'tConditionalStatement'
+		'tConditionalStatement',
+		'complex'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -187,7 +188,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
-	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
 	call := builder ensureClassNamed: #Call."Todo"
 	caseClause := builder ensureClassNamed: #CaseClause."Todo"
 	casePattern := builder ensureClassNamed: #CasePattern."Todo"
@@ -195,8 +195,10 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	classDefinition := builder ensureClassNamed: #ClassDefinition."ToReview"
 	classDefinition withTesting.
 	classPattern := builder ensureClassNamed: #ClassPattern."Todo"
+	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
 	comment := builder ensureClassNamed: #Comment."Todo"
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
+	complex := builder ensureClassNamed: #Complex.
 	complexPattern := builder ensureClassNamed: #ComplexPattern."Todo"
 	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
@@ -339,6 +341,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	comment --|> tComment.
 	
 	comparisonOperator --|> operator.
+	
+	complex --|> literal.
 	
 	deleteStatement --|> statement.
 	
