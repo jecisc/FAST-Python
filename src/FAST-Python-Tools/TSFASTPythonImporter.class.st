@@ -73,6 +73,13 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'statements' asAliasOfField: '<unnamedChild>' ].
 
+	aTSNode parent type = #else_clause ifTrue: [
+		^ self createEntityForNode: aTSNode kind: FASTPyElseClause parentManagementBlock: [ :entity | self topFastEntity elseClause: entity ] ].
+
+	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self createEntityForNode: aTSNode kind: FASTPyThenClause ].
+
+	(context top isOfFASTType: FASTPyElifClause) ifTrue: [ self setTopFieldTo: #statements. "We manually update the field to bypass the block and" ^ self rawVisitChildren: aTSNode ].
+
 	^ self createEntityForNode: aTSNode kind: FASTPyBlock
 ]
 
@@ -154,6 +161,18 @@ TSFASTPythonImporter >> visitDottedName: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitElifClause: aTSNode [
+
+	^ self createEntityForNode: aTSNode kind: FASTPyElifClause parentManagementBlock: [ :entity | self topFastEntity addElifClause: entity ]
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitElseClause: aTSNode [
+
+	self rawVisitChildren: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitFalse: aNode [
 
 	^ self createEntityForNode: aNode kind: FASTPyBoolean
@@ -218,7 +237,7 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitIfStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'thenBlock' asAliasOfField: 'consequence' ].
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'thenClause' asAliasOfField: 'consequence' ].
 
 	^ self createEntityForNode: aTSNode kind: FASTPyIfStatement
 ]
