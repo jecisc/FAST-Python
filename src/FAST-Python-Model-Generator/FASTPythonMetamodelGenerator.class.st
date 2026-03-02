@@ -230,7 +230,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	functionDefinition := builder ensureClassNamed: #FunctionDefinition."ToReview"
 	generatorExpression := builder ensureClassNamed: #GeneratorExpression."Todo"
 	genericType := builder ensureClassNamed: #GenericType."Todo"
-	globalStatement := builder ensureClassNamed: #GlobalStatement."Todo"
+	globalStatement := builder ensureClassNamed: #GlobalStatement.
 	identifier := builder ensureClassNamed: #Identifier."Todo"
 	ifClause := builder ensureClassNamed: #IfClause."Todo"
 	ifStatement := builder ensureClassNamed: #IfStatement."Todo"
@@ -258,7 +258,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	module := builder ensureClassNamed: #Module."ToReview"
 	namedExpression := builder ensureClassNamed: #NamedExpression."Todo"
 	none := builder ensureClassNamed: #None.
-	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement."Todo"
+	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement.
 	notOperator := builder ensureClassNamed: #NotOperator.
 	operator := builder ensureClassNamed: #Operator.
 	pair := builder ensureClassNamed: #Pair.
@@ -354,6 +354,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	functionDefinition --|> tNamedBehaviouralEntity.
 	
+	globalStatement --|> statement.
+	
 	integer --|> literal.
 	
 	list --|> collectionInitializer.
@@ -361,6 +363,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	literal --|> tLiteral.
 	
 	none --|> literal.
+	
+	nonlocalStatement --|> statement.
 	
 	pair --|> expression.
 	
@@ -430,23 +434,29 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((assertStatement property: #expression) comment: 'The expression asserted')
 	<>- ((tExpression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
-	
-	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
-	<>- ((tExpression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
+
+	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
+	<>-* ((tExpression property: #collectionInitializer) comment: 'The owner of the expression').
 
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
 
+	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
+	<>- ((tExpression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
+	
+	((globalStatement property: #variable) comment: 'The variable scoped')
+	<>- ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
 
 	((importFromStatement property: #fromModule) comment:
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
-
-	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
-	<>-* ((tExpression property: #collectionInitializer) comment: 'The owner of the expression').
+	
+	((nonlocalStatement property: #variable) comment: 'The variable scoped')
+	<>- ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
