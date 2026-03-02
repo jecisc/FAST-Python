@@ -203,7 +203,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	decoratedDefinition := builder ensureClassNamed: #DecoratedDefinition."Todo"
 	decorator := builder ensureClassNamed: #Decorator."Todo"
 	defaultParameter := builder ensureClassNamed: #DefaultParameter."Todo"
-	deleteStatement := builder ensureClassNamed: #DeleteStatement."Todo"
+	deleteStatement := builder ensureClassNamed: #DeleteStatement.
 	dictPattern := builder ensureClassNamed: #DictPattern."Todo"
 	dictionary := builder ensureClassNamed: #Dictionary."To Review"
 	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
@@ -334,6 +334,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comparisonOperator --|> operator.
 	
+	deleteStatement --|> tStatement.
+	
 	expression --|> tExpression.
 	
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
@@ -418,6 +420,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	(entity property: #genericChildren) <>-* (entity property: #genericParent).
 
+	((assertStatement property: #expression) comment: 'The expression asserted')
+	<>- ((tExpression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
+	
+	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
+	<>- ((tExpression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
+
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
@@ -431,9 +439,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((tExpression property: #collectionInitializer) comment: 'The owner of the expression').
-
-	((assertStatement property: #expression) comment: 'The expression asserted')
-	<>- ((tExpression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
