@@ -144,7 +144,6 @@ Class {
 		'tReturnStatement',
 		'tStatement',
 		'collectionInitializer',
-		'statement',
 		'tConditionalStatement',
 		'complex'
 	],
@@ -279,7 +278,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	slice := builder ensureClassNamed: #Slice."Todo"
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
-	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
 	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
@@ -317,7 +315,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	assignment --|> tAssignment.
 	
-	assertStatement --|> statement.
+	assertStatement --|> tStatement.
 	
 	attribute --|> structuralEntity.
 	
@@ -344,16 +342,17 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	complex --|> literal.
 	
-	deleteStatement --|> statement.
+	deleteStatement --|> tStatement.
 	
 	dictionary --|> collectionInitializer.
 	
 	expression --|> tExpression.
+	expression --|> tStatement. "In python expressions can be statements"
 	
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
 	identifier --|> expression. 
 	
-	ifStatement --|> statement.
+	ifStatement --|> tStatement.
 	ifStatement --|> tConditionalStatement.
 	
 	importStatement --|> import.
@@ -364,7 +363,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	functionDefinition --|> tNamedBehaviouralEntity.
 	
-	globalStatement --|> statement.
+	globalStatement --|> tStatement.
 	
 	integer --|> literal.
 	
@@ -374,13 +373,13 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	none --|> literal.
 	
-	nonlocalStatement --|> statement.
+	nonlocalStatement --|> tStatement.
 	
 	pair --|> expression.
 	
 	parameter --|> structuralEntity.
 	
-	passStatement --|> statement.
+	passStatement --|> tStatement.
 	
 	methodDefinition --|> tNamedBehaviouralEntity.
 	
@@ -393,12 +392,10 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	pair --|> expression.
 	
-	returnStatement --|> statement.
+	returnStatement --|> tStatement.
 	returnStatement --|> tReturnStatement.
 	
 	set --|> collectionInitializer.
-	
-	statement --|> tStatement.
 	
 	string --|> literal.
 	string --|> tStringLiteral.

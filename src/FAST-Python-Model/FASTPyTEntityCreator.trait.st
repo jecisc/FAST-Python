@@ -749,13 +749,6 @@ FASTPyTEntityCreator >> newSplatType [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newStatement [
-
-	<generated>
-	^ self add: FASTPyStatement new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newString [
 
 	<generated>

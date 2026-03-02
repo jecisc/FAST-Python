@@ -29,12 +29,12 @@ FASTTExpression >> assertOwner: anObject [
 
 { #category : '*FAST-Python-Model-accessing' }
 FASTTExpression >> collectionInitializer [
-	"Relation named: #collectionInitializers type: #FASTPyList opposite: #initializers"
+	"Relation named: #collectionInitializer type: #FASTPyCollectionInitializer opposite: #initializers"
 
 	<generated>
 	<FMComment: 'The owner of the expression'>
 	<container>
-	<FMProperty: #collectionInitializer type: #FASTPyList opposite: #initializers>
+	<FMProperty: #collectionInitializer type: #FASTPyCollectionInitializer opposite: #initializers>
 	<package: #'FAST-Python-Model'>
 	^ self attributeAt: #collectionInitializer ifAbsent: [ nil ]
 ]
