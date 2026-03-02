@@ -373,6 +373,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	list --|> collectionInitializer.
 
+	literal --|> expression.
 	literal --|> tLiteral.
 	
 	none --|> literal.
