@@ -1006,6 +1006,63 @@ FASTPythonImporterTest >> testGlobalStatement [
 				
 ]
 
+{ #category : 'tests - if' }
+FASTPythonImporterTest >> testIf [
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'if x > 0:
+    3'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyIfStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'if x > 0:
+    3' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'x > 0'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+			
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '0'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			stack pop.
+			self assert: self topEntity operators equals: #('>').
+		stack pop.
+		
+	"Testing value of monovalue relation thenBlock"
+	self assert: self topEntity thenBlock isNotNil.
+
+		stack push: self topEntity thenBlock.
+		self assert: self topEntity sourceCode equals: '3'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			
+]
+
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImport [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "

@@ -216,6 +216,14 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitIfStatement: aTSNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'thenBlock' asAliasOfField: 'consequence' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyIfStatement
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry |

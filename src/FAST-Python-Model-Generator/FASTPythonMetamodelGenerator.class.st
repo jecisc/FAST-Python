@@ -144,7 +144,8 @@ Class {
 		'tReturnStatement',
 		'tStatement',
 		'collectionInitializer',
-		'statement'
+		'statement',
+		'tConditionalStatement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -233,7 +234,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	globalStatement := builder ensureClassNamed: #GlobalStatement.
 	identifier := builder ensureClassNamed: #Identifier."Todo"
 	ifClause := builder ensureClassNamed: #IfClause."Todo"
-	ifStatement := builder ensureClassNamed: #IfStatement."Todo"
+	ifStatement := builder ensureClassNamed: #IfStatement.
 	import := builder ensureClassNamed: #Import. "To review"
 	importedEntity := builder ensureClassNamed: #ImportedEntity.
 	importFromStatement := builder ensureClassNamed: #ImportFromStatement."Todo"
@@ -346,6 +347,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
 	identifier --|> expression. 
 	
+	ifStatement --|> statement.
+	ifStatement --|> tConditionalStatement.
+	
 	importStatement --|> import.
 	
 	importFromStatement --|> import.
@@ -448,6 +452,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((globalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 	
+	(ifStatement property: #thenBlock) <>- (block property: #ifStatementOwner).
+	
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
 
@@ -478,6 +484,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
+	tConditionalStatement := self remoteTrait: #TConditionalStatement withPrefix: #FAST.
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
 	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST. 
 	tReturnStatement := self remoteTrait: #TReturnStatement withPrefix: #FAST.
