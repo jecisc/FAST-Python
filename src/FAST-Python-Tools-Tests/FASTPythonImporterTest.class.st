@@ -38,6 +38,21 @@ FASTPythonImporterTest class >> propertiesToExclude [
 	^ #( source startPos endPos )
 ]
 
+{ #category : 'test generation' }
+FASTPythonImporterTest class >> regenerateAllTests [
+
+	<script>
+	self methods
+		select: [ :method | method hasPragmaNamed: #generated ]
+		thenDo: [ :method | self regenerateTest: method selector ]
+]
+
+{ #category : 'test generation' }
+FASTPythonImporterTest class >> regenerateTest: aSymbol [
+
+	(FASTPyImporterTestGenerator testCase: self) regenerateTest: self >> aSymbol
+]
+
 { #category : 'running' }
 FASTPythonImporterTest >> importer [
 
@@ -81,19 +96,21 @@ FASTPythonImporterTest >> setUp [
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testAssertStatement [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAssertStatement 	"
 
 	self parse: 'def aFunction(a, b):
     assert b != 0'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyAssertStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyParameter) size equals: 2.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyParameter) size equals: 2.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'def aFunction(a, b):
@@ -149,8 +166,7 @@ FASTPythonImporterTest >> testAssertStatement [
 					self assert: self topEntity sourceCode equals: '0'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
 					stack pop.
-					self assert: self topEntity operators equals: #('!=').
-				
+					self assert: self topEntity operators equals: #('!=')
 ]
 
 { #category : 'tests' }
@@ -219,13 +235,15 @@ FASTPythonImporterTest >> testBinaryOperatorInBinaryOperator [
 
 { #category : 'tests - operators' }
 FASTPythonImporterTest >> testBitwiseOperator [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testBitwiseOperator 	"
 
 	self parse: '0b00101101 & 0b00011011'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
 	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: '0b00101101 & 0b00011011'.
@@ -238,16 +256,14 @@ FASTPythonImporterTest >> testBitwiseOperator [
 		self assert: self topEntity sourceCode equals: '0b00101101'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
 		stack pop.
-		
+		self assert: self topEntity operator equals: '&'.
+	
 	"Testing value of monovalue relation rightOperand"
 	self assert: self topEntity rightOperand isNotNil.
 
 		stack push: self topEntity rightOperand.
 		self assert: self topEntity sourceCode equals: '0b00011011'.
-		self assert: (self topEntity isOfType: FASTPyInteger).
-		stack pop.
-		self assert: self topEntity operator equals: '&'.
-	
+		self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests - operators' }
@@ -370,17 +386,19 @@ FASTPythonImporterTest >> testComplex [
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testDelStatement [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDelStatement 	"
 
 	self parse: 'def aFunction(coll):
 	del coll'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyDeleteStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'def aFunction(coll):
@@ -416,8 +434,7 @@ FASTPythonImporterTest >> testDelStatement [
 
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: 'coll'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - literals' }
@@ -465,20 +482,22 @@ FASTPythonImporterTest >> testFloat [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImport [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImport 	"
 
 	self parse: 'from datetime import date'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from datetime import date'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -498,20 +517,22 @@ FASTPythonImporterTest >> testFromImport [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultiple [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportMultiple 	"
 
 	self parse: 'from collections import Counter, defaultdic'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from collections import Counter, defaultdic'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -537,20 +558,22 @@ FASTPythonImporterTest >> testFromImportMultiple [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultipleWithAlias [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportMultipleWithAlias 	"
 
 	self parse: 'from math import sin, cos as cosinus, pi'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from math import sin, cos as cosinus, pi'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -571,8 +594,8 @@ FASTPythonImporterTest >> testFromImportMultipleWithAlias [
 		stack push: (stack top importedEntities at: 2).
 		self assert: self topEntity sourceCode equals: 'cos as cosinus'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('cos').
 		self assert: self topEntity alias equals: 'cosinus'.
+		self assert: self topEntity segments equals: #('cos').
 		stack pop.
 		
 		stack push: (stack top importedEntities at: 3).
@@ -583,20 +606,22 @@ FASTPythonImporterTest >> testFromImportMultipleWithAlias [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultipleWithParenthesis [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportMultipleWithParenthesis 	"
 
 	self parse: 'from math import (count, cycle, repeat,)'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from math import (count, cycle, repeat,)'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -628,20 +653,22 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesis [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportMultipleWithParenthesisAndAlias 	"
 
 	self parse: 'from math import (count, cycle as c, repeat,)'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from math import (count, cycle as c, repeat,)'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -662,8 +689,8 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 		stack push: (stack top importedEntities at: 2).
 		self assert: self topEntity sourceCode equals: 'cycle as c'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('cycle').
 		self assert: self topEntity alias equals: 'c'.
+		self assert: self topEntity segments equals: #('cycle').
 		stack pop.
 		
 		stack push: (stack top importedEntities at: 3).
@@ -674,20 +701,22 @@ FASTPythonImporterTest >> testFromImportMultipleWithParenthesisAndAlias [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportRelative [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportRelative 	"
 
 	self parse: 'from ..utils.extra import module'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from ..utils.extra import module'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -702,25 +731,27 @@ FASTPythonImporterTest >> testFromImportRelative [
 		stack push: (stack top importedEntities at: 1).
 		self assert: self topEntity sourceCode equals: 'module'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('module').
+		self assert: self topEntity segments equals: #('module')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportRelativeWithAlias [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportRelativeWithAlias 	"
 
 	self parse: 'from ..utils import module as mod'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from ..utils import module as mod'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -735,26 +766,28 @@ FASTPythonImporterTest >> testFromImportRelativeWithAlias [
 		stack push: (stack top importedEntities at: 1).
 		self assert: self topEntity sourceCode equals: 'module as mod'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('module').
-		self assert: self topEntity alias equals: 'mod'
+		self assert: self topEntity alias equals: 'mod'.
+		self assert: self topEntity segments equals: #('module')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportRelativeWithDoubleDot [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportRelativeWithDoubleDot 	"
 
 	self parse: 'from .. import module'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from .. import module'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -774,20 +807,22 @@ FASTPythonImporterTest >> testFromImportRelativeWithDoubleDot [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportRelativeWithOnlyOneDot [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportRelativeWithOnlyOneDot 	"
 
 	self parse: 'from . import module'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from . import module'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -807,20 +842,22 @@ FASTPythonImporterTest >> testFromImportRelativeWithOnlyOneDot [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportWithAlias [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportWithAlias 	"
 
 	self parse: 'from datetime import date as d'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from datetime import date as d'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -835,26 +872,28 @@ FASTPythonImporterTest >> testFromImportWithAlias [
 		stack push: (stack top importedEntities at: 1).
 		self assert: self topEntity sourceCode equals: 'date as d'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('date').
-		self assert: self topEntity alias equals: 'd'
+		self assert: self topEntity alias equals: 'd'.
+		self assert: self topEntity segments equals: #('date')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFromImportWithWildcard [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFromImportWithWildcard 	"
 
 	self parse: 'from math import *'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from math import *'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -905,20 +944,22 @@ FASTPythonImporterTest >> testFunctionParameters [
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testFutureImport [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFutureImport 	"
 
 	self parse: 'from __future__ import annotiations as ann, division'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'from __future__ import annotiations as ann, division'.
 	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
 	
-	"Testing value of monovalue relation fromImportModule"
+	"Testing value of monovalue relation fromModule"
 	self assert: self topEntity fromModule isNotNil.
 
 		stack push: self topEntity fromModule.
@@ -933,33 +974,32 @@ FASTPythonImporterTest >> testFutureImport [
 		stack push: (stack top importedEntities at: 1).
 		self assert: self topEntity sourceCode equals: 'annotiations as ann'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('annotiations').
 		self assert: self topEntity alias equals: 'ann'.
+		self assert: self topEntity segments equals: #('annotiations').
 		stack pop.
 		
 		stack push: (stack top importedEntities at: 2).
 		self assert: self topEntity sourceCode equals: 'division'.
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
-		self assert: self topEntity segments equals: #('division').
-		stack pop.
-		stack pop.
-	
+		self assert: self topEntity segments equals: #('division')
 ]
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testGlobalStatement [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testGlobalStatement 	"
 
 	self parse: 'def aFunction():
 	global counter
 	return counter'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyGlobalStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
-	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyGlobalStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -1002,23 +1042,24 @@ FASTPythonImporterTest >> testGlobalStatement [
 
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: 'counter'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - if' }
 FASTPythonImporterTest >> testIf [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testIf 	"
 
 	self parse: 'if x > 0:
     3'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
-	self assert: (fast allWithType: FASTPyIfStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIfStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'if x > 0:
@@ -1059,182 +1100,172 @@ FASTPythonImporterTest >> testIf [
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: '3'.
-			self assert: (self topEntity isOfType: FASTPyInteger).
-			
+			self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImport [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
-
-	| entity |
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImport 	"
 
 	self parse: 'import random'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
-	entity := stack top.
-	self assert: entity sourceCode equals: 'import random'.
-	self assert: (entity isOfType: FASTPyImportStatement).
-	self assert: entity importedEntities size equals: 1.
-
-		stack push: (stack top importedEntities at: 1).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'random'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('random').
-		self assert: entity alias isNil
+	self assert: self topEntity sourceCode equals: 'import random'.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
 	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 1.
+	
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'random'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('random')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportDottedImport [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
-
-	| entity |
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportDottedImport 	"
 
 	self parse: 'import xml.etree.ElementTree'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
-	entity := stack top.
-	self assert: entity sourceCode equals: 'import xml.etree.ElementTree'.
-	self assert: (entity isOfType: FASTPyImportStatement).
-	self assert: entity importedEntities size equals: 1.
-
+	self assert: self topEntity sourceCode equals: 'import xml.etree.ElementTree'.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 1.
+	
 		stack push: (stack top importedEntities at: 1).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'xml.etree.ElementTree'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('xml' 'etree' 'ElementTree').
-		
+		self assert: self topEntity sourceCode equals: 'xml.etree.ElementTree'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('xml' 'etree' 'ElementTree')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportDottedImportAndAlias [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
-
-	| entity |
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportDottedImportAndAlias 	"
 
 	self parse: 'import xml.etree.ElementTree as ET'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
-	entity := stack top.
-	self assert: entity sourceCode equals: 'import xml.etree.ElementTree as ET'.
-	self assert: (entity isOfType: FASTPyImportStatement).
-	self assert: entity importedEntities size equals: 1.
-
+	self assert: self topEntity sourceCode equals: 'import xml.etree.ElementTree as ET'.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 1.
+	
 		stack push: (stack top importedEntities at: 1).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'xml.etree.ElementTree as ET'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('xml' 'etree' 'ElementTree').
-		self assert: entity alias equals: 'ET'.
-		
+		self assert: self topEntity sourceCode equals: 'xml.etree.ElementTree as ET'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity alias equals: 'ET'.
+		self assert: self topEntity segments equals: #('xml' 'etree' 'ElementTree')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportMultiple [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
-
-	| entity |
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportMultiple 	"
 
 	self parse: 'import random, collections'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
-	entity := stack top.
-	self assert: entity sourceCode equals: 'import random, collections'.
-	self assert: (entity isOfType: FASTPyImportStatement).
-	self assert: entity importedEntities size equals: 2.
-
+	self assert: self topEntity sourceCode equals: 'import random, collections'.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 2.
+	
 		stack push: (stack top importedEntities at: 1).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'random'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('random').
+		self assert: self topEntity sourceCode equals: 'random'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('random').
 		stack pop.
-
-		stack push: (stack top importedEntities at: 2).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'collections'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('collections').
 		
+		stack push: (stack top importedEntities at: 2).
+		self assert: self topEntity sourceCode equals: 'collections'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('collections')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportMultipleAndAliases [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
-
-	| entity |
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportMultipleAndAliases 	"
 
 	self parse: 'import random as rand, collections'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
-	entity := stack top.
-	self assert: entity sourceCode equals: 'import random as rand, collections'.
-	self assert: (entity isOfType: FASTPyImportStatement).
-	self assert: entity importedEntities size equals: 2.
-
+	self assert: self topEntity sourceCode equals: 'import random as rand, collections'.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 2.
+	
 		stack push: (stack top importedEntities at: 1).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'random as rand'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('random').
-		self assert: entity alias equals: 'rand'.
+		self assert: self topEntity sourceCode equals: 'random as rand'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity alias equals: 'rand'.
+		self assert: self topEntity segments equals: #('random').
 		stack pop.
-
-		stack push: (stack top importedEntities at: 2).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'collections'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('collections').
 		
+		stack push: (stack top importedEntities at: 2).
+		self assert: self topEntity sourceCode equals: 'collections'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('collections')
 ]
 
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportWithAlias [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
-
-	| entity |
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportWithAlias 	"
 
 	self parse: 'import random as rand'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
-	entity := stack top.
-	self assert: entity sourceCode equals: 'import random as rand'.
-	self assert: (entity isOfType: FASTPyImportStatement).
-	self assert: entity importedEntities size equals: 1.
-
+	self assert: self topEntity sourceCode equals: 'import random as rand'.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 1.
+	
 		stack push: (stack top importedEntities at: 1).
-		entity := stack top.
-		self assert: entity sourceCode equals: 'random as rand'.
-		self assert: (entity isOfType: FASTPyImportedEntity).
-		self assert: entity segments equals: #('random').
-		self assert: entity alias equals: 'rand'.
-		
+		self assert: self topEntity sourceCode equals: 'random as rand'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity alias equals: 'rand'.
+		self assert: self topEntity segments equals: #('random')
 ]
 
 { #category : 'tests - literals' }
@@ -1253,13 +1284,15 @@ FASTPythonImporterTest >> testInteger [
 
 { #category : 'tests - collections' }
 FASTPythonImporterTest >> testList [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testList 	"
 
 	self parse: '[1, 2, 3]'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyList) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: '[1, 2, 3]'.
@@ -1315,18 +1348,20 @@ FASTPythonImporterTest >> testNone [
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testNonlocalStatement [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testNonlocalStatement 	"
 
 	self parse: 'def aFunction():
 	nonlocal counter
 	return counter'.
 
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyNonlocalStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -1369,8 +1404,7 @@ FASTPythonImporterTest >> testNonlocalStatement [
 
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: 'counter'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - operators' }
@@ -1406,15 +1440,17 @@ FASTPythonImporterTest >> testOneComment [
 
 { #category : 'tests' }
 FASTPythonImporterTest >> testPassStatement [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testPassStatement 	"
 
 	self parse: 'def aFunction():
 	pass'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'def aFunction():
@@ -1434,8 +1470,7 @@ FASTPythonImporterTest >> testPassStatement [
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'pass'.
-			self assert: (self topEntity isOfType: FASTPyPassStatement).
-			
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
 ]
 
 { #category : 'tests - literals' }
@@ -1455,13 +1490,15 @@ FASTPythonImporterTest >> testRawString [
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnEmpty [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testReturnEmpty 	"
 
 	self parse: 'def aFunction():
 	return'.
 
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
 
@@ -1483,23 +1520,24 @@ FASTPythonImporterTest >> testReturnEmpty [
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'return'.
-			self assert: (self topEntity isOfType: FASTPyReturnStatement).
-			
+			self assert: (self topEntity isOfType: FASTPyReturnStatement)
 ]
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnList [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testReturnList 	"
 
 	self parse: 'def aFunction():
 	return [1, 2, 3]'.
 
-	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyList) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
-	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'def aFunction():
@@ -1543,19 +1581,20 @@ FASTPythonImporterTest >> testReturnList [
 					
 					stack push: (stack top initializers at: 3).
 					self assert: self topEntity sourceCode equals: '3'.
-					self assert: (self topEntity isOfType: FASTPyInteger).
-					
+					self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnLiteral [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testReturnLiteral 	"
 
 	self parse: 'def aFunction():
 	return 1'.
 
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
@@ -1585,23 +1624,24 @@ FASTPythonImporterTest >> testReturnLiteral [
 
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: '1'.
-				self assert: (self topEntity isOfType: FASTPyInteger).
-				
+				self assert: (self topEntity isOfType: FASTPyInteger)
 ]
 
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnOperator [
-	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testReturnOperator 	"
 
 	self parse: 'def aFunction():
 	return 10 > 13'.
 
-	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: 'def aFunction():
@@ -1642,18 +1682,19 @@ FASTPythonImporterTest >> testReturnOperator [
 					self assert: self topEntity sourceCode equals: '13'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
 					stack pop.
-					self assert: self topEntity operators equals: #('>').
-				
+					self assert: self topEntity operators equals: #('>')
 ]
 
 { #category : 'tests - collections' }
 FASTPythonImporterTest >> testSet [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testSet 	"
 
 	self parse: '{1, 2, 3}'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPySet) size equals: 1.
 
 	stack push: fast rootEntities anyOne genericChildren first.
@@ -1709,13 +1750,15 @@ FASTPythonImporterTest >> testTrue [
 
 { #category : 'tests - collections' }
 FASTPythonImporterTest >> testTuple [
-	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTuple 	"
 
 	self parse: '(1, 2, 3)'.
 
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
-	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
 
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: '(1, 2, 3)'.

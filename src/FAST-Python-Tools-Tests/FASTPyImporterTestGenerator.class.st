@@ -23,6 +23,10 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 
 	| propertiesToAssert |
 	indentation := indentation + 1.
+
+	propertiesToAssert := entity mooseDescription allProperties select: [ :property | self shouldSelectProperty: property of: entity ]. "Sorting properties in order to always have the same order."
+	propertiesToAssert sort: #name ascending.
+
 	stream
 		cr;
 		tab: indentation;
@@ -30,9 +34,7 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 		nextPutAll: pushString;
 		nextPutAll: '.';
 		cr;
-		tab: indentation.
-
-	stream
+		tab: indentation;
 		nextPutAll: 'self assert: self topEntity sourceCode equals: ';
 		print: entity sourceCode withInternalLineEndings;
 		nextPutAll: (entity sourceCode lines size > 1
@@ -41,12 +43,17 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 		cr;
 		tab: indentation;
 		nextPutAll: 'self assert: (self topEntity isOfType: ';
-		nextPutAll: entity class name;
-		nextPutAll: ').';
-		cr;
-		tab: indentation.
+		nextPutAll: entity class name.
 
-	propertiesToAssert := entity mooseDescription allProperties select: [ :property | self shouldSelectProperty: property of: entity ].
+
+	(shouldPop not and: [ propertiesToAssert isEmpty ])
+		ifTrue: [ stream nextPut: $) ]
+		ifFalse: [
+				stream
+					nextPutAll: ').';
+					cr;
+					tab: indentation ].
+
 	propertiesToAssert do: [ :property |
 			| result selector skipPop |
 			result := property getRawFrom: entity.
@@ -71,10 +78,10 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 									cr;
 									tab: indentation.
 								result doWithIndex: [ :child :index |
-										self
-											generateAssertionsFor: child
-											pushing: '(stack top ' , selector , ' at: ' , index asString , ')'
-											popAtTheEnd: (skipPop not or: [ result size ~= index ]) ] ] ]
+									self
+										generateAssertionsFor: child
+										pushing: '(stack top ' , selector , ' at: ' , index asString , ')'
+										popAtTheEnd: (skipPop not or: [ result size ~= index ]) ] ] ]
 				ifFalse: [ "When we have a relation to a collection of entities we do recursively do the testing."
 						(result isMooseObject and: [ result isMooseEntity ])
 							ifTrue: [
@@ -90,19 +97,18 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 										nextPutAll: selector;
 										nextPutAll: ' isNotNil.';
 										cr.
-									self
-										generateAssertionsFor: result
-										pushing: 'self topEntity ' , selector
-										popAtTheEnd: skipPop not ]
+									self generateAssertionsFor: result pushing: 'self topEntity ' , selector popAtTheEnd: skipPop not ]
 							ifFalse: [
 									stream
 										nextPutAll: 'self assert: self topEntity ';
 										nextPutAll: selector;
 										nextPutAll: ' equals: ';
-										store: result;
-										nextPutAll: '.';
-										cr;
-										tab: indentation ] ] ].
+										store: result.
+									skipPop ifFalse: [
+											stream
+												nextPut: $.;
+												cr;
+												tab: indentation ] ] ] ].
 
 	shouldPop ifTrue: [
 			stream
@@ -115,17 +121,24 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 { #category : 'test generation' }
 FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protocol: protocol [
 
-	| model |
+	| model methodName |
 	model := self testCase new parse: code.
+	methodName := ('test' , aString capitalized) asSymbol.
 
 	stream
-		nextPutAll: 'test';
-		nextPutAll: aString capitalized;
+		nextPutAll: methodName;
+		cr;
+		tab;
+		nextPutAll: '<generated>';
 		cr;
 		tab;
 		nextPutAll: '"Generated as regression test by ';
 		print: thisContext homeMethod;
-		nextPutAll: ' "';
+		cr;
+		tab;
+		nextPutAll: 'Regenerate executing: 	self regenerateTest: ';
+		print: methodName;
+		nextPutAll: ' 	"';
 		cr;
 		cr;
 		tab;
@@ -135,7 +148,7 @@ FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protoco
 		cr;
 		cr.
 
-	model allEntityTypes do: [ :type |
+	(model allEntityTypes sorted: #class ascending) do: [ :type |
 			stream
 				tab;
 				nextPutAll: 'self assert: (fast allWithType: ';
@@ -147,10 +160,7 @@ FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protoco
 
 	model rootEntities size = 1 ifFalse: [ self error: 'FAST generator was thought with only 1 top entity?' ].
 
-	self
-		generateAssertionsFor: model rootEntities anyOne genericChildren first
-		pushing: 'fast rootEntities anyOne genericChildren first'
-		popAtTheEnd: false.
+	self generateAssertionsFor: model rootEntities anyOne genericChildren first pushing: 'fast rootEntities anyOne genericChildren first' popAtTheEnd: false.
 
 	self testCase compile: stream contents classified: protocol
 ]
@@ -161,6 +171,15 @@ FASTPyImporterTestGenerator >> initialize [
 	super initialize.
 	indentation := 0.
 	stream := '' writeStream
+]
+
+{ #category : 'test generation' }
+FASTPyImporterTestGenerator >> regenerateTest: aCompiledMethod [
+
+	| sourceCode |
+	sourceCode := aCompiledMethod ast statements first arguments first value.
+
+	self generateTestNamed: (aCompiledMethod selector withoutPrefix: 'test') fromCode: sourceCode protocol: aCompiledMethod protocol
 ]
 
 { #category : 'asserting' }
