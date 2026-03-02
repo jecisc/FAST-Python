@@ -145,7 +145,8 @@ Class {
 		'tStatement',
 		'collectionInitializer',
 		'tConditionalStatement',
-		'complex'
+		'complex',
+		'thenClause'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -281,6 +282,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	string := builder ensureClassNamed: #String.
 	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
+	thenClause := builder ensureClassNamed: #ThenClause.
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
 	tuple := builder ensureClassNamed: #Tuple."To Review"
 	tupleExpression := builder ensureClassNamed: #TupleExpression."Todo"
@@ -343,6 +345,11 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	dictionary --|> collectionInitializer.
 	
+	elseClause --|> block.
+	
+	elifClause --|> block.
+	elifClause --|> tConditionalStatement.
+	
 	expression --|> tExpression.
 	expression --|> tStatement. "In python expressions can be statements"
 	
@@ -399,6 +406,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	structuralEntity --|> tVariableEntity.
 	
+	thenClause --|> block.
+	
 	tuple --|> collectionInitializer.
 	
 	unaryOperator --|> operator.
@@ -454,7 +463,11 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((globalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 	
-	(ifStatement property: #thenBlock) <>- (block property: #ifStatementOwner).
+	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
+	
+	(ifStatement property: #elseClause) <>- (elseClause property: #ifStatementOwner).
+	
+	(ifStatement property: #elifClauses) <>-* (elifClause property: #ifStatementOwner).
 	
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').

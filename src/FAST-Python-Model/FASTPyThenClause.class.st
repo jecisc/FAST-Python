@@ -5,16 +5,16 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `ifStatementOwner` | `FASTPyElseClause` | `elseClause` | `FASTPyIfStatement` | |
+| `ifStatementOwner` | `FASTPyThenClause` | `thenClause` | `FASTPyIfStatement` | |
 
 
 
 "
 Class {
-	#name : 'FASTPyElseClause',
+	#name : 'FASTPyThenClause',
 	#superclass : 'FASTPyBlock',
 	#instVars : [
-		'#ifStatementOwner => FMOne type: #FASTPyIfStatement opposite: #elseClause'
+		'#ifStatementOwner => FMOne type: #FASTPyIfStatement opposite: #thenClause'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -22,17 +22,17 @@ Class {
 }
 
 { #category : 'meta' }
-FASTPyElseClause class >> annotation [
+FASTPyThenClause class >> annotation [
 
-	<FMClass: #ElseClause super: #FASTPyBlock>
+	<FMClass: #ThenClause super: #FASTPyBlock>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
 ]
 
 { #category : 'accessing' }
-FASTPyElseClause >> ifStatementOwner [
-	"Relation named: #ifStatementOwner type: #FASTPyIfStatement opposite: #elseClause"
+FASTPyThenClause >> ifStatementOwner [
+	"Relation named: #ifStatementOwner type: #FASTPyIfStatement opposite: #thenClause"
 
 	<generated>
 	<container>
@@ -41,14 +41,14 @@ FASTPyElseClause >> ifStatementOwner [
 ]
 
 { #category : 'accessing' }
-FASTPyElseClause >> ifStatementOwner: anObject [
+FASTPyThenClause >> ifStatementOwner: anObject [
 
 	<generated>
 	ifStatementOwner := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyElseClause >> ifStatementOwnerGroup [
+FASTPyThenClause >> ifStatementOwnerGroup [
 	<generated>
 	<navigation: 'IfStatementOwner'>
 	^ MooseSpecializedGroup with: self ifStatementOwner

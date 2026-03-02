@@ -770,6 +770,13 @@ FASTPyTEntityCreator >> newSubscript [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newThenClause [
+
+	<generated>
+	^ self add: FASTPyThenClause new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newTryStatement [
 
 	<generated>

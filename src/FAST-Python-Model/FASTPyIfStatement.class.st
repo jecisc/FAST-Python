@@ -12,7 +12,9 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `condition` | `FASTTConditionalStatement` | `parentConditionalStatement` | `FASTTExpression` | The boolean condition tested|
-| `thenBlock` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyBlock` | |
+| `elifClauses` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElifClause` | |
+| `elseClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `thenClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyThenClause` | |
 
 
 ## Properties
@@ -30,7 +32,9 @@ Class {
 	#traits : 'FASTTConditionalStatement + FASTTStatement',
 	#classTraits : 'FASTTConditionalStatement classTrait + FASTTStatement classTrait',
 	#instVars : [
-		'#thenBlock => FMOne type: #FASTPyBlock opposite: #ifStatementOwner'
+		'#elifClauses => FMMany type: #FASTPyElifClause opposite: #ifStatementOwner',
+		'#elseClause => FMOne type: #FASTPyElseClause opposite: #ifStatementOwner',
+		'#thenClause => FMOne type: #FASTPyThenClause opposite: #ifStatementOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -46,24 +50,75 @@ FASTPyIfStatement class >> annotation [
 	^ self
 ]
 
-{ #category : 'accessing' }
-FASTPyIfStatement >> thenBlock [
-	"Relation named: #thenBlock type: #FASTPyBlock opposite: #ifStatementOwner"
-
+{ #category : 'adding' }
+FASTPyIfStatement >> addElifClause: anObject [
 	<generated>
-	^ thenBlock
+	^ self elifClauses add: anObject
 ]
 
 { #category : 'accessing' }
-FASTPyIfStatement >> thenBlock: anObject [
+FASTPyIfStatement >> elifClauses [
+	"Relation named: #elifClauses type: #FASTPyElifClause opposite: #ifStatementOwner"
 
 	<generated>
-	thenBlock := anObject
+	<derived>
+	^ elifClauses
+]
+
+{ #category : 'accessing' }
+FASTPyIfStatement >> elifClauses: anObject [
+
+	<generated>
+	elifClauses value: anObject
 ]
 
 { #category : 'navigation' }
-FASTPyIfStatement >> thenBlockGroup [
+FASTPyIfStatement >> elifClausesGroup [
 	<generated>
-	<navigation: 'ThenBlock'>
-	^ MooseSpecializedGroup with: self thenBlock
+	<navigation: 'ElifClauses'>
+	^ MooseSpecializedGroup withAll: self elifClauses asSet
+]
+
+{ #category : 'accessing' }
+FASTPyIfStatement >> elseClause [
+	"Relation named: #elseClause type: #FASTPyElseClause opposite: #ifStatementOwner"
+
+	<generated>
+	^ elseClause
+]
+
+{ #category : 'accessing' }
+FASTPyIfStatement >> elseClause: anObject [
+
+	<generated>
+	elseClause := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyIfStatement >> elseClauseGroup [
+	<generated>
+	<navigation: 'ElseClause'>
+	^ MooseSpecializedGroup with: self elseClause
+]
+
+{ #category : 'accessing' }
+FASTPyIfStatement >> thenClause [
+	"Relation named: #thenClause type: #FASTPyThenClause opposite: #ifStatementOwner"
+
+	<generated>
+	^ thenClause
+]
+
+{ #category : 'accessing' }
+FASTPyIfStatement >> thenClause: anObject [
+
+	<generated>
+	thenClause := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyIfStatement >> thenClauseGroup [
+	<generated>
+	<navigation: 'ThenClause'>
+	^ MooseSpecializedGroup with: self thenClause
 ]
