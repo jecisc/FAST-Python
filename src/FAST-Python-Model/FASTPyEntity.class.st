@@ -6,8 +6,6 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `genericParent` | `FASTPyEntity` | `genericChildren` | `FASTPyEntity` | |
-| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -27,8 +25,8 @@
 Class {
 	#name : 'FASTPyEntity',
 	#superclass : 'MooseEntity',
-	#traits : 'FASTTEntity + FASTTStatement',
-	#classTraits : 'FASTTEntity classTrait + FASTTStatement classTrait',
+	#traits : 'FASTTEntity',
+	#classTraits : 'FASTTEntity classTrait',
 	#instVars : [
 		'#genericChildren => FMMany type: #FASTPyEntity opposite: #genericParent',
 		'#genericParent => FMOne type: #FASTPyEntity opposite: #genericChildren'
