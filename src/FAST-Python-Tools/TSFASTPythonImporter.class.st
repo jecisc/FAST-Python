@@ -45,6 +45,14 @@ TSFASTPythonImporter >> visitAliasedImport: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitAssertStatement: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitAssignment: aTSNode [
 
 	self onNextContextDo: [ :contextEntry |

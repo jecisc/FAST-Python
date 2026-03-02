@@ -175,7 +175,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	argumentList := builder ensureClassNamed: #ArgumentList."Todo"
 	asPattern := builder ensureClassNamed: #AsPattern."Todo"
 	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
-	assertStatement := builder ensureClassNamed: #AssertStatement."Todo"
+	assertStatement := builder ensureClassNamed: #AssertStatement.
 	assignment := builder ensureClassNamed: #Assignment."To review"
 	attribute := builder ensureClassNamed: #Attribute."To review"
 	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
@@ -312,6 +312,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	assignment --|> tAssignment.
 	
+	assertStatement --|> tStatement.
+	
 	attribute --|> structuralEntity.
 	
 	binaryOperator --|> operator.
@@ -432,6 +434,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((tExpression property: #collectionInitializer) comment: 'The owner of the expression').
+
+	((assertStatement property: #expression) comment: 'The expression asserted')
+	<>- ((tExpression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

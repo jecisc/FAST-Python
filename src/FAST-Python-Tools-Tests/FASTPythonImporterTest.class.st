@@ -79,6 +79,80 @@ FASTPythonImporterTest >> setUp [
 	stack := Stack new
 ]
 
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testAssertStatement [
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'def aFunction(a, b):
+    assert b != 0'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyAssertStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyParameter) size equals: 2.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'def aFunction(a, b):
+    assert b != 0' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: self topEntity name equals: 'aFunction'.
+	
+	"Testing value of multivalued relation parameters"
+	self assert: self topEntity parameters size equals: 2.
+	
+		stack push: (stack top parameters at: 1).
+		self assert: self topEntity sourceCode equals: 'a'.
+		self assert: (self topEntity isOfType: FASTPyParameter).
+		self assert: self topEntity name equals: 'a'.
+		stack pop.
+		
+		stack push: (stack top parameters at: 2).
+		self assert: self topEntity sourceCode equals: 'b'.
+		self assert: (self topEntity isOfType: FASTPyParameter).
+		self assert: self topEntity name equals: 'b'.
+		stack pop.
+		
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'assert b != 0'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'assert b != 0'.
+			self assert: (self topEntity isOfType: FASTPyAssertStatement).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: 'b != 0'.
+				self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+				
+				"Testing value of multivalued relation operands"
+				self assert: self topEntity operands size equals: 2.
+				
+					stack push: (stack top operands at: 1).
+					self assert: self topEntity sourceCode equals: 'b'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
+					stack pop.
+					
+					stack push: (stack top operands at: 2).
+					self assert: self topEntity sourceCode equals: '0'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					stack pop.
+					self assert: self topEntity operators equals: #('!=').
+				
+]
+
 { #category : 'tests' }
 FASTPythonImporterTest >> testAssignment [
 
@@ -1150,7 +1224,7 @@ FASTPythonImporterTest >> testRawString [
 	self assertEmpty: string allContainedEntities
 ]
 
-{ #category : 'tests - return' }
+{ #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnEmpty [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1184,7 +1258,7 @@ FASTPythonImporterTest >> testReturnEmpty [
 			
 ]
 
-{ #category : 'tests - return' }
+{ #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnList [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1244,7 +1318,7 @@ FASTPythonImporterTest >> testReturnList [
 					
 ]
 
-{ #category : 'tests - return' }
+{ #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnLiteral [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode:protocol: "
 
@@ -1286,7 +1360,7 @@ FASTPythonImporterTest >> testReturnLiteral [
 				
 ]
 
-{ #category : 'tests - return' }
+{ #category : 'tests - statements' }
 FASTPythonImporterTest >> testReturnOperator [
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
 
