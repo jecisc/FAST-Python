@@ -946,6 +946,66 @@ FASTPythonImporterTest >> testFutureImport [
 	
 ]
 
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testGlobalStatement [
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'def aFunction():
+	global counter
+	return counter'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyGlobalStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'def aFunction():
+	global counter
+	return counter' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: self topEntity name equals: 'aFunction'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'global counter
+	return counter' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 2.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'global counter'.
+			self assert: (self topEntity isOfType: FASTPyGlobalStatement).
+			
+			"Testing value of monovalue relation variable"
+			self assert: self topEntity variable isNotNil.
+
+				stack push: self topEntity variable.
+				self assert: self topEntity sourceCode equals: 'counter'.
+				self assert: (self topEntity isOfType: FASTPyVariable).
+				stack pop.
+				stack pop.
+			
+			stack push: (stack top statements at: 2).
+			self assert: self topEntity sourceCode equals: 'return counter'.
+			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: 'counter'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				
+]
+
 { #category : 'tests - imports' }
 FASTPythonImporterTest >> testImport [
 	"Generated as regression test by FASTPythonImporterTest class>>#generateTestNamed:fromCode: "
@@ -1194,6 +1254,66 @@ FASTPythonImporterTest >> testNone [
 	boolean := (fast allWithType: FASTPyNone) anyOne.
 	self assert: boolean sourceCode equals: 'None'.
 	self assert: (boolean isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testNonlocalStatement [
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol: "
+
+	self parse: 'def aFunction():
+	nonlocal counter
+	return counter'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyNonlocalStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyReturnStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'def aFunction():
+	nonlocal counter
+	return counter' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: self topEntity name equals: 'aFunction'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'nonlocal counter
+	return counter' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 2.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'nonlocal counter'.
+			self assert: (self topEntity isOfType: FASTPyNonlocalStatement).
+			
+			"Testing value of monovalue relation variable"
+			self assert: self topEntity variable isNotNil.
+
+				stack push: self topEntity variable.
+				self assert: self topEntity sourceCode equals: 'counter'.
+				self assert: (self topEntity isOfType: FASTPyVariable).
+				stack pop.
+				stack pop.
+			
+			stack push: (stack top statements at: 2).
+			self assert: self topEntity sourceCode equals: 'return counter'.
+			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: 'counter'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				
 ]
 
 { #category : 'tests - operators' }

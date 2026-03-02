@@ -186,6 +186,14 @@ TSFASTPythonImporter >> visitFutureImportStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
@@ -199,6 +207,10 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	
 	"In case we are in an alias, we edit the property alias of the last imported entity"
 	(aNode parent type = #aliased_import) ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ].
+
+	"Those statements points a variable"
+	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ])
+		 ifTrue:  [ ^self createEntityForNode: aNode kind: FASTPyVariable ].
 
 	^ self createEntityForNode: aNode
 ]
@@ -235,6 +247,14 @@ TSFASTPythonImporter >> visitImportStatement: aTSNode [
 TSFASTPythonImporter >> visitList: aTSNode [
 
 	^ self visitCollection: aTSNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting' }
