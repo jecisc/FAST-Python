@@ -34,7 +34,7 @@
 "
 Class {
 	#name : 'FASTPyLiteral',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTLiteral',
 	#classTraits : 'FASTTLiteral classTrait',
 	#category : 'FAST-Python-Model-Entities',
@@ -45,7 +45,7 @@ Class {
 { #category : 'meta' }
 FASTPyLiteral class >> annotation [
 
-	<FMClass: #Literal super: #FASTPyEntity>
+	<FMClass: #Literal super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
