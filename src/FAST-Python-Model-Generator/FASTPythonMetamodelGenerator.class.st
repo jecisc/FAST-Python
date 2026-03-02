@@ -342,6 +342,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	deleteStatement --|> statement.
 	
+	dictionary --|> collectionInitializer.
+	
 	expression --|> tExpression.
 	
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
@@ -384,6 +386,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	notOperator --|> tUnaryOperator.
 	
 	operator --|> expression.
+	
+	pair --|> expression.
 	
 	returnStatement --|> statement.
 	returnStatement --|> tReturnStatement.
@@ -463,6 +467,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	((nonlocalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	
+	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
+	
+	(pair property: #value) <>- (tExpression property: #pairValueOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
