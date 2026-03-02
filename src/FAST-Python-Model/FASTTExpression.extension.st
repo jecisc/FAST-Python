@@ -1,6 +1,33 @@
 Extension { #name : 'FASTTExpression' }
 
 { #category : '*FAST-Python-Model-accessing' }
+FASTTExpression >> assertOwner [
+	"Relation named: #assertOwner type: #FASTPyAssertStatement opposite: #expression"
+
+	<generated>
+	<FMComment: 'The assert statement that own the expression (if it''s the case)'>
+	<container>
+	<derived>
+	<FMProperty: #assertOwner type: #FASTPyAssertStatement opposite: #expression>
+	<package: #'FAST-Python-Model'>
+	^ self attributeAt: #assertOwner ifAbsent: [ nil ]
+]
+
+{ #category : '*FAST-Python-Model-accessing' }
+FASTTExpression >> assertOwner: anObject [
+
+	<generated>
+	(self attributeAt: #assertOwner ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self assertOwner.
+		self attributeAt: #assertOwner put: anObject.
+		otherSide expression: nil ]
+	ifNotNil: [ 
+		self attributeAt: #assertOwner put: anObject.
+		anObject expression: self ]
+]
+
+{ #category : '*FAST-Python-Model-accessing' }
 FASTTExpression >> collectionInitializer [
 	"Relation named: #collectionInitializers type: #FASTPyList opposite: #initializers"
 
