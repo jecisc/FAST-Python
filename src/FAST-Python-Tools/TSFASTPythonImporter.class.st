@@ -47,9 +47,7 @@ TSFASTPythonImporter >> visitAliasedImport: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
-
-	^ self createEntityForNode: aTSNode
+	^ self visitStatement: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -105,6 +103,14 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ]) asArray.
 
 	^ fastEntity
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -251,15 +257,21 @@ TSFASTPythonImporter >> visitRelativeImport: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitReturnStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
-
-	^ self createEntityForNode: aTSNode
+	^ self visitStatement: aTSNode
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitSet: aTSNode [
 
 	^ self visitCollection: aTSNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitStatement: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode
 ]
 
 { #category : 'visiting - noop' }

@@ -47,6 +47,33 @@ FASTTExpression >> collectionInitializer: anObject [
 ]
 
 { #category : '*FAST-Python-Model-accessing' }
+FASTTExpression >> deleteOwner [
+	"Relation named: #deleteOwner type: #FASTPyDeleteStatement opposite: #expression"
+
+	<generated>
+	<FMComment: 'The delete statement that own the expression (if it''s the case)'>
+	<container>
+	<derived>
+	<FMProperty: #deleteOwner type: #FASTPyDeleteStatement opposite: #expression>
+	<package: #'FAST-Python-Model'>
+	^ self attributeAt: #deleteOwner ifAbsent: [ nil ]
+]
+
+{ #category : '*FAST-Python-Model-accessing' }
+FASTTExpression >> deleteOwner: anObject [
+
+	<generated>
+	(self attributeAt: #deleteOwner ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self deleteOwner.
+		self attributeAt: #deleteOwner put: anObject.
+		otherSide expression: nil ]
+	ifNotNil: [ 
+		self attributeAt: #deleteOwner put: anObject.
+		anObject expression: self ]
+]
+
+{ #category : '*FAST-Python-Model-accessing' }
 FASTTExpression >> parentComparisonOperator [
 	"Relation named: #parentComparisonOperator type: #FASTPyComparisonOperator opposite: #operands"
 

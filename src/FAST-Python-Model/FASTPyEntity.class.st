@@ -9,6 +9,7 @@
 | `assertOwner` | `FASTTExpression` | `expression` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
 | `collectionInitializer` | `FASTTExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
+| `deleteOwner` | `FASTTExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `genericParent` | `FASTPyEntity` | `genericChildren` | `FASTPyEntity` | |
 | `parentComparisonOperator` | `FASTTExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
