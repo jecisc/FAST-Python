@@ -253,7 +253,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	list := builder ensureClassNamed: #List.
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
 	listPattern := builder ensureClassNamed: #ListPattern."Todo"
-	listSplat := builder ensureClassNamed: #ListSplat."Todo"
+	listSplat := builder ensureClassNamed: #ListSplat."To Review"
 	listSplatPattern := builder ensureClassNamed: #ListSplatPattern."Todo"
 	literal := builder ensureClassNamed: #Literal.
 	matchStatement := builder ensureClassNamed: #MatchStatement."Todo"
@@ -403,6 +403,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	passStatement --|> expression.
 	passStatement --|> tStatement.
+	
+	listSplat --|> expression.
 
 	methodDefinition --|> tNamedBehaviouralEntity.
 
@@ -504,6 +506,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((importFromStatement property: #fromModule) comment:
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
+
+	((listSplat property: #iterable) comment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.')
+	<>- ((expression property: #listSplatOwner) comment: 'List splat unpacking me (if it''s the case)').
 
 	((nonlocalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').

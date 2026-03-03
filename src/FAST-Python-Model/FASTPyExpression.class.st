@@ -13,6 +13,7 @@
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `forStatementLeftOwner` | `FASTPyExpression` | `right` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `forStatementRightOwner` | `FASTPyExpression` | `left` | `FASTPyForStatement` | The for statement owner (if possible)|
+| `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
@@ -46,6 +47,7 @@ Class {
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
 		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
+		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument'
 	],
@@ -185,6 +187,31 @@ FASTPyExpression >> forStatementRightOwnerGroup [
 	<generated>
 	<navigation: 'ForStatementRightOwner'>
 	^ MooseSpecializedGroup with: self forStatementRightOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> listSplatOwner [
+	"Relation named: #listSplatOwner type: #FASTPyListSplat opposite: #iterable"
+
+	<generated>
+	<FMComment: 'List splat unpacking me (if it''s the case)'>
+	<container>
+	<derived>
+	^ listSplatOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> listSplatOwner: anObject [
+
+	<generated>
+	listSplatOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> listSplatOwnerGroup [
+	<generated>
+	<navigation: 'ListSplatOwner'>
+	^ MooseSpecializedGroup with: self listSplatOwner
 ]
 
 { #category : 'accessing' }

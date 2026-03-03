@@ -294,6 +294,14 @@ TSFASTPythonImporter >> visitList: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitListSplat: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #iterable asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyListSplat
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
