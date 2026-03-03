@@ -311,6 +311,50 @@ FASTPythonImporterTest >> testBooleanOperatorInBooleanOperator [
 	self assert: left operator equals: 'and'
 ]
 
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testBreakStatement [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testBreakStatement 	"
+
+	self parse: 'while True:
+	break'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyBreakStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWhileStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'while True:
+	break' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	
+	"Testing value of monovalue relation body"
+	self assert: self topEntity body isNotNil.
+
+		stack push: self topEntity body.
+		self assert: self topEntity sourceCode equals: 'break'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'break'.
+			self assert: (self topEntity isOfType: FASTPyBreakStatement).
+			stack pop.
+			stack pop.
+		
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'True'.
+		self assert: (self topEntity isOfType: FASTPyBoolean)
+]
+
 { #category : 'tests - operators' }
 FASTPythonImporterTest >> testChainedComparisonOperator [
 
@@ -384,6 +428,50 @@ FASTPythonImporterTest >> testComplex [
 	stack push: fast rootEntities anyOne genericChildren first.
 	self assert: self topEntity sourceCode equals: '42j'.
 	self assert: (self topEntity isOfType: FASTPyComplex)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testContinueStatement [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testContinueStatement 	"
+
+	self parse: 'while True:
+	continue'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyContinueStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWhileStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'while True:
+	continue' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	
+	"Testing value of monovalue relation body"
+	self assert: self topEntity body isNotNil.
+
+		stack push: self topEntity body.
+		self assert: self topEntity sourceCode equals: 'continue'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'continue'.
+			self assert: (self topEntity isOfType: FASTPyContinueStatement).
+			stack pop.
+			stack pop.
+		
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'True'.
+		self assert: (self topEntity isOfType: FASTPyBoolean)
 ]
 
 { #category : 'tests - statements' }
@@ -2533,6 +2621,50 @@ FASTPythonImporterTest >> testUnaryOperator [
 	self assert: operator argument sourceCode equals: '13'.
 	self assert: (operator argument isOfType: FASTPyInteger).
 	self assert: operator operator equals: '-'
+]
+
+{ #category : 'tests - advanced statements' }
+FASTPythonImporterTest >> testWhile [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWhile 	"
+
+	self parse: 'while True:
+	break'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyBreakStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWhileStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne genericChildren first.
+	self assert: self topEntity sourceCode equals: 'while True:
+	break' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	
+	"Testing value of monovalue relation body"
+	self assert: self topEntity body isNotNil.
+
+		stack push: self topEntity body.
+		self assert: self topEntity sourceCode equals: 'break'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'break'.
+			self assert: (self topEntity isOfType: FASTPyBreakStatement).
+			stack pop.
+			stack pop.
+		
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'True'.
+		self assert: (self topEntity isOfType: FASTPyBoolean)
 ]
 
 { #category : 'running' }

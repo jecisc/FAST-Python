@@ -25,7 +25,7 @@
 "
 Class {
 	#name : 'FASTPyGlobalStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTStatement',
 	#classTraits : 'FASTTStatement classTrait',
 	#instVars : [
@@ -39,7 +39,7 @@ Class {
 { #category : 'meta' }
 FASTPyGlobalStatement class >> annotation [
 
-	<FMClass: #GlobalStatement super: #FASTPyEntity>
+	<FMClass: #GlobalStatement super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

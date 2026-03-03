@@ -146,7 +146,8 @@ Class {
 		'collectionInitializer',
 		'tConditionalStatement',
 		'complex',
-		'thenClause'
+		'thenClause',
+		'tLoopStatement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -297,7 +298,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	unionPattern := builder ensureClassNamed: #UnionPattern."Todo"
 	unionType := builder ensureClassNamed: #UnionType."Todo"
 	variable := builder ensureClassNamed: #Variable. "To review"
-	whileStatement := builder ensureClassNamed: #WhileStatement."Todo"
+	whileStatement := builder ensureClassNamed: #WhileStatement.
 	withClause := builder ensureClassNamed: #WithClause."Todo"
 	withItem := builder ensureClassNamed: #WithItem."Todo"
 	withStatement := builder ensureClassNamed: #WithStatement."Todo"
@@ -314,110 +315,126 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	self flag: #todo. "The next two line are WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
 	entity --|> tStatement.
-	
+
 	assignment --|> tAssignment.
-	
+
 	assertStatement --|> tStatement.
-	
+
 	attribute --|> structuralEntity.
-	
+
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
 
 	block --|> tStatementBlock.
-	
+
 	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
-	
+
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
 	
+	breakStatement --|> expression.
+	breakStatement --|> tStatement.
+
 	call --|> tInvocation.
-	
+
 	classDefinition --|> tNamedEntity.
-	
+
 	collectionInitializer --|> expression.
-	
+
 	comment --|> tComment.
-	
+
 	comparisonOperator --|> operator.
-	
+
 	complex --|> literal.
 	
+	continueStatement --|> expression.
+	continueStatement --|> tStatement.
+
+	deleteStatement --|> expression.
 	deleteStatement --|> tStatement.
-	
+
 	dictionary --|> collectionInitializer.
-	
+
 	elseClause --|> block.
-	
+
 	elifClause --|> block.
 	elifClause --|> tConditionalStatement.
-	
+
 	expression --|> tExpression.
 	expression --|> tStatement. "In python expressions can be statements"
-	
+
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
-	identifier --|> expression. 
-	
+	identifier --|> expression.
+
+	ifStatement --|> expression.
 	ifStatement --|> tStatement.
 	ifStatement --|> tConditionalStatement.
-	
+
 	importStatement --|> import.
-	
+
 	importFromStatement --|> import.
-	
+
 	float --|> literal.
-	
+
 	functionDefinition --|> tNamedBehaviouralEntity.
-	
+
+	globalStatement --|> expression.
 	globalStatement --|> tStatement.
-	
+
 	integer --|> literal.
-	
+
 	list --|> collectionInitializer.
 
 	literal --|> expression.
 	literal --|> tLiteral.
-	
+
 	none --|> literal.
-	
+
+	nonlocalStatement --|> expression.
 	nonlocalStatement --|> tStatement.
-	
+
 	pair --|> expression.
-	
+
 	parameter --|> structuralEntity.
-	
+
+	passStatement --|> expression.
 	passStatement --|> tStatement.
-	
+
 	methodDefinition --|> tNamedBehaviouralEntity.
-	
+
 	module --|> #THasImmediateSource.
-	
+
 	notOperator --|> operator.
 	notOperator --|> tUnaryOperator.
-	
+
 	operator --|> expression.
-	
+
 	pair --|> expression.
-	
+
+	returnStatement --|> expression.
 	returnStatement --|> tStatement.
 	returnStatement --|> tReturnStatement.
-	
+
 	set --|> collectionInitializer.
-	
+
 	string --|> literal.
 	string --|> tStringLiteral.
-	
+
 	structuralEntity --|> tVariableEntity.
-	
+
 	thenClause --|> block.
-	
+
 	tuple --|> collectionInitializer.
-	
+
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
-	
-	variable --|> structuralEntity
+
+	variable --|> structuralEntity.
+
+	whileStatement --|> expression.
+	whileStatement --|> tConditionalStatement.
+	whileStatement --|> tLoopStatement
 ]
 
 { #category : 'definition' }
@@ -514,6 +531,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tStatement := self remoteTrait: #TStatement withPrefix: #FAST.
 	tStatementBlock := self remoteTrait: #TStatementBlock withPrefix: #FAST.
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
+	tLoopStatement := self remoteTrait: #TLoopStatement withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.

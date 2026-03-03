@@ -25,7 +25,7 @@
 "
 Class {
 	#name : 'FASTPyReturnStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTReturnStatement + FASTTStatement',
 	#classTraits : 'FASTTReturnStatement classTrait + FASTTStatement classTrait',
 	#category : 'FAST-Python-Model-Entities',
@@ -36,7 +36,7 @@ Class {
 { #category : 'meta' }
 FASTPyReturnStatement class >> annotation [
 
-	<FMClass: #ReturnStatement super: #FASTPyEntity>
+	<FMClass: #ReturnStatement super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

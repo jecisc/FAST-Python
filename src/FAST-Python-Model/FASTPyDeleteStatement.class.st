@@ -25,7 +25,7 @@
 "
 Class {
 	#name : 'FASTPyDeleteStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTStatement',
 	#classTraits : 'FASTTStatement classTrait',
 	#category : 'FAST-Python-Model-Entities',
@@ -36,7 +36,7 @@ Class {
 { #category : 'meta' }
 FASTPyDeleteStatement class >> annotation [
 
-	<FMClass: #DeleteStatement super: #FASTPyEntity>
+	<FMClass: #DeleteStatement super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

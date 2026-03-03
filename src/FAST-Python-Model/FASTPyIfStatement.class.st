@@ -28,7 +28,7 @@
 "
 Class {
 	#name : 'FASTPyIfStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTConditionalStatement + FASTTStatement',
 	#classTraits : 'FASTTConditionalStatement classTrait + FASTTStatement classTrait',
 	#instVars : [
@@ -44,7 +44,7 @@ Class {
 { #category : 'meta' }
 FASTPyIfStatement class >> annotation [
 
-	<FMClass: #IfStatement super: #FASTPyEntity>
+	<FMClass: #IfStatement super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

@@ -25,7 +25,7 @@
 "
 Class {
 	#name : 'FASTPyNonlocalStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTStatement',
 	#classTraits : 'FASTTStatement classTrait',
 	#instVars : [
@@ -39,7 +39,7 @@ Class {
 { #category : 'meta' }
 FASTPyNonlocalStatement class >> annotation [
 
-	<FMClass: #NonlocalStatement super: #FASTPyEntity>
+	<FMClass: #NonlocalStatement super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
