@@ -98,6 +98,13 @@ TSFASTPythonImporter >> visitCollection: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitComment: aTSNode [
+
+	self flag: #todo. "Manage to put the right trait on entities containing me and change the block."
+	^ self createEntityForNode: aTSNode parentManagementBlock: [ :entity | self topFastEntity addGenericChildren: entity ]
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 
 	| fastEntity |
