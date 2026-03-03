@@ -363,6 +363,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	expression --|> tExpression.
 	expression --|> tStatement. "In python expressions can be statements"
+	
+	forStatement --|> expression.
+	forStatement --|> tLoopStatement.
 
 	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
 	identifier --|> expression.
@@ -480,28 +483,33 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((tExpression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
-	
+
+	((forStatement property: #right) comment: 'The list that the for statement iterates over')
+	<>- ((expression property: #forStatementLeftOwner) comment: 'The for statement owner (if possible)').
+	((forStatement property: #left) comment: 'The identifier of the created local variable or tuple')
+	<>- ((expression property: #forStatementRightOwner) comment: 'The for statement owner (if possible)').
+
 	((globalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
-	
+
 	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
-	
+
 	(ifStatement property: #elseClause) <>- (elseClause property: #ifStatementOwner).
-	
+
 	(ifStatement property: #elifClauses) <>-* (elifClause property: #ifStatementOwner).
-	
+
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
 
 	((importFromStatement property: #fromModule) comment:
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
-	
+
 	((nonlocalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
-	
+
 	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
-	
+
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
