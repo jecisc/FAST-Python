@@ -268,7 +268,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	operator := builder ensureClassNamed: #Operator.
 	pair := builder ensureClassNamed: #Pair.
 	parameter := builder ensureClassNamed: #Parameter."ToReview"
-	parenthesizedExpression := builder ensureClassNamed: #ParenthesizedExpression."Todo"
 	parenthesizedListSplat := builder ensureClassNamed: #ParenthesizedListSplat."Todo"
 	passStatement := builder ensureClassNamed: #PassStatement."To Review"
 	patternList := builder ensureClassNamed: #PatternList."Todo"

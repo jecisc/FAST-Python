@@ -188,7 +188,7 @@ FASTPythonImporterTest >> testAssignment [
 	self assert: (assignment expression isOfType: FASTPyInteger)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - accesses' }
 FASTPythonImporterTest >> testAttributeAccess [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -210,6 +210,120 @@ FASTPythonImporterTest >> testAttributeAccess [
 
 		stack push: self topEntity attribute.
 		self assert: self topEntity sourceCode equals: 'count'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		stack pop.
+		
+	"Testing value of monovalue relation object"
+	self assert: self topEntity object isNotNil.
+
+		stack push: self topEntity object.
+		self assert: self topEntity sourceCode equals: 'obj'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - accesses' }
+FASTPythonImporterTest >> testAttributeAccessNested [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAttributeAccessNested 	"
+
+	self parse: 'obj.toto.count'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'obj.toto.count'.
+	self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+	
+	"Testing value of monovalue relation attribute"
+	self assert: self topEntity attribute isNotNil.
+
+		stack push: self topEntity attribute.
+		self assert: self topEntity sourceCode equals: 'count'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		stack pop.
+		
+	"Testing value of monovalue relation object"
+	self assert: self topEntity object isNotNil.
+
+		stack push: self topEntity object.
+		self assert: self topEntity sourceCode equals: 'obj.toto'.
+		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+		
+		"Testing value of monovalue relation attribute"
+		self assert: self topEntity attribute isNotNil.
+
+			stack push: self topEntity attribute.
+			self assert: self topEntity sourceCode equals: 'toto'.
+			self assert: (self topEntity isOfType: FASTPyVariable).
+			stack pop.
+			
+		"Testing value of monovalue relation object"
+		self assert: self topEntity object isNotNil.
+
+			stack push: self topEntity object.
+			self assert: self topEntity sourceCode equals: 'obj'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - accesses' }
+FASTPythonImporterTest >> testAttributeAccessOnString [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAttributeAccessOnString 	"
+
+	self parse: ''' ''.join'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: ''' ''.join'.
+	self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+	
+	"Testing value of monovalue relation attribute"
+	self assert: self topEntity attribute isNotNil.
+
+		stack push: self topEntity attribute.
+		self assert: self topEntity sourceCode equals: 'join'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		stack pop.
+		
+	"Testing value of monovalue relation object"
+	self assert: self topEntity object isNotNil.
+
+		stack push: self topEntity object.
+		self assert: self topEntity sourceCode equals: ''' '''.
+		self assert: (self topEntity isOfType: FASTPyString)
+]
+
+{ #category : 'tests - accesses' }
+FASTPythonImporterTest >> testAttributeAccessWithReceiverParenthesised [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAttributeAccessWithReceiverParenthesised 	"
+
+	self parse: '(obj).attribute'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '(obj).attribute'.
+	self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+	
+	"Testing value of monovalue relation attribute"
+	self assert: self topEntity attribute isNotNil.
+
+		stack push: self topEntity attribute.
+		self assert: self topEntity sourceCode equals: 'attribute'.
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		stack pop.
 		

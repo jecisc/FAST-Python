@@ -658,13 +658,6 @@ FASTPyTEntityCreator >> newParameter [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newParenthesizedExpression [
-
-	<generated>
-	^ self add: FASTPyParenthesizedExpression new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newParenthesizedListSplat [
 
 	<generated>

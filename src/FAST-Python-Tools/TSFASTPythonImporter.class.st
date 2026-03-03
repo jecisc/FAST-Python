@@ -336,6 +336,13 @@ TSFASTPythonImporter >> visitParameters: aNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitParenthesizedExpression: aTSNode [
+	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
+
+	^ self rawVisitChildren: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitRelativeImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
