@@ -282,7 +282,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
-	subscript := builder ensureClassNamed: #Subscript."Todo"
+	subscript := builder ensureClassNamed: #Subscript.
 	thenClause := builder ensureClassNamed: #ThenClause.
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
 	tuple := builder ensureClassNamed: #Tuple."To Review"
@@ -420,6 +420,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	string --|> literal.
 	string --|> tStringLiteral.
+	
+	subscript --|> expression.
 
 	thenClause --|> block.
 
@@ -517,6 +519,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
 
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
+
+	((subscript property: #value) comment: 'The receiver of the subscript')
+	<>- ((expression property: #subscriptValueOwner) comment: 'My parent if I define the receiver of a subscript (if it''s the case).').
+
+	((subscript property: #indices) comment: 'The elements defining the indices to select in a subscript.')
+	<>-* ((expression property: #subscriptIndiceOwner) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

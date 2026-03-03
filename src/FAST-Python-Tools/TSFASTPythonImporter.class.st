@@ -391,6 +391,14 @@ TSFASTPythonImporter >> visitStringStart: aNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitSubscript: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #indices asAliasOfField: 'subscript' ].
+
+	^ self createEntityForNode: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitTrue: aNode [
 
 	^ self createEntityForNode: aNode kind: FASTPyBoolean

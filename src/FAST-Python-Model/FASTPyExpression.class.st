@@ -24,6 +24,8 @@
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
+| `subscriptIndiceOwner` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
+| `subscriptValueOwner` | `FASTPyExpression` | `value` | `FASTPySubscript` | My parent if I define the receiver of a subscript (if it's the case).|
 
 
 ## Properties
@@ -49,7 +51,9 @@ Class {
 		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
-		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument'
+		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
+		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
+		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -286,4 +290,53 @@ FASTPyExpression >> parentUnaryOperatorGroup [
 	<generated>
 	<navigation: 'ParentUnaryOperator'>
 	^ MooseSpecializedGroup with: self parentUnaryOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> subscriptIndiceOwner [
+	"Relation named: #subscriptIndiceOwner type: #FASTPySubscript opposite: #indices"
+
+	<generated>
+	<FMComment: 'My parent if I am defining an index to select of a subscript (if it''s the case)'>
+	<container>
+	^ subscriptIndiceOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> subscriptIndiceOwner: anObject [
+
+	<generated>
+	subscriptIndiceOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> subscriptIndiceOwnerGroup [
+	<generated>
+	<navigation: 'SubscriptIndiceOwner'>
+	^ MooseSpecializedGroup with: self subscriptIndiceOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> subscriptValueOwner [
+	"Relation named: #subscriptValueOwner type: #FASTPySubscript opposite: #value"
+
+	<generated>
+	<FMComment: 'My parent if I define the receiver of a subscript (if it''s the case).'>
+	<container>
+	<derived>
+	^ subscriptValueOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> subscriptValueOwner: anObject [
+
+	<generated>
+	subscriptValueOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> subscriptValueOwnerGroup [
+	<generated>
+	<navigation: 'SubscriptValueOwner'>
+	^ MooseSpecializedGroup with: self subscriptValueOwner
 ]
