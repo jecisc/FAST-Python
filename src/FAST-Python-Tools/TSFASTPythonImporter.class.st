@@ -63,6 +63,12 @@ TSFASTPythonImporter >> visitAssignment: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitAttribute: aTSNode [
+
+	^ self createEntityForNode: aTSNode kind: FASTPyAttributeAccess
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 
 	^ self manageBinaryOperator: aTSNode ofKind: FASTPyBinaryOperator
@@ -237,6 +243,8 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	"Those statements points a variable"
 	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ])
 		 ifTrue:  [ ^self createEntityForNode: aNode kind: FASTPyVariable ].
+		
+	(context top field = #attribute and: [ context top isOfFASTType: FASTPyAttributeAccess ]) ifTrue: [ ^ self createEntityForNode: aNode kind: FASTPyVariable ].
 
 	^ self createEntityForNode: aNode
 ]

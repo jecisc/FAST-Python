@@ -22,7 +22,9 @@
 "
 Class {
 	#name : 'FASTPyParameter',
-	#superclass : 'FASTPyStructuralEntity',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTVariableEntity',
+	#classTraits : 'FASTTVariableEntity classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -31,7 +33,7 @@ Class {
 { #category : 'meta' }
 FASTPyParameter class >> annotation [
 
-	<FMClass: #Parameter super: #FASTPyStructuralEntity>
+	<FMClass: #Parameter super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

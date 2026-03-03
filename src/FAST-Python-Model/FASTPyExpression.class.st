@@ -8,6 +8,7 @@
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
 | `assertOwner` | `FASTPyExpression` | `expression` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
+| `attributeObjectOwner` | `FASTPyExpression` | `object` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -41,6 +42,7 @@ Class {
 	#classTraits : 'FASTTExpression classTrait',
 	#instVars : [
 		'#assertOwner => FMOne type: #FASTPyAssertStatement opposite: #expression',
+		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #object',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
@@ -86,6 +88,31 @@ FASTPyExpression >> assertOwnerGroup [
 	<generated>
 	<navigation: 'AssertOwner'>
 	^ MooseSpecializedGroup with: self assertOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> attributeObjectOwner [
+	"Relation named: #attributeObjectOwner type: #FASTPyAttributeAccess opposite: #object"
+
+	<generated>
+	<FMComment: 'My parent if I define the object of an attribute access (if it''s the case).'>
+	<container>
+	<derived>
+	^ attributeObjectOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> attributeObjectOwner: anObject [
+
+	<generated>
+	attributeObjectOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> attributeObjectOwnerGroup [
+	<generated>
+	<navigation: 'AttributeObjectOwner'>
+	^ MooseSpecializedGroup with: self attributeObjectOwner
 ]
 
 { #category : 'accessing' }

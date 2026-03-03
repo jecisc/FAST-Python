@@ -188,6 +188,39 @@ FASTPythonImporterTest >> testAssignment [
 	self assert: (assignment expression isOfType: FASTPyInteger)
 ]
 
+{ #category : 'tests' }
+FASTPythonImporterTest >> testAttributeAccess [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAttributeAccess 	"
+
+	self parse: 'obj.count'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'obj.count'.
+	self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+	
+	"Testing value of monovalue relation attribute"
+	self assert: self topEntity attribute isNotNil.
+
+		stack push: self topEntity attribute.
+		self assert: self topEntity sourceCode equals: 'count'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		stack pop.
+		
+	"Testing value of monovalue relation object"
+	self assert: self topEntity object isNotNil.
+
+		stack push: self topEntity object.
+		self assert: self topEntity sourceCode equals: 'obj'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'tests - operators' }
 FASTPythonImporterTest >> testBinaryOperator [
 

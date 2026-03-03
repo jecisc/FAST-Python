@@ -135,7 +135,6 @@ Class {
 		'tUnaryOperator',
 		'tAssignment',
 		'variable',
-		'structuralEntity',
 		'import',
 		'importedEntity',
 		'fromModule',
@@ -183,7 +182,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
 	assertStatement := builder ensureClassNamed: #AssertStatement.
 	assignment := builder ensureClassNamed: #Assignment."To review"
-	attribute := builder ensureClassNamed: #Attribute."To review"
+	attribute := builder ensureClassNamed: #AttributeAccess.
 	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
 	await := builder ensureClassNamed: #Await."Todo"
 	binaryOperator := builder ensureClassNamed: #BinaryOperator.
@@ -284,7 +283,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
-	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
 	thenClause := builder ensureClassNamed: #ThenClause.
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
@@ -323,7 +321,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	assertStatement --|> statement.
 
-	attribute --|> structuralEntity.
+	attribute --|> expression.
+	attribute --|> tVariableEntity.
 
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
@@ -395,7 +394,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	pair --|> expression.
 
-	parameter --|> structuralEntity.
+	parameter --|> tVariableEntity.
 
 	passStatement --|> statement.
 	
@@ -423,8 +422,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	string --|> literal.
 	string --|> tStringLiteral.
 
-	structuralEntity --|> tVariableEntity.
-
 	thenClause --|> block.
 
 	tuple --|> collectionInitializer.
@@ -432,7 +429,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
 
-	variable --|> structuralEntity.
+	variable --|> expression.
+	variable --|> tVariableEntity.
 
 	whileStatement --|> statement.
 	whileStatement --|> tConditionalStatement.
@@ -469,6 +467,13 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	super defineRelations.
 
 	(entity property: #genericChildren) <>-* (entity property: #genericParent).
+
+	((attribute property: #object) comment:
+		 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...')
+	<>- ((expression property: #attributeObjectOwner) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
+
+	((attribute property: #attribute) comment: 'The variable been accessed')
+	<>- ((variable property: #attributeOwner) comment: 'The attribute access accessing me (if it''s the case)').
 
 	((assertStatement property: #expression) comment: 'The expression asserted')
 	<>- ((expression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').

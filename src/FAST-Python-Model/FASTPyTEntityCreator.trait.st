@@ -56,10 +56,10 @@ FASTPyTEntityCreator >> newAssignment [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newAttribute [
+FASTPyTEntityCreator >> newAttributeAccess [
 
 	<generated>
-	^ self add: FASTPyAttribute new
+	^ self add: FASTPyAttributeAccess new
 ]
 
 { #category : 'entity creation' }
@@ -760,13 +760,6 @@ FASTPyTEntityCreator >> newString [
 
 	<generated>
 	^ self add: FASTPyString new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newStructuralEntity [
-
-	<generated>
-	^ self add: FASTPyStructuralEntity new
 ]
 
 { #category : 'entity creation' }
