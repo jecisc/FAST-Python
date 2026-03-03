@@ -2,32 +2,17 @@
 ## Relations
 ======================
 
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
-
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `expression` | `FASTPyDeleteStatement` | `deleteOwner` | `FASTPyExpression` | The expression to apply the delete on|
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `endPos` | `Number` | nil | |
-| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyDeleteStatement',
-	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTStatement',
-	#classTraits : 'FASTTStatement classTrait',
+	#superclass : 'FASTPyStatement',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #deleteOwner'
 	],
@@ -39,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyDeleteStatement class >> annotation [
 
-	<FMClass: #DeleteStatement super: #FASTPyExpression>
+	<FMClass: #DeleteStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

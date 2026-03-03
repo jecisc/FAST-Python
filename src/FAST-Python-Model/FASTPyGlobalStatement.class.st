@@ -2,32 +2,17 @@
 ## Relations
 ======================
 
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
-
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `variable` | `FASTPyGlobalStatement` | `globalOwner` | `FASTPyVariable` | The variable scoped|
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `endPos` | `Number` | nil | |
-| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyGlobalStatement',
-	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTStatement',
-	#classTraits : 'FASTTStatement classTrait',
+	#superclass : 'FASTPyStatement',
 	#instVars : [
 		'#variable => FMOne type: #FASTPyVariable opposite: #globalOwner'
 	],
@@ -39,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyGlobalStatement class >> annotation [
 
-	<FMClass: #GlobalStatement super: #FASTPyExpression>
+	<FMClass: #GlobalStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

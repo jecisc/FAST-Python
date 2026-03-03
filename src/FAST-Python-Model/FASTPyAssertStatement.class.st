@@ -2,32 +2,17 @@
 ## Relations
 ======================
 
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
-
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `expression` | `FASTPyAssertStatement` | `assertOwner` | `FASTPyExpression` | The expression asserted|
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `endPos` | `Number` | nil | |
-| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyAssertStatement',
-	#superclass : 'FASTPyEntity',
-	#traits : 'FASTTStatement',
-	#classTraits : 'FASTTStatement classTrait',
+	#superclass : 'FASTPyStatement',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #assertOwner'
 	],
@@ -39,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyAssertStatement class >> annotation [
 
-	<FMClass: #AssertStatement super: #FASTPyEntity>
+	<FMClass: #AssertStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

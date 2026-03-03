@@ -27,7 +27,7 @@
 "
 Class {
 	#name : 'FASTPyForStatement',
-	#superclass : 'FASTPyExpression',
+	#superclass : 'FASTPyStatement',
 	#traits : 'FASTTLoopStatement',
 	#classTraits : 'FASTTLoopStatement classTrait',
 	#instVars : [
@@ -42,7 +42,7 @@ Class {
 { #category : 'meta' }
 FASTPyForStatement class >> annotation [
 
-	<FMClass: #ForStatement super: #FASTPyExpression>
+	<FMClass: #ForStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

@@ -28,9 +28,9 @@
 "
 Class {
 	#name : 'FASTPyIfStatement',
-	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTConditionalStatement + FASTTStatement',
-	#classTraits : 'FASTTConditionalStatement classTrait + FASTTStatement classTrait',
+	#superclass : 'FASTPyStatement',
+	#traits : 'FASTTConditionalStatement',
+	#classTraits : 'FASTTConditionalStatement classTrait',
 	#instVars : [
 		'#elifClauses => FMMany type: #FASTPyElifClause opposite: #ifStatementOwner',
 		'#elseClause => FMOne type: #FASTPyElseClause opposite: #ifStatementOwner',
@@ -44,7 +44,7 @@ Class {
 { #category : 'meta' }
 FASTPyIfStatement class >> annotation [
 
-	<FMClass: #IfStatement super: #FASTPyExpression>
+	<FMClass: #IfStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

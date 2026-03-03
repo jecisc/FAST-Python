@@ -20,9 +20,7 @@
 "
 Class {
 	#name : 'FASTPyContinueStatement',
-	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTStatement',
-	#classTraits : 'FASTTStatement classTrait',
+	#superclass : 'FASTPyStatement',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -31,7 +29,7 @@ Class {
 { #category : 'meta' }
 FASTPyContinueStatement class >> annotation [
 
-	<FMClass: #ContinueStatement super: #FASTPyExpression>
+	<FMClass: #ContinueStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

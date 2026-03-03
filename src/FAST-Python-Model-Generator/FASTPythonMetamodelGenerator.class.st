@@ -147,7 +147,8 @@ Class {
 		'tConditionalStatement',
 		'complex',
 		'thenClause',
-		'tLoopStatement'
+		'tLoopStatement',
+		'statement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -280,6 +281,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	slice := builder ensureClassNamed: #Slice."Todo"
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
+	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
 	structuralEntity := builder ensureClassNamed: #StructuralEntity.
 	subscript := builder ensureClassNamed: #Subscript."Todo"
@@ -318,7 +320,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	assignment --|> tAssignment.
 
-	assertStatement --|> tStatement.
+	assertStatement --|> statement.
 
 	attribute --|> structuralEntity.
 
@@ -333,8 +335,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
 	
-	breakStatement --|> expression.
-	breakStatement --|> tStatement.
+	breakStatement --|> statement.
 
 	call --|> tInvocation.
 
@@ -348,11 +349,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	complex --|> literal.
 	
-	continueStatement --|> expression.
-	continueStatement --|> tStatement.
+	continueStatement --|> statement.
 
-	deleteStatement --|> expression.
-	deleteStatement --|> tStatement.
+	deleteStatement --|> statement.
 
 	dictionary --|> collectionInitializer.
 
@@ -361,17 +360,15 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	elifClause --|> block.
 	elifClause --|> tConditionalStatement.
 
+	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
-	expression --|> tStatement. "In python expressions can be statements"
 	
-	forStatement --|> expression.
+	forStatement --|> statement.
 	forStatement --|> tLoopStatement.
 
-	self flag: #todo. "I am not sure this should be the case but the importer is too young and we need this to not have everything breaking."
 	identifier --|> expression.
 
-	ifStatement --|> expression.
-	ifStatement --|> tStatement.
+	ifStatement --|> statement.
 	ifStatement --|> tConditionalStatement.
 
 	importStatement --|> import.
@@ -382,8 +379,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	functionDefinition --|> tNamedBehaviouralEntity.
 
-	globalStatement --|> expression.
-	globalStatement --|> tStatement.
+	globalStatement --|> statement.
 
 	integer --|> literal.
 
@@ -394,15 +390,13 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	none --|> literal.
 
-	nonlocalStatement --|> expression.
-	nonlocalStatement --|> tStatement.
+	nonlocalStatement --|> statement.
 
 	pair --|> expression.
 
 	parameter --|> structuralEntity.
 
-	passStatement --|> expression.
-	passStatement --|> tStatement.
+	passStatement --|> statement.
 	
 	listSplat --|> expression.
 
@@ -417,11 +411,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	pair --|> expression.
 
-	returnStatement --|> expression.
-	returnStatement --|> tStatement.
+	returnStatement --|> statement.
 	returnStatement --|> tReturnStatement.
 
 	set --|> collectionInitializer.
+	
+	statement --|> tStatement.
 
 	string --|> literal.
 	string --|> tStringLiteral.
@@ -437,7 +432,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	variable --|> structuralEntity.
 
-	whileStatement --|> expression.
+	whileStatement --|> statement.
 	whileStatement --|> tConditionalStatement.
 	whileStatement --|> tLoopStatement
 ]
