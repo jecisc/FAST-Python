@@ -18,7 +18,7 @@
 "
 Class {
 	#name : 'FASTPyModule',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyBlock',
 	#traits : 'FamixTHasImmediateSource',
 	#classTraits : 'FamixTHasImmediateSource classTrait',
 	#category : 'FAST-Python-Model-Entities',
@@ -29,7 +29,7 @@ Class {
 { #category : 'meta' }
 FASTPyModule class >> annotation [
 
-	<FMClass: #Module super: #FASTPyEntity>
+	<FMClass: #Module super: #FASTPyBlock>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

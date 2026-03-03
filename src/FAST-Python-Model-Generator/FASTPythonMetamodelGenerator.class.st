@@ -148,7 +148,8 @@ Class {
 		'complex',
 		'thenClause',
 		'tLoopStatement',
-		'statement'
+		'statement',
+		'tWithStatements'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -402,6 +403,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	methodDefinition --|> tNamedBehaviouralEntity.
 
+	module --|> block. "A Module has statements."
 	module --|> #THasImmediateSource.
 
 	notOperator --|> operator.
@@ -543,5 +545,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
-	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST
+	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
+	tWithStatements := self remoteTrait: #TWithStatements withPrefix: #FAST
 ]

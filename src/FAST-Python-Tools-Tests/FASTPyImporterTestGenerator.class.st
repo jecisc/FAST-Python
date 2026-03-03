@@ -159,8 +159,12 @@ FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protoco
 				cr ].
 
 	model rootEntities size = 1 ifFalse: [ self error: 'FAST generator was thought with only 1 top entity?' ].
-
-	self generateAssertionsFor: model rootEntities anyOne genericChildren first pushing: 'fast rootEntities anyOne genericChildren first' popAtTheEnd: false.
+	
+	"If we have only one entity in the root entity, we test it directly and we don't test the root entity since it will be tested by other tests in general.
+	If we have multiple children we test the root entity."
+	model rootEntities anyOne containedEntities size = 1
+		ifTrue: [ self generateAssertionsFor: model rootEntities anyOne containedEntities first pushing: 'fast rootEntities anyOne containedEntities first' popAtTheEnd: false ]
+		ifFalse: [ self generateAssertionsFor: model rootEntities anyOne pushing: 'fast rootEntities anyOne' popAtTheEnd: false ].
 
 	self testCase compile: stream contents classified: protocol
 ]
