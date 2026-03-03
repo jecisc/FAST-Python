@@ -5,13 +5,16 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `argument` | `FASTPyTUnaryOperator` | `parentUnaryOperator` | `FASTTExpression` | Expression influanced by the unary operator..|
+| `argument` | `FASTPyTUnaryOperator` | `parentUnaryOperator` | `FASTPyExpression` | Expression influanced by the unary operator..|
 
 
 
 "
 Trait {
 	#name : 'FASTPyTUnaryOperator',
+	#instVars : [
+		'#argument => FMOne type: #FASTPyExpression opposite: #parentUnaryOperator'
+	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'
@@ -28,26 +31,18 @@ FASTPyTUnaryOperator classSide >> annotation [
 
 { #category : 'accessing' }
 FASTPyTUnaryOperator >> argument [
-	"Relation named: #argument type: #FASTTExpression opposite: #parentUnaryOperator"
+	"Relation named: #argument type: #FASTPyExpression opposite: #parentUnaryOperator"
 
 	<generated>
 	<FMComment: 'Expression influanced by the unary operator..'>
-	<FMProperty: #argument type: #FASTTExpression opposite: #parentUnaryOperator>
-	^ self attributeAt: #argument ifAbsent: [ nil ]
+	^ argument
 ]
 
 { #category : 'accessing' }
 FASTPyTUnaryOperator >> argument: anObject [
 
 	<generated>
-	(self attributeAt: #argument ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self argument.
-		self attributeAt: #argument put: anObject.
-		otherSide parentUnaryOperator: nil ]
-	ifNotNil: [ 
-		self attributeAt: #argument put: anObject.
-		anObject parentUnaryOperator: self ]
+	argument := anObject
 ]
 
 { #category : 'navigation' }

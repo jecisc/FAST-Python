@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `initializers` | `FASTPyCollectionInitializer` | `collectionInitializer` | `FASTTExpression` | Each initializer defines one element.|
+| `initializers` | `FASTPyCollectionInitializer` | `collectionInitializer` | `FASTPyExpression` | Each initializer defines one element.|
 
 
 
@@ -13,6 +13,9 @@
 Class {
 	#name : 'FASTPyCollectionInitializer',
 	#superclass : 'FASTPyExpression',
+	#instVars : [
+		'#initializers => FMMany type: #FASTPyExpression opposite: #collectionInitializer'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -35,21 +38,19 @@ FASTPyCollectionInitializer >> addInitializer: anObject [
 
 { #category : 'accessing' }
 FASTPyCollectionInitializer >> initializers [
-	"Relation named: #initializers type: #FASTTExpression opposite: #collectionInitializer"
+	"Relation named: #initializers type: #FASTPyExpression opposite: #collectionInitializer"
 
 	<generated>
 	<FMComment: 'Each initializer defines one element.'>
 	<derived>
-	<FMProperty: #initializers type: #FASTTExpression opposite: #collectionInitializer>
-	<multivalued>
-	^ self attributeAt: #initializers ifAbsentPut: [ FMMultivalueLink on: self opposite: #collectionInitializer: ]
+	^ initializers
 ]
 
 { #category : 'accessing' }
 FASTPyCollectionInitializer >> initializers: anObject [
 
 	<generated>
-	self initializers value: anObject
+	initializers value: anObject
 ]
 
 { #category : 'navigation' }

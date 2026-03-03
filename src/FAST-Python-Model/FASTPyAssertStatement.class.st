@@ -11,7 +11,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyAssertStatement` | `assertOwner` | `FASTTExpression` | The expression asserted|
+| `expression` | `FASTPyAssertStatement` | `assertOwner` | `FASTPyExpression` | The expression asserted|
 
 
 ## Properties
@@ -28,6 +28,9 @@ Class {
 	#superclass : 'FASTPyEntity',
 	#traits : 'FASTTStatement',
 	#classTraits : 'FASTTStatement classTrait',
+	#instVars : [
+		'#expression => FMOne type: #FASTPyExpression opposite: #assertOwner'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -44,26 +47,18 @@ FASTPyAssertStatement class >> annotation [
 
 { #category : 'accessing' }
 FASTPyAssertStatement >> expression [
-	"Relation named: #expression type: #FASTTExpression opposite: #assertOwner"
+	"Relation named: #expression type: #FASTPyExpression opposite: #assertOwner"
 
 	<generated>
 	<FMComment: 'The expression asserted'>
-	<FMProperty: #expression type: #FASTTExpression opposite: #assertOwner>
-	^ self attributeAt: #expression ifAbsent: [ nil ]
+	^ expression
 ]
 
 { #category : 'accessing' }
 FASTPyAssertStatement >> expression: anObject [
 
 	<generated>
-	(self attributeAt: #expression ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self expression.
-		self attributeAt: #expression put: anObject.
-		otherSide assertOwner: nil ]
-	ifNotNil: [ 
-		self attributeAt: #expression put: anObject.
-		anObject assertOwner: self ]
+	expression := anObject
 ]
 
 { #category : 'navigation' }

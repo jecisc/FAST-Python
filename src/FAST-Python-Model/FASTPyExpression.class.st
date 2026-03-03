@@ -6,22 +6,22 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
-| `assertOwner` | `FASTTExpression` | `expression` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
+| `assertOwner` | `FASTPyExpression` | `expression` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
-| `collectionInitializer` | `FASTTExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
-| `deleteOwner` | `FASTTExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
+| `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
+| `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `forStatementLeftOwner` | `FASTPyExpression` | `right` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `forStatementRightOwner` | `FASTPyExpression` | `left` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
-| `parentComparisonOperator` | `FASTTExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
+| `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditionalStatement` | `FASTTExpression` | `condition` | `FASTTConditionalStatement` | Optional condition statement where this expression is used|
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `parentUnaryOperator` | `FASTTExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
+| `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
@@ -41,8 +41,13 @@ Class {
 	#traits : 'FASTTExpression + FASTTStatement',
 	#classTraits : 'FASTTExpression classTrait + FASTTStatement classTrait',
 	#instVars : [
+		'#assertOwner => FMOne type: #FASTPyAssertStatement opposite: #expression',
+		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
+		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
-		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left'
+		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
+		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
+		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -56,6 +61,80 @@ FASTPyExpression class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> assertOwner [
+	"Relation named: #assertOwner type: #FASTPyAssertStatement opposite: #expression"
+
+	<generated>
+	<FMComment: 'The assert statement that own the expression (if it''s the case)'>
+	<container>
+	<derived>
+	^ assertOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> assertOwner: anObject [
+
+	<generated>
+	assertOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> assertOwnerGroup [
+	<generated>
+	<navigation: 'AssertOwner'>
+	^ MooseSpecializedGroup with: self assertOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> collectionInitializer [
+	"Relation named: #collectionInitializer type: #FASTPyCollectionInitializer opposite: #initializers"
+
+	<generated>
+	<FMComment: 'The owner of the expression'>
+	<container>
+	^ collectionInitializer
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> collectionInitializer: anObject [
+
+	<generated>
+	collectionInitializer := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> collectionInitializerGroup [
+	<generated>
+	<navigation: 'CollectionInitializer'>
+	^ MooseSpecializedGroup with: self collectionInitializer
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> deleteOwner [
+	"Relation named: #deleteOwner type: #FASTPyDeleteStatement opposite: #expression"
+
+	<generated>
+	<FMComment: 'The delete statement that own the expression (if it''s the case)'>
+	<container>
+	<derived>
+	^ deleteOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> deleteOwner: anObject [
+
+	<generated>
+	deleteOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> deleteOwnerGroup [
+	<generated>
+	<navigation: 'DeleteOwner'>
+	^ MooseSpecializedGroup with: self deleteOwner
 ]
 
 { #category : 'accessing' }
@@ -106,4 +185,53 @@ FASTPyExpression >> forStatementRightOwnerGroup [
 	<generated>
 	<navigation: 'ForStatementRightOwner'>
 	^ MooseSpecializedGroup with: self forStatementRightOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComparisonOperator [
+	"Relation named: #parentComparisonOperator type: #FASTPyComparisonOperator opposite: #operands"
+
+	<generated>
+	<FMComment: 'Parent comparison expression of which I am.'>
+	<container>
+	^ parentComparisonOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComparisonOperator: anObject [
+
+	<generated>
+	parentComparisonOperator := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentComparisonOperatorGroup [
+	<generated>
+	<navigation: 'ParentComparisonOperator'>
+	^ MooseSpecializedGroup with: self parentComparisonOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentUnaryOperator [
+	"Relation named: #parentUnaryOperator type: #FASTPyTUnaryOperator opposite: #argument"
+
+	<generated>
+	<FMComment: 'Parent unary operator in which I am.'>
+	<container>
+	<derived>
+	^ parentUnaryOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentUnaryOperator: anObject [
+
+	<generated>
+	parentUnaryOperator := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentUnaryOperatorGroup [
+	<generated>
+	<navigation: 'ParentUnaryOperator'>
+	^ MooseSpecializedGroup with: self parentUnaryOperator
 ]

@@ -472,17 +472,17 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(entity property: #genericChildren) <>-* (entity property: #genericParent).
 
 	((assertStatement property: #expression) comment: 'The expression asserted')
-	<>- ((tExpression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
+	<>- ((expression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
-	<>-* ((tExpression property: #collectionInitializer) comment: 'The owner of the expression').
+	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
 
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
-	<>-* ((tExpression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
+	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
-	<>- ((tExpression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
+	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
 
 	((forStatement property: #right) comment: 'The list that the for statement iterates over')
 	<>- ((expression property: #forStatementLeftOwner) comment: 'The for statement owner (if possible)').
@@ -513,7 +513,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
-	<>- ((tExpression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
+	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
 ]
 
 { #category : 'definition' }

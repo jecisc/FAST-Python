@@ -11,7 +11,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyDeleteStatement` | `deleteOwner` | `FASTTExpression` | The expression to apply the delete on|
+| `expression` | `FASTPyDeleteStatement` | `deleteOwner` | `FASTPyExpression` | The expression to apply the delete on|
 
 
 ## Properties
@@ -28,6 +28,9 @@ Class {
 	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTStatement',
 	#classTraits : 'FASTTStatement classTrait',
+	#instVars : [
+		'#expression => FMOne type: #FASTPyExpression opposite: #deleteOwner'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -44,26 +47,18 @@ FASTPyDeleteStatement class >> annotation [
 
 { #category : 'accessing' }
 FASTPyDeleteStatement >> expression [
-	"Relation named: #expression type: #FASTTExpression opposite: #deleteOwner"
+	"Relation named: #expression type: #FASTPyExpression opposite: #deleteOwner"
 
 	<generated>
 	<FMComment: 'The expression to apply the delete on'>
-	<FMProperty: #expression type: #FASTTExpression opposite: #deleteOwner>
-	^ self attributeAt: #expression ifAbsent: [ nil ]
+	^ expression
 ]
 
 { #category : 'accessing' }
 FASTPyDeleteStatement >> expression: anObject [
 
 	<generated>
-	(self attributeAt: #expression ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self expression.
-		self attributeAt: #expression put: anObject.
-		otherSide deleteOwner: nil ]
-	ifNotNil: [ 
-		self attributeAt: #expression put: anObject.
-		anObject deleteOwner: self ]
+	expression := anObject
 ]
 
 { #category : 'navigation' }

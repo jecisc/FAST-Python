@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `operands` | `FASTPyComparisonOperator` | `parentComparisonOperator` | `FASTTExpression` | List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.|
+| `operands` | `FASTPyComparisonOperator` | `parentComparisonOperator` | `FASTPyExpression` | List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.|
 
 
 ## Properties
@@ -20,6 +20,7 @@ Class {
 	#name : 'FASTPyComparisonOperator',
 	#superclass : 'FASTPyOperator',
 	#instVars : [
+		'#operands => FMMany type: #FASTPyExpression opposite: #parentComparisonOperator',
 		'#operators => FMProperty'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -44,21 +45,19 @@ FASTPyComparisonOperator >> addOperand: anObject [
 
 { #category : 'accessing' }
 FASTPyComparisonOperator >> operands [
-	"Relation named: #operands type: #FASTTExpression opposite: #parentComparisonOperator"
+	"Relation named: #operands type: #FASTPyExpression opposite: #parentComparisonOperator"
 
 	<generated>
 	<FMComment: 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.'>
 	<derived>
-	<FMProperty: #operands type: #FASTTExpression opposite: #parentComparisonOperator>
-	<multivalued>
-	^ self attributeAt: #operands ifAbsentPut: [ FMMultivalueLink on: self opposite: #parentComparisonOperator: ]
+	^ operands
 ]
 
 { #category : 'accessing' }
 FASTPyComparisonOperator >> operands: anObject [
 
 	<generated>
-	self operands value: anObject
+	operands value: anObject
 ]
 
 { #category : 'navigation' }

@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `argument` | `FASTPyTUnaryOperator` | `parentUnaryOperator` | `FASTTExpression` | Expression influanced by the unary operator..|
+| `argument` | `FASTPyTUnaryOperator` | `parentUnaryOperator` | `FASTPyExpression` | Expression influanced by the unary operator..|
 
 
 
