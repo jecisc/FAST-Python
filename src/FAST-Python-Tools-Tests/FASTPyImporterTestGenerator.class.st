@@ -110,12 +110,12 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 												cr;
 												tab: indentation ] ] ] ].
 
+	indentation := indentation - 1.
 	shouldPop ifTrue: [
 			stream
 				nextPutAll: 'stack pop.';
 				cr;
 				tab: indentation ].
-	indentation := indentation - 1
 ]
 
 { #category : 'test generation' }
