@@ -277,7 +277,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	returnStatement := builder ensureClassNamed: #ReturnStatement."Todo"
 	set := builder ensureClassNamed: #Set.
 	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
-	slice := builder ensureClassNamed: #Slice."Todo"
+	slice := builder ensureClassNamed: #Slice. "To review"
 	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	statement := builder ensureClassNamed: #Statement.
@@ -418,6 +418,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	set --|> collectionInitializer.
 	
+	slice --|> expression.
+	
 	statement --|> tStatement.
 
 	string --|> literal.
@@ -521,6 +523,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
 
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
+
+	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
+	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)''').
 
 	((subscript property: #value) comment: 'The receiver of the subscript')
 	<>- ((expression property: #subscriptValueOwner) comment: 'My parent if I define the receiver of a subscript (if it''s the case).').

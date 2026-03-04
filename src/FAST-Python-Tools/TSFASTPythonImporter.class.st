@@ -107,7 +107,7 @@ TSFASTPythonImporter >> visitCollection: aTSNode [
 TSFASTPythonImporter >> visitComment: aTSNode [
 
 	self flag: #todo. "Manage to put the right trait on entities containing me and change the block."
-	^ self createEntityForNode: aTSNode parentManagementBlock: [ :entity | self topFastEntity addGenericChildren: entity ]
+	^ self createEntityForNode: aTSNode parentManagementBlock: [ :entity | self topFastEntity addGenericChild: entity ]
 ]
 
 { #category : 'visiting' }
@@ -362,6 +362,14 @@ TSFASTPythonImporter >> visitSet: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitSlice: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'components' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPySlice
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
@@ -427,7 +435,7 @@ TSFASTPythonImporter >> visitWildcardImport: aTSNode [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: aTSNode.
-	self setParentOf: fastEntity.
+	self topFastEntity addImportedEntity: fastEntity.
 	fastEntity segments: { '*' }.
 	^ fastEntity
 ]

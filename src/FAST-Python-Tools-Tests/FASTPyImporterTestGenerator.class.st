@@ -114,8 +114,8 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 			stream
 				nextPutAll: 'stack pop.';
 				cr;
-				tab: indentation.
-			indentation := indentation - 1 ]
+				tab: indentation ].
+	indentation := indentation - 1
 ]
 
 { #category : 'test generation' }

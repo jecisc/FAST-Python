@@ -24,6 +24,7 @@
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
+| `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 | `subscriptIndiceOwner` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
 | `subscriptValueOwner` | `FASTPyExpression` | `value` | `FASTPySubscript` | My parent if I define the receiver of a subscript (if it's the case).|
 
@@ -52,6 +53,7 @@ Class {
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
+		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
 		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
 		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value'
 	],
@@ -290,6 +292,30 @@ FASTPyExpression >> parentUnaryOperatorGroup [
 	<generated>
 	<navigation: 'ParentUnaryOperator'>
 	^ MooseSpecializedGroup with: self parentUnaryOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> sliceOwner [
+	"Relation named: #sliceOwner type: #FASTPySlice opposite: #components"
+
+	<generated>
+	<FMComment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''>
+	<container>
+	^ sliceOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> sliceOwner: anObject [
+
+	<generated>
+	sliceOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> sliceOwnerGroup [
+	<generated>
+	<navigation: 'SliceOwner'>
+	^ MooseSpecializedGroup with: self sliceOwner
 ]
 
 { #category : 'accessing' }

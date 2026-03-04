@@ -73,7 +73,7 @@ FASTPyEntity class >> metamodel [
 ]
 
 { #category : 'adding' }
-FASTPyEntity >> addGenericChildren: anObject [
+FASTPyEntity >> addGenericChild: anObject [
 	<generated>
 	^ self genericChildren add: anObject
 ]
