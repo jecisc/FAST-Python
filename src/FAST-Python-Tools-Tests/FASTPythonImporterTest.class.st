@@ -3018,6 +3018,95 @@ FASTPythonImporterTest >> testSubscriptWithAttributeInSubscript [
 ]
 
 { #category : 'tests - subscripts' }
+FASTPythonImporterTest >> testSubscriptWithBinaryOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testSubscriptWithBinaryOperator 	"
+
+	self parse: 'values[1 + 2]'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'values[1 + 2]'.
+	self assert: (self topEntity isOfType: FASTPySubscript).
+	
+	"Testing value of multivalued relation indices"
+	self assert: self topEntity indices size equals: 1.
+	
+		stack push: (stack top indices at: 1).
+		self assert: self topEntity sourceCode equals: '1 + 2'.
+		self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+		
+		"Testing value of monovalue relation leftOperand"
+		self assert: self topEntity leftOperand isNotNil.
+
+			stack push: self topEntity leftOperand.
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			stack pop.
+			self assert: self topEntity operator equals: '+'.
+		
+		"Testing value of monovalue relation rightOperand"
+		self assert: self topEntity rightOperand isNotNil.
+
+			stack push: self topEntity rightOperand.
+			self assert: self topEntity sourceCode equals: '2'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			stack pop.
+			stack pop.
+		
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'values'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - subscripts' }
+FASTPythonImporterTest >> testSubscriptWithEllipsis [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testSubscriptWithEllipsis 	"
+
+	self parse: 'imgs[..., i]'.
+
+	self assert: (fast allWithType: FASTPyEllipsis) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'imgs[..., i]'.
+	self assert: (self topEntity isOfType: FASTPySubscript).
+	
+	"Testing value of multivalued relation indices"
+	self assert: self topEntity indices size equals: 2.
+	
+		stack push: (stack top indices at: 1).
+		self assert: self topEntity sourceCode equals: '...'.
+		self assert: (self topEntity isOfType: FASTPyEllipsis).
+		stack pop.
+		
+		stack push: (stack top indices at: 2).
+		self assert: self topEntity sourceCode equals: 'i'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+		
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'imgs'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - subscripts' }
 FASTPythonImporterTest >> testSubscriptWithTwoIndicies [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
