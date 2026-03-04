@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyEllipsis',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyLiteral',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyEllipsis class >> annotation [
 
-	<FMClass: #Ellipsis super: #FASTPyEntity>
+	<FMClass: #Ellipsis super: #FASTPyLiteral>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

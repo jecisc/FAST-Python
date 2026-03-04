@@ -217,7 +217,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	dictionarySplatPattern := builder ensureClassNamed: #DictionarySplatPattern."Todo"
 	dottedName := builder ensureClassNamed: #DottedName."Todo"
 	elifClause := builder ensureClassNamed: #ElifClause."Todo"
-	ellipsis := builder ensureClassNamed: #Ellipsis."Todo"
+	ellipsis := builder ensureClassNamed: #Ellipsis.
 	elseClause := builder ensureClassNamed: #ElseClause."Todo"
 	escapeInterpolation := builder ensureClassNamed: #EscapeInterpolation."Todo"
 	escapeSequence := builder ensureClassNamed: #EscapeSequence."Todo"
@@ -358,6 +358,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	elifClause --|> block.
 	elifClause --|> tConditionalStatement.
+	
+	ellipsis --|> literal.
 
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.

@@ -773,6 +773,22 @@ FASTPythonImporterTest >> testDoubleQuotedString [
 ]
 
 { #category : 'tests - literals' }
+FASTPythonImporterTest >> testEllipsis [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testEllipsis 	"
+
+	self parse: '...'.
+
+	self assert: (fast allWithType: FASTPyEllipsis) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '...'.
+	self assert: (self topEntity isOfType: FASTPyEllipsis)
+]
+
+{ #category : 'tests - literals' }
 FASTPythonImporterTest >> testFalse [
 
 	| boolean |
