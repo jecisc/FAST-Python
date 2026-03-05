@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement }
 ]
 
 { #category : 'running' }
@@ -485,6 +485,7 @@ FASTPythonImporterTest >> testBreakStatement [
 	self assert: self topEntity sourceCode equals: 'while True:
 	break' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -1217,6 +1218,7 @@ FASTPythonImporterTest >> testContinueStatement [
 	self assert: self topEntity sourceCode equals: 'while True:
 	continue' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -2079,6 +2081,7 @@ FASTPythonImporterTest >> testIf [
 	self assert: self topEntity sourceCode equals: 'if x > 0:
     3' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2143,6 +2146,7 @@ else:
 else:
 	False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2225,6 +2229,7 @@ elif x < 10:
 elif x < 10:
 	False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2255,6 +2260,7 @@ elif x < 10:
 		self assert: self topEntity sourceCode equals: 'elif x < 10:
 	False' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTPyElifClause).
+		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -2334,6 +2340,7 @@ elif x < 10:
 elif x == 60:
 	True' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2364,6 +2371,7 @@ elif x == 60:
 		self assert: self topEntity sourceCode equals: 'elif x < 10:
 	False' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTPyElifClause).
+		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -2401,6 +2409,7 @@ elif x == 60:
 		self assert: self topEntity sourceCode equals: 'elif x == 60:
 	True' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTPyElifClause).
+		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -2485,6 +2494,7 @@ elif x == 60:
 else:
 	False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2515,6 +2525,7 @@ else:
 		self assert: self topEntity sourceCode equals: 'elif x < 10:
 	False' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTPyElifClause).
+		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -2552,6 +2563,7 @@ else:
 		self assert: self topEntity sourceCode equals: 'elif x == 60:
 	True' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTPyElifClause).
+		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -2910,6 +2922,7 @@ else:
 else:
     3' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2968,6 +2981,7 @@ else:
     else:
         2' withPlatformLineEndings.
 			self assert: (self topEntity isOfType: FASTPyIfStatement).
+			self assert: (self topEntity isOfType: FASTTConditionalStatement).
 			
 			"Testing value of monovalue relation condition"
 			self assert: self topEntity condition isNotNil.
@@ -4559,6 +4573,7 @@ FASTPythonImporterTest >> testWhile [
 	self assert: self topEntity sourceCode equals: 'while True:
 	break' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
