@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral. FASTTLoopStatement . FASTTNumericalLiteral. FASTTReturnStatement. FASTTStatementBlock }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral. FASTTLoopStatement . FASTTNumericalLiteral. FASTTReturnStatement. FASTTStatementBlock. FASTTStringLiteral }
 ]
 
 { #category : 'running' }
@@ -310,7 +310,8 @@ FASTPythonImporterTest >> testAttributeAccessOnString [
 		stack push: self topEntity object.
 		self assert: self topEntity sourceCode equals: ''' '''.
 		self assert: (self topEntity isOfType: FASTPyString).
-		self assert: (self topEntity isOfType: FASTTLiteral)
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral)
 ]
 
 { #category : 'tests - accesses' }
@@ -548,6 +549,7 @@ FASTPythonImporterTest >> testCall [
 		self assert: self topEntity sourceCode equals: '"Hello"'.
 		self assert: (self topEntity isOfType: FASTPyString).
 		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -719,12 +721,14 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 			self assert: self topEntity sourceCode equals: '''case'''.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		
 			stack push: (stack top arguments at: 2).
 			self assert: self topEntity sourceCode equals: ''''''.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation callee"
@@ -876,6 +880,7 @@ FASTPythonImporterTest >> testCallArgumentWithDictionary [
 				self assert: self topEntity sourceCode equals: '"id"'.
 				self assert: (self topEntity isOfType: FASTPyString).
 				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTStringLiteral).
 				stack pop.
 			
 			"Testing value of monovalue relation value"
@@ -898,6 +903,7 @@ FASTPythonImporterTest >> testCallArgumentWithDictionary [
 				self assert: self topEntity sourceCode equals: '"class"'.
 				self assert: (self topEntity isOfType: FASTPyString).
 				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTStringLiteral).
 				stack pop.
 			
 			"Testing value of monovalue relation value"
@@ -945,6 +951,7 @@ FASTPythonImporterTest >> testCallArgumentWithKeywordArgument [
 		self assert: self topEntity sourceCode equals: '"/root/.cache/torch/hub/checkpoints/"'.
 		self assert: (self topEntity isOfType: FASTPyString).
 		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
 		stack push: (stack top arguments at: 2).
@@ -1376,6 +1383,7 @@ FASTPythonImporterTest >> testDictionary [
 			self assert: self topEntity sourceCode equals: '"brand"'.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -1385,6 +1393,7 @@ FASTPythonImporterTest >> testDictionary [
 			self assert: self topEntity sourceCode equals: '"Ford"'.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		stack pop.
 	
@@ -1399,6 +1408,7 @@ FASTPythonImporterTest >> testDictionary [
 			self assert: self topEntity sourceCode equals: '"model"'.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -1408,6 +1418,7 @@ FASTPythonImporterTest >> testDictionary [
 			self assert: self topEntity sourceCode equals: '"Mustang"'.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		stack pop.
 	
@@ -1422,6 +1433,7 @@ FASTPythonImporterTest >> testDictionary [
 			self assert: self topEntity sourceCode equals: '"year"'.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -4278,6 +4290,7 @@ FASTPythonImporterTest >> testSubscript [
 		self assert: self topEntity sourceCode equals: '''id'''.
 		self assert: (self topEntity isOfType: FASTPyString).
 		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4314,6 +4327,7 @@ FASTPythonImporterTest >> testSubscriptOnAttribute [
 		self assert: self topEntity sourceCode equals: '''CUDA_LAUNCH_BLOCKING'''.
 		self assert: (self topEntity isOfType: FASTPyString).
 		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4365,6 +4379,7 @@ FASTPythonImporterTest >> testSubscriptOnAttributeWithParenthesis [
 		self assert: self topEntity sourceCode equals: '''ATTR'''.
 		self assert: (self topEntity isOfType: FASTPyString).
 		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
