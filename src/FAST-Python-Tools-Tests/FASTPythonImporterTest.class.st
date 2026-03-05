@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation }
 ]
 
 { #category : 'running' }
@@ -528,6 +528,7 @@ FASTPythonImporterTest >> testCall [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'print("Hello")'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -562,6 +563,7 @@ FASTPythonImporterTest >> testCallArgumentWithAttribute [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(CFG.seed)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -612,6 +614,7 @@ FASTPythonImporterTest >> testCallArgumentWithBinaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(30000/train_bs*epochs)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -685,6 +688,7 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(data[0].replace(''case'',''''))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -692,6 +696,7 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'data[0].replace(''case'','''')'.
 		self assert: (self topEntity isOfType: FASTPyCall).
+		self assert: (self topEntity isOfType: FASTTInvocation).
 		
 		"Testing value of multivalued relation arguments"
 		self assert: self topEntity arguments size equals: 2.
@@ -771,6 +776,7 @@ FASTPythonImporterTest >> testCallArgumentWithComparisonOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(shape0!=resize)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -826,6 +832,7 @@ FASTPythonImporterTest >> testCallArgumentWithDictionary [
     "class":pred_classes
 })' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -909,6 +916,7 @@ FASTPythonImporterTest >> testCallArgumentWithKeywordArgument [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function("/root/.cache/torch/hub/checkpoints/", exist_ok=True)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 2.
@@ -957,6 +965,7 @@ FASTPythonImporterTest >> testCallArgumentWithList [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(img, [pady, padx])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 2.
@@ -1008,6 +1017,7 @@ FASTPythonImporterTest >> testCallChained [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function()(13)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -1023,6 +1033,7 @@ FASTPythonImporterTest >> testCallChained [
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'function()'.
 		self assert: (self topEntity isOfType: FASTPyCall).
+		self assert: (self topEntity isOfType: FASTTInvocation).
 		
 		"Testing value of monovalue relation callee"
 		self assert: self topEntity callee isNotNil.
@@ -1050,6 +1061,7 @@ FASTPythonImporterTest >> testCallSubscript [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'coll[1](True)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -1100,6 +1112,7 @@ FASTPythonImporterTest >> testCallWithAttribute [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'tqdm.pandas()'.
 	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
 	
 	"Testing value of monovalue relation callee"
 	self assert: self topEntity callee isNotNil.
