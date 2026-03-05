@@ -58,14 +58,14 @@ FASTPythonImporterTest class >> traitsToIgnore [
 	"Return a collection of traits to ignore in generated tests."
 
 	^ {
-		  FASTTEntity.
-		  FASTTScopableEntity.
-		  FASTTBehaviouralEntity.
-		  FASTTNamedBehaviouralEntity.
-		  FASTTNamedEntity.
-		  FASTTStatement.
-		  TEntityMetaLevelDependency.
-		  FASTTExpression }
+		  FASTTEntity. "Too global."
+		  FASTTScopableEntity. "Not used for now?"
+		  FASTTBehaviouralEntity. "To Review"
+		  FASTTNamedBehaviouralEntity. "To Review"
+		  FASTTNamedEntity. "Only brings a property that is already tested."
+		  FASTTStatement. "I need to enable this one later but for now I'm not sure how to manage expression statements"
+		  TEntityMetaLevelDependency. "Too general"
+		  FASTTExpression "I need to enable this one later but I'm still unsure of how to manage expression statements" }
 ]
 
 { #category : 'running' }
