@@ -96,6 +96,14 @@ TSFASTPythonImporter >> visitBooleanOperator: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitCall: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'callee' asAliasOfField: 'function' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyCall
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitCollection: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].

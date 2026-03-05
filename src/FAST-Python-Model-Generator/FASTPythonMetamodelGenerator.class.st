@@ -336,6 +336,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	breakStatement --|> statement.
 
+	call --|> expression.
 	call --|> tInvocation.
 
 	classDefinition --|> tNamedEntity.
@@ -482,6 +483,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((assertStatement property: #expression) comment: 'The expression asserted')
 	<>- ((expression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
+
+	((call property: #callee) comment:
+		 'I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...')
+	<>- ((expression property: #caller) comment: 'The call entity calling me (if it''s the case)').
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').

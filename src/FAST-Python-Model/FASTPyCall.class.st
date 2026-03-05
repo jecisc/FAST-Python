@@ -20,6 +20,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `arguments` | `FASTTWithArguments` | `argumentOwner` | `FASTTExpression` | My arguments|
+| `callee` | `FASTPyCall` | `caller` | `FASTPyExpression` | I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...|
 | `invoked` | `FASTTInvocation` | `invokedIn` | `FASTTNamedEntity` | The name of the behavioural invoked|
 
 
@@ -34,9 +35,12 @@
 "
 Class {
 	#name : 'FASTPyCall',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTTInvocation',
 	#classTraits : 'FASTTInvocation classTrait',
+	#instVars : [
+		'#callee => FMOne type: #FASTPyExpression opposite: #caller'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -45,8 +49,31 @@ Class {
 { #category : 'meta' }
 FASTPyCall class >> annotation [
 
-	<FMClass: #Call super: #FASTPyEntity>
+	<FMClass: #Call super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyCall >> callee [
+	"Relation named: #callee type: #FASTPyExpression opposite: #caller"
+
+	<generated>
+	<FMComment: 'I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...'>
+	^ callee
+]
+
+{ #category : 'accessing' }
+FASTPyCall >> callee: anObject [
+
+	<generated>
+	callee := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyCall >> calleeGroup [
+	<generated>
+	<navigation: 'Callee'>
+	^ MooseSpecializedGroup with: self callee
 ]

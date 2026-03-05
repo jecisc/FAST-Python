@@ -9,6 +9,7 @@
 | `assertOwner` | `FASTPyExpression` | `expression` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
 | `attributeObjectOwner` | `FASTPyExpression` | `object` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
+| `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -46,6 +47,7 @@ Class {
 	#instVars : [
 		'#assertOwner => FMOne type: #FASTPyAssertStatement opposite: #expression',
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #object',
+		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
@@ -119,6 +121,31 @@ FASTPyExpression >> attributeObjectOwnerGroup [
 	<generated>
 	<navigation: 'AttributeObjectOwner'>
 	^ MooseSpecializedGroup with: self attributeObjectOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> caller [
+	"Relation named: #caller type: #FASTPyCall opposite: #callee"
+
+	<generated>
+	<FMComment: 'The call entity calling me (if it''s the case)'>
+	<container>
+	<derived>
+	^ caller
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> caller: anObject [
+
+	<generated>
+	caller := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> callerGroup [
+	<generated>
+	<navigation: 'Caller'>
+	^ MooseSpecializedGroup with: self caller
 ]
 
 { #category : 'accessing' }
