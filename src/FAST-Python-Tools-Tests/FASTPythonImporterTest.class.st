@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral }
 ]
 
 { #category : 'running' }
@@ -172,6 +172,7 @@ FASTPythonImporterTest >> testAssertStatement [
 					stack push: (stack top operands at: 2).
 					self assert: self topEntity sourceCode equals: '0'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				self assert: self topEntity operators equals: #('!=')
 ]
@@ -306,7 +307,8 @@ FASTPythonImporterTest >> testAttributeAccessOnString [
 
 		stack push: self topEntity object.
 		self assert: self topEntity sourceCode equals: ''' '''.
-		self assert: (self topEntity isOfType: FASTPyString)
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - accesses' }
@@ -410,6 +412,7 @@ FASTPythonImporterTest >> testBitwiseOperator [
 		stack push: self topEntity leftOperand.
 		self assert: self topEntity sourceCode equals: '0b00101101'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	self assert: self topEntity operator equals: '&'.
 	
@@ -418,7 +421,8 @@ FASTPythonImporterTest >> testBitwiseOperator [
 
 		stack push: self topEntity rightOperand.
 		self assert: self topEntity sourceCode equals: '0b00011011'.
-		self assert: (self topEntity isOfType: FASTPyInteger)
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - operators' }
@@ -509,7 +513,8 @@ FASTPythonImporterTest >> testBreakStatement [
 		stack push: self topEntity condition.
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
-		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - calls' }
@@ -536,6 +541,7 @@ FASTPythonImporterTest >> testCall [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '"Hello"'.
 		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -638,6 +644,7 @@ FASTPythonImporterTest >> testCallArgumentWithBinaryOperator [
 				stack push: self topEntity leftOperand.
 				self assert: self topEntity sourceCode equals: '30000'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operator equals: '/'.
 			
@@ -704,11 +711,13 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 			stack push: (stack top arguments at: 1).
 			self assert: self topEntity sourceCode equals: '''case'''.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 			stack push: (stack top arguments at: 2).
 			self assert: self topEntity sourceCode equals: ''''''.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation callee"
@@ -739,6 +748,7 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 					stack push: (stack top indices at: 1).
 					self assert: self topEntity sourceCode equals: '0'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				
 				"Testing value of monovalue relation value"
@@ -857,6 +867,7 @@ FASTPythonImporterTest >> testCallArgumentWithDictionary [
 				stack push: self topEntity key.
 				self assert: self topEntity sourceCode equals: '"id"'.
 				self assert: (self topEntity isOfType: FASTPyString).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			
 			"Testing value of monovalue relation value"
@@ -878,6 +889,7 @@ FASTPythonImporterTest >> testCallArgumentWithDictionary [
 				stack push: self topEntity key.
 				self assert: self topEntity sourceCode equals: '"class"'.
 				self assert: (self topEntity isOfType: FASTPyString).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			
 			"Testing value of monovalue relation value"
@@ -924,6 +936,7 @@ FASTPythonImporterTest >> testCallArgumentWithKeywordArgument [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '"/root/.cache/torch/hub/checkpoints/"'.
 		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top arguments at: 2).
@@ -938,6 +951,7 @@ FASTPythonImporterTest >> testCallArgumentWithKeywordArgument [
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -1025,6 +1039,7 @@ FASTPythonImporterTest >> testCallChained [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '13'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -1070,6 +1085,7 @@ FASTPythonImporterTest >> testCallSubscript [
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
 		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -1085,6 +1101,7 @@ FASTPythonImporterTest >> testCallSubscript [
 			stack push: (stack top indices at: 1).
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -1209,7 +1226,8 @@ FASTPythonImporterTest >> testComplex [
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '42j'.
-	self assert: (self topEntity isOfType: FASTPyComplex)
+	self assert: (self topEntity isOfType: FASTPyComplex).
+	self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - statements' }
@@ -1255,7 +1273,8 @@ FASTPythonImporterTest >> testContinueStatement [
 		stack push: self topEntity condition.
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
-		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - statements' }
@@ -1342,6 +1361,7 @@ FASTPythonImporterTest >> testDictionary [
 			stack push: self topEntity key.
 			self assert: self topEntity sourceCode equals: '"brand"'.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -1350,6 +1370,7 @@ FASTPythonImporterTest >> testDictionary [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '"Ford"'.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -1363,6 +1384,7 @@ FASTPythonImporterTest >> testDictionary [
 			stack push: self topEntity key.
 			self assert: self topEntity sourceCode equals: '"model"'.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -1371,6 +1393,7 @@ FASTPythonImporterTest >> testDictionary [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '"Mustang"'.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -1384,6 +1407,7 @@ FASTPythonImporterTest >> testDictionary [
 			stack push: self topEntity key.
 			self assert: self topEntity sourceCode equals: '"year"'.
 			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -1391,7 +1415,8 @@ FASTPythonImporterTest >> testDictionary [
 
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '1964'.
-			self assert: (self topEntity isOfType: FASTPyInteger)
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - literals' }
@@ -1422,7 +1447,8 @@ FASTPythonImporterTest >> testEllipsis [
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '...'.
-	self assert: (self topEntity isOfType: FASTPyEllipsis)
+	self assert: (self topEntity isOfType: FASTPyEllipsis).
+	self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - literals' }
@@ -1439,7 +1465,8 @@ FASTPythonImporterTest >> testFalse [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'False'.
 	self assert: (self topEntity isOfType: FASTPyBoolean).
-	self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+	self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+	self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - literals' }
@@ -2114,6 +2141,7 @@ FASTPythonImporterTest >> testIf [
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -2130,7 +2158,8 @@ FASTPythonImporterTest >> testIf [
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: '3'.
-			self assert: (self topEntity isOfType: FASTPyInteger)
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2179,6 +2208,7 @@ else:
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -2197,6 +2227,7 @@ else:
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2213,7 +2244,8 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2262,6 +2294,7 @@ elif x < 10:
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -2293,6 +2326,7 @@ elif x < 10:
 				stack push: (stack top operands at: 2).
 				self assert: self topEntity sourceCode equals: '10'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operators equals: #('<').
 			stack pop.
@@ -2304,6 +2338,7 @@ elif x < 10:
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2320,7 +2355,8 @@ elif x < 10:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2373,6 +2409,7 @@ elif x == 60:
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -2404,6 +2441,7 @@ elif x == 60:
 				stack push: (stack top operands at: 2).
 				self assert: self topEntity sourceCode equals: '10'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operators equals: #('<').
 			stack pop.
@@ -2415,6 +2453,7 @@ elif x == 60:
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2442,6 +2481,7 @@ elif x == 60:
 				stack push: (stack top operands at: 2).
 				self assert: self topEntity sourceCode equals: '60'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operators equals: #('==').
 			stack pop.
@@ -2453,6 +2493,7 @@ elif x == 60:
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2469,7 +2510,8 @@ elif x == 60:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2527,6 +2569,7 @@ else:
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -2558,6 +2601,7 @@ else:
 				stack push: (stack top operands at: 2).
 				self assert: self topEntity sourceCode equals: '10'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operators equals: #('<').
 			stack pop.
@@ -2569,6 +2613,7 @@ else:
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2596,6 +2641,7 @@ else:
 				stack push: (stack top operands at: 2).
 				self assert: self topEntity sourceCode equals: '60'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operators equals: #('==').
 			stack pop.
@@ -2607,6 +2653,7 @@ else:
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2624,6 +2671,7 @@ else:
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2640,7 +2688,8 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - imports' }
@@ -2844,16 +2893,19 @@ FASTPythonImporterTest >> testList [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '1'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top initializers at: 2).
 		self assert: self topEntity sourceCode equals: '2'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top initializers at: 3).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger)
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests' }
@@ -2896,12 +2948,14 @@ False' withPlatformLineEndings.
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
 		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top statements at: 2).
 		self assert: self topEntity sourceCode equals: 'False'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
-		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2955,6 +3009,7 @@ else:
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -2972,6 +3027,7 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: '3'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -3014,6 +3070,7 @@ else:
 					stack push: (stack top operands at: 2).
 					self assert: self topEntity sourceCode equals: '10'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				self assert: self topEntity operators equals: #('<').
 				stack pop.
@@ -3031,6 +3088,7 @@ else:
 					stack push: (stack top statements at: 1).
 					self assert: self topEntity sourceCode equals: '2'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				stack pop.
 			
@@ -3046,7 +3104,8 @@ else:
 				
 					stack push: (stack top statements at: 1).
 					self assert: self topEntity sourceCode equals: '1'.
-					self assert: (self topEntity isOfType: FASTPyInteger)
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - literals' }
@@ -3289,16 +3348,19 @@ FASTPythonImporterTest >> testReturnList [
 					stack push: (stack top initializers at: 1).
 					self assert: self topEntity sourceCode equals: '1'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				
 					stack push: (stack top initializers at: 2).
 					self assert: self topEntity sourceCode equals: '2'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				
 					stack push: (stack top initializers at: 3).
 					self assert: self topEntity sourceCode equals: '3'.
-					self assert: (self topEntity isOfType: FASTPyInteger)
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - statements' }
@@ -3341,7 +3403,8 @@ FASTPythonImporterTest >> testReturnLiteral [
 
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: '1'.
-				self assert: (self topEntity isOfType: FASTPyInteger)
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - statements' }
@@ -3393,11 +3456,13 @@ FASTPythonImporterTest >> testReturnOperator [
 					stack push: (stack top operands at: 1).
 					self assert: self topEntity sourceCode equals: '10'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				
 					stack push: (stack top operands at: 2).
 					self assert: self topEntity sourceCode equals: '13'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				self assert: self topEntity operators equals: #('>')
 ]
@@ -3424,16 +3489,19 @@ FASTPythonImporterTest >> testSet [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '1'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top initializers at: 2).
 		self assert: self topEntity sourceCode equals: '2'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top initializers at: 3).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger)
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - literals' }
@@ -3550,6 +3618,7 @@ FASTPythonImporterTest >> testSliceBinaryOperator [
 				stack push: self topEntity leftOperand.
 				self assert: self topEntity sourceCode equals: '1000'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operator equals: '*'.
 			
@@ -3559,6 +3628,7 @@ FASTPythonImporterTest >> testSliceBinaryOperator [
 				stack push: self topEntity rightOperand.
 				self assert: self topEntity sourceCode equals: '3'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -3635,16 +3705,19 @@ FASTPythonImporterTest >> testSliceNone [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: 'None'.
 			self assert: (self topEntity isOfType: FASTPyNone).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 			stack push: (stack top components at: 2).
 			self assert: self topEntity sourceCode equals: 'None'.
 			self assert: (self topEntity isOfType: FASTPyNone).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 			stack push: (stack top components at: 3).
 			self assert: self topEntity sourceCode equals: 'None'.
 			self assert: (self topEntity isOfType: FASTPyNone).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -3760,6 +3833,7 @@ FASTPythonImporterTest >> testSliceReverse [
 				stack push: self topEntity argument.
 				self assert: self topEntity sourceCode equals: '1'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			self assert: self topEntity operator equals: '-'.
 			stack pop.
@@ -3812,6 +3886,7 @@ FASTPythonImporterTest >> testSliceSubscript [
 				stack push: (stack top indices at: 1).
 				self assert: self topEntity sourceCode equals: '0'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
 			
 			"Testing value of monovalue relation value"
@@ -3840,6 +3915,7 @@ FASTPythonImporterTest >> testSliceSubscript [
 					stack push: (stack top indices at: 1).
 					self assert: self topEntity sourceCode equals: '1'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
 					stack pop.
 				
 				"Testing value of monovalue relation value"
@@ -3939,6 +4015,7 @@ FASTPythonImporterTest >> testSliceWithEnd [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: '7'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -3981,6 +4058,7 @@ FASTPythonImporterTest >> testSliceWithStart [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: '2'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -4023,16 +4101,19 @@ FASTPythonImporterTest >> testSliceWithStartStopStep [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: '2'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 			stack push: (stack top components at: 2).
 			self assert: self topEntity sourceCode equals: '10'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 			stack push: (stack top components at: 3).
 			self assert: self topEntity sourceCode equals: '2'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -4075,6 +4156,7 @@ FASTPythonImporterTest >> testSliceWithStep [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: '4'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -4109,6 +4191,7 @@ FASTPythonImporterTest >> testSubscript [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '''id'''.
 		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4144,6 +4227,7 @@ FASTPythonImporterTest >> testSubscriptOnAttribute [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '''CUDA_LAUNCH_BLOCKING'''.
 		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4194,6 +4278,7 @@ FASTPythonImporterTest >> testSubscriptOnAttributeWithParenthesis [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '''ATTR'''.
 		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4242,6 +4327,7 @@ FASTPythonImporterTest >> testSubscriptOnSubscript [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '2'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4257,6 +4343,7 @@ FASTPythonImporterTest >> testSubscriptOnSubscript [
 			stack push: (stack top indices at: 1).
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		
 		"Testing value of monovalue relation value"
@@ -4349,6 +4436,7 @@ FASTPythonImporterTest >> testSubscriptWithBinaryOperator [
 			stack push: self topEntity leftOperand.
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		self assert: self topEntity operator equals: '+'.
 		
@@ -4358,6 +4446,7 @@ FASTPythonImporterTest >> testSubscriptWithBinaryOperator [
 			stack push: self topEntity rightOperand.
 			self assert: self topEntity sourceCode equals: '2'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
 	
@@ -4392,6 +4481,7 @@ FASTPythonImporterTest >> testSubscriptWithEllipsis [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '...'.
 		self assert: (self topEntity isOfType: FASTPyEllipsis).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top indices at: 2).
@@ -4430,11 +4520,13 @@ FASTPythonImporterTest >> testSubscriptWithTwoIndicies [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '1'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top indices at: 2).
 		self assert: self topEntity sourceCode equals: '2'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation value"
@@ -4481,16 +4573,19 @@ FASTPythonImporterTest >> testTuple [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '1'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top initializers at: 2).
 		self assert: self topEntity sourceCode equals: '2'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
 		stack push: (stack top initializers at: 3).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger)
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests - collections' }
@@ -4529,7 +4624,8 @@ FASTPythonImporterTest >> testTupleWithListSplat [
 	
 		stack push: (stack top initializers at: 2).
 		self assert: self topEntity sourceCode equals: '3'.
-		self assert: (self topEntity isOfType: FASTPyInteger)
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'tests' }
@@ -4610,7 +4706,8 @@ FASTPythonImporterTest >> testWhile [
 		stack push: self topEntity condition.
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
-		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
 { #category : 'running' }

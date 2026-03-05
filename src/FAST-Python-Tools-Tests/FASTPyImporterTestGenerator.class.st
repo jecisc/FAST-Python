@@ -26,7 +26,7 @@ FASTPyImporterTestGenerator >> assertTraitsOf: entity [
 				nextPutAll: ').';
 				cr;
 				tab: indentation.
-			traits
+			(traits sorted: #name ascending)
 				do: [ :trait |
 						stream
 							nextPutAll: 'self assert: (self topEntity isOfType: ';
