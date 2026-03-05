@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral. FASTTLoopStatement . FASTTNumericalLiteral }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral. FASTTLoopStatement . FASTTNumericalLiteral. FASTTReturnStatement }
 ]
 
 { #category : 'running' }
@@ -2104,6 +2104,7 @@ FASTPythonImporterTest >> testGlobalStatement [
 			stack push: (stack top statements at: 2).
 			self assert: self topEntity sourceCode equals: 'return counter'.
 			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			self assert: (self topEntity isOfType: FASTTReturnStatement).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
@@ -3205,6 +3206,7 @@ FASTPythonImporterTest >> testNonlocalStatement [
 			stack push: (stack top statements at: 2).
 			self assert: self topEntity sourceCode equals: 'return counter'.
 			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			self assert: (self topEntity isOfType: FASTTReturnStatement).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
@@ -3327,7 +3329,8 @@ FASTPythonImporterTest >> testReturnEmpty [
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'return'.
-			self assert: (self topEntity isOfType: FASTPyReturnStatement)
+			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			self assert: (self topEntity isOfType: FASTTReturnStatement)
 ]
 
 { #category : 'tests - statements' }
@@ -3365,6 +3368,7 @@ FASTPythonImporterTest >> testReturnList [
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'return [1, 2, 3]'.
 			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			self assert: (self topEntity isOfType: FASTTReturnStatement).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
@@ -3431,6 +3435,7 @@ FASTPythonImporterTest >> testReturnLiteral [
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'return 1'.
 			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			self assert: (self topEntity isOfType: FASTTReturnStatement).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
@@ -3477,6 +3482,7 @@ FASTPythonImporterTest >> testReturnOperator [
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'return 10 > 13'.
 			self assert: (self topEntity isOfType: FASTPyReturnStatement).
+			self assert: (self topEntity isOfType: FASTTReturnStatement).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
