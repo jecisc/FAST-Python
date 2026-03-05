@@ -21,7 +21,7 @@ FASTPyImporterTestGenerator class >> testCase: aClass [
 { #category : 'test generation' }
 FASTPyImporterTestGenerator >> assertTraitsOf: entity [
 
-	(entity class usedStatefulTraits intersection: self testCase traitsToEnsureUsage) ifNotEmpty: [ :traits |
+	(entity class usedStatefulTraits difference: self testCase traitsToIgnore) ifNotEmpty: [ :traits |
 			stream
 				nextPutAll: ').';
 				cr;

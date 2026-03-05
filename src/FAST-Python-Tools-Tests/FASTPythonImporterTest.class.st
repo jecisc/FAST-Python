@@ -54,10 +54,18 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 ]
 
 { #category : 'test generation' }
-FASTPythonImporterTest class >> traitsToEnsureUsage [
-	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
+FASTPythonImporterTest class >> traitsToIgnore [
+	"Return a collection of traits to ignore in generated tests."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral. FASTTLoopStatement . FASTTNumericalLiteral. FASTTReturnStatement. FASTTStatementBlock. FASTTStringLiteral. FASTTVariableEntity }
+	^ {
+		  FASTTEntity.
+		  FASTTScopableEntity.
+		  FASTTBehaviouralEntity.
+		  FASTTNamedBehaviouralEntity.
+		  FASTTNamedEntity.
+		  FASTTStatement.
+		  TEntityMetaLevelDependency.
+		  FASTTExpression }
 ]
 
 { #category : 'running' }
@@ -123,6 +131,8 @@ FASTPythonImporterTest >> testAssertStatement [
 	self assert: self topEntity sourceCode equals: 'def aFunction(a, b):
     assert b != 0' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of multivalued relation parameters"
@@ -553,6 +563,7 @@ FASTPythonImporterTest >> testCall [
 	self assert: self topEntity sourceCode equals: 'print("Hello")'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -590,6 +601,7 @@ FASTPythonImporterTest >> testCallArgumentWithAttribute [
 	self assert: self topEntity sourceCode equals: 'function(CFG.seed)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -643,6 +655,7 @@ FASTPythonImporterTest >> testCallArgumentWithBinaryOperator [
 	self assert: self topEntity sourceCode equals: 'function(30000/train_bs*epochs)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -719,6 +732,7 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 	self assert: self topEntity sourceCode equals: 'function(data[0].replace(''case'',''''))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -727,6 +741,7 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 		self assert: self topEntity sourceCode equals: 'data[0].replace(''case'','''')'.
 		self assert: (self topEntity isOfType: FASTPyCall).
 		self assert: (self topEntity isOfType: FASTTInvocation).
+		self assert: (self topEntity isOfType: FASTTWithArguments).
 		
 		"Testing value of multivalued relation arguments"
 		self assert: self topEntity arguments size equals: 2.
@@ -815,6 +830,7 @@ FASTPythonImporterTest >> testCallArgumentWithComparisonOperator [
 	self assert: self topEntity sourceCode equals: 'function(shape0!=resize)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -871,6 +887,7 @@ FASTPythonImporterTest >> testCallArgumentWithDictionary [
 })' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -959,6 +976,7 @@ FASTPythonImporterTest >> testCallArgumentWithKeywordArgument [
 	self assert: self topEntity sourceCode equals: 'function("/root/.cache/torch/hub/checkpoints/", exist_ok=True)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 2.
@@ -1011,6 +1029,7 @@ FASTPythonImporterTest >> testCallArgumentWithList [
 	self assert: self topEntity sourceCode equals: 'function(img, [pady, padx])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 2.
@@ -1063,6 +1082,7 @@ FASTPythonImporterTest >> testCallChained [
 	self assert: self topEntity sourceCode equals: 'function()(13)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -1081,6 +1101,7 @@ FASTPythonImporterTest >> testCallChained [
 		self assert: self topEntity sourceCode equals: 'function()'.
 		self assert: (self topEntity isOfType: FASTPyCall).
 		self assert: (self topEntity isOfType: FASTTInvocation).
+		self assert: (self topEntity isOfType: FASTTWithArguments).
 		
 		"Testing value of monovalue relation callee"
 		self assert: self topEntity callee isNotNil.
@@ -1109,6 +1130,7 @@ FASTPythonImporterTest >> testCallSubscript [
 	self assert: self topEntity sourceCode equals: 'coll[1](True)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of multivalued relation arguments"
 	self assert: self topEntity arguments size equals: 1.
@@ -1163,6 +1185,7 @@ FASTPythonImporterTest >> testCallWithAttribute [
 	self assert: self topEntity sourceCode equals: 'tqdm.pandas()'.
 	self assert: (self topEntity isOfType: FASTPyCall).
 	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
 	"Testing value of monovalue relation callee"
 	self assert: self topEntity callee isNotNil.
@@ -1335,6 +1358,8 @@ FASTPythonImporterTest >> testDelStatement [
 	self assert: self topEntity sourceCode equals: 'def aFunction(coll):
 	del coll' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of multivalued relation parameters"
@@ -2111,6 +2136,8 @@ FASTPythonImporterTest >> testGlobalStatement [
 	global counter
 	return counter' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3018,6 +3045,8 @@ False'.
 False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyModule).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
+	self assert: (self topEntity isOfType: FamixTSourceAnchor).
 	
 	"Testing value of multivalued relation statements"
 	self assert: self topEntity statements size equals: 2.
@@ -3232,6 +3261,8 @@ FASTPythonImporterTest >> testNonlocalStatement [
 	nonlocal counter
 	return counter' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3322,6 +3353,8 @@ FASTPythonImporterTest >> testPassStatement [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3373,6 +3406,8 @@ FASTPythonImporterTest >> testReturnEmpty [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3412,6 +3447,8 @@ FASTPythonImporterTest >> testReturnList [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return [1, 2, 3]' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3480,6 +3517,8 @@ FASTPythonImporterTest >> testReturnLiteral [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return 1' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3528,6 +3567,8 @@ FASTPythonImporterTest >> testReturnOperator [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return 10 > 13' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
 	
 	"Testing value of monovalue relation statementBlock"
@@ -3938,6 +3979,7 @@ FASTPythonImporterTest >> testSliceReverse [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: '-1'.
 			self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+			self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
 			
 			"Testing value of monovalue relation argument"
 			self assert: self topEntity argument isNotNil.
@@ -4015,6 +4057,7 @@ FASTPythonImporterTest >> testSliceSubscript [
 			stack push: (stack top components at: 2).
 			self assert: self topEntity sourceCode equals: '-pady[1]'.
 			self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+			self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
 			
 			"Testing value of monovalue relation argument"
 			self assert: self topEntity argument isNotNil.
