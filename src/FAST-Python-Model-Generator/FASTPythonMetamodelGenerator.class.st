@@ -374,6 +374,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	importStatement --|> import.
 
 	importFromStatement --|> import.
+	
+	keywordArgument --|> expression.
+	keywordArgument --|> tNamedEntity.
 
 	float --|> literal.
 
@@ -516,6 +519,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((importFromStatement property: #fromModule) comment:
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
+
+	((keywordArgument property: #value) comment: 'The value of the keyword argument.')
+	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
 
 	((listSplat property: #iterable) comment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.')
 	<>- ((expression property: #listSplatOwner) comment: 'List splat unpacking me (if it''s the case)').

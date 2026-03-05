@@ -15,6 +15,7 @@
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `forStatementLeftOwner` | `FASTPyExpression` | `right` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `forStatementRightOwner` | `FASTPyExpression` | `left` | `FASTPyForStatement` | The for statement owner (if possible)|
+| `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
 | `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
@@ -52,6 +53,7 @@ Class {
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
 		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
+		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
@@ -245,6 +247,31 @@ FASTPyExpression >> forStatementRightOwnerGroup [
 	<generated>
 	<navigation: 'ForStatementRightOwner'>
 	^ MooseSpecializedGroup with: self forStatementRightOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> keywordArgumentOwner [
+	"Relation named: #keywordArgumentOwner type: #FASTPyKeywordArgument opposite: #value"
+
+	<generated>
+	<FMComment: 'Keyword argument from which I am the value (if it''s the case)'>
+	<container>
+	<derived>
+	^ keywordArgumentOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> keywordArgumentOwner: anObject [
+
+	<generated>
+	keywordArgumentOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> keywordArgumentOwnerGroup [
+	<generated>
+	<navigation: 'KeywordArgumentOwner'>
+	^ MooseSpecializedGroup with: self keywordArgumentOwner
 ]
 
 { #category : 'accessing' }
