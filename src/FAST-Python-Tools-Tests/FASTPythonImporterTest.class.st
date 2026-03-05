@@ -53,6 +53,13 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 	(FASTPyImporterTestGenerator testCase: self) regenerateTest: self >> aSymbol
 ]
 
+{ #category : 'test generation' }
+FASTPythonImporterTest class >> traitsToEnsureUsage [
+	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
+
+	^ { FASTTBooleanLiteral }
+]
+
 { #category : 'running' }
 FASTPythonImporterTest >> importer [
 
@@ -499,7 +506,8 @@ FASTPythonImporterTest >> testBreakStatement [
 
 		stack push: self topEntity condition.
 		self assert: self topEntity sourceCode equals: 'True'.
-		self assert: (self topEntity isOfType: FASTPyBoolean)
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - calls' }
@@ -917,6 +925,58 @@ FASTPythonImporterTest >> testCallArgumentWithKeywordArgument [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'function'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - calls' }
+FASTPythonImporterTest >> testCallArgumentWithList [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testCallArgumentWithList 	"
+
+	self parse: 'function(img, [pady, padx])'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 4.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'function(img, [pady, padx])'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 2.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: 'img'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+		stack push: (stack top arguments at: 2).
+		self assert: self topEntity sourceCode equals: '[pady, padx]'.
+		self assert: (self topEntity isOfType: FASTPyList).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 2.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: 'pady'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top initializers at: 2).
+			self assert: self topEntity sourceCode equals: 'padx'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		stack pop.
 	
@@ -993,6 +1053,7 @@ FASTPythonImporterTest >> testCallSubscript [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -1175,7 +1236,8 @@ FASTPythonImporterTest >> testContinueStatement [
 
 		stack push: self topEntity condition.
 		self assert: self topEntity sourceCode equals: 'True'.
-		self assert: (self topEntity isOfType: FASTPyBoolean)
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - statements' }
@@ -1347,16 +1409,19 @@ FASTPythonImporterTest >> testEllipsis [
 
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testFalse [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFalse 	"
 
-	| boolean |
 	self parse: 'False'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 
-	boolean := (fast allWithType: FASTPyBoolean) anyOne.
-	self assert: boolean sourceCode equals: 'False'.
-	self assert: (boolean isOfType: FASTTBooleanLiteral)
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'False'.
+	self assert: (self topEntity isOfType: FASTPyBoolean).
+	self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - literals' }
@@ -2111,6 +2176,7 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2126,7 +2192,8 @@ else:
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
-			self assert: (self topEntity isOfType: FASTPyBoolean)
+			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2214,6 +2281,7 @@ elif x < 10:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2229,7 +2297,8 @@ elif x < 10:
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
-			self assert: (self topEntity isOfType: FASTPyBoolean)
+			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2321,6 +2390,7 @@ elif x == 60:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2357,6 +2427,7 @@ elif x == 60:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2372,7 +2443,8 @@ elif x == 60:
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
-			self assert: (self topEntity isOfType: FASTPyBoolean)
+			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -2469,6 +2541,7 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2505,6 +2578,7 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2521,6 +2595,7 @@ else:
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			stack pop.
 		stack pop.
 	
@@ -2536,7 +2611,8 @@ else:
 		
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'True'.
-			self assert: (self topEntity isOfType: FASTPyBoolean)
+			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - imports' }
@@ -2791,11 +2867,13 @@ False' withPlatformLineEndings.
 		stack push: (stack top statements at: 1).
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 		stack pop.
 	
 		stack push: (stack top statements at: 2).
 		self assert: self topEntity sourceCode equals: 'False'.
-		self assert: (self topEntity isOfType: FASTPyBoolean)
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'tests - advanced statements' }
@@ -4497,7 +4575,8 @@ FASTPythonImporterTest >> testWhile [
 
 		stack push: self topEntity condition.
 		self assert: self topEntity sourceCode equals: 'True'.
-		self assert: (self topEntity isOfType: FASTPyBoolean)
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral)
 ]
 
 { #category : 'running' }

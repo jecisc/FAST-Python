@@ -19,6 +19,26 @@ FASTPyImporterTestGenerator class >> testCase: aClass [
 ]
 
 { #category : 'test generation' }
+FASTPyImporterTestGenerator >> assertTraitsOf: entity [
+
+	(entity class usedStatefulTraits intersection: self testCase traitsToEnsureUsage) ifNotEmpty: [ :traits |
+			stream
+				nextPutAll: ').';
+				cr;
+				tab: indentation.
+			traits
+				do: [ :trait |
+						stream
+							nextPutAll: 'self assert: (self topEntity isOfType: ';
+							nextPutAll: trait name ]
+				separatedBy: [
+						stream
+							nextPutAll: ').';
+							cr;
+							tab: indentation ] ]
+]
+
+{ #category : 'test generation' }
 FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString popAtTheEnd: shouldPop [
 
 	| propertiesToAssert |
@@ -44,6 +64,8 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 		tab: indentation;
 		nextPutAll: 'self assert: (self topEntity isOfType: ';
 		nextPutAll: entity class name.
+		
+	self assertTraitsOf: entity.
 
 
 	(shouldPop not and: [ propertiesToAssert isEmpty ])
