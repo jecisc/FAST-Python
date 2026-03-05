@@ -181,6 +181,13 @@ FASTPyEntity >> isLiteral [
 ]
 
 { #category : 'testing' }
+FASTPyEntity >> isNumericalLiteral [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FASTPyEntity >> isReturnStatement [
 
 	<generated>

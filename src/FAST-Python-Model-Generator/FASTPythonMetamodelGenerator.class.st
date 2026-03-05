@@ -147,7 +147,8 @@ Class {
 		'thenClause',
 		'tLoopStatement',
 		'statement',
-		'tWithStatements'
+		'tWithStatements',
+		'tNumericalLiteral'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -346,6 +347,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	comparisonOperator --|> operator.
 
 	complex --|> literal.
+	complex --|> tNumericalLiteral.
 	
 	continueStatement --|> statement.
 
@@ -363,9 +365,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
 	
+	float --|> literal.
+	float --|> tNumericalLiteral.
+
 	forStatement --|> statement.
 	forStatement --|> tLoopStatement.
 
+	functionDefinition --|> tNamedBehaviouralEntity.
+	
 	identifier --|> expression.
 
 	ifStatement --|> statement.
@@ -374,17 +381,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	importStatement --|> import.
 
 	importFromStatement --|> import.
+
+	integer --|> literal.
+	integer --|> tNumericalLiteral.
 	
 	keywordArgument --|> expression.
 	keywordArgument --|> tNamedEntity.
 
-	float --|> literal.
-
-	functionDefinition --|> tNamedBehaviouralEntity.
-
 	globalStatement --|> statement.
-
-	integer --|> literal.
 
 	list --|> collectionInitializer.
 
@@ -565,13 +569,14 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tConditionalStatement := self remoteTrait: #TConditionalStatement withPrefix: #FAST.
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
 	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST. 
-	tReturnStatement := self remoteTrait: #TReturnStatement withPrefix: #FAST.
-	tStatement := self remoteTrait: #TStatement withPrefix: #FAST.
-	tStatementBlock := self remoteTrait: #TStatementBlock withPrefix: #FAST.
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
 	tLoopStatement := self remoteTrait: #TLoopStatement withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
+	tNumericalLiteral := self remoteTrait: #TNumericalLiteral withPrefix: #FAST.
+	tReturnStatement := self remoteTrait: #TReturnStatement withPrefix: #FAST.
+	tStatement := self remoteTrait: #TStatement withPrefix: #FAST.
+	tStatementBlock := self remoteTrait: #TStatementBlock withPrefix: #FAST.
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
 	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
 	tWithStatements := self remoteTrait: #TWithStatements withPrefix: #FAST
