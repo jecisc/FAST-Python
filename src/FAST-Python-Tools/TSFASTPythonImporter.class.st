@@ -201,6 +201,14 @@ TSFASTPythonImporter >> visitElseClause: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitExpressionList: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'expressions' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyExpressionList
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitFalse: aNode [
 
 	^ self createEntityForNode: aNode kind: FASTPyBoolean

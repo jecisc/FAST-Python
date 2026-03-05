@@ -365,6 +365,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
 	
+	expressionList --|> expression.
+	
 	float --|> literal.
 	float --|> tNumericalLiteral.
 
@@ -502,6 +504,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
+	
+	(expressionList property: #expressions) <>-* (expression property: #expressionListOwner).
 
 	((forStatement property: #right) comment: 'The list that the for statement iterates over')
 	<>- ((expression property: #forStatementLeftOwner) comment: 'The for statement owner (if possible)').
