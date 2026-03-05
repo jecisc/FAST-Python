@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression }
 ]
 
 { #category : 'running' }
@@ -402,6 +402,7 @@ FASTPythonImporterTest >> testBitwiseOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '0b00101101 & 0b00011011'.
 	self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+	self assert: (self topEntity isOfType: FASTTBinaryExpression).
 	
 	"Testing value of monovalue relation leftOperand"
 	self assert: self topEntity leftOperand isNotNil.
@@ -617,6 +618,7 @@ FASTPythonImporterTest >> testCallArgumentWithBinaryOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '30000/train_bs*epochs'.
 		self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+		self assert: (self topEntity isOfType: FASTTBinaryExpression).
 		
 		"Testing value of monovalue relation leftOperand"
 		self assert: self topEntity leftOperand isNotNil.
@@ -624,6 +626,7 @@ FASTPythonImporterTest >> testCallArgumentWithBinaryOperator [
 			stack push: self topEntity leftOperand.
 			self assert: self topEntity sourceCode equals: '30000/train_bs'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
 			self assert: self topEntity leftOperand isNotNil.
@@ -3512,6 +3515,7 @@ FASTPythonImporterTest >> testSliceBinaryOperator [
 			stack push: (stack top components at: 1).
 			self assert: self topEntity sourceCode equals: '1000*3'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
 			self assert: self topEntity leftOperand isNotNil.
@@ -3661,6 +3665,7 @@ FASTPythonImporterTest >> testSliceParenthesis [
 			stack push: (stack top components at: 2).
 			self assert: self topEntity sourceCode equals: 'i + h'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
 			self assert: self topEntity leftOperand isNotNil.
@@ -4309,6 +4314,7 @@ FASTPythonImporterTest >> testSubscriptWithBinaryOperator [
 		stack push: (stack top indices at: 1).
 		self assert: self topEntity sourceCode equals: '1 + 2'.
 		self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+		self assert: (self topEntity isOfType: FASTTBinaryExpression).
 		
 		"Testing value of monovalue relation leftOperand"
 		self assert: self topEntity leftOperand isNotNil.
