@@ -21,13 +21,6 @@ FASTPyTEntityCreator classSide >> annotation [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newArgumentList [
-
-	<generated>
-	^ self add: FASTPyArgumentList new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newAsPattern [
 
 	<generated>

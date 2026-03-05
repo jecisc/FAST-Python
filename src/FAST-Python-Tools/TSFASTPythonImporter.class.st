@@ -45,6 +45,13 @@ TSFASTPythonImporter >> visitAliasedImport: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitArgumentList: aTSNode [
+	"We skip this node and visit the children directly."
+
+	self rawVisitChildren: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 
 	^ self visitStatement: aTSNode

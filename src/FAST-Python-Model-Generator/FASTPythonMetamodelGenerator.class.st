@@ -5,7 +5,6 @@ Class {
 		'entity',
 		'_ERROR',
 		'tEntity',
-		'argumentList',
 		'asPattern',
 		'asPatternTarget',
 		'assertStatement',
@@ -177,7 +176,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	super defineClasses.
 	entity := builder ensureClassNamed: #Entity.
 	_ERROR := builder ensureClassNamed: #ERROR.
-	argumentList := builder ensureClassNamed: #ArgumentList."Todo"
 	asPattern := builder ensureClassNamed: #AsPattern."Todo"
 	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
 	assertStatement := builder ensureClassNamed: #AssertStatement.

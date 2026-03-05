@@ -502,6 +502,39 @@ FASTPythonImporterTest >> testBreakStatement [
 		self assert: (self topEntity isOfType: FASTPyBoolean)
 ]
 
+{ #category : 'tests - calls' }
+FASTPythonImporterTest >> testCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testCall 	"
+
+	self parse: 'print("Hello")'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'print("Hello")'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '"Hello"'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'print'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'tests - operators' }
 FASTPythonImporterTest >> testChainedComparisonOperator [
 
