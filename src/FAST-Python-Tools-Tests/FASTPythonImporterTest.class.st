@@ -57,7 +57,7 @@ FASTPythonImporterTest class >> regenerateTest: aSymbol [
 FASTPythonImporterTest class >> traitsToEnsureUsage [
 	"Return a collection of traits. For each entity using one of those traits, we assert they are of this type."
 
-	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral }
+	^ { FASTTBooleanLiteral . FASTTBinaryExpression. FASTTConditionalStatement. FASTTInvocation. FASTTLiteral. FASTTLoopStatement }
 ]
 
 { #category : 'running' }
@@ -490,6 +490,7 @@ FASTPythonImporterTest >> testBreakStatement [
 	break' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -1250,6 +1251,7 @@ FASTPythonImporterTest >> testContinueStatement [
 	continue' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -1503,6 +1505,7 @@ FASTPythonImporterTest >> testForStatement [
 	self assert: self topEntity sourceCode equals: 'for i in [ ]:
     continue' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyForStatement).
+	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -4683,6 +4686,7 @@ FASTPythonImporterTest >> testWhile [
 	break' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
