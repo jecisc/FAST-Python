@@ -250,7 +250,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	keywordSeparator := builder ensureClassNamed: #KeywordSeparator."Todo"
 	lambda := builder ensureClassNamed: #Lambda."Todo"
 	lambdaParameters := builder ensureClassNamed: #LambdaParameters."Todo"
-	lineContinuation := builder ensureClassNamed: #LineContinuation."Todo"
 	list := builder ensureClassNamed: #List.
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
 	listPattern := builder ensureClassNamed: #ListPattern."Todo"

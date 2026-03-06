@@ -525,13 +525,6 @@ FASTPyTEntityCreator >> newLambdaParameters [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newLineContinuation [
-
-	<generated>
-	^ self add: FASTPyLineContinuation new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newList [
 
 	<generated>
