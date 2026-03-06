@@ -454,6 +454,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	thenClause --|> block.
 
 	tuple --|> collectionInitializer.
+	
+	tuplePattern --|> expression. "TO REVIEW. This might be wrong."
 
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
@@ -577,6 +579,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tComprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
 
 	(tComprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
+	
+	(tuplePattern property: #patterns) <>-* (expression property: #tuplePatternOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
