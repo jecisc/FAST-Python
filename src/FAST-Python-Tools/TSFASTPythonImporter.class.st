@@ -163,6 +163,12 @@ TSFASTPythonImporter >> visitDictionary: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitDictionaryComprehension: aTSNode [
+
+	^ self visitComprehension: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitDottedName: aTSNode [
 
 	"In case it is in the `name` field of an import, we create an ImportedEntity."
