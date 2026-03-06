@@ -141,6 +141,14 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitComprehension: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'clause' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode 
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
@@ -241,6 +249,12 @@ TSFASTPythonImporter >> visitFutureImportStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitGeneratorExpression: aTSNode [
+
+	^ self visitComprehension: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
@@ -325,6 +339,12 @@ TSFASTPythonImporter >> visitList: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitListComprehension: aTSNode [
+
+	^ self visitComprehension: aTSNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitListSplat: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #iterable asAliasOfField: '<unnamedChild>' ].
@@ -382,6 +402,12 @@ TSFASTPythonImporter >> visitReturnStatement: aTSNode [
 TSFASTPythonImporter >> visitSet: aTSNode [
 
 	^ self visitCollection: aTSNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitSetComprehension: aTSNode [
+
+	^ self visitComprehension: aTSNode
 ]
 
 { #category : 'visiting' }

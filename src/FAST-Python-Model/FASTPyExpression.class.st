@@ -11,6 +11,8 @@
 | `attributeObjectOwner` | `FASTPyExpression` | `object` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
 | `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
+| `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyTComprehension` | |
+| `comprehensionClauseOwner` | `FASTPyExpression` | `clause` | `FASTPyTComprehension` | |
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionListOwner` | `FASTPyExpression` | `expressions` | `FASTPyExpressionList` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -53,6 +55,8 @@ Class {
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #object',
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
+		'#comprehensionBodyOwner => FMOne type: #FASTPyTComprehension opposite: #body',
+		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clause',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#expressionListOwner => FMOne type: #FASTPyExpressionList opposite: #expressions',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
@@ -178,6 +182,54 @@ FASTPyExpression >> collectionInitializerGroup [
 	<generated>
 	<navigation: 'CollectionInitializer'>
 	^ MooseSpecializedGroup with: self collectionInitializer
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> comprehensionBodyOwner [
+	"Relation named: #comprehensionBodyOwner type: #FASTPyTComprehension opposite: #body"
+
+	<generated>
+	<container>
+	<derived>
+	^ comprehensionBodyOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> comprehensionBodyOwner: anObject [
+
+	<generated>
+	comprehensionBodyOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> comprehensionBodyOwnerGroup [
+	<generated>
+	<navigation: 'ComprehensionBodyOwner'>
+	^ MooseSpecializedGroup with: self comprehensionBodyOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> comprehensionClauseOwner [
+	"Relation named: #comprehensionClauseOwner type: #FASTPyTComprehension opposite: #clause"
+
+	<generated>
+	<container>
+	<derived>
+	^ comprehensionClauseOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> comprehensionClauseOwner: anObject [
+
+	<generated>
+	comprehensionClauseOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> comprehensionClauseOwnerGroup [
+	<generated>
+	<navigation: 'ComprehensionClauseOwner'>
+	^ MooseSpecializedGroup with: self comprehensionClauseOwner
 ]
 
 { #category : 'accessing' }

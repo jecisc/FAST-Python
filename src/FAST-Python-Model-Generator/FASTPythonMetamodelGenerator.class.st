@@ -148,7 +148,8 @@ Class {
 		'tLoopStatement',
 		'statement',
 		'tWithStatements',
-		'tNumericalLiteral'
+		'tNumericalLiteral',
+		'tComprehension'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -369,12 +370,19 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	float --|> literal.
 	float --|> tNumericalLiteral.
+	
+	forInClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
 	forStatement --|> statement.
 	forStatement --|> tLoopStatement.
 
 	functionDefinition --|> tNamedBehaviouralEntity.
 	
+	generatorExpression --|> expression.
+	generatorExpression --|> tComprehension.
+
+	globalStatement --|> statement.
+
 	identifier --|> expression.
 
 	ifStatement --|> statement.
@@ -389,23 +397,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	keywordArgument --|> expression.
 	keywordArgument --|> tNamedEntity.
-
-	globalStatement --|> statement.
-
+	
 	list --|> collectionInitializer.
+	
+	listComprehension --|> expression.
+	listComprehension --|> tComprehension.
 
 	literal --|> expression.
 	literal --|> tLiteral.
-
-	none --|> literal.
-
-	nonlocalStatement --|> statement.
-
-	pair --|> expression.
-
-	parameter --|> tVariableEntity.
-
-	passStatement --|> statement.
 	
 	listSplat --|> expression.
 
@@ -413,7 +412,11 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	module --|> block. "A Module has statements."
 	module --|> #THasImmediateSource.
+	
+	none --|> literal.
 
+	nonlocalStatement --|> statement.
+	
 	notOperator --|> operator.
 	notOperator --|> tUnaryOperator.
 
@@ -421,10 +424,17 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	pair --|> expression.
 
+	parameter --|> tVariableEntity.
+
+	passStatement --|> statement.
+
 	returnStatement --|> statement.
 	returnStatement --|> tReturnStatement.
 
 	set --|> collectionInitializer.
+	
+	setComprehension --|> expression.
+	setComprehension --|> tComprehension.
 	
 	slice --|> expression.
 	
@@ -508,7 +518,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(expressionList property: #expressions) <>-* (expression property: #expressionListOwner).
 
 	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
-	
+
 	(forInClause property: #right) <>- (expression property: #forInClauseRightOwner).
 
 	((forStatement property: #right) comment: 'The list that the for statement iterates over')
@@ -554,6 +564,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((subscript property: #indices) comment: 'The elements defining the indices to select in a subscript.')
 	<>-* ((expression property: #subscriptIndiceOwner) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
 
+	(tComprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
+
+	(tComprehension property: #clause) <>- (expression property: #comprehensionClauseOwner).
+
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
 ]
@@ -567,6 +581,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 
 	"FAST-Python"
+	tComprehension := builder newTraitNamed: #TComprehension.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	
 	"Remotes"

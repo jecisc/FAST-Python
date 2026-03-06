@@ -1,6 +1,21 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `body` | `FASTPyTComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
+| `clause` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
+
+
+
+"
 Class {
 	#name : 'FASTPyListComprehension',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
+	#traits : 'FASTPyTComprehension',
+	#classTraits : 'FASTPyTComprehension classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyListComprehension class >> annotation [
 
-	<FMClass: #ListComprehension super: #FASTPyEntity>
+	<FMClass: #ListComprehension super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

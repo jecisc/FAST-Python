@@ -13,7 +13,7 @@
 "
 Class {
 	#name : 'FASTPyForInClause',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#instVars : [
 		'#left => FMOne type: #FASTPyExpression opposite: #forInClauseLeftOwner',
 		'#right => FMOne type: #FASTPyExpression opposite: #forInClauseRightOwner'
@@ -26,7 +26,7 @@ Class {
 { #category : 'meta' }
 FASTPyForInClause class >> annotation [
 
-	<FMClass: #ForInClause super: #FASTPyEntity>
+	<FMClass: #ForInClause super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
