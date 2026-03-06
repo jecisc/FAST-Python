@@ -14,6 +14,8 @@
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionListOwner` | `FASTPyExpression` | `expressions` | `FASTPyExpressionList` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
+| `forInClauseLeftOwner` | `FASTPyExpression` | `left` | `FASTPyForInClause` | |
+| `forInClauseRightOwner` | `FASTPyExpression` | `right` | `FASTPyForInClause` | |
 | `forStatementLeftOwner` | `FASTPyExpression` | `right` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `forStatementRightOwner` | `FASTPyExpression` | `left` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
@@ -53,6 +55,8 @@ Class {
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#expressionListOwner => FMOne type: #FASTPyExpressionList opposite: #expressions',
+		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
+		'#forInClauseRightOwner => FMOne type: #FASTPyForInClause opposite: #right',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
 		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
@@ -222,6 +226,54 @@ FASTPyExpression >> expressionListOwnerGroup [
 	<generated>
 	<navigation: 'ExpressionListOwner'>
 	^ MooseSpecializedGroup with: self expressionListOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> forInClauseLeftOwner [
+	"Relation named: #forInClauseLeftOwner type: #FASTPyForInClause opposite: #left"
+
+	<generated>
+	<container>
+	<derived>
+	^ forInClauseLeftOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> forInClauseLeftOwner: anObject [
+
+	<generated>
+	forInClauseLeftOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> forInClauseLeftOwnerGroup [
+	<generated>
+	<navigation: 'ForInClauseLeftOwner'>
+	^ MooseSpecializedGroup with: self forInClauseLeftOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> forInClauseRightOwner [
+	"Relation named: #forInClauseRightOwner type: #FASTPyForInClause opposite: #right"
+
+	<generated>
+	<container>
+	<derived>
+	^ forInClauseRightOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> forInClauseRightOwner: anObject [
+
+	<generated>
+	forInClauseRightOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> forInClauseRightOwnerGroup [
+	<generated>
+	<navigation: 'ForInClauseRightOwner'>
+	^ MooseSpecializedGroup with: self forInClauseRightOwner
 ]
 
 { #category : 'accessing' }
