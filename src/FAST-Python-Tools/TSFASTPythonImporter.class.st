@@ -386,6 +386,14 @@ TSFASTPythonImporter >> visitParenthesizedExpression: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitPatternList: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'elements' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyPatternList
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitRelativeImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 

@@ -355,6 +355,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	deleteStatement --|> statement.
 
 	dictionary --|> collectionInitializer.
+	
+	dictionaryComprehension --|> expression.
+	dictionaryComprehension --|> tComprehension.
 
 	elseClause --|> block.
 
@@ -423,6 +426,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	operator --|> expression.
 
 	pair --|> expression.
+	
+	patternList --|> expression. "This is wrong! As for forInClause I should not be an expression. To fix later."
 
 	parameter --|> tVariableEntity.
 
@@ -554,6 +559,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
 
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
+	
+	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
 	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)''').
