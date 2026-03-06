@@ -12,7 +12,7 @@
 | `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyTComprehension` | |
-| `comprehensionClauseOwner` | `FASTPyExpression` | `clause` | `FASTPyTComprehension` | |
+| `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyTComprehension` | |
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionListOwner` | `FASTPyExpression` | `expressions` | `FASTPyExpressionList` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -20,6 +20,7 @@
 | `forInClauseRightOwner` | `FASTPyExpression` | `right` | `FASTPyForInClause` | |
 | `forStatementLeftOwner` | `FASTPyExpression` | `right` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `forStatementRightOwner` | `FASTPyExpression` | `left` | `FASTPyForStatement` | The for statement owner (if possible)|
+| `ifClauseOwner` | `FASTPyExpression` | `expression` | `FASTPyIfClause` | |
 | `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
 | `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
@@ -57,13 +58,14 @@ Class {
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#comprehensionBodyOwner => FMOne type: #FASTPyTComprehension opposite: #body',
-		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clause',
+		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clauses',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#expressionListOwner => FMOne type: #FASTPyExpressionList opposite: #expressions',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
 		'#forInClauseRightOwner => FMOne type: #FASTPyForInClause opposite: #right',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
 		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
+		'#ifClauseOwner => FMOne type: #FASTPyIfClause opposite: #expression',
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
@@ -212,11 +214,10 @@ FASTPyExpression >> comprehensionBodyOwnerGroup [
 
 { #category : 'accessing' }
 FASTPyExpression >> comprehensionClauseOwner [
-	"Relation named: #comprehensionClauseOwner type: #FASTPyTComprehension opposite: #clause"
+	"Relation named: #comprehensionClauseOwner type: #FASTPyTComprehension opposite: #clauses"
 
 	<generated>
 	<container>
-	<derived>
 	^ comprehensionClauseOwner
 ]
 
@@ -378,6 +379,30 @@ FASTPyExpression >> forStatementRightOwnerGroup [
 	<generated>
 	<navigation: 'ForStatementRightOwner'>
 	^ MooseSpecializedGroup with: self forStatementRightOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> ifClauseOwner [
+	"Relation named: #ifClauseOwner type: #FASTPyIfClause opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ ifClauseOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> ifClauseOwner: anObject [
+
+	<generated>
+	ifClauseOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> ifClauseOwnerGroup [
+	<generated>
+	<navigation: 'IfClauseOwner'>
+	^ MooseSpecializedGroup with: self ifClauseOwner
 ]
 
 { #category : 'accessing' }

@@ -6,7 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `body` | `FASTPyTComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
-| `clause` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
+| `clauses` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
 
 
 
@@ -15,7 +15,7 @@ Trait {
 	#name : 'FASTPyTComprehension',
 	#instVars : [
 		'#body => FMOne type: #FASTPyExpression opposite: #comprehensionBodyOwner',
-		'#clause => FMOne type: #FASTPyExpression opposite: #comprehensionClauseOwner'
+		'#clauses => FMMany type: #FASTPyExpression opposite: #comprehensionClauseOwner'
 	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
@@ -29,6 +29,12 @@ FASTPyTComprehension classSide >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FASTPyTComprehension >> addClause: anObject [
+	<generated>
+	^ self clauses add: anObject
 ]
 
 { #category : 'accessing' }
@@ -54,23 +60,24 @@ FASTPyTComprehension >> bodyGroup [
 ]
 
 { #category : 'accessing' }
-FASTPyTComprehension >> clause [
-	"Relation named: #clause type: #FASTPyExpression opposite: #comprehensionClauseOwner"
+FASTPyTComprehension >> clauses [
+	"Relation named: #clauses type: #FASTPyExpression opposite: #comprehensionClauseOwner"
 
 	<generated>
-	^ clause
+	<derived>
+	^ clauses
 ]
 
 { #category : 'accessing' }
-FASTPyTComprehension >> clause: anObject [
+FASTPyTComprehension >> clauses: anObject [
 
 	<generated>
-	clause := anObject
+	clauses value: anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTComprehension >> clauseGroup [
+FASTPyTComprehension >> clausesGroup [
 	<generated>
-	<navigation: 'Clause'>
-	^ MooseSpecializedGroup with: self clause
+	<navigation: 'Clauses'>
+	^ MooseSpecializedGroup withAll: self clauses asSet
 ]

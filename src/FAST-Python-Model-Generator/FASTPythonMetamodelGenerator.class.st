@@ -386,6 +386,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	globalStatement --|> statement.
 
 	identifier --|> expression.
+	
+	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
 	ifStatement --|> statement.
 	ifStatement --|> tConditionalStatement.
@@ -532,6 +534,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((globalStatement property: #variable) comment: 'The variable scoped')
 	<>- ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	
+	(ifClause property: #expression) <>- (expression property: #ifClauseOwner).
 
 	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
 
@@ -572,7 +576,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	(tComprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
 
-	(tComprehension property: #clause) <>- (expression property: #comprehensionClauseOwner).
+	(tComprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')

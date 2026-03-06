@@ -1537,10 +1537,10 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of monovalue relation clause"
-	self assert: self topEntity clause isNotNil.
-
-		stack push: self topEntity clause.
+	"Testing value of multivalued relation clauses"
+	self assert: self topEntity clauses size equals: 1.
+	
+		stack push: (stack top clauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for k,v in class_indices.items()'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -2401,10 +2401,10 @@ FASTPythonImporterTest >> testGeneratorExpression [
 			stack pop.
 		stack pop.
 	
-	"Testing value of monovalue relation clause"
-	self assert: self topEntity clause isNotNil.
-
-		stack push: self topEntity clause.
+	"Testing value of multivalued relation clauses"
+	self assert: self topEntity clauses size equals: 1.
+	
+		stack push: (stack top clauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(10)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -2571,6 +2571,108 @@ FASTPythonImporterTest >> testIf [
 			self assert: (self topEntity isOfType: FASTPyInteger).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - comprehension' }
+FASTPythonImporterTest >> testIfClauseInListComprehension [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testIfClauseInListComprehension 	"
+
+	self parse: '[x for x in range(10) if x  == 0]'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 4.
+	self assert: (fast allWithType: FASTPyIfClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyListComprehension) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '[x for x in range(10) if x  == 0]'.
+	self assert: (self topEntity isOfType: FASTPyListComprehension).
+	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	
+	"Testing value of monovalue relation body"
+	self assert: self topEntity body isNotNil.
+
+		stack push: self topEntity body.
+		self assert: self topEntity sourceCode equals: 'x'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+	"Testing value of multivalued relation clauses"
+	self assert: self topEntity clauses size equals: 2.
+	
+		stack push: (stack top clauses at: 1).
+		self assert: self topEntity sourceCode equals: 'for x in range(10)'.
+		self assert: (self topEntity isOfType: FASTPyForInClause).
+		
+		"Testing value of monovalue relation left"
+		self assert: self topEntity left isNotNil.
+
+			stack push: self topEntity left.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of monovalue relation right"
+		self assert: self topEntity right isNotNil.
+
+			stack push: self topEntity right.
+			self assert: self topEntity sourceCode equals: 'range(10)'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of multivalued relation arguments"
+			self assert: self topEntity arguments size equals: 1.
+			
+				stack push: (stack top arguments at: 1).
+				self assert: self topEntity sourceCode equals: '10'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'range'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top clauses at: 2).
+		self assert: self topEntity sourceCode equals: 'if x  == 0'.
+		self assert: (self topEntity isOfType: FASTPyIfClause).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'x  == 0'.
+			self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+			
+			"Testing value of multivalued relation operands"
+			self assert: self topEntity operands size equals: 2.
+			
+				stack push: (stack top operands at: 1).
+				self assert: self topEntity sourceCode equals: 'x'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			
+				stack push: (stack top operands at: 2).
+				self assert: self topEntity sourceCode equals: '0'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			self assert: self topEntity operators equals: #('==')
 ]
 
 { #category : 'tests - advanced statements' }
@@ -3389,10 +3491,10 @@ FASTPythonImporterTest >> testListComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of monovalue relation clause"
-	self assert: self topEntity clause isNotNil.
-
-		stack push: self topEntity clause.
+	"Testing value of multivalued relation clauses"
+	self assert: self topEntity clauses size equals: 1.
+	
+		stack push: (stack top clauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(5)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -3875,10 +3977,10 @@ FASTPythonImporterTest >> testPatternListInListComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of monovalue relation clause"
-	self assert: self topEntity clause isNotNil.
-
-		stack push: self topEntity clause.
+	"Testing value of multivalued relation clauses"
+	self assert: self topEntity clauses size equals: 1.
+	
+		stack push: (stack top clauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x, y in points'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -4220,10 +4322,10 @@ FASTPythonImporterTest >> testSetComprehension [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of monovalue relation clause"
-	self assert: self topEntity clause isNotNil.
-
-		stack push: self topEntity clause.
+	"Testing value of multivalued relation clauses"
+	self assert: self topEntity clauses size equals: 1.
+	
+		stack push: (stack top clauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for k1 in v.items()'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		

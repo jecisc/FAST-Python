@@ -143,7 +143,7 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitComprehension: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'clause' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry add: 'clauses' asAliasOfField: '<unnamedChild>' ].
 
 	^ self createEntityForNode: aTSNode 
 ]
@@ -290,6 +290,14 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	(context top field = #attribute and: [ context top isOfFASTType: FASTPyAttributeAccess ]) ifTrue: [ ^ self createEntityForNode: aNode kind: FASTPyVariable ].
 	
 	^ self createEntityForNode: aNode
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitIfClause: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyIfClause
 ]
 
 { #category : 'visiting' }

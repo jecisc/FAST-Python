@@ -6,7 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `body` | `FASTPyTComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
-| `clause` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
+| `clauses` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
 
 
 
