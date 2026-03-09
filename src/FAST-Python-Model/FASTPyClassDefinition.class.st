@@ -7,6 +7,11 @@
 |---|
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
 
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+
 
 ## Properties
 ======================

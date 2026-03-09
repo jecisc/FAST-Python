@@ -210,13 +210,6 @@ FASTPyTEntityCreator >> newContinueStatement [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newDecoratedDefinition [
-
-	<generated>
-	^ self add: FASTPyDecoratedDefinition new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newDecorator [
 
 	<generated>

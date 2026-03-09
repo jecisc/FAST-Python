@@ -208,7 +208,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
 	constrainedType := builder ensureClassNamed: #ConstrainedType."Todo"
 	continueStatement := builder ensureClassNamed: #ContinueStatement."Todo"
-	decoratedDefinition := builder ensureClassNamed: #DecoratedDefinition."Todo"
 	decorator := builder ensureClassNamed: #Decorator."Todo"
 	defaultParameter := builder ensureClassNamed: #DefaultParameter."Todo"
 	deleteStatement := builder ensureClassNamed: #DeleteStatement.
@@ -533,6 +532,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
 	
 	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
+	
+	(decorator property: #expression) <>- (expression property: #decoratorOwner).
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
@@ -595,6 +596,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tComprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
 
 	(tComprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
+	
+	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
 	
 	(tuplePattern property: #patterns) <>-* (expression property: #tuplePatternOwner).
 

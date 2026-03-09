@@ -37,14 +37,14 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 	^ fastEntity
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitAliasedImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitArgumentList: aTSNode [
 	"We skip this node and visit the children directly."
 
@@ -171,6 +171,29 @@ TSFASTPythonImporter >> visitConditionalExpression: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitDecoratedDefinition: aTSNode [
+	"We do not wish to create a node for a decorated_definition. The node will always have an unnamed field containing the decorators and a definition field with the definition."
+
+	| fastEntity definitionNode |
+	definitionNode := aTSNode detectChildWithFieldName: 'definition'.
+	fastEntity := definitionNode accept: self.
+
+	self pushContext: fastEntity node: definitionNode during: [
+			self setTopFieldTo: 'decorators'.
+			(aTSNode collectFieldNameOfNamedChild at: '<unnamedChild>') asTSNodes do: [ :node | node accept: self ] ].
+
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitDecorator: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyDecorator
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
@@ -230,7 +253,7 @@ TSFASTPythonImporter >> visitElifClause: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyElifClause parentBlock: [ :entity | self topFastEntity addElifClause: entity ]
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitElseClause: aTSNode [
 
 	self rawVisitChildren: aTSNode
@@ -254,12 +277,11 @@ TSFASTPythonImporter >> visitFalse: aNode [
 TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 
-	| definition |
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'statementBlock' asAliasOfField: 'body' ].
 
-	definition := (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
-		              ifTrue: [ self handleNode: aNode kind: FASTPyMethodDefinition ]
-		              ifFalse: [ self handleNode: aNode kind: FASTPyFunctionDefinition ]
+	^ (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
+		  ifTrue: [ self handleNode: aNode kind: FASTPyMethodDefinition ]
+		  ifFalse: [ self handleNode: aNode kind: FASTPyFunctionDefinition ]
 ]
 
 { #category : 'visiting' }
@@ -382,7 +404,7 @@ TSFASTPythonImporter >> visitLambdaParameters: aNode [
 	^ self visitParameters: aNode
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitLineContinuation: aTSNode [
 	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
 
@@ -437,7 +459,7 @@ TSFASTPythonImporter >> visitParameters: aNode [
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitParenthesizedExpression: aTSNode [
 	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
 
@@ -452,7 +474,7 @@ TSFASTPythonImporter >> visitPatternList: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyPatternList
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitRelativeImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
