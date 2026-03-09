@@ -535,6 +535,14 @@ TSFASTPythonImporter >> visitTuple: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitTupleExpression: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyTuple
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitTuplePattern: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'patterns' asAliasOfField: '<unnamedChild>' ].

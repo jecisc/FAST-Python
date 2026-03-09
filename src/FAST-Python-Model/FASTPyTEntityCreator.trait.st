@@ -770,13 +770,6 @@ FASTPyTEntityCreator >> newTuple [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newTupleExpression [
-
-	<generated>
-	^ self add: FASTPyTupleExpression new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newTuplePattern [
 
 	<generated>

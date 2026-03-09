@@ -518,6 +518,7 @@ FASTPythonImporterTest >> testBreakStatement [
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	self assert: (self topEntity isOfType: FASTTLoopStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -1395,6 +1396,7 @@ FASTPythonImporterTest >> testContinueStatement [
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	self assert: (self topEntity isOfType: FASTTLoopStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -2725,6 +2727,7 @@ FASTPythonImporterTest >> testIf [
     3' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2897,6 +2900,7 @@ else:
 	False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -2986,6 +2990,7 @@ elif x < 10:
 	False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -3020,6 +3025,7 @@ elif x < 10:
 		self assert: (self topEntity isOfType: FASTPyElifClause).
 		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -3105,6 +3111,7 @@ elif x == 60:
 	True' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -3139,6 +3146,7 @@ elif x == 60:
 		self assert: (self topEntity isOfType: FASTPyElifClause).
 		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -3181,6 +3189,7 @@ elif x == 60:
 		self assert: (self topEntity isOfType: FASTPyElifClause).
 		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -3271,6 +3280,7 @@ else:
 	False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -3305,6 +3315,7 @@ else:
 		self assert: (self topEntity isOfType: FASTPyElifClause).
 		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -3347,6 +3358,7 @@ else:
 		self assert: (self topEntity isOfType: FASTPyElifClause).
 		self assert: (self topEntity isOfType: FASTTConditionalStatement).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
 		self assert: self topEntity condition isNotNil.
@@ -3895,6 +3907,7 @@ else:
     3' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyIfStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation condition"
 	self assert: self topEntity condition isNotNil.
@@ -3960,6 +3973,7 @@ else:
         2' withPlatformLineEndings.
 			self assert: (self topEntity isOfType: FASTPyIfStatement).
 			self assert: (self topEntity isOfType: FASTTConditionalStatement).
+			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation condition"
 			self assert: self topEntity condition isNotNil.
@@ -5766,6 +5780,82 @@ FASTPythonImporterTest >> testTuple [
 ]
 
 { #category : 'tests - collections' }
+FASTPythonImporterTest >> testTupleExpression [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTupleExpression 	"
+
+	self parse: '3, 5,'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '3, 5,'.
+	self assert: (self topEntity isOfType: FASTPyTuple).
+	
+	"Testing value of multivalued relation initializers"
+	self assert: self topEntity initializers size equals: 2.
+	
+		stack push: (stack top initializers at: 1).
+		self assert: self topEntity sourceCode equals: '3'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+		stack pop.
+	
+		stack push: (stack top initializers at: 2).
+		self assert: self topEntity sourceCode equals: '5'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - collections' }
+FASTPythonImporterTest >> testTupleExpressionWithCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTupleExpressionWithCall 	"
+
+	self parse: 'toto(), 5,'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'toto(), 5,'.
+	self assert: (self topEntity isOfType: FASTPyTuple).
+	
+	"Testing value of multivalued relation initializers"
+	self assert: self topEntity initializers size equals: 2.
+	
+		stack push: (stack top initializers at: 1).
+		self assert: self topEntity sourceCode equals: 'toto()'.
+		self assert: (self topEntity isOfType: FASTPyCall).
+		self assert: (self topEntity isOfType: FASTTInvocation).
+		self assert: (self topEntity isOfType: FASTTWithArguments).
+		
+		"Testing value of monovalue relation callee"
+		self assert: self topEntity callee isNotNil.
+
+			stack push: self topEntity callee.
+			self assert: self topEntity sourceCode equals: 'toto'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top initializers at: 2).
+		self assert: self topEntity sourceCode equals: '5'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - collections' }
 FASTPythonImporterTest >> testTupleWithListSplat [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -5862,6 +5952,7 @@ FASTPythonImporterTest >> testWhile [
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	self assert: (self topEntity isOfType: FASTTLoopStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.

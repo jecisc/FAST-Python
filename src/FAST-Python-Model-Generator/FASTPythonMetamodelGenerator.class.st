@@ -101,7 +101,6 @@ Class {
 		'subscript',
 		'tryStatement',
 		'tuple',
-		'tupleExpression',
 		'tuplePattern',
 		'type',
 		'typeAliasStatement',
@@ -287,7 +286,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	thenClause := builder ensureClassNamed: #ThenClause.
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
 	tuple := builder ensureClassNamed: #Tuple."To Review"
-	tupleExpression := builder ensureClassNamed: #TupleExpression."Todo"
 	tuplePattern := builder ensureClassNamed: #TuplePattern."Todo"
 	type := builder ensureClassNamed: #Type."Todo"
 	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement."Todo"
