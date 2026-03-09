@@ -131,6 +131,7 @@ FASTPythonImporterTest >> testAssertStatement [
 	self assert: self topEntity sourceCode equals: 'def aFunction(a, b):
     assert b != 0' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -1519,6 +1520,7 @@ FASTPythonImporterTest >> testDelStatement [
 	self assert: self topEntity sourceCode equals: 'def aFunction(coll):
 	del coll' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -1816,6 +1818,7 @@ FASTPythonImporterTest >> testExpressionList [
 	self assert: self topEntity sourceCode equals: 'def myFunct():
 	return 1 + 2, len("abc"), 3 * 4' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'myFunct'.
@@ -2737,6 +2740,7 @@ FASTPythonImporterTest >> testGlobalStatement [
 	global counter
 	return counter' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -4209,6 +4213,7 @@ FASTPythonImporterTest >> testNonlocalStatement [
 	nonlocal counter
 	return counter' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -4301,6 +4306,7 @@ FASTPythonImporterTest >> testPassStatement [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -4473,6 +4479,7 @@ FASTPythonImporterTest >> testReturnEmpty [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -4514,6 +4521,7 @@ FASTPythonImporterTest >> testReturnList [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return [1, 2, 3]' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -4584,6 +4592,7 @@ FASTPythonImporterTest >> testReturnLiteral [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return 1' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.
@@ -4634,6 +4643,7 @@ FASTPythonImporterTest >> testReturnOperator [
 	self assert: self topEntity sourceCode equals: 'def aFunction():
 	return 10 > 13' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
 	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aFunction'.

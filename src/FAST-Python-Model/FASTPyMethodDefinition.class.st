@@ -27,8 +27,8 @@
 Class {
 	#name : 'FASTPyMethodDefinition',
 	#superclass : 'FASTPyEntity',
-	#traits : 'FASTTNamedBehaviouralEntity',
-	#classTraits : 'FASTTNamedBehaviouralEntity classTrait',
+	#traits : 'FASTPyTDefinition + FASTTNamedBehaviouralEntity',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTTNamedBehaviouralEntity classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

@@ -21,8 +21,8 @@
 Class {
 	#name : 'FASTPyClassDefinition',
 	#superclass : 'FASTPyEntity',
-	#traits : 'FASTTNamedEntity',
-	#classTraits : 'FASTTNamedEntity classTrait',
+	#traits : 'FASTPyTDefinition + FASTTNamedEntity',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTTNamedEntity classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

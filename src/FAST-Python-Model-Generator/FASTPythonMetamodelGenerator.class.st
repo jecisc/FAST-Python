@@ -150,7 +150,8 @@ Class {
 		'tNumericalLiteral',
 		'tComprehension',
 		'tWithCondition',
-		'tWithParameters'
+		'tWithParameters',
+		'tDefinition'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -339,6 +340,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tInvocation.
 
 	classDefinition --|> tNamedEntity.
+	classDefinition --|> tDefinition.
 
 	collectionInitializer --|> expression.
 
@@ -382,6 +384,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	forStatement --|> tLoopStatement.
 
 	functionDefinition --|> tNamedBehaviouralEntity.
+	functionDefinition --|> tDefinition.
 	
 	generatorExpression --|> expression.
 	generatorExpression --|> tComprehension.
@@ -419,6 +422,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	listSplat --|> expression.
 
 	methodDefinition --|> tNamedBehaviouralEntity.
+	methodDefinition --|> tDefinition.
 
 	module --|> block. "A Module has statements."
 	module --|> #THasImmediateSource.
@@ -608,6 +612,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 
 	"FAST-Python"
 	tComprehension := builder newTraitNamed: #TComprehension.
+	tDefinition := builder newTraitNamed: #TDefinition.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	
 	"Remotes"
