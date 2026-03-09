@@ -8,6 +8,7 @@
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
 | `parameterOwner` | `FASTTVariableEntity` | `parameters` | `FASTTWithParameters` | parameterOwner|
 | `parentAssignmentExpression` | `FASTTVariableEntity` | `variable` | `FASTTAssignment` | Optional assignment to the variable|
+| `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -29,11 +30,11 @@
 Class {
 	#name : 'FASTPyAttributeAccess',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTVariableEntity',
-	#classTraits : 'FASTTVariableEntity classTrait',
+	#traits : 'FASTPyTDecoratorExpression + FASTTVariableEntity',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTTVariableEntity classTrait',
 	#instVars : [
-		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner',
-		'#attribute => FMOne type: #FASTPyVariable opposite: #attributeOwner'
+		'#attribute => FMOne type: #FASTPyVariable opposite: #attributeOwner',
+		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',

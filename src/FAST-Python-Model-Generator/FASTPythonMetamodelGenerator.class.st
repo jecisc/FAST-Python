@@ -151,7 +151,8 @@ Class {
 		'tComprehension',
 		'tWithCondition',
 		'tWithParameters',
-		'tDefinition'
+		'tDefinition',
+		'tDecoratorExpression'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -321,6 +322,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	attribute --|> expression.
 	attribute --|> tVariableEntity.
+	attribute --|> tDecoratorExpression.
 
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
@@ -337,6 +339,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	call --|> expression.
 	call --|> tInvocation.
+	call --|> tDecoratorExpression.
 
 	classDefinition --|> tNamedEntity.
 	classDefinition --|> tDefinition.
@@ -391,6 +394,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	globalStatement --|> statement.
 
 	identifier --|> expression.
+	identifier --|> tDecoratorExpression.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -409,6 +413,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	lambda --|> expression.
 	lambda --|> tWithParameters.
+	lambda --|> tDecoratorExpression.
 	
 	list --|> collectionInitializer.
 	
@@ -459,6 +464,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	string --|> tStringLiteral.
 	
 	subscript --|> expression.
+	subscript --|> tDecoratorExpression.
 
 	thenClause --|> block.
 
@@ -533,7 +539,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
 	
-	(decorator property: #expression) <>- (expression property: #decoratorOwner).
+	(decorator property: #expression) <>- (tDecoratorExpression property: #parentDeclarator).
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
@@ -616,6 +622,8 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	"FAST-Python"
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
+	tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression.
+	tDecoratorExpression comment: 'I represent an entity that *can* be the expression of a decorator.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	
 	"Remotes"

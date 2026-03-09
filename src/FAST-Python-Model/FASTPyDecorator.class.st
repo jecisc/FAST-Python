@@ -10,7 +10,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyDecorator` | `decoratorOwner` | `FASTPyExpression` | |
+| `expression` | `FASTPyDecorator` | `parentDeclarator` | `FASTPyTDecoratorExpression` | |
 
 
 
@@ -20,7 +20,7 @@ Class {
 	#superclass : 'FASTPyEntity',
 	#instVars : [
 		'#definitionOwner => FMOne type: #FASTPyTDefinition opposite: #decorators',
-		'#expression => FMOne type: #FASTPyExpression opposite: #decoratorOwner'
+		'#expression => FMOne type: #FASTPyTDecoratorExpression opposite: #parentDeclarator'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -61,7 +61,7 @@ FASTPyDecorator >> definitionOwnerGroup [
 
 { #category : 'accessing' }
 FASTPyDecorator >> expression [
-	"Relation named: #expression type: #FASTPyExpression opposite: #decoratorOwner"
+	"Relation named: #expression type: #FASTPyTDecoratorExpression opposite: #parentDeclarator"
 
 	<generated>
 	^ expression

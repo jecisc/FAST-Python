@@ -15,7 +15,6 @@
 | `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyTComprehension` | |
 | `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
 | `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
-| `decoratorOwner` | `FASTPyExpression` | `expression` | `FASTPyDecorator` | |
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionListOwner` | `FASTPyExpression` | `expressions` | `FASTPyExpressionList` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -66,7 +65,6 @@ Class {
 		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clauses',
 		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
 		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
-		'#decoratorOwner => FMOne type: #FASTPyDecorator opposite: #expression',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#expressionListOwner => FMOne type: #FASTPyExpressionList opposite: #expressions',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
@@ -291,30 +289,6 @@ FASTPyExpression >> conditionalExpressionThenOwnerGroup [
 	<generated>
 	<navigation: 'ConditionalExpressionThenOwner'>
 	^ MooseSpecializedGroup with: self conditionalExpressionThenOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> decoratorOwner [
-	"Relation named: #decoratorOwner type: #FASTPyDecorator opposite: #expression"
-
-	<generated>
-	<container>
-	<derived>
-	^ decoratorOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> decoratorOwner: anObject [
-
-	<generated>
-	decoratorOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> decoratorOwnerGroup [
-	<generated>
-	<navigation: 'DecoratorOwner'>
-	^ MooseSpecializedGroup with: self decoratorOwner
 ]
 
 { #category : 'accessing' }

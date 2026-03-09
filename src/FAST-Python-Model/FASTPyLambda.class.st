@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -14,8 +19,8 @@
 Class {
 	#name : 'FASTPyLambda',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTWithParameters',
-	#classTraits : 'FASTTWithParameters classTrait',
+	#traits : 'FASTPyTDecoratorExpression + FASTTWithParameters',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTTWithParameters classTrait',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #lambdaOwner'
 	],

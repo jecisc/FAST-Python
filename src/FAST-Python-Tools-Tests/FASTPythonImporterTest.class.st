@@ -65,7 +65,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTTNamedEntity. "Only brings a property that is already tested."
 		  FASTTStatement. "I need to enable this one later but for now I'm not sure how to manage expression statements"
 		  TEntityMetaLevelDependency. "Too general"
-		  FASTTExpression "I need to enable this one later but I'm still unsure of how to manage expression statements" }
+		  FASTTExpression. "I need to enable this one later but I'm still unsure of how to manage expression statements"
+		  FASTPyTDecoratorExpression "Adds too much noise in tests" }
 ]
 
 { #category : 'running' }
