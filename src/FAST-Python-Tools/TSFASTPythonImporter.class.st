@@ -377,6 +377,12 @@ TSFASTPythonImporter >> visitLambda: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitLambdaParameters: aNode [
+
+	^ self visitParameters: aNode
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitLineContinuation: aTSNode [
 	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
 
@@ -421,7 +427,9 @@ TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitParameters: aNode [
-	"For parameters we want one by parameter. Not one node for multiple ones."
+	"For parameters we want one by parameter. Not one node for multiple ones.
+	
+	Maybe we should manage it in the children? TODO: Manage other kind of parameters."
 
 	aNode collectNamedChild do: [ :parameterNode |
 			| parameter |
