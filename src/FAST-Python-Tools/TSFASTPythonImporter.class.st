@@ -28,7 +28,7 @@ TSFASTPythonImporter >> manageBinaryOperator: aTSNode ofKind: aClass [
 				add: 'leftOperand' asAliasOfField: 'left';
 				add: 'rightOperand' asAliasOfField: 'right' ].
 
-	fastEntity := self createEntityForNode: aTSNode.
+	fastEntity := self handleNode: aTSNode.
 	
 	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328
 	So I try to het this property manually."
@@ -66,13 +66,13 @@ TSFASTPythonImporter >> visitAssignment: aTSNode [
 				"add: 'variable' asAliasOfField: 'left';" 
 				add: 'expression' asAliasOfField: 'right' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAttribute: aTSNode [
 
-	^ self createEntityForNode: aTSNode kind: FASTPyAttributeAccess
+	^ self handleNode: aTSNode kind: FASTPyAttributeAccess
 ]
 
 { #category : 'visiting' }
@@ -87,13 +87,13 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'statements' asAliasOfField: '<unnamedChild>' ].
 
 	aTSNode parent type = #else_clause ifTrue: [
-		^ self createEntityForNode: aTSNode kind: FASTPyElseClause parentManagementBlock: [ :entity | self topFastEntity elseClause: entity ] ].
+		^ self handleNode: aTSNode kind: FASTPyElseClause parentBlock: [ :entity | self topFastEntity elseClause: entity ] ].
 
-	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self createEntityForNode: aTSNode kind: FASTPyThenClause ].
+	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self handleNode: aTSNode kind: FASTPyThenClause ].
 
 	(context top isOfFASTType: FASTPyElifClause) ifTrue: [ self setTopFieldTo: #statements. "We manually update the field to bypass the block and" ^ self rawVisitChildren: aTSNode ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyBlock
+	^ self handleNode: aTSNode kind: FASTPyBlock
 ]
 
 { #category : 'visiting' }
@@ -107,7 +107,7 @@ TSFASTPythonImporter >> visitCall: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'callee' asAliasOfField: 'function' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyCall
+	^ self handleNode: aTSNode kind: FASTPyCall
 ]
 
 { #category : 'visiting' }
@@ -115,14 +115,14 @@ TSFASTPythonImporter >> visitCollection: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitComment: aTSNode [
 
 	self flag: #todo. "Manage to put the right trait on entities containing me and change the block."
-	^ self createEntityForNode: aTSNode parentManagementBlock: [ :entity | self topFastEntity addGenericChild: entity ]
+	^ self handleNode: aTSNode parentBlock: [ :entity | self topFastEntity addGenericChild: entity ]
 ]
 
 { #category : 'visiting' }
@@ -131,7 +131,7 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 	| fastEntity |
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'operands' asAliasOfField: '<unnamedChild>' ].
 	
-	fastEntity := self createEntityForNode: aTSNode.
+	fastEntity := self handleNode: aTSNode.
 	
 	"The node does not gives us the operators so we try to get them ourselves."
 	fastEntity operators:
@@ -145,7 +145,7 @@ TSFASTPythonImporter >> visitComprehension: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'clauses' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode 
+	^ self handleNode: aTSNode 
 ]
 
 { #category : 'visiting' }
@@ -175,7 +175,7 @@ TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -221,13 +221,13 @@ TSFASTPythonImporter >> visitDottedName: aTSNode [
 			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
 			^ fastEntity ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitElifClause: aTSNode [
 
-	^ self createEntityForNode: aTSNode kind: FASTPyElifClause parentManagementBlock: [ :entity | self topFastEntity addElifClause: entity ]
+	^ self handleNode: aTSNode kind: FASTPyElifClause parentBlock: [ :entity | self topFastEntity addElifClause: entity ]
 ]
 
 { #category : 'visiting' }
@@ -241,13 +241,13 @@ TSFASTPythonImporter >> visitExpressionList: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'expressions' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyExpressionList
+	^ self handleNode: aTSNode kind: FASTPyExpressionList
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitFalse: aNode [
 
-	^ self createEntityForNode: aNode kind: FASTPyBoolean
+	^ self handleNode: aNode kind: FASTPyBoolean
 ]
 
 { #category : 'visiting' }
@@ -258,8 +258,8 @@ TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'statementBlock' asAliasOfField: 'body' ].
 
 	definition := (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
-		              ifTrue: [ self createEntityForNode: aNode kind: FASTPyMethodDefinition ]
-		              ifFalse: [ self createEntityForNode: aNode kind: FASTPyFunctionDefinition ]
+		              ifTrue: [ self handleNode: aNode kind: FASTPyMethodDefinition ]
+		              ifFalse: [ self handleNode: aNode kind: FASTPyFunctionDefinition ]
 ]
 
 { #category : 'visiting' }
@@ -287,7 +287,7 @@ TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -300,18 +300,18 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 				
 	 "If I am on the left side of an assignation then I am a variable."
 	(context anySatisfy: [ :entry | entry field = #left and: [ entry isOfFASTType: FASTPyAssignment ] ]) ifTrue: [
-		^ self createEntityForNode: aNode kind: FASTPyVariable ].
+		^ self handleNode: aNode kind: FASTPyVariable ].
 	
 	"In case we are in an alias, we edit the property alias of the last imported entity"
 	(aNode parent type = #aliased_import) ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ].
 
 	"Those statements points a variable"
 	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ])
-		 ifTrue:  [ ^self createEntityForNode: aNode kind: FASTPyVariable ].
+		 ifTrue:  [ ^self handleNode: aNode kind: FASTPyVariable ].
 		
-	(context top field = #attribute and: [ context top isOfFASTType: FASTPyAttributeAccess ]) ifTrue: [ ^ self createEntityForNode: aNode kind: FASTPyVariable ].
+	(context top field = #attribute and: [ context top isOfFASTType: FASTPyAttributeAccess ]) ifTrue: [ ^ self handleNode: aNode kind: FASTPyVariable ].
 	
-	^ self createEntityForNode: aNode
+	^ self handleNode: aNode
 ]
 
 { #category : 'visiting' }
@@ -319,7 +319,7 @@ TSFASTPythonImporter >> visitIfClause: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyIfClause
+	^ self handleNode: aTSNode kind: FASTPyIfClause
 ]
 
 { #category : 'visiting' }
@@ -327,7 +327,7 @@ TSFASTPythonImporter >> visitIfStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'thenClause' asAliasOfField: 'consequence' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyIfStatement
+	^ self handleNode: aTSNode kind: FASTPyIfStatement
 ]
 
 { #category : 'visiting' }
@@ -338,14 +338,14 @@ TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 				add: 'importedEntities' asAliasOfField: 'name';
 				add: 'fromModule' asAliasOfField: 'module_name' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyImportFromStatement
+	^ self handleNode: aTSNode kind: FASTPyImportFromStatement
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitImportPrefix: aTSNode [
 
 	| fastEntity |
-	fastEntity := self createEntityForNode: aTSNode kind: FASTPyFromModule.
+	fastEntity := self handleNode: aTSNode kind: FASTPyFromModule.
 	fastEntity segments: { (self sourceCodeOf: aTSNode) }.
 	^ fastEntity
 ]
@@ -355,7 +355,7 @@ TSFASTPythonImporter >> visitImportStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'importedEntities' asAliasOfField: 'name' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -363,7 +363,7 @@ TSFASTPythonImporter >> visitInteger: aTSNode [
 	"In python we have integers and complex numbers.
 	A Complex ends with a j"
 
-	^ self createEntityForNode: aTSNode kind: ((self sourceCodeOf: aTSNode) last isLetter
+	^ self handleNode: aTSNode kind: ((self sourceCodeOf: aTSNode) last isLetter
 			   ifTrue: [ FASTPyComplex ]
 			   ifFalse: [ FASTPyInteger ])
 ]
@@ -373,7 +373,7 @@ TSFASTPythonImporter >> visitLambda: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: 'body' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyLambda
+	^ self handleNode: aTSNode kind: FASTPyLambda
 ]
 
 { #category : 'visiting' }
@@ -406,7 +406,7 @@ TSFASTPythonImporter >> visitListSplat: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #iterable asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyListSplat
+	^ self handleNode: aTSNode kind: FASTPyListSplat
 ]
 
 { #category : 'visiting' }
@@ -414,7 +414,7 @@ TSFASTPythonImporter >> visitModule: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'statements' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyModule
+	^ self handleNode: aTSNode kind: FASTPyModule
 ]
 
 { #category : 'visiting' }
@@ -422,7 +422,7 @@ TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
@@ -433,7 +433,7 @@ TSFASTPythonImporter >> visitParameters: aNode [
 
 	aNode collectNamedChild do: [ :parameterNode |
 			| parameter |
-			parameter := self createEntityForNode: parameterNode kind: FASTPyParameter parentManagementBlock: [ :entity | self topFastEntity addParameter: entity ].
+			parameter := self handleNode: parameterNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
 ]
 
@@ -449,7 +449,7 @@ TSFASTPythonImporter >> visitPatternList: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'elements' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyPatternList
+	^ self handleNode: aTSNode kind: FASTPyPatternList
 ]
 
 { #category : 'visiting' }
@@ -482,7 +482,7 @@ TSFASTPythonImporter >> visitSlice: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'components' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPySlice
+	^ self handleNode: aTSNode kind: FASTPySlice
 ]
 
 { #category : 'visiting' }
@@ -490,7 +490,7 @@ TSFASTPythonImporter >> visitStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting - noop' }
@@ -519,13 +519,13 @@ TSFASTPythonImporter >> visitSubscript: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #indices asAliasOfField: 'subscript' ].
 
-	^ self createEntityForNode: aTSNode
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitTrue: aNode [
 
-	^ self createEntityForNode: aNode kind: FASTPyBoolean
+	^ self handleNode: aNode kind: FASTPyBoolean
 ]
 
 { #category : 'visiting' }
@@ -539,7 +539,7 @@ TSFASTPythonImporter >> visitTupleExpression: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyTuple
+	^ self handleNode: aTSNode kind: FASTPyTuple
 ]
 
 { #category : 'visiting' }
@@ -547,14 +547,14 @@ TSFASTPythonImporter >> visitTuplePattern: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'patterns' asAliasOfField: '<unnamedChild>' ].
 
-	^ self createEntityForNode: aTSNode kind: FASTPyTuplePattern
+	^ self handleNode: aTSNode kind: FASTPyTuplePattern
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitUnaryOperator: aTSNode [
 
 	| fastEntity |
-	fastEntity := self createEntityForNode: aTSNode.
+	fastEntity := self handleNode: aTSNode.
 	
 	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328"
 	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity startPos to: fastEntity argument startPos - 1) trim.
