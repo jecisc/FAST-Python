@@ -13,6 +13,8 @@
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyTComprehension` | |
 | `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyTComprehension` | |
+| `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
+| `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionListOwner` | `FASTPyExpression` | `expressions` | `FASTPyExpressionList` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -26,7 +28,7 @@
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
-| `parentConditionalStatement` | `FASTTExpression` | `condition` | `FASTTConditionalStatement` | Optional condition statement where this expression is used|
+| `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
@@ -60,6 +62,8 @@ Class {
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#comprehensionBodyOwner => FMOne type: #FASTPyTComprehension opposite: #body',
 		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clauses',
+		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
+		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#expressionListOwner => FMOne type: #FASTPyExpressionList opposite: #expressions',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
@@ -235,6 +239,54 @@ FASTPyExpression >> comprehensionClauseOwnerGroup [
 	<generated>
 	<navigation: 'ComprehensionClauseOwner'>
 	^ MooseSpecializedGroup with: self comprehensionClauseOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> conditionalExpressionElseOwner [
+	"Relation named: #conditionalExpressionElseOwner type: #FASTPyConditionalExpression opposite: #elseExpression"
+
+	<generated>
+	<container>
+	<derived>
+	^ conditionalExpressionElseOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> conditionalExpressionElseOwner: anObject [
+
+	<generated>
+	conditionalExpressionElseOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> conditionalExpressionElseOwnerGroup [
+	<generated>
+	<navigation: 'ConditionalExpressionElseOwner'>
+	^ MooseSpecializedGroup with: self conditionalExpressionElseOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> conditionalExpressionThenOwner [
+	"Relation named: #conditionalExpressionThenOwner type: #FASTPyConditionalExpression opposite: #thenExpression"
+
+	<generated>
+	<container>
+	<derived>
+	^ conditionalExpressionThenOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> conditionalExpressionThenOwner: anObject [
+
+	<generated>
+	conditionalExpressionThenOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> conditionalExpressionThenOwnerGroup [
+	<generated>
+	<navigation: 'ConditionalExpressionThenOwner'>
+	^ MooseSpecializedGroup with: self conditionalExpressionThenOwner
 ]
 
 { #category : 'accessing' }

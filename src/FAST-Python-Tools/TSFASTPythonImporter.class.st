@@ -149,6 +149,28 @@ TSFASTPythonImporter >> visitComprehension: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitConditionalExpression: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyConditionalExpression from: aTSNode.
+
+	self setParentOf: fastEntity.
+
+	self
+		pushContext: fastEntity
+		node: aTSNode
+		during: [ "The TS node has no field for this node but we have 3 concepts in the nodes: the first is the #thenExpression, the second the #condition and the third the #elseExpression. None is optional and in FAST we want to distinguish them. So we set a field by hand."
+				self setTopFieldTo: 'thenExpression'.
+				(aTSNode namedChildAt: 1) accept: self.
+				self setTopFieldTo: 'condition'.
+				(aTSNode namedChildAt: 2) accept: self.
+				self setTopFieldTo: 'elseExpression'.
+				(aTSNode namedChildAt: 3) accept: self ].
+
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].

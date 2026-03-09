@@ -11,7 +11,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `condition` | `FASTTConditionalStatement` | `parentConditionalStatement` | `FASTTExpression` | The boolean condition tested|
+| `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 | `elifClauses` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElifClause` | |
 | `elseClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElseClause` | |
 | `thenClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyThenClause` | |

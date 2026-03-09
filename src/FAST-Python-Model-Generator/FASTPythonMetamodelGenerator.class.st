@@ -149,7 +149,8 @@ Class {
 		'statement',
 		'tWithStatements',
 		'tNumericalLiteral',
-		'tComprehension'
+		'tComprehension',
+		'tWithCondition'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -349,6 +350,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	complex --|> literal.
 	complex --|> tNumericalLiteral.
 	
+	conditionalExpression --|> expression.
+	conditionalExpression --|> tWithCondition.
+	
 	continueStatement --|> statement.
 
 	deleteStatement --|> statement.
@@ -519,6 +523,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
+	
+	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
+	
+	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
@@ -616,5 +624,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tStatementBlock := self remoteTrait: #TStatementBlock withPrefix: #FAST.
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
 	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
+	tWithCondition := self remoteTrait: #TWithCondition withPrefix: #FAST.
 	tWithStatements := self remoteTrait: #TWithStatements withPrefix: #FAST
 ]
