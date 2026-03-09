@@ -267,6 +267,18 @@ TSFASTPythonImporter >> visitElseClause: aTSNode [
 	self rawVisitChildren: aTSNode
 ]
 
+{ #category : 'visiting - error' }
+TSFASTPythonImporter >> visitEscapedInterpolation: aTSNode [
+
+	self error: 'We sould never finish here because we took the decision of not representing them and the node visit should be skipped in #visitStringContent:.'
+]
+
+{ #category : 'visiting - error' }
+TSFASTPythonImporter >> visitEscapedSequence: aTSNode [
+
+	self error: 'We sould never finish here because we took the decision of not representing them and the node visit should be skipped in #visitStringContent:.'
+]
+
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitExpressionList: aTSNode [
 

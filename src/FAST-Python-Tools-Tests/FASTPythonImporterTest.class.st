@@ -6015,6 +6015,42 @@ FASTPythonImporterTest >> testSliceWithStep [
 		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testStringWithEscapedInterpolation [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testStringWithEscapedInterpolation 	"
+
+	self parse: 'f"The result is {{value}}"'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'f"The result is {{value}}"'.
+	self assert: (self topEntity isOfType: FASTPyString).
+	self assert: (self topEntity isOfType: FASTTLiteral).
+	self assert: (self topEntity isOfType: FASTTStringLiteral)
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testStringWithEscapedSequence [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testStringWithEscapedSequence 	"
+
+	self parse: '"Line 1\nLine 2"'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '"Line 1\nLine 2"'.
+	self assert: (self topEntity isOfType: FASTPyString).
+	self assert: (self topEntity isOfType: FASTTLiteral).
+	self assert: (self topEntity isOfType: FASTTStringLiteral)
+]
+
 { #category : 'tests - subscripts' }
 FASTPythonImporterTest >> testSubscript [
 	<generated>
