@@ -369,6 +369,14 @@ TSFASTPythonImporter >> visitInteger: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitLambda: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: 'body' ].
+
+	^ self createEntityForNode: aTSNode kind: FASTPyLambda
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitLineContinuation: aTSNode [
 	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
 

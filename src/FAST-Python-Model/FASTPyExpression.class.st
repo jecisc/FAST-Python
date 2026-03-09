@@ -24,6 +24,7 @@
 | `forStatementRightOwner` | `FASTPyExpression` | `left` | `FASTPyForStatement` | The for statement owner (if possible)|
 | `ifClauseOwner` | `FASTPyExpression` | `expression` | `FASTPyIfClause` | |
 | `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
+| `lambdaOwner` | `FASTPyExpression` | `expression` | `FASTPyLambda` | |
 | `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
@@ -72,6 +73,7 @@ Class {
 		'#forStatementRightOwner => FMOne type: #FASTPyForStatement opposite: #left',
 		'#ifClauseOwner => FMOne type: #FASTPyIfClause opposite: #expression',
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
+		'#lambdaOwner => FMOne type: #FASTPyLambda opposite: #expression',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
@@ -482,6 +484,30 @@ FASTPyExpression >> keywordArgumentOwnerGroup [
 	<generated>
 	<navigation: 'KeywordArgumentOwner'>
 	^ MooseSpecializedGroup with: self keywordArgumentOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> lambdaOwner [
+	"Relation named: #lambdaOwner type: #FASTPyLambda opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ lambdaOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> lambdaOwner: anObject [
+
+	<generated>
+	lambdaOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> lambdaOwnerGroup [
+	<generated>
+	<navigation: 'LambdaOwner'>
+	^ MooseSpecializedGroup with: self lambdaOwner
 ]
 
 { #category : 'accessing' }

@@ -3599,6 +3599,33 @@ FASTPythonImporterTest >> testInteger [
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
+{ #category : 'tests - lambdas' }
+FASTPythonImporterTest >> testLambda [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testLambda 	"
+
+	self parse: 'lambda : 3'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyLambda) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'lambda : 3'.
+	self assert: (self topEntity isOfType: FASTPyLambda).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: '3'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
 { #category : 'tests - collections' }
 FASTPythonImporterTest >> testList [
 	<generated>

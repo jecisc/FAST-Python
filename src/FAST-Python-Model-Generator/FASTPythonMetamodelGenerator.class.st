@@ -150,7 +150,8 @@ Class {
 		'tWithStatements',
 		'tNumericalLiteral',
 		'tComprehension',
-		'tWithCondition'
+		'tWithCondition',
+		'tWithParameters'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -406,6 +407,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	keywordArgument --|> expression.
 	keywordArgument --|> tNamedEntity.
 	
+	lambda --|> expression.
+	lambda --|> tWithParameters.
+	
 	list --|> collectionInitializer.
 	
 	listComprehension --|> expression.
@@ -562,6 +566,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((keywordArgument property: #value) comment: 'The value of the keyword argument.')
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
+	
+	(lambda property: #expression) <>- (expression property: #lambdaOwner).
 
 	((listSplat property: #iterable) comment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.')
 	<>- ((expression property: #listSplatOwner) comment: 'List splat unpacking me (if it''s the case)').
@@ -625,5 +631,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
 	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
 	tWithCondition := self remoteTrait: #TWithCondition withPrefix: #FAST.
+	tWithParameters := self remoteTrait: #TWithParameters withPrefix: #FAST.
 	tWithStatements := self remoteTrait: #TWithStatements withPrefix: #FAST
 ]
