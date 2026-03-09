@@ -341,7 +341,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tInvocation.
 	call --|> tDecoratorExpression.
 
-	classDefinition --|> tNamedEntity.
+	classDefinition --|> tNamedBehaviouralEntity.
 	classDefinition --|> tDefinition.
 
 	collectionInitializer --|> expression.

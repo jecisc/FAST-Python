@@ -11,6 +11,8 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+| `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
+| `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
 
 
 ## Properties
@@ -26,8 +28,8 @@
 Class {
 	#name : 'FASTPyClassDefinition',
 	#superclass : 'FASTPyEntity',
-	#traits : 'FASTPyTDefinition + FASTTNamedEntity',
-	#classTraits : 'FASTPyTDefinition classTrait + FASTTNamedEntity classTrait',
+	#traits : 'FASTPyTDefinition + FASTTNamedBehaviouralEntity',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTTNamedBehaviouralEntity classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

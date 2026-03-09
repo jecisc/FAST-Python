@@ -111,6 +111,14 @@ TSFASTPythonImporter >> visitCall: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitClassDefinition: aNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'statementBlock' asAliasOfField: 'body' ].
+
+	^ self handleNode: aNode kind: FASTPyClassDefinition
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitCollection: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
