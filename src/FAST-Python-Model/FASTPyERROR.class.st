@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyERROR',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyERROR class >> annotation [
 
-	<FMClass: #ERROR super: #FASTPyEntity>
+	<FMClass: #ERROR super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

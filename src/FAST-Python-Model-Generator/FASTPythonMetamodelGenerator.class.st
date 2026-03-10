@@ -316,6 +316,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	self flag: #todo. "The next two line are WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
 	entity --|> tStatement.
+	
+	"Adding a bunch of traits in errors to not interupt the parsing much if we have an error."
+	_ERROR --|> expression.
 
 	assignment --|> tAssignment.
 
