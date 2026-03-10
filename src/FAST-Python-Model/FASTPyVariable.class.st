@@ -6,9 +6,9 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `attributeOwner` | `FASTPyVariable` | `attribute` | `FASTPyAttributeAccess` | The attribute access accessing me (if it's the case)|
-| `globalOwner` | `FASTPyVariable` | `variable` | `FASTPyGlobalStatement` | The global statement defining my scope (if it's the case)|
+| `globalOwner` | `FASTPyVariable` | `variables` | `FASTPyGlobalStatement` | The global statement defining my scope (if it's the case)|
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
-| `nonlocalOwner` | `FASTPyVariable` | `variable` | `FASTPyNonlocalStatement` | The global statement defining my scope (if it's the case)|
+| `nonlocalOwner` | `FASTPyVariable` | `variables` | `FASTPyNonlocalStatement` | The global statement defining my scope (if it's the case)|
 | `parameterOwner` | `FASTTVariableEntity` | `parameters` | `FASTTWithParameters` | parameterOwner|
 | `parentAssignmentExpression` | `FASTTVariableEntity` | `variable` | `FASTTAssignment` | Optional assignment to the variable|
 
@@ -30,8 +30,8 @@ Class {
 	#classTraits : 'FASTTVariableEntity classTrait',
 	#instVars : [
 		'#attributeOwner => FMOne type: #FASTPyAttributeAccess opposite: #attribute',
-		'#globalOwner => FMOne type: #FASTPyGlobalStatement opposite: #variable',
-		'#nonlocalOwner => FMOne type: #FASTPyNonlocalStatement opposite: #variable'
+		'#globalOwner => FMOne type: #FASTPyGlobalStatement opposite: #variables',
+		'#nonlocalOwner => FMOne type: #FASTPyNonlocalStatement opposite: #variables'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -74,12 +74,11 @@ FASTPyVariable >> attributeOwnerGroup [
 
 { #category : 'accessing' }
 FASTPyVariable >> globalOwner [
-	"Relation named: #globalOwner type: #FASTPyGlobalStatement opposite: #variable"
+	"Relation named: #globalOwner type: #FASTPyGlobalStatement opposite: #variables"
 
 	<generated>
 	<FMComment: 'The global statement defining my scope (if it''s the case)'>
 	<container>
-	<derived>
 	^ globalOwner
 ]
 
@@ -99,12 +98,11 @@ FASTPyVariable >> globalOwnerGroup [
 
 { #category : 'accessing' }
 FASTPyVariable >> nonlocalOwner [
-	"Relation named: #nonlocalOwner type: #FASTPyNonlocalStatement opposite: #variable"
+	"Relation named: #nonlocalOwner type: #FASTPyNonlocalStatement opposite: #variables"
 
 	<generated>
 	<FMComment: 'The global statement defining my scope (if it''s the case)'>
 	<container>
-	<derived>
 	^ nonlocalOwner
 ]
 

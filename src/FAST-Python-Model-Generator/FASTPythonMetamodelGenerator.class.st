@@ -559,8 +559,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((forStatement property: #left) comment: 'The identifier of the created local variable or tuple')
 	<>- ((expression property: #forStatementRightOwner) comment: 'The for statement owner (if possible)').
 
-	((globalStatement property: #variable) comment: 'The variable scoped')
-	<>- ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	((globalStatement property: #variables) comment: 'The variables scoped')
+	<>-* ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 	
 	(ifClause property: #expression) <>- (expression property: #ifClauseOwner).
 
@@ -587,8 +587,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((listSplat property: #iterable) comment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.')
 	<>- ((expression property: #listSplatOwner) comment: 'List splat unpacking me (if it''s the case)').
 
-	((nonlocalStatement property: #variable) comment: 'The variable scoped')
-	<>- ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	((nonlocalStatement property: #variables) comment: 'The variables scoped')
+	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 
 	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
 

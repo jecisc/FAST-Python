@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `variable` | `FASTPyGlobalStatement` | `globalOwner` | `FASTPyVariable` | The variable scoped|
+| `variables` | `FASTPyGlobalStatement` | `globalOwner` | `FASTPyVariable` | The variables scoped|
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyGlobalStatement',
 	#superclass : 'FASTPyStatement',
 	#instVars : [
-		'#variable => FMOne type: #FASTPyVariable opposite: #globalOwner'
+		'#variables => FMMany type: #FASTPyVariable opposite: #globalOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -30,25 +30,32 @@ FASTPyGlobalStatement class >> annotation [
 	^ self
 ]
 
-{ #category : 'accessing' }
-FASTPyGlobalStatement >> variable [
-	"Relation named: #variable type: #FASTPyVariable opposite: #globalOwner"
-
+{ #category : 'adding' }
+FASTPyGlobalStatement >> addVariable: anObject [
 	<generated>
-	<FMComment: 'The variable scoped'>
-	^ variable
+	^ self variables add: anObject
 ]
 
 { #category : 'accessing' }
-FASTPyGlobalStatement >> variable: anObject [
+FASTPyGlobalStatement >> variables [
+	"Relation named: #variables type: #FASTPyVariable opposite: #globalOwner"
 
 	<generated>
-	variable := anObject
+	<FMComment: 'The variables scoped'>
+	<derived>
+	^ variables
+]
+
+{ #category : 'accessing' }
+FASTPyGlobalStatement >> variables: anObject [
+
+	<generated>
+	variables value: anObject
 ]
 
 { #category : 'navigation' }
-FASTPyGlobalStatement >> variableGroup [
+FASTPyGlobalStatement >> variablesGroup [
 	<generated>
-	<navigation: 'Variable'>
-	^ MooseSpecializedGroup with: self variable
+	<navigation: 'Variables'>
+	^ MooseSpecializedGroup withAll: self variables asSet
 ]

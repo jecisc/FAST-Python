@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `variable` | `FASTPyNonlocalStatement` | `nonlocalOwner` | `FASTPyVariable` | The variable scoped|
+| `variables` | `FASTPyNonlocalStatement` | `nonlocalOwner` | `FASTPyVariable` | The variables scoped|
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyNonlocalStatement',
 	#superclass : 'FASTPyStatement',
 	#instVars : [
-		'#variable => FMOne type: #FASTPyVariable opposite: #nonlocalOwner'
+		'#variables => FMMany type: #FASTPyVariable opposite: #nonlocalOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -30,25 +30,32 @@ FASTPyNonlocalStatement class >> annotation [
 	^ self
 ]
 
-{ #category : 'accessing' }
-FASTPyNonlocalStatement >> variable [
-	"Relation named: #variable type: #FASTPyVariable opposite: #nonlocalOwner"
-
+{ #category : 'adding' }
+FASTPyNonlocalStatement >> addVariable: anObject [
 	<generated>
-	<FMComment: 'The variable scoped'>
-	^ variable
+	^ self variables add: anObject
 ]
 
 { #category : 'accessing' }
-FASTPyNonlocalStatement >> variable: anObject [
+FASTPyNonlocalStatement >> variables [
+	"Relation named: #variables type: #FASTPyVariable opposite: #nonlocalOwner"
 
 	<generated>
-	variable := anObject
+	<FMComment: 'The variables scoped'>
+	<derived>
+	^ variables
+]
+
+{ #category : 'accessing' }
+FASTPyNonlocalStatement >> variables: anObject [
+
+	<generated>
+	variables value: anObject
 ]
 
 { #category : 'navigation' }
-FASTPyNonlocalStatement >> variableGroup [
+FASTPyNonlocalStatement >> variablesGroup [
 	<generated>
-	<navigation: 'Variable'>
-	^ MooseSpecializedGroup with: self variable
+	<navigation: 'Variables'>
+	^ MooseSpecializedGroup withAll: self variables asSet
 ]

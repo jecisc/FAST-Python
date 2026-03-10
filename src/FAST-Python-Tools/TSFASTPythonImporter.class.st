@@ -341,7 +341,7 @@ TSFASTPythonImporter >> visitGeneratorExpression: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'variables' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode
 ]
@@ -476,7 +476,7 @@ TSFASTPythonImporter >> visitModule: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'variable' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'variables' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode
 ]
