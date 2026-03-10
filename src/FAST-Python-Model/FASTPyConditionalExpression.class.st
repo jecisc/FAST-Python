@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `sliceOwner` | `FASTPyTSliceContent` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -15,8 +20,8 @@
 Class {
 	#name : 'FASTPyConditionalExpression',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTWithCondition',
-	#classTraits : 'FASTTWithCondition classTrait',
+	#traits : 'FASTPyTSliceContent + FASTTWithCondition',
+	#classTraits : 'FASTPyTSliceContent classTrait + FASTTWithCondition classTrait',
 	#instVars : [
 		'#elseExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionElseOwner',
 		'#thenExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionThenOwner'

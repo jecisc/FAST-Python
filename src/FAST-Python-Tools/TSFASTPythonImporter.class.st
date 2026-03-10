@@ -355,7 +355,7 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 					 { FASTPyMethodDefinition. FASTPyClassDefinition. FASTPyFunctionDefinition. FASTPyKeywordArgument } anySatisfy: [ :class | entry isOfFASTType: class ] ] ]) ifTrue: [ ^ self topFastEntity name: (self sourceCodeOf: aNode) ].
 				
 	 "If I am on the left side of an assignation then I am a variable."
-	(context anySatisfy: [ :entry | entry field = #left and: [ entry isOfFASTType: FASTPyAssignment ] ]) ifTrue: [
+	(context top field = #left and: [ context top isOfFASTType: FASTPyAssignment ]) ifTrue: [
 		^ self handleNode: aNode kind: FASTPyVariable ].
 	
 	"In case we are in an alias, we edit the property alias of the last imported entity"

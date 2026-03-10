@@ -337,6 +337,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
+	boolean --|> tSliceContent.
 	
 	breakStatement --|> statement.
 
@@ -359,6 +360,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	conditionalExpression --|> expression.
 	conditionalExpression --|> tWithCondition.
+	conditionalExpression --|> tSliceContent.
 	
 	continueStatement --|> statement.
 

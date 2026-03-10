@@ -14,9 +14,9 @@ FASTPythonImporter class >> devFASTPythonMenu: aBuilder [
 
 	<worldMenu>
 	(aBuilder item: #DevFASTPython)
-		"parent: #Famix; uncomment later when the dev will be more advanced."
 		order: 100;
 		label: 'FAST Python dev utilities';
+		"parent: #Famix; uncomment later when the dev will be more advanced."
 		icon: MooseIcons mooseIcon;
 		with: [
 				(aBuilder item: #ResetMM)
@@ -27,14 +27,19 @@ FASTPythonImporter class >> devFASTPythonMenu: aBuilder [
 				(aBuilder item: #ImportBatch1)
 					label: 'Import batch 1';
 					order: 2;
-					icon: (self iconNamed: #smallNew); 
+					icon: (self iconNamed: #smallNew);
 					action: [ self devParseBatch1 ].
+				(aBuilder item: #ImportBatch1To10)
+					label: 'Import batch 1 to 10';
+					order: 2;
+					icon: (self iconNamed: #smallNew);
+					action: [ self devParseFiles: ('/Users/cyril/marius/10batches' asFileReference allFiles select: [ :f | f extension = 'py' ]) ].
 				(aBuilder item: #'Toggle FAST Importer Debug mode')
 					action: [ TSFASTImporter isInDebugMode: TSFASTImporter isInDebugMode not ];
 					order: 99999;
 					withSeparatorAfter;
 					help: 'If this is enabled, errors will not be caught in the FAST importing but passed.';
-					icon: (self iconNamed: #configuration) ] 
+					icon: (self iconNamed: #configuration) ]
 ]
 
 { #category : 'development support' }
@@ -59,7 +64,7 @@ FASTPythonImporter class >> devParseBatchNumber: aString [
 	We do not save the models to not flood the memory and allow their GC."
 
 	<script>
-	self devParseFiles: (('/Users/cyril/marius/selected_notebooks_converted/batch_' , aString) asFileReference files select: [ :f | f extension = 'py' ])
+	self devParseFiles: (('/Users/cyril/marius/selected_notebooks_converted/batch_' , aString) asFileReference allFiles select: [ :f | f extension = 'py' ])
 ]
 
 { #category : 'development support' }
