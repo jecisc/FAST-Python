@@ -170,10 +170,10 @@ FASTPythonImporterTest >> testAssertStatement [
 			self assert: self topEntity sourceCode equals: 'assert b != 0'.
 			self assert: (self topEntity isOfType: FASTPyAssertStatement).
 			
-			"Testing value of monovalue relation expression"
-			self assert: self topEntity expression isNotNil.
-
-				stack push: self topEntity expression.
+			"Testing value of multivalued relation expressions"
+			self assert: self topEntity expressions size equals: 1.
+			
+				stack push: (stack top expressions at: 1).
 				self assert: self topEntity sourceCode equals: 'b != 0'.
 				self assert: (self topEntity isOfType: FASTPyComparisonOperator).
 				
@@ -192,6 +192,58 @@ FASTPythonImporterTest >> testAssertStatement [
 					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 					stack pop.
 				self assert: self topEntity operators equals: #('!=')
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testAssertStatementWithConcatenatedString [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAssertStatementWithConcatenatedString 	"
+
+	self parse: 'assert 0, "Could not find method in self.functions and no "\
+                          "instance installed"'.
+
+	self assert: (fast allWithType: FASTPyAssertStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyConcatenatedString) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'assert 0, "Could not find method in self.functions and no "\
+                          "instance installed"' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyAssertStatement).
+	
+	"Testing value of multivalued relation expressions"
+	self assert: self topEntity expressions size equals: 2.
+	
+		stack push: (stack top expressions at: 1).
+		self assert: self topEntity sourceCode equals: '0'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+		stack pop.
+	
+		stack push: (stack top expressions at: 2).
+		self assert: self topEntity sourceCode equals: '"Could not find method in self.functions and no "\
+                          "instance installed"' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyConcatenatedString).
+		
+		"Testing value of multivalued relation strings"
+		self assert: self topEntity strings size equals: 2.
+		
+			stack push: (stack top strings at: 1).
+			self assert: self topEntity sourceCode equals: '"Could not find method in self.functions and no "'.
+			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
+			stack pop.
+		
+			stack push: (stack top strings at: 2).
+			self assert: self topEntity sourceCode equals: '"instance installed"'.
+			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral)
 ]
 
 { #category : 'tests' }

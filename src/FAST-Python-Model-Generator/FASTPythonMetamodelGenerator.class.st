@@ -358,6 +358,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	complex --|> literal.
 	complex --|> tNumericalLiteral.
 	
+	concatenatedString --|> expression.
+	
 	conditionalExpression --|> expression.
 	conditionalExpression --|> tWithCondition.
 	conditionalExpression --|> tSliceContent.
@@ -536,8 +538,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((attribute property: #attribute) comment: 'The variable been accessed')
 	<>- ((variable property: #attributeOwner) comment: 'The attribute access accessing me (if it''s the case)').
 
-	((assertStatement property: #expression) comment: 'The expression asserted')
-	<>- ((expression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
+	((assertStatement property: #expressions) comment: 'The expressions asserted')
+	<>-* ((expression property: #parentAssertStatement) comment: 'The assert statement that own the expression (if it''s the case)').
 
 	(await property: #expression) <>- (expression property: #parentAwait).
 

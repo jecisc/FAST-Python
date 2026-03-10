@@ -54,7 +54,9 @@ TSFASTPythonImporter >> visitArgumentList: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 
-	^ self visitStatement: aTSNode
+	self onNextContextDo: [ :entry | entry add: #expressions asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyAssertStatement
 ]
 
 { #category : 'visiting' }

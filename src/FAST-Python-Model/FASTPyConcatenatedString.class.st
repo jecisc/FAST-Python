@@ -12,7 +12,7 @@
 "
 Class {
 	#name : 'FASTPyConcatenatedString',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#instVars : [
 		'#strings => FMMany type: #FASTPyString opposite: #parentConcatenatedString'
 	],
@@ -24,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyConcatenatedString class >> annotation [
 
-	<FMClass: #ConcatenatedString super: #FASTPyEntity>
+	<FMClass: #ConcatenatedString super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

@@ -6,7 +6,6 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
-| `assertOwner` | `FASTPyExpression` | `expression` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
 | `attributeObjectOwner` | `FASTPyExpression` | `object` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
 | `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
@@ -28,6 +27,7 @@
 | `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
+| `parentAssertStatement` | `FASTPyExpression` | `expressions` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
@@ -58,7 +58,6 @@ Class {
 	#traits : 'FASTTExpression',
 	#classTraits : 'FASTTExpression classTrait',
 	#instVars : [
-		'#assertOwner => FMOne type: #FASTPyAssertStatement opposite: #expression',
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #object',
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
@@ -76,6 +75,7 @@ Class {
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#lambdaOwner => FMOne type: #FASTPyLambda opposite: #expression',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
+		'#parentAssertStatement => FMOne type: #FASTPyAssertStatement opposite: #expressions',
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
@@ -97,31 +97,6 @@ FASTPyExpression class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> assertOwner [
-	"Relation named: #assertOwner type: #FASTPyAssertStatement opposite: #expression"
-
-	<generated>
-	<FMComment: 'The assert statement that own the expression (if it''s the case)'>
-	<container>
-	<derived>
-	^ assertOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> assertOwner: anObject [
-
-	<generated>
-	assertOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> assertOwnerGroup [
-	<generated>
-	<navigation: 'AssertOwner'>
-	^ MooseSpecializedGroup with: self assertOwner
 ]
 
 { #category : 'accessing' }
@@ -535,6 +510,30 @@ FASTPyExpression >> listSplatOwnerGroup [
 	<generated>
 	<navigation: 'ListSplatOwner'>
 	^ MooseSpecializedGroup with: self listSplatOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentAssertStatement [
+	"Relation named: #parentAssertStatement type: #FASTPyAssertStatement opposite: #expressions"
+
+	<generated>
+	<FMComment: 'The assert statement that own the expression (if it''s the case)'>
+	<container>
+	^ parentAssertStatement
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentAssertStatement: anObject [
+
+	<generated>
+	parentAssertStatement := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentAssertStatementGroup [
+	<generated>
+	<navigation: 'ParentAssertStatement'>
+	^ MooseSpecializedGroup with: self parentAssertStatement
 ]
 
 { #category : 'accessing' }
