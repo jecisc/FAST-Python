@@ -551,6 +551,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
+	
+	(concatenatedString property: #strings) <>-* (string property: #parentConcatenatedString).
 
 	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
 

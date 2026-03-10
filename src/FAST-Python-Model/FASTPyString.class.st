@@ -10,6 +10,7 @@
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
+| `parentConcatenatedString` | `FASTPyString` | `strings` | `FASTPyConcatenatedString` | |
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
@@ -38,7 +39,8 @@ Class {
 	#traits : 'FASTTStringLiteral',
 	#classTraits : 'FASTTStringLiteral classTrait',
 	#instVars : [
-		'#interpolations => FMMany type: #FASTPyInterpolation opposite: #parentString'
+		'#interpolations => FMMany type: #FASTPyInterpolation opposite: #parentString',
+		'#parentConcatenatedString => FMOne type: #FASTPyConcatenatedString opposite: #strings'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -81,4 +83,27 @@ FASTPyString >> interpolationsGroup [
 	<generated>
 	<navigation: 'Interpolations'>
 	^ MooseSpecializedGroup withAll: self interpolations asSet
+]
+
+{ #category : 'accessing' }
+FASTPyString >> parentConcatenatedString [
+	"Relation named: #parentConcatenatedString type: #FASTPyConcatenatedString opposite: #strings"
+
+	<generated>
+	<container>
+	^ parentConcatenatedString
+]
+
+{ #category : 'accessing' }
+FASTPyString >> parentConcatenatedString: anObject [
+
+	<generated>
+	parentConcatenatedString := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyString >> parentConcatenatedStringGroup [
+	<generated>
+	<navigation: 'ParentConcatenatedString'>
+	^ MooseSpecializedGroup with: self parentConcatenatedString
 ]

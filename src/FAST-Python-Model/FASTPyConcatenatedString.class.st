@@ -1,6 +1,21 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `strings` | `FASTPyConcatenatedString` | `parentConcatenatedString` | `FASTPyString` | |
+
+
+
+"
 Class {
 	#name : 'FASTPyConcatenatedString',
 	#superclass : 'FASTPyEntity',
+	#instVars : [
+		'#strings => FMMany type: #FASTPyString opposite: #parentConcatenatedString'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -13,4 +28,33 @@ FASTPyConcatenatedString class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FASTPyConcatenatedString >> addString: anObject [
+	<generated>
+	^ self strings add: anObject
+]
+
+{ #category : 'accessing' }
+FASTPyConcatenatedString >> strings [
+	"Relation named: #strings type: #FASTPyString opposite: #parentConcatenatedString"
+
+	<generated>
+	<derived>
+	^ strings
+]
+
+{ #category : 'accessing' }
+FASTPyConcatenatedString >> strings: anObject [
+
+	<generated>
+	strings value: anObject
+]
+
+{ #category : 'navigation' }
+FASTPyConcatenatedString >> stringsGroup [
+	<generated>
+	<navigation: 'Strings'>
+	^ MooseSpecializedGroup withAll: self strings asSet
 ]

@@ -165,6 +165,14 @@ TSFASTPythonImporter >> visitComprehension: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitConcatenatedString: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #strings asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyConcatenatedString
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitConditionalExpression: aTSNode [
 
 	| fastEntity |

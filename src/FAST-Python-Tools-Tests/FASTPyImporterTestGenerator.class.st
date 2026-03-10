@@ -144,7 +144,7 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protocol: protocol [
 
 	| model methodName |
-	model := self testCase new parse: code.
+	model := self testCase new parse: code withPlatformLineEndings.
 	methodName := ('test' , aString capitalized) asSymbol.
 
 	stream
