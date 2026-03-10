@@ -38,7 +38,7 @@ BaselineOfFASTPython >> fast: spec [
 
 	spec baseline: 'FAST' with: [
 			spec
-				loads: #( 'default' );
+				loads: #( 'All' );
 				repository: 'github://moosetechnology/FAST:v3/src' ]
 ]
 
