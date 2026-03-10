@@ -152,7 +152,8 @@ Class {
 		'tWithCondition',
 		'tWithParameters',
 		'tDefinition',
-		'tDecoratorExpression'
+		'tDecoratorExpression',
+		'tWithElseClause'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -384,6 +385,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	forStatement --|> statement.
 	forStatement --|> tLoopStatement.
+	forStatement --|> tWithElseClause.
 
 	functionDefinition --|> tNamedBehaviouralEntity.
 	functionDefinition --|> tDefinition.
@@ -400,6 +402,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	ifStatement --|> statement.
 	ifStatement --|> tConditionalStatement.
+	ifStatement --|> tWithElseClause.
 
 	importStatement --|> import.
 
@@ -525,7 +528,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((assertStatement property: #expression) comment: 'The expression asserted')
 	<>- ((expression property: #assertOwner) comment: 'The assert statement that own the expression (if it''s the case)').
-	
+
 	(await property: #expression) <>- (expression property: #parentAwait).
 
 	((call property: #callee) comment:
@@ -538,11 +541,11 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
-	
+
 	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
-	
+
 	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
-	
+
 	(decorator property: #expression) <>- (tDecoratorExpression property: #parentDeclarator).
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
@@ -561,12 +564,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((globalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
-	
+
 	(ifClause property: #expression) <>- (expression property: #ifClauseOwner).
 
 	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
-
-	(ifStatement property: #elseClause) <>- (elseClause property: #ifStatementOwner).
 
 	(ifStatement property: #elifClauses) <>-* (elifClause property: #ifStatementOwner).
 
@@ -576,12 +577,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((importFromStatement property: #fromModule) comment:
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
-	
+
 	(interpolation property: #expression) <>- (expression property: #parentInterpolation).
 
 	((keywordArgument property: #value) comment: 'The value of the keyword argument.')
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
-	
+
 	(lambda property: #expression) <>- (expression property: #lambdaOwner).
 
 	((listSplat property: #iterable) comment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.')
@@ -593,12 +594,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
 
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
-	
+
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
 	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)''').
-	
+
 	(string property: #interpolations) <>-* (interpolation property: #parentString).
 
 	((subscript property: #value) comment: 'The receiver of the subscript')
@@ -610,13 +611,15 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tComprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
 
 	(tComprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
-	
+
 	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
-	
+
 	(tuplePattern property: #patterns) <>-* (expression property: #tuplePatternOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
-	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.')
+	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
+
+	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner)
 ]
 
 { #category : 'definition' }
@@ -633,6 +636,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression.
 	tDecoratorExpression comment: 'I represent an entity that *can* be the expression of a decorator.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
+	tWithElseClause := builder newTraitNamed: #TWithElseClause.
 	
 	"Remotes"
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.

@@ -13,7 +13,7 @@
 |---|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 | `elifClauses` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElifClause` | |
-| `elseClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
 | `thenClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyThenClause` | |
 
 
@@ -29,11 +29,10 @@
 Class {
 	#name : 'FASTPyIfStatement',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTConditionalStatement',
-	#classTraits : 'FASTTConditionalStatement classTrait',
+	#traits : 'FASTPyTWithElseClause + FASTTConditionalStatement',
+	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTConditionalStatement classTrait',
 	#instVars : [
 		'#elifClauses => FMMany type: #FASTPyElifClause opposite: #ifStatementOwner',
-		'#elseClause => FMOne type: #FASTPyElseClause opposite: #ifStatementOwner',
 		'#thenClause => FMOne type: #FASTPyThenClause opposite: #ifStatementOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -77,28 +76,6 @@ FASTPyIfStatement >> elifClausesGroup [
 	<generated>
 	<navigation: 'ElifClauses'>
 	^ MooseSpecializedGroup withAll: self elifClauses asSet
-]
-
-{ #category : 'accessing' }
-FASTPyIfStatement >> elseClause [
-	"Relation named: #elseClause type: #FASTPyElseClause opposite: #ifStatementOwner"
-
-	<generated>
-	^ elseClause
-]
-
-{ #category : 'accessing' }
-FASTPyIfStatement >> elseClause: anObject [
-
-	<generated>
-	elseClause := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyIfStatement >> elseClauseGroup [
-	<generated>
-	<navigation: 'ElseClause'>
-	^ MooseSpecializedGroup with: self elseClause
 ]
 
 { #category : 'accessing' }

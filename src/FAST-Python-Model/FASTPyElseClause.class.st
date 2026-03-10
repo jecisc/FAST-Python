@@ -5,7 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `ifStatementOwner` | `FASTPyElseClause` | `elseClause` | `FASTPyIfStatement` | |
+| `ifStatementOwner` | `FASTPyElseClause` | `elseClause` | `FASTPyTWithElseClause` | |
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyElseClause',
 	#superclass : 'FASTPyBlock',
 	#instVars : [
-		'#ifStatementOwner => FMOne type: #FASTPyIfStatement opposite: #elseClause'
+		'#ifStatementOwner => FMOne type: #FASTPyTWithElseClause opposite: #elseClause'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -32,7 +32,7 @@ FASTPyElseClause class >> annotation [
 
 { #category : 'accessing' }
 FASTPyElseClause >> ifStatementOwner [
-	"Relation named: #ifStatementOwner type: #FASTPyIfStatement opposite: #elseClause"
+	"Relation named: #ifStatementOwner type: #FASTPyTWithElseClause opposite: #elseClause"
 
 	<generated>
 	<container>

@@ -12,6 +12,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `body` | `FASTTLoopStatement` | `parentLoopStatement` | `FASTTStatement` | The body of the loop|
+| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
 | `left` | `FASTPyForStatement` | `forStatementRightOwner` | `FASTPyExpression` | The identifier of the created local variable or tuple|
 | `right` | `FASTPyForStatement` | `forStatementLeftOwner` | `FASTPyExpression` | The list that the for statement iterates over|
 
@@ -28,8 +29,8 @@
 Class {
 	#name : 'FASTPyForStatement',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTLoopStatement',
-	#classTraits : 'FASTTLoopStatement classTrait',
+	#traits : 'FASTPyTWithElseClause + FASTTLoopStatement',
+	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTLoopStatement classTrait',
 	#instVars : [
 		'#left => FMOne type: #FASTPyExpression opposite: #forStatementRightOwner',
 		'#right => FMOne type: #FASTPyExpression opposite: #forStatementLeftOwner'
