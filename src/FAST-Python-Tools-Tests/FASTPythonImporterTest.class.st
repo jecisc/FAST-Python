@@ -2634,6 +2634,220 @@ FASTPythonImporterTest >> testForStatement [
 ]
 
 { #category : 'tests - advanced statements' }
+FASTPythonImporterTest >> testForStatementWithABreak [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testForStatementWithABreak 	"
+
+	self parse: 'for c in [1, 3, 5]:
+    fun(c)
+    break'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyBreakStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyForStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'for c in [1, 3, 5]:
+    fun(c)
+    break' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyForStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
+	self assert: (self topEntity isOfType: FASTTLoopStatement).
+	
+	"Testing value of monovalue relation body"
+	self assert: self topEntity body isNotNil.
+
+		stack push: self topEntity body.
+		self assert: self topEntity sourceCode equals: 'fun(c)
+    break' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 2.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'fun(c)'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of multivalued relation arguments"
+			self assert: self topEntity arguments size equals: 1.
+			
+				stack push: (stack top arguments at: 1).
+				self assert: self topEntity sourceCode equals: 'c'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'fun'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		
+			stack push: (stack top statements at: 2).
+			self assert: self topEntity sourceCode equals: 'break'.
+			self assert: (self topEntity isOfType: FASTPyBreakStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation left"
+	self assert: self topEntity left isNotNil.
+
+		stack push: self topEntity left.
+		self assert: self topEntity sourceCode equals: 'c'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+	"Testing value of monovalue relation right"
+	self assert: self topEntity right isNotNil.
+
+		stack push: self topEntity right.
+		self assert: self topEntity sourceCode equals: '[1, 3, 5]'.
+		self assert: (self topEntity isOfType: FASTPyList).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 3.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+			stack push: (stack top initializers at: 2).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+			stack push: (stack top initializers at: 3).
+			self assert: self topEntity sourceCode equals: '5'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - advanced statements' }
+FASTPythonImporterTest >> testForStatementWithAContinue [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testForStatementWithAContinue 	"
+
+	self parse: 'for c in [1, 3, 5]:
+    fun(c)
+    continue'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyContinueStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyForStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 3.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'for c in [1, 3, 5]:
+    fun(c)
+    continue' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyForStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
+	self assert: (self topEntity isOfType: FASTTLoopStatement).
+	
+	"Testing value of monovalue relation body"
+	self assert: self topEntity body isNotNil.
+
+		stack push: self topEntity body.
+		self assert: self topEntity sourceCode equals: 'fun(c)
+    continue' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 2.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'fun(c)'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of multivalued relation arguments"
+			self assert: self topEntity arguments size equals: 1.
+			
+				stack push: (stack top arguments at: 1).
+				self assert: self topEntity sourceCode equals: 'c'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'fun'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		
+			stack push: (stack top statements at: 2).
+			self assert: self topEntity sourceCode equals: 'continue'.
+			self assert: (self topEntity isOfType: FASTPyContinueStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation left"
+	self assert: self topEntity left isNotNil.
+
+		stack push: self topEntity left.
+		self assert: self topEntity sourceCode equals: 'c'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+	"Testing value of monovalue relation right"
+	self assert: self topEntity right isNotNil.
+
+		stack push: self topEntity right.
+		self assert: self topEntity sourceCode equals: '[1, 3, 5]'.
+		self assert: (self topEntity isOfType: FASTPyList).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 3.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+			stack push: (stack top initializers at: 2).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+			stack push: (stack top initializers at: 3).
+			self assert: self topEntity sourceCode equals: '5'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - advanced statements' }
 FASTPythonImporterTest >> testForStatementWithElseClause [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -4363,6 +4577,132 @@ else:
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			self assert: (self topEntity isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - advanced statements' }
+FASTPythonImporterTest >> testIfStatementWithABreak [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testIfStatementWithABreak 	"
+
+	self parse: 'if c > 3: break'.
+
+	self assert: (fast allWithType: FASTPyBreakStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIfStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyThenClause) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'if c > 3: break'.
+	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
+	
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'c > 3'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'c'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('>').
+		stack pop.
+	
+	"Testing value of monovalue relation thenClause"
+	self assert: self topEntity thenClause isNotNil.
+
+		stack push: self topEntity thenClause.
+		self assert: self topEntity sourceCode equals: 'break'.
+		self assert: (self topEntity isOfType: FASTPyThenClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'break'.
+			self assert: (self topEntity isOfType: FASTPyBreakStatement)
+]
+
+{ #category : 'tests - advanced statements' }
+FASTPythonImporterTest >> testIfStatementWithAContinue [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testIfStatementWithAContinue 	"
+
+	self parse: 'if c > 3: continue'.
+
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyContinueStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIfStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyThenClause) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'if c > 3: continue'.
+	self assert: (self topEntity isOfType: FASTPyIfStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
+	self assert: (self topEntity isOfType: FASTTConditionalStatement).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
+	
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'c > 3'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'c'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('>').
+		stack pop.
+	
+	"Testing value of monovalue relation thenClause"
+	self assert: self topEntity thenClause isNotNil.
+
+		stack push: self topEntity thenClause.
+		self assert: self topEntity sourceCode equals: 'continue'.
+		self assert: (self topEntity isOfType: FASTPyThenClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'continue'.
+			self assert: (self topEntity isOfType: FASTPyContinueStatement)
 ]
 
 { #category : 'tests - imports' }

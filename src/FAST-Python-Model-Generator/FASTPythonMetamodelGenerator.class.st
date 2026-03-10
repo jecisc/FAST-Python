@@ -193,7 +193,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	block := builder ensureClassNamed: #Block."To review"
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
-	breakStatement := builder ensureClassNamed: #BreakStatement."Todo"
+	breakStatement := builder ensureClassNamed: #BreakStatement.
 	call := builder ensureClassNamed: #Call."Todo"
 	caseClause := builder ensureClassNamed: #CaseClause."Todo"
 	casePattern := builder ensureClassNamed: #CasePattern."Todo"
@@ -209,7 +209,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
 	constrainedType := builder ensureClassNamed: #ConstrainedType."Todo"
-	continueStatement := builder ensureClassNamed: #ContinueStatement."Todo"
+	continueStatement := builder ensureClassNamed: #ContinueStatement.
 	decorator := builder ensureClassNamed: #Decorator."Todo"
 	defaultParameter := builder ensureClassNamed: #DefaultParameter."Todo"
 	deleteStatement := builder ensureClassNamed: #DeleteStatement.
