@@ -4217,6 +4217,91 @@ FASTPythonImporterTest >> testInteger [
 	self assert: (boolean isOfType: FASTTLiteral)
 ]
 
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testInterpolation [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testInterpolation 	"
+
+	self parse: 'f"User {name} has {value} items"'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyInterpolation) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'f"User {name} has {value} items"'.
+	self assert: (self topEntity isOfType: FASTPyString).
+	self assert: (self topEntity isOfType: FASTTLiteral).
+	self assert: (self topEntity isOfType: FASTTStringLiteral).
+	
+	"Testing value of multivalued relation interpolations"
+	self assert: self topEntity interpolations size equals: 2.
+	
+		stack push: (stack top interpolations at: 1).
+		self assert: self topEntity sourceCode equals: '{name}'.
+		self assert: (self topEntity isOfType: FASTPyInterpolation).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'name'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top interpolations at: 2).
+		self assert: self topEntity sourceCode equals: '{value}'.
+		self assert: (self topEntity isOfType: FASTPyInterpolation).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'value'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - literals' }
+FASTPythonImporterTest >> testInterpolationWithFormatSpecifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testInterpolationWithFormatSpecifier 	"
+
+	self parse: 'f"{255:X}"'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyInterpolation) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'f"{255:X}"'.
+	self assert: (self topEntity isOfType: FASTPyString).
+	self assert: (self topEntity isOfType: FASTTLiteral).
+	self assert: (self topEntity isOfType: FASTTStringLiteral).
+	
+	"Testing value of multivalued relation interpolations"
+	self assert: self topEntity interpolations size equals: 1.
+	
+		stack push: (stack top interpolations at: 1).
+		self assert: self topEntity sourceCode equals: '{255:X}'.
+		self assert: (self topEntity isOfType: FASTPyInterpolation).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: '255'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity formatSpecifier equals: 'X'
+]
+
 { #category : 'tests - lambdas' }
 FASTPythonImporterTest >> testLambda [
 	<generated>
