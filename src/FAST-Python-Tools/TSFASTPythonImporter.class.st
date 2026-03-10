@@ -294,6 +294,12 @@ TSFASTPythonImporter >> visitFalse: aNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitFormatSpecifier: aTSNode [
+
+	^ self topFastEntity formatSpecifier: (self sourceCodeOf: aTSNode) allButFirst "We skip the $: character"
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 

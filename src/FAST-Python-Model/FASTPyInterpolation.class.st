@@ -7,13 +7,26 @@
 |---|
 | `parentString` | `FASTPyInterpolation` | `interpolations` | `FASTPyString` | |
 
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `expression` | `FASTPyInterpolation` | `parentInterpolation` | `FASTPyExpression` | |
 
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `formatSpecifier` | `String` | nil | If specified, the format of the interpolation.|
 
 "
 Class {
 	#name : 'FASTPyInterpolation',
 	#superclass : 'FASTPyEntity',
 	#instVars : [
+		'#expression => FMOne type: #FASTPyExpression opposite: #parentInterpolation',
+		'#formatSpecifier => FMProperty',
 		'#parentString => FMOne type: #FASTPyString opposite: #interpolations'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -28,6 +41,43 @@ FASTPyInterpolation class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyInterpolation >> expression [
+	"Relation named: #expression type: #FASTPyExpression opposite: #parentInterpolation"
+
+	<generated>
+	^ expression
+]
+
+{ #category : 'accessing' }
+FASTPyInterpolation >> expression: anObject [
+
+	<generated>
+	expression := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyInterpolation >> expressionGroup [
+	<generated>
+	<navigation: 'Expression'>
+	^ MooseSpecializedGroup with: self expression
+]
+
+{ #category : 'accessing' }
+FASTPyInterpolation >> formatSpecifier [
+
+	<FMProperty: #formatSpecifier type: #String>
+	<generated>
+	<FMComment: 'If specified, the format of the interpolation.'>
+	^ formatSpecifier
+]
+
+{ #category : 'accessing' }
+FASTPyInterpolation >> formatSpecifier: anObject [
+	<generated>
+	formatSpecifier := anObject
 ]
 
 { #category : 'accessing' }

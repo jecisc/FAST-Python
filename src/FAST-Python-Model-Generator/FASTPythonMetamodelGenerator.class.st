@@ -232,7 +232,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	forInClause := builder ensureClassNamed: #ForInClause."Todo"
 	forStatement := builder ensureClassNamed: #ForStatement."Todo"
 	formatExpression := builder ensureClassNamed: #FormatExpression."Todo"
-	formatSpecifier := builder ensureClassNamed: #FormatSpecifier."Todo"
 	fromModule := builder ensureClassNamed: #FromModule.
 	functionDefinition := builder ensureClassNamed: #FunctionDefinition."ToReview"
 	generatorExpression := builder ensureClassNamed: #GeneratorExpression."Todo"
@@ -503,6 +502,8 @@ FASTPythonMetamodelGenerator >> defineProperties [
 			'The segments of the imported entity. For example if you import `xml.etree.ElementTree`, the segments will be { ''xml'' . ''etree'' . ''ElementTree''}.'.
 
 	(importedEntity property: #alias type: #String) comment: 'If the imported entity has an alias, I contain it.'.
+	
+	(interpolation property: #formatSpecifier type: #String) comment: 'If specified, the format of the interpolation.'.
 
 	unaryOperator property: #operator type: #String
 ]
@@ -572,6 +573,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((importFromStatement property: #fromModule) comment:
 		 'Module in which the imported entities should be looked for. `from datetime import date` has `datetime` as fromModule..')
 	<>- ((fromModule property: #import) comment: 'Import declaring me as from import module.').
+	
+	(interpolation property: #expression) <>- (expression property: #parentInterpolation).
 
 	((keywordArgument property: #value) comment: 'The value of the keyword argument.')
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
@@ -592,6 +595,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
 	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)''').
+	
+	(string property: #interpolations) <>-* (interpolation property: #parentString).
 
 	((subscript property: #value) comment: 'The receiver of the subscript')
 	<>- ((expression property: #subscriptValueOwner) comment: 'My parent if I define the receiver of a subscript (if it''s the case).').

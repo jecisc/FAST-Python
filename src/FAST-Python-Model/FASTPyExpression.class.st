@@ -33,6 +33,7 @@
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
+| `parentInterpolation` | `FASTPyExpression` | `expression` | `FASTPyInterpolation` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `patternListOwner` | `FASTPyExpression` | `elements` | `FASTPyPatternList` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
@@ -76,6 +77,7 @@ Class {
 		'#lambdaOwner => FMOne type: #FASTPyLambda opposite: #expression',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
+		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#patternListOwner => FMOne type: #FASTPyPatternList opposite: #elements',
 		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
@@ -557,6 +559,30 @@ FASTPyExpression >> parentComparisonOperatorGroup [
 	<generated>
 	<navigation: 'ParentComparisonOperator'>
 	^ MooseSpecializedGroup with: self parentComparisonOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentInterpolation [
+	"Relation named: #parentInterpolation type: #FASTPyInterpolation opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentInterpolation
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentInterpolation: anObject [
+
+	<generated>
+	parentInterpolation := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentInterpolationGroup [
+	<generated>
+	<navigation: 'ParentInterpolation'>
+	^ MooseSpecializedGroup with: self parentInterpolation
 ]
 
 { #category : 'accessing' }

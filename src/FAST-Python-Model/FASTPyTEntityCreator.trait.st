@@ -378,13 +378,6 @@ FASTPyTEntityCreator >> newFormatExpression [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newFormatSpecifier [
-
-	<generated>
-	^ self add: FASTPyFormatSpecifier new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newFromModule [
 
 	<generated>
