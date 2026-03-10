@@ -76,6 +76,14 @@ TSFASTPythonImporter >> visitAttribute: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitAwait: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyAwait
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 
 	^ self manageBinaryOperator: aTSNode ofKind: FASTPyBinaryOperator

@@ -28,6 +28,7 @@
 | `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
+| `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
@@ -76,6 +77,7 @@ Class {
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#lambdaOwner => FMOne type: #FASTPyLambda opposite: #expression',
 		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
+		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
@@ -535,6 +537,30 @@ FASTPyExpression >> listSplatOwnerGroup [
 	<generated>
 	<navigation: 'ListSplatOwner'>
 	^ MooseSpecializedGroup with: self listSplatOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentAwait [
+	"Relation named: #parentAwait type: #FASTPyAwait opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentAwait
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentAwait: anObject [
+
+	<generated>
+	parentAwait := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentAwaitGroup [
+	<generated>
+	<navigation: 'ParentAwait'>
+	^ MooseSpecializedGroup with: self parentAwait
 ]
 
 { #category : 'accessing' }
