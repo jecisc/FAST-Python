@@ -16,6 +16,7 @@
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
+| `sliceOwner` | `FASTPyTSliceContent` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -37,8 +38,8 @@
 Class {
 	#name : 'FASTPyCall',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression + FASTTInvocation',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTTInvocation classTrait',
+	#traits : 'FASTPyTDecoratorExpression + FASTPyTSliceContent + FASTTInvocation',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTPyTSliceContent classTrait + FASTTInvocation classTrait',
 	#instVars : [
 		'#callee => FMOne type: #FASTPyExpression opposite: #caller'
 	],

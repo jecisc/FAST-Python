@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `components` | `FASTPySlice` | `sliceOwner` | `FASTPyExpression` | The components are the expressions between the `:` of a slice.|
+| `components` | `FASTPySlice` | `sliceOwner` | `FASTPyTSliceContent` | The components are the expressions between the `:` of a slice.|
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPySlice',
 	#superclass : 'FASTPyExpression',
 	#instVars : [
-		'#components => FMMany type: #FASTPyExpression opposite: #sliceOwner'
+		'#components => FMMany type: #FASTPyTSliceContent opposite: #sliceOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -38,7 +38,7 @@ FASTPySlice >> addComponent: anObject [
 
 { #category : 'accessing' }
 FASTPySlice >> components [
-	"Relation named: #components type: #FASTPyExpression opposite: #sliceOwner"
+	"Relation named: #components type: #FASTPyTSliceContent opposite: #sliceOwner"
 
 	<generated>
 	<FMComment: 'The components are the expressions between the `:` of a slice.'>

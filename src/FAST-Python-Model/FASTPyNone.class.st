@@ -1,6 +1,20 @@
+"
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `sliceOwner` | `FASTPyTSliceContent` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
+
+
+
+"
 Class {
 	#name : 'FASTPyNone',
 	#superclass : 'FASTPyLiteral',
+	#traits : 'FASTPyTSliceContent',
+	#classTraits : 'FASTPyTSliceContent classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

@@ -38,7 +38,6 @@
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `patternListOwner` | `FASTPyExpression` | `elements` | `FASTPyPatternList` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
-| `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 | `subscriptIndiceOwner` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
 | `subscriptValueOwner` | `FASTPyExpression` | `value` | `FASTPySubscript` | My parent if I define the receiver of a subscript (if it's the case).|
 | `tuplePatternOwner` | `FASTPyExpression` | `patterns` | `FASTPyTuplePattern` | |
@@ -82,7 +81,6 @@ Class {
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#patternListOwner => FMOne type: #FASTPyPatternList opposite: #elements',
-		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
 		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
 		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value',
 		'#tuplePatternOwner => FMOne type: #FASTPyTuplePattern opposite: #patterns'
@@ -657,30 +655,6 @@ FASTPyExpression >> patternListOwnerGroup [
 	<generated>
 	<navigation: 'PatternListOwner'>
 	^ MooseSpecializedGroup with: self patternListOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> sliceOwner [
-	"Relation named: #sliceOwner type: #FASTPySlice opposite: #components"
-
-	<generated>
-	<FMComment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''>
-	<container>
-	^ sliceOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> sliceOwner: anObject [
-
-	<generated>
-	sliceOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> sliceOwnerGroup [
-	<generated>
-	<navigation: 'SliceOwner'>
-	^ MooseSpecializedGroup with: self sliceOwner
 ]
 
 { #category : 'accessing' }

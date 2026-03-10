@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
+| `sliceOwner` | `FASTPyTSliceContent` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -19,8 +20,8 @@
 Class {
 	#name : 'FASTPySubscript',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait',
+	#traits : 'FASTPyTDecoratorExpression + FASTPyTSliceContent',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTPyTSliceContent classTrait',
 	#instVars : [
 		'#indices => FMMany type: #FASTPyExpression opposite: #subscriptIndiceOwner',
 		'#value => FMOne type: #FASTPyExpression opposite: #subscriptValueOwner'

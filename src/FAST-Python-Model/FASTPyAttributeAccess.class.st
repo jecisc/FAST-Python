@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
+| `sliceOwner` | `FASTPyTSliceContent` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -19,8 +20,8 @@
 Class {
 	#name : 'FASTPyAttributeAccess',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait',
+	#traits : 'FASTPyTDecoratorExpression + FASTPyTSliceContent',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTPyTSliceContent classTrait',
 	#instVars : [
 		'#attribute => FMOne type: #FASTPyVariable opposite: #attributeOwner',
 		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
