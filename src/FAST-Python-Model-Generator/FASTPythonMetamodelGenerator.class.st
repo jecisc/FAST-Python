@@ -320,7 +320,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	assertStatement --|> statement.
 
 	attribute --|> expression.
-	attribute --|> tVariableEntity.
+	"attribute --|> tVariableEntity."
 	attribute --|> tDecoratorExpression.
 
 	binaryOperator --|> operator.

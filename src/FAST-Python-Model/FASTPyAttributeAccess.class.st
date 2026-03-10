@@ -5,9 +5,6 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
-| `parameterOwner` | `FASTTVariableEntity` | `parameters` | `FASTTWithParameters` | parameterOwner|
-| `parentAssignmentExpression` | `FASTTVariableEntity` | `variable` | `FASTTAssignment` | Optional assignment to the variable|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 
 ### Children
@@ -17,21 +14,13 @@
 | `object` | `FASTPyAttributeAccess` | `attributeObjectOwner` | `FASTPyExpression` | I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...|
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `endPos` | `Number` | nil | |
-| `name` | `String` | nil | |
-| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyAttributeAccess',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression + FASTTVariableEntity',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTTVariableEntity classTrait',
+	#traits : 'FASTPyTDecoratorExpression',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait',
 	#instVars : [
 		'#attribute => FMOne type: #FASTPyVariable opposite: #attributeOwner',
 		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
