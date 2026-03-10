@@ -535,6 +535,14 @@ TSFASTPythonImporter >> visitStatement: aTSNode [
 	^ self handleNode: aTSNode
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitString: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #interpolations asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyString
+]
+
 { #category : 'visiting - noop' }
 TSFASTPythonImporter >> visitStringContent: aNode [
 	"We only want one node for the string, my parent."
