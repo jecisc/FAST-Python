@@ -6,7 +6,6 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
-| `sliceOwner` | `FASTPyTSliceContent` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 
 
 
@@ -14,8 +13,8 @@
 Class {
 	#name : 'FASTPyIdentifier',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression + FASTPyTSliceContent',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTPyTSliceContent classTrait',
+	#traits : 'FASTPyTDecoratorExpression',
+	#classTraits : 'FASTPyTDecoratorExpression classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

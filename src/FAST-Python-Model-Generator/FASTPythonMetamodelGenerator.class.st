@@ -153,8 +153,7 @@ Class {
 		'tWithParameters',
 		'tDefinition',
 		'tDecoratorExpression',
-		'tWithElseClause',
-		'tSliceContent'
+		'tWithElseClause'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -326,7 +325,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	attribute --|> expression.
 	attribute --|> tDecoratorExpression.
-	attribute --|> tSliceContent.
 	
 	await --|> tStatement.
 
@@ -340,14 +338,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
-	boolean --|> tSliceContent.
 	
 	breakStatement --|> statement.
 
 	call --|> expression.
 	call --|> tInvocation.
 	call --|> tDecoratorExpression.
-	call --|> tSliceContent.
 
 	classDefinition --|> tNamedBehaviouralEntity.
 	classDefinition --|> tDefinition.
@@ -365,7 +361,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	conditionalExpression --|> expression.
 	conditionalExpression --|> tWithCondition.
-	conditionalExpression --|> tSliceContent.
 	
 	continueStatement --|> statement.
 
@@ -407,7 +402,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	identifier --|> expression.
 	identifier --|> tDecoratorExpression.
-	identifier --|> tSliceContent.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -421,7 +415,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	integer --|> literal.
 	integer --|> tNumericalLiteral.
-	integer --|> tSliceContent. "Only integer can be slice content in the literals.Not even complex."
 	
 	keywordArgument --|> expression.
 	keywordArgument --|> tNamedEntity.
@@ -447,7 +440,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	module --|> #THasImmediateSource.
 	
 	none --|> literal.
-	none --|> tSliceContent.
 
 	nonlocalStatement --|> statement.
 	
@@ -455,7 +447,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	notOperator --|> tUnaryOperator.
 
 	operator --|> expression.
-	operator --|> tSliceContent.
 
 	pair --|> expression.
 	
@@ -482,7 +473,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	subscript --|> expression.
 	subscript --|> tDecoratorExpression.
-	subscript --|> tSliceContent.
 
 	thenClause --|> block.
 
@@ -615,7 +605,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
-	<>-* ((tSliceContent property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)''').
+	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''). "Originally, I created a trait for Slice content because the python syntax does not allow all expressions. But multiple libraries are changing the syntax to accept other objects such as float, list or even string. So now I point FASTPyExpression to not fail on all those cases."
 
 	(string property: #interpolations) <>-* (interpolation property: #parentString).
 
@@ -651,7 +641,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
-	(tSliceContent := builder newTraitNamed: #TSliceContent) comment: 'I represent an entity that can be one of the component of a slice.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	tWithElseClause := builder newTraitNamed: #TWithElseClause.
 	

@@ -13,8 +13,6 @@
 Class {
 	#name : 'FASTPyNone',
 	#superclass : 'FASTPyLiteral',
-	#traits : 'FASTPyTSliceContent',
-	#classTraits : 'FASTPyTSliceContent classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
