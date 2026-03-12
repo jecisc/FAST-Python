@@ -153,7 +153,8 @@ Class {
 		'tWithParameters',
 		'tDefinition',
 		'tDecoratorExpression',
-		'tWithElseClause'
+		'tWithElseClause',
+		'tWithComment'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -315,6 +316,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	self flag: #todo. "The next two line are WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
 	entity --|> tExpression.
 	entity --|> tStatement.
+	entity --|> tWithComment.
 	
 	"Adding a bunch of traits in errors to not interupt the parsing much if we have an error."
 	_ERROR --|> expression.
@@ -638,26 +640,20 @@ FASTPythonMetamodelGenerator >> defineRelations [
 { #category : 'definition' }
 FASTPythonMetamodelGenerator >> defineTraits [
 
-	super defineTraits.
-	
-	"Entity"
-	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
-
-	"FAST-Python"
+	super defineTraits. "Entity"
+	tEntity := self remoteTrait: #TEntity withPrefix: #FAST. "FAST-Python"
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
-	tWithElseClause := builder newTraitNamed: #TWithElseClause.
-	
-	"Remotes"
+	tWithElseClause := builder newTraitNamed: #TWithElseClause. "Remotes"
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
 	tConditionalStatement := self remoteTrait: #TConditionalStatement withPrefix: #FAST.
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
-	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST. 
+	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST.
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
 	tLoopStatement := self remoteTrait: #TLoopStatement withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
@@ -669,6 +665,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tStringLiteral := self remoteTrait: #TStringLiteral withPrefix: #FAST.
 	tVariableEntity := self remoteTrait: #TVariableEntity withPrefix: #FAST.
 	tWithCondition := self remoteTrait: #TWithCondition withPrefix: #FAST.
+	tWithComment := self remoteTrait: #TWithComments withPrefix: #FAST.
 	tWithParameters := self remoteTrait: #TWithParameters withPrefix: #FAST.
 	tWithStatements := self remoteTrait: #TWithStatements withPrefix: #FAST
 ]

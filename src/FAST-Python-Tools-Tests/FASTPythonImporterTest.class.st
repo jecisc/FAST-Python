@@ -66,7 +66,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTTStatement. "I need to enable this one later but for now I'm not sure how to manage expression statements"
 		  TEntityMetaLevelDependency. "Too general"
 		  FASTTExpression. "I need to enable this one later but I'm still unsure of how to manage expression statements"
-		  FASTPyTDecoratorExpression "Adds too much noise in tests" }
+		  FASTPyTDecoratorExpression. "Adds too much noise in tests"
+		  FASTTWithComments "Everything has that" }
 ]
 
 { #category : 'running' }
@@ -1496,6 +1497,23 @@ FASTPythonImporterTest >> testClassDefinition [
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'pass'.
 			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - comments' }
+FASTPythonImporterTest >> testComment [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testComment 	"
+
+	self parse: '#There is only one comment'.
+
+	self assert: (fast allWithType: FASTPyComment) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '#There is only one comment'.
+	self assert: (self topEntity isOfType: FASTPyComment).
+	self assert: (self topEntity isOfType: FASTTComment)
 ]
 
 { #category : 'tests - operators' }
@@ -6472,22 +6490,7 @@ FASTPythonImporterTest >> testNotOperator [
 	self assert: (operator argument isOfType: FASTPyBoolean)
 ]
 
-{ #category : 'tests' }
-FASTPythonImporterTest >> testOneComment [
-
-	| entity |
-	self parse: '#There is only one comment'.
-
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	entity := (fast allWithType: FASTPyModule) anyOne.
-	self assert: entity sourceCode equals: '#There is only one comment'.
-
-	self assert: (fast allWithType: FASTPyComment) size equals: 1.
-	entity := (fast allWithType: FASTPyComment) anyOne.
-	self assert: entity sourceCode equals: '#There is only one comment'
-]
-
-{ #category : 'tests' }
+{ #category : 'tests - statements' }
 FASTPythonImporterTest >> testPassStatement [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -8936,22 +8939,41 @@ FASTPythonImporterTest >> testTupleWithListSplat [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - comments' }
 FASTPythonImporterTest >> testTwoComments [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTwoComments 	"
 
-	| entity |
 	self parse: '# Comment 1
 	
 # Comment 2'.
 
+	self assert: (fast allWithType: FASTPyComment) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	entity := (fast allWithType: FASTPyModule) anyOne.
-	self assert: entity sourceCode equals: '# Comment 1
+
+	stack push: fast rootEntities anyOne.
+	self assert: self topEntity sourceCode equals: '# Comment 1
 	
 # Comment 2' withPlatformLineEndings.
-
-	self assert: (fast allWithType: FASTPyComment) size equals: 2.
-	self assertCollection: ((fast allWithType: FASTPyComment) collect: #sourceCode as: Array) hasSameElements: { '# Comment 1'. '# Comment 2' }
+	self assert: (self topEntity isOfType: FASTPyModule).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
+	self assert: (self topEntity isOfType: FamixTSourceAnchor).
+	
+	"Testing value of multivalued relation genericChildren"
+	self assert: self topEntity genericChildren size equals: 2.
+	
+		stack push: (stack top genericChildren at: 1).
+		self assert: self topEntity sourceCode equals: '# Comment 1'.
+		self assert: (self topEntity isOfType: FASTPyComment).
+		self assert: (self topEntity isOfType: FASTTComment).
+		stack pop.
+	
+		stack push: (stack top genericChildren at: 2).
+		self assert: self topEntity sourceCode equals: '# Comment 2'.
+		self assert: (self topEntity isOfType: FASTPyComment).
+		self assert: (self topEntity isOfType: FASTTComment)
 ]
 
 { #category : 'tests - imports' }

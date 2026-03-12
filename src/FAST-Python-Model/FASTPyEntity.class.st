@@ -22,6 +22,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `comments` | `FASTTWithComments` | `container` | `FASTTComment` | list of comments defined in the entity|
 | `genericChildren` | `FASTPyEntity` | `genericParent` | `FASTPyEntity` | |
 
 
@@ -37,8 +38,8 @@
 Class {
 	#name : 'FASTPyEntity',
 	#superclass : 'MooseEntity',
-	#traits : 'FASTTEntity + FASTTExpression + FASTTStatement',
-	#classTraits : 'FASTTEntity classTrait + FASTTExpression classTrait + FASTTStatement classTrait',
+	#traits : 'FASTTEntity + FASTTExpression + FASTTStatement + FASTTWithComments',
+	#classTraits : 'FASTTEntity classTrait + FASTTExpression classTrait + FASTTStatement classTrait + FASTTWithComments classTrait',
 	#instVars : [
 		'#genericChildren => FMMany type: #FASTPyEntity opposite: #genericParent',
 		'#genericParent => FMOne type: #FASTPyEntity opposite: #genericChildren'
