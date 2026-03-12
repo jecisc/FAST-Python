@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
+| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -19,8 +20,8 @@
 Class {
 	#name : 'FASTPyAttributeAccess',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait',
+	#traits : 'FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression',
+	#classTraits : 'FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait',
 	#instVars : [
 		'#attribute => FMOne type: #FASTPyVariable opposite: #attributeOwner',
 		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'

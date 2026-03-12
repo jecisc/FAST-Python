@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyDictionarySplat',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyCollectionSplat',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyDictionarySplat class >> annotation [
 
-	<FMClass: #DictionarySplat super: #FASTPyEntity>
+	<FMClass: #DictionarySplat super: #FASTPyCollectionSplat>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

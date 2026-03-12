@@ -5,18 +5,8 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
-| `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
-| `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `genericParent` | `FASTPyEntity` | `genericChildren` | `FASTPyEntity` | |
-| `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
-| `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
-| `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
-| `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
-| `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
-| `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
 ### Children
@@ -38,8 +28,8 @@
 Class {
 	#name : 'FASTPyEntity',
 	#superclass : 'MooseEntity',
-	#traits : 'FASTTEntity + FASTTExpression + FASTTStatement + FASTTWithComments',
-	#classTraits : 'FASTTEntity classTrait + FASTTExpression classTrait + FASTTStatement classTrait + FASTTWithComments classTrait',
+	#traits : 'FASTTEntity + FASTTStatement + FASTTWithComments',
+	#classTraits : 'FASTTEntity classTrait + FASTTStatement classTrait + FASTTWithComments classTrait',
 	#instVars : [
 		'#genericChildren => FMMany type: #FASTPyEntity opposite: #genericParent',
 		'#genericParent => FMOne type: #FASTPyEntity opposite: #genericChildren'
@@ -162,6 +152,13 @@ FASTPyEntity >> isBooleanLiteral [
 
 { #category : 'testing' }
 FASTPyEntity >> isClassDefinition [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
+FASTPyEntity >> isExpression [
 
 	<generated>
 	^ false

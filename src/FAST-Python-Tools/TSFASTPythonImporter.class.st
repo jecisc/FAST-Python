@@ -238,6 +238,14 @@ TSFASTPythonImporter >> visitDictionaryComprehension: aTSNode [
 	^ self visitComprehension: aTSNode
 ]
 
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitDictionarySplat: aTSNode [
+
+	self onNextContextDo: [ :contextEntry | contextEntry add: 'expression' asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyDictionarySplat
+]
+
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDottedName: aTSNode [
 

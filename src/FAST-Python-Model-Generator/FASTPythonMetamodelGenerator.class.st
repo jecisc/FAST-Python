@@ -154,7 +154,9 @@ Class {
 		'tDefinition',
 		'tDecoratorExpression',
 		'tWithElseClause',
-		'tWithComment'
+		'tWithComment',
+		'collectionSplat',
+		'tCanBeSplatExpression'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -203,6 +205,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	classDefinition withTesting.
 	classPattern := builder ensureClassNamed: #ClassPattern."Todo"
 	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
+	(collectionSplat := builder ensureClassNamed: #CollectionSplat) comment: 'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
 	comment := builder ensureClassNamed: #Comment."Todo"
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
 	complex := builder ensureClassNamed: #Complex.
@@ -314,7 +317,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	entity --|> tEntity.
 	self flag: #todo. "The next two line are WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
-	entity --|> tExpression.
 	entity --|> tStatement.
 	entity --|> tWithComment.
 	
@@ -327,16 +329,19 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	attribute --|> expression.
 	attribute --|> tDecoratorExpression.
+	attribute --|> tCanBeSplatExpression.
 	
 	await --|> tStatement.
 
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
+	binaryOperator --|> tCanBeSplatExpression.
 
 	block --|> tStatementBlock.
 
 	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
+	booleanOperator --|> tCanBeSplatExpression.
 
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
@@ -346,11 +351,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> expression.
 	call --|> tInvocation.
 	call --|> tDecoratorExpression.
+	call --|> tCanBeSplatExpression.
 
 	classDefinition --|> tNamedBehaviouralEntity.
 	classDefinition --|> tDefinition.
 
 	collectionInitializer --|> expression.
+	
+	collectionSplat --|> expression.
 
 	comment --|> tComment.
 
@@ -369,9 +377,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	deleteStatement --|> statement.
 
 	dictionary --|> collectionInitializer.
+	dictionary --|> tCanBeSplatExpression.
 	
 	dictionaryComprehension --|> expression.
 	dictionaryComprehension --|> tComprehension.
+	
+	dictionarySplat --|> collectionSplat.
 
 	elseClause --|> block.
 
@@ -404,6 +415,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	identifier --|> expression.
 	identifier --|> tDecoratorExpression.
+	identifier --|> tCanBeSplatExpression.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -431,6 +443,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	listComprehension --|> expression.
 	listComprehension --|> tComprehension.
+
+	listSplat --|> collectionSplat.
 
 	literal --|> expression.
 	literal --|> tLiteral.
@@ -479,6 +493,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	subscript --|> expression.
 	subscript --|> tDecoratorExpression.
+	subscript --|> tCanBeSplatExpression.
+	
+	tComprehension --|> tCanBeSplatExpression.
 
 	thenClause --|> block.
 
@@ -548,6 +565,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
+	
+	(collectionSplat property: #expression) <>- (tCanBeSplatExpression property: #parentSplat).
 
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
@@ -640,13 +659,20 @@ FASTPythonMetamodelGenerator >> defineRelations [
 { #category : 'definition' }
 FASTPythonMetamodelGenerator >> defineTraits [
 
-	super defineTraits. "Entity"
-	tEntity := self remoteTrait: #TEntity withPrefix: #FAST. "FAST-Python"
+	super defineTraits.
+	
+	"Entity"
+	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
+	
+	"FAST-Python"
+	tCanBeSplatExpression := (builder newTraitNamed: #TCanBeSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
-	tWithElseClause := builder newTraitNamed: #TWithElseClause. "Remotes"
+	tWithElseClause := builder newTraitNamed: #TWithElseClause.
+	
+	"Remotes"
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.

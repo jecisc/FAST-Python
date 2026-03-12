@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|

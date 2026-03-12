@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
+| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 
 
@@ -13,8 +14,8 @@
 Class {
 	#name : 'FASTPyIdentifier',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait',
+	#traits : 'FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression',
+	#classTraits : 'FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

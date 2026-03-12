@@ -67,7 +67,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  TEntityMetaLevelDependency. "Too general"
 		  FASTTExpression. "I need to enable this one later but I'm still unsure of how to manage expression statements"
 		  FASTPyTDecoratorExpression. "Adds too much noise in tests"
-		  FASTTWithComments "Everything has that" }
+		  FASTTWithComments. "Everything has that"
+		  FASTPyTCanBeSplatExpression "Too many elements with it." }
 ]
 
 { #category : 'running' }
@@ -2586,6 +2587,586 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 					self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatInCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatInCall 	"
+
+	self parse: 'func(**kwargs)'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'func(**kwargs)'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**kwargs'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'kwargs'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'func'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatInDictionary [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatInDictionary 	"
+
+	self parse: '{**d1, "c": 3}'.
+
+	self assert: (fast allWithType: FASTPyDictionary) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPair) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '{**d1, "c": 3}'.
+	self assert: (self topEntity isOfType: FASTPyDictionary).
+	
+	"Testing value of multivalued relation initializers"
+	self assert: self topEntity initializers size equals: 2.
+	
+		stack push: (stack top initializers at: 1).
+		self assert: self topEntity sourceCode equals: '**d1'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'd1'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top initializers at: 2).
+		self assert: self topEntity sourceCode equals: '"c": 3'.
+		self assert: (self topEntity isOfType: FASTPyPair).
+		
+		"Testing value of monovalue relation key"
+		self assert: self topEntity key isNotNil.
+
+			stack push: self topEntity key.
+			self assert: self topEntity sourceCode equals: '"c"'.
+			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
+			stack pop.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnAttributeAccess [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnAttributeAccess 	"
+
+	self parse: 'funct(**obj.settings)'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'funct(**obj.settings)'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**obj.settings'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'obj.settings'.
+			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+			
+			"Testing value of monovalue relation attribute"
+			self assert: self topEntity attribute isNotNil.
+
+				stack push: self topEntity attribute.
+				self assert: self topEntity sourceCode equals: 'settings'.
+				self assert: (self topEntity isOfType: FASTPyVariable).
+				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				stack pop.
+			
+			"Testing value of monovalue relation object"
+			self assert: self topEntity object isNotNil.
+
+				stack push: self topEntity object.
+				self assert: self topEntity sourceCode equals: 'obj'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'funct'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnBinaryOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnBinaryOperator 	"
+
+	self parse: 'func(**default_args | subprocess_args)'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'func(**default_args | subprocess_args)'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**default_args | subprocess_args'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'default_args | subprocess_args'.
+			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
+			
+			"Testing value of monovalue relation leftOperand"
+			self assert: self topEntity leftOperand isNotNil.
+
+				stack push: self topEntity leftOperand.
+				self assert: self topEntity sourceCode equals: 'default_args'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			self assert: self topEntity operator equals: '|'.
+			
+			"Testing value of monovalue relation rightOperand"
+			self assert: self topEntity rightOperand isNotNil.
+
+				stack push: self topEntity rightOperand.
+				self assert: self topEntity sourceCode equals: 'subprocess_args'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'func'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnBooleanOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnBooleanOperator 	"
+
+	self parse: 'func(**extra or {}) '.
+
+	self assert: (fast allWithType: FASTPyBooleanOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionary) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'func(**extra or {})'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**extra or {}'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'extra or {}'.
+			self assert: (self topEntity isOfType: FASTPyBooleanOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
+			
+			"Testing value of monovalue relation leftOperand"
+			self assert: self topEntity leftOperand isNotNil.
+
+				stack push: self topEntity leftOperand.
+				self assert: self topEntity sourceCode equals: 'extra'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			self assert: self topEntity operator equals: 'or'.
+			
+			"Testing value of monovalue relation rightOperand"
+			self assert: self topEntity rightOperand isNotNil.
+
+				stack push: self topEntity rightOperand.
+				self assert: self topEntity sourceCode equals: '{}'.
+				self assert: (self topEntity isOfType: FASTPyDictionary).
+				stack pop.
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'func'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnCall 	"
+
+	self parse: 'funct(**get_config())'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 2.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'funct(**get_config())'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**get_config()'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'get_config()'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'get_config'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'funct'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnDictionaryComprehension [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnDictionaryComprehension 	"
+
+	self parse: 'funct(**{k: v * 2 for k, v in items})'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionaryComprehension) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 6.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPair) size equals: 1.
+	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'funct(**{k: v * 2 for k, v in items})'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**{k: v * 2 for k, v in items}'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: '{k: v * 2 for k, v in items}'.
+			self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
+			self assert: (self topEntity isOfType: FASTPyTComprehension).
+			
+			"Testing value of monovalue relation body"
+			self assert: self topEntity body isNotNil.
+
+				stack push: self topEntity body.
+				self assert: self topEntity sourceCode equals: 'k: v * 2'.
+				self assert: (self topEntity isOfType: FASTPyPair).
+				
+				"Testing value of monovalue relation key"
+				self assert: self topEntity key isNotNil.
+
+					stack push: self topEntity key.
+					self assert: self topEntity sourceCode equals: 'k'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
+					stack pop.
+				
+				"Testing value of monovalue relation value"
+				self assert: self topEntity value isNotNil.
+
+					stack push: self topEntity value.
+					self assert: self topEntity sourceCode equals: 'v * 2'.
+					self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+					self assert: (self topEntity isOfType: FASTTBinaryExpression).
+					
+					"Testing value of monovalue relation leftOperand"
+					self assert: self topEntity leftOperand isNotNil.
+
+						stack push: self topEntity leftOperand.
+						self assert: self topEntity sourceCode equals: 'v'.
+						self assert: (self topEntity isOfType: FASTPyIdentifier).
+						stack pop.
+					self assert: self topEntity operator equals: '*'.
+					
+					"Testing value of monovalue relation rightOperand"
+					self assert: self topEntity rightOperand isNotNil.
+
+						stack push: self topEntity rightOperand.
+						self assert: self topEntity sourceCode equals: '2'.
+						self assert: (self topEntity isOfType: FASTPyInteger).
+						self assert: (self topEntity isOfType: FASTTLiteral).
+						self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+						stack pop.
+					stack pop.
+				stack pop.
+			
+			"Testing value of multivalued relation clauses"
+			self assert: self topEntity clauses size equals: 1.
+			
+				stack push: (stack top clauses at: 1).
+				self assert: self topEntity sourceCode equals: 'for k, v in items'.
+				self assert: (self topEntity isOfType: FASTPyForInClause).
+				
+				"Testing value of monovalue relation left"
+				self assert: self topEntity left isNotNil.
+
+					stack push: self topEntity left.
+					self assert: self topEntity sourceCode equals: 'k, v'.
+					self assert: (self topEntity isOfType: FASTPyPatternList).
+					
+					"Testing value of multivalued relation elements"
+					self assert: self topEntity elements size equals: 2.
+					
+						stack push: (stack top elements at: 1).
+						self assert: self topEntity sourceCode equals: 'k'.
+						self assert: (self topEntity isOfType: FASTPyIdentifier).
+						stack pop.
+					
+						stack push: (stack top elements at: 2).
+						self assert: self topEntity sourceCode equals: 'v'.
+						self assert: (self topEntity isOfType: FASTPyIdentifier).
+						stack pop.
+					stack pop.
+				
+				"Testing value of monovalue relation right"
+				self assert: self topEntity right isNotNil.
+
+					stack push: self topEntity right.
+					self assert: self topEntity sourceCode equals: 'items'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
+					stack pop.
+				stack pop.
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'funct'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnParenthesis [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnParenthesis 	"
+
+	self parse: 'func(**(kwargs)) '.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'func(**(kwargs))'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**(kwargs)'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'kwargs'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'func'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - splats' }
+FASTPythonImporterTest >> testDictionarySplatOnSubscript [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatOnSubscript 	"
+
+	self parse: 'funct(**d["nested"])'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'funct(**d["nested"])'.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '**d["nested"]'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'd["nested"]'.
+			self assert: (self topEntity isOfType: FASTPySubscript).
+			
+			"Testing value of multivalued relation indices"
+			self assert: self topEntity indices size equals: 1.
+			
+				stack push: (stack top indices at: 1).
+				self assert: self topEntity sourceCode equals: '"nested"'.
+				self assert: (self topEntity isOfType: FASTPyString).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTStringLiteral).
+				stack pop.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: 'd'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'funct'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testDoubleQuotedString [
 
@@ -5044,6 +5625,49 @@ FASTPythonImporterTest >> testImportDottedImportAndAlias [
 ]
 
 { #category : 'tests - imports' }
+FASTPythonImporterTest >> testImportFromWithLineContinuation [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportFromWithLineContinuation 	"
+
+	self parse: 'from distutils.ccompiler import \
+     CCompiler, gen_preprocess_options'.
+
+	self assert: (fast allWithType: FASTPyFromModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportFromStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'from distutils.ccompiler import \
+     CCompiler, gen_preprocess_options' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyImportFromStatement).
+	
+	"Testing value of monovalue relation fromModule"
+	self assert: self topEntity fromModule isNotNil.
+
+		stack push: self topEntity fromModule.
+		self assert: self topEntity sourceCode equals: 'distutils.ccompiler'.
+		self assert: (self topEntity isOfType: FASTPyFromModule).
+		self assert: self topEntity segments equals: #('distutils' 'ccompiler').
+		stack pop.
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 2.
+	
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'CCompiler'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('CCompiler').
+		stack pop.
+	
+		stack push: (stack top importedEntities at: 2).
+		self assert: self topEntity sourceCode equals: 'gen_preprocess_options'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('gen_preprocess_options')
+]
+
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportInFunction [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -5217,6 +5841,43 @@ FASTPythonImporterTest >> testImportWithAlias [
 		self assert: (self topEntity isOfType: FASTPyImportedEntity).
 		self assert: self topEntity alias equals: 'rand'.
 		self assert: self topEntity segments equals: #('random')
+]
+
+{ #category : 'tests - imports' }
+FASTPythonImporterTest >> testImportWithComment [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportWithComment 	"
+
+	self parse: 'import #For visu
+mathplotlib'.
+
+	self assert: (fast allWithType: FASTPyComment) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'import #For visu
+mathplotlib' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyImportStatement).
+	
+	"Testing value of multivalued relation comments"
+	self assert: self topEntity comments size equals: 1.
+	
+		stack push: (stack top comments at: 1).
+		self assert: self topEntity sourceCode equals: '#For visu'.
+		self assert: (self topEntity isOfType: FASTPyComment).
+		self assert: (self topEntity isOfType: FASTTComment).
+		stack pop.
+	
+	"Testing value of multivalued relation importedEntities"
+	self assert: self topEntity importedEntities size equals: 1.
+	
+		stack push: (stack top importedEntities at: 1).
+		self assert: self topEntity sourceCode equals: 'mathplotlib'.
+		self assert: (self topEntity isOfType: FASTPyImportedEntity).
+		self assert: self topEntity segments equals: #('mathplotlib')
 ]
 
 { #category : 'tests - literals' }
