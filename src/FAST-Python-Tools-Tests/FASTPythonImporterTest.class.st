@@ -1516,6 +1516,57 @@ FASTPythonImporterTest >> testComment [
 	self assert: (self topEntity isOfType: FASTTComment)
 ]
 
+{ #category : 'tests - comments' }
+FASTPythonImporterTest >> testCommentInArgumentList [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testCommentInArgumentList 	"
+
+	self parse: 'funct(
+    10  # Process/thread ID
+)'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyComment) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'funct(
+    10  # Process/thread ID
+)' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyCall).
+	self assert: (self topEntity isOfType: FASTTInvocation).
+	self assert: (self topEntity isOfType: FASTTWithArguments).
+	
+	"Testing value of multivalued relation arguments"
+	self assert: self topEntity arguments size equals: 1.
+	
+		stack push: (stack top arguments at: 1).
+		self assert: self topEntity sourceCode equals: '10'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+		stack pop.
+	
+	"Testing value of monovalue relation callee"
+	self assert: self topEntity callee isNotNil.
+
+		stack push: self topEntity callee.
+		self assert: self topEntity sourceCode equals: 'funct'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+	"Testing value of multivalued relation comments"
+	self assert: self topEntity comments size equals: 1.
+	
+		stack push: (stack top comments at: 1).
+		self assert: self topEntity sourceCode equals: '# Process/thread ID'.
+		self assert: (self topEntity isOfType: FASTPyComment).
+		self assert: (self topEntity isOfType: FASTTComment)
+]
+
 { #category : 'tests - operators' }
 FASTPythonImporterTest >> testComparisonOperator [
 
@@ -8961,16 +9012,16 @@ FASTPythonImporterTest >> testTwoComments [
 	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
 	self assert: (self topEntity isOfType: FamixTSourceAnchor).
 	
-	"Testing value of multivalued relation genericChildren"
-	self assert: self topEntity genericChildren size equals: 2.
+	"Testing value of multivalued relation comments"
+	self assert: self topEntity comments size equals: 2.
 	
-		stack push: (stack top genericChildren at: 1).
+		stack push: (stack top comments at: 1).
 		self assert: self topEntity sourceCode equals: '# Comment 1'.
 		self assert: (self topEntity isOfType: FASTPyComment).
 		self assert: (self topEntity isOfType: FASTTComment).
 		stack pop.
 	
-		stack push: (stack top genericChildren at: 2).
+		stack push: (stack top comments at: 2).
 		self assert: self topEntity sourceCode equals: '# Comment 2'.
 		self assert: (self topEntity isOfType: FASTPyComment).
 		self assert: (self topEntity isOfType: FASTTComment)
