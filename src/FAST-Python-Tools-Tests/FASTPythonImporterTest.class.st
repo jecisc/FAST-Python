@@ -4975,6 +4975,93 @@ FASTPythonImporterTest >> testImportDottedImportAndAlias [
 ]
 
 { #category : 'tests - imports' }
+FASTPythonImporterTest >> testImportInFunction [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testImportInFunction 	"
+
+	self parse: 'def fun():
+	import numpy as np
+	np.fit()'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def fun():
+	import numpy as np
+	np.fit()' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'fun'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'import numpy as np
+	np.fit()' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 2.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'import numpy as np'.
+			self assert: (self topEntity isOfType: FASTPyImportStatement).
+			
+			"Testing value of multivalued relation importedEntities"
+			self assert: self topEntity importedEntities size equals: 1.
+			
+				stack push: (stack top importedEntities at: 1).
+				self assert: self topEntity sourceCode equals: 'numpy as np'.
+				self assert: (self topEntity isOfType: FASTPyImportedEntity).
+				self assert: self topEntity alias equals: 'np'.
+				self assert: self topEntity segments equals: #('numpy').
+				stack pop.
+			stack pop.
+		
+			stack push: (stack top statements at: 2).
+			self assert: self topEntity sourceCode equals: 'np.fit()'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'np.fit'.
+				self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+				
+				"Testing value of monovalue relation attribute"
+				self assert: self topEntity attribute isNotNil.
+
+					stack push: self topEntity attribute.
+					self assert: self topEntity sourceCode equals: 'fit'.
+					self assert: (self topEntity isOfType: FASTPyVariable).
+					self assert: (self topEntity isOfType: FASTTVariableEntity).
+					stack pop.
+				
+				"Testing value of monovalue relation object"
+				self assert: self topEntity object isNotNil.
+
+					stack push: self topEntity object.
+					self assert: self topEntity sourceCode equals: 'np'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - imports' }
 FASTPythonImporterTest >> testImportMultiple [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -8865,6 +8952,59 @@ FASTPythonImporterTest >> testTwoComments [
 
 	self assert: (fast allWithType: FASTPyComment) size equals: 2.
 	self assertCollection: ((fast allWithType: FASTPyComment) collect: #sourceCode as: Array) hasSameElements: { '# Comment 1'. '# Comment 2' }
+]
+
+{ #category : 'tests - imports' }
+FASTPythonImporterTest >> testTwoImports [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTwoImports 	"
+
+	self parse: 'import numpy as np
+import mathplotlib as mpl'.
+
+	self assert: (fast allWithType: FASTPyImportStatement) size equals: 2.
+	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne.
+	self assert: self topEntity sourceCode equals: 'import numpy as np
+import mathplotlib as mpl' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyModule).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
+	self assert: (self topEntity isOfType: FamixTSourceAnchor).
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 2.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'import numpy as np'.
+		self assert: (self topEntity isOfType: FASTPyImportStatement).
+		
+		"Testing value of multivalued relation importedEntities"
+		self assert: self topEntity importedEntities size equals: 1.
+		
+			stack push: (stack top importedEntities at: 1).
+			self assert: self topEntity sourceCode equals: 'numpy as np'.
+			self assert: (self topEntity isOfType: FASTPyImportedEntity).
+			self assert: self topEntity alias equals: 'np'.
+			self assert: self topEntity segments equals: #('numpy').
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top statements at: 2).
+		self assert: self topEntity sourceCode equals: 'import mathplotlib as mpl'.
+		self assert: (self topEntity isOfType: FASTPyImportStatement).
+		
+		"Testing value of multivalued relation importedEntities"
+		self assert: self topEntity importedEntities size equals: 1.
+		
+			stack push: (stack top importedEntities at: 1).
+			self assert: self topEntity sourceCode equals: 'mathplotlib as mpl'.
+			self assert: (self topEntity isOfType: FASTPyImportedEntity).
+			self assert: self topEntity alias equals: 'mpl'.
+			self assert: self topEntity segments equals: #('mathplotlib')
 ]
 
 { #category : 'tests - operators' }

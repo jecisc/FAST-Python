@@ -408,6 +408,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	ifStatement --|> statement.
 	ifStatement --|> tConditionalStatement.
 	ifStatement --|> tWithElseClause.
+	
+	import --|> statement.
 
 	importStatement --|> import.
 

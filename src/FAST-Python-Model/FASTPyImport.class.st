@@ -12,7 +12,7 @@
 "
 Class {
 	#name : 'FASTPyImport',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyStatement',
 	#instVars : [
 		'#importedEntities => FMMany type: #FASTPyImportedEntity opposite: #import'
 	],
@@ -24,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyImport class >> annotation [
 
-	<FMClass: #Import super: #FASTPyEntity>
+	<FMClass: #Import super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
