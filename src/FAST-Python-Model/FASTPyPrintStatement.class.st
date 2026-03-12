@@ -1,6 +1,21 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `expressions` | `FASTPyPrintStatement` | `prarentPrintStatement` | `FASTPyExpression` | |
+
+
+
+"
 Class {
 	#name : 'FASTPyPrintStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyStatement',
+	#instVars : [
+		'#expressions => FMMany type: #FASTPyExpression opposite: #prarentPrintStatement'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,8 +24,37 @@ Class {
 { #category : 'meta' }
 FASTPyPrintStatement class >> annotation [
 
-	<FMClass: #PrintStatement super: #FASTPyEntity>
+	<FMClass: #PrintStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FASTPyPrintStatement >> addExpression: anObject [
+	<generated>
+	^ self expressions add: anObject
+]
+
+{ #category : 'accessing' }
+FASTPyPrintStatement >> expressions [
+	"Relation named: #expressions type: #FASTPyExpression opposite: #prarentPrintStatement"
+
+	<generated>
+	<derived>
+	^ expressions
+]
+
+{ #category : 'accessing' }
+FASTPyPrintStatement >> expressions: anObject [
+
+	<generated>
+	expressions value: anObject
+]
+
+{ #category : 'navigation' }
+FASTPyPrintStatement >> expressionsGroup [
+	<generated>
+	<navigation: 'Expressions'>
+	^ MooseSpecializedGroup withAll: self expressions asSet
 ]

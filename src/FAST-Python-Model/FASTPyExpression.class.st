@@ -37,6 +37,7 @@
 | `parentInterpolation` | `FASTPyExpression` | `expression` | `FASTPyInterpolation` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `patternListOwner` | `FASTPyExpression` | `elements` | `FASTPyPatternList` | |
+| `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 | `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 | `subscriptIndiceOwner` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
@@ -82,6 +83,7 @@ Class {
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#patternListOwner => FMOne type: #FASTPyPatternList opposite: #elements',
+		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
 		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
 		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
 		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value',
@@ -656,6 +658,29 @@ FASTPyExpression >> patternListOwnerGroup [
 	<generated>
 	<navigation: 'PatternListOwner'>
 	^ MooseSpecializedGroup with: self patternListOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> prarentPrintStatement [
+	"Relation named: #prarentPrintStatement type: #FASTPyPrintStatement opposite: #expressions"
+
+	<generated>
+	<container>
+	^ prarentPrintStatement
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> prarentPrintStatement: anObject [
+
+	<generated>
+	prarentPrintStatement := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> prarentPrintStatementGroup [
+	<generated>
+	<navigation: 'PrarentPrintStatement'>
+	^ MooseSpecializedGroup with: self prarentPrintStatement
 ]
 
 { #category : 'accessing' }

@@ -455,6 +455,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	parameter --|> tVariableEntity.
 
 	passStatement --|> statement.
+	
+	printStatement --|> statement.
 
 	returnStatement --|> statement.
 	returnStatement --|> tReturnStatement.
@@ -603,6 +605,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
 
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
+	
+	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
 	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''). "Originally, I created a trait for Slice content because the python syntax does not allow all expressions. But multiple libraries are changing the syntax to accept other objects such as float, list or even string. So now I point FASTPyExpression to not fail on all those cases."

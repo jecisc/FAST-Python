@@ -66,8 +66,7 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTTStatement. "I need to enable this one later but for now I'm not sure how to manage expression statements"
 		  TEntityMetaLevelDependency. "Too general"
 		  FASTTExpression. "I need to enable this one later but I'm still unsure of how to manage expression statements"
-		  FASTPyTDecoratorExpression. "Adds too much noise in tests"
-		  FASTPyTSliceContent "Already tested via the tree." }
+		  FASTPyTDecoratorExpression "Adds too much noise in tests" }
 ]
 
 { #category : 'running' }
@@ -6449,6 +6448,47 @@ FASTPythonImporterTest >> testPatternListInListComprehension [
 			stack push: self topEntity right.
 			self assert: self topEntity sourceCode equals: 'points'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testPrintStatement [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testPrintStatement 	"
+
+	self parse: 'print "Hello ", "World", 30'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPrintStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'print "Hello ", "World", 30'.
+	self assert: (self topEntity isOfType: FASTPyPrintStatement).
+	
+	"Testing value of multivalued relation expressions"
+	self assert: self topEntity expressions size equals: 3.
+	
+		stack push: (stack top expressions at: 1).
+		self assert: self topEntity sourceCode equals: '"Hello "'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
+		stack pop.
+	
+		stack push: (stack top expressions at: 2).
+		self assert: self topEntity sourceCode equals: '"World"'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
+		stack pop.
+	
+		stack push: (stack top expressions at: 3).
+		self assert: self topEntity sourceCode equals: '30'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
 ]
 
 { #category : 'tests - literals' }
