@@ -24,7 +24,6 @@
 | `ifClauseOwner` | `FASTPyExpression` | `expression` | `FASTPyIfClause` | |
 | `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
 | `lambdaOwner` | `FASTPyExpression` | `expression` | `FASTPyLambda` | |
-| `listSplatOwner` | `FASTPyExpression` | `iterable` | `FASTPyListSplat` | List splat unpacking me (if it's the case)|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
 | `parentAssertStatement` | `FASTPyExpression` | `expressions` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
@@ -76,7 +75,6 @@ Class {
 		'#ifClauseOwner => FMOne type: #FASTPyIfClause opposite: #expression',
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#lambdaOwner => FMOne type: #FASTPyLambda opposite: #expression',
-		'#listSplatOwner => FMOne type: #FASTPyListSplat opposite: #iterable',
 		'#parentAssertStatement => FMOne type: #FASTPyAssertStatement opposite: #expressions',
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
@@ -489,31 +487,6 @@ FASTPyExpression >> lambdaOwnerGroup [
 	<generated>
 	<navigation: 'LambdaOwner'>
 	^ MooseSpecializedGroup with: self lambdaOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> listSplatOwner [
-	"Relation named: #listSplatOwner type: #FASTPyListSplat opposite: #iterable"
-
-	<generated>
-	<FMComment: 'List splat unpacking me (if it''s the case)'>
-	<container>
-	<derived>
-	^ listSplatOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> listSplatOwner: anObject [
-
-	<generated>
-	listSplatOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> listSplatOwnerGroup [
-	<generated>
-	<navigation: 'ListSplatOwner'>
-	^ MooseSpecializedGroup with: self listSplatOwner
 ]
 
 { #category : 'accessing' }

@@ -357,6 +357,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	classDefinition --|> tDefinition.
 
 	collectionInitializer --|> expression.
+	collectionInitializer --|> tCanBeSplatExpression.
 	
 	collectionSplat --|> expression.
 
@@ -377,7 +378,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	deleteStatement --|> statement.
 
 	dictionary --|> collectionInitializer.
-	dictionary --|> tCanBeSplatExpression.
 	
 	dictionaryComprehension --|> expression.
 	dictionaryComprehension --|> tComprehension.
@@ -448,8 +448,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	literal --|> expression.
 	literal --|> tLiteral.
-	
-	listSplat --|> expression.
 
 	methodDefinition --|> tNamedBehaviouralEntity.
 	methodDefinition --|> tDefinition.
@@ -490,6 +488,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	string --|> literal.
 	string --|> tStringLiteral.
+	string --|> tCanBeSplatExpression.
 	
 	subscript --|> expression.
 	subscript --|> tDecoratorExpression.
@@ -616,9 +615,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
 
 	(lambda property: #expression) <>- (expression property: #lambdaOwner).
-
-	((listSplat property: #iterable) comment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.')
-	<>- ((expression property: #listSplatOwner) comment: 'List splat unpacking me (if it''s the case)').
 
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').

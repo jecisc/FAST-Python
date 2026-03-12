@@ -2,10 +2,10 @@
 ## Relations
 ======================
 
-### Children
+### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `initializers` | `FASTPyTCollectionInitializer` | `collectionInitializers` | `FASTTExpression` | Each initializer defines one element.|
+| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 
 

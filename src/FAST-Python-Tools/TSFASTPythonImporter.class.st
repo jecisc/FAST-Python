@@ -241,7 +241,7 @@ TSFASTPythonImporter >> visitDictionaryComprehension: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitDictionarySplat: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'expression' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode kind: FASTPyDictionarySplat
 ]
@@ -477,7 +477,7 @@ TSFASTPythonImporter >> visitListComprehension: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitListSplat: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #iterable asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode kind: FASTPyListSplat
 ]

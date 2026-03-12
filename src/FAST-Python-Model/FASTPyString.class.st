@@ -15,6 +15,7 @@
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
+| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 
 ### Children
@@ -36,8 +37,8 @@
 Class {
 	#name : 'FASTPyString',
 	#superclass : 'FASTPyLiteral',
-	#traits : 'FASTTStringLiteral',
-	#classTraits : 'FASTTStringLiteral classTrait',
+	#traits : 'FASTPyTCanBeSplatExpression + FASTTStringLiteral',
+	#classTraits : 'FASTPyTCanBeSplatExpression classTrait + FASTTStringLiteral classTrait',
 	#instVars : [
 		'#interpolations => FMMany type: #FASTPyInterpolation opposite: #parentString',
 		'#parentConcatenatedString => FMOne type: #FASTPyConcatenatedString opposite: #strings'

@@ -12,10 +12,7 @@
 "
 Class {
 	#name : 'FASTPyListSplat',
-	#superclass : 'FASTPyExpression',
-	#instVars : [
-		'#iterable => FMOne type: #FASTPyExpression opposite: #listSplatOwner'
-	],
+	#superclass : 'FASTPyCollectionSplat',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -24,31 +21,8 @@ Class {
 { #category : 'meta' }
 FASTPyListSplat class >> annotation [
 
-	<FMClass: #ListSplat super: #FASTPyExpression>
+	<FMClass: #ListSplat super: #FASTPyCollectionSplat>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
-]
-
-{ #category : 'accessing' }
-FASTPyListSplat >> iterable [
-	"Relation named: #iterable type: #FASTPyExpression opposite: #listSplatOwner"
-
-	<generated>
-	<FMComment: 'The iterable to unpack. Can be a collection, a call, an attribute access or a subscript.'>
-	^ iterable
-]
-
-{ #category : 'accessing' }
-FASTPyListSplat >> iterable: anObject [
-
-	<generated>
-	iterable := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyListSplat >> iterableGroup [
-	<generated>
-	<navigation: 'Iterable'>
-	^ MooseSpecializedGroup with: self iterable
 ]

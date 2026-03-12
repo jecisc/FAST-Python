@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -13,6 +18,8 @@
 Class {
 	#name : 'FASTPyCollectionInitializer',
 	#superclass : 'FASTPyExpression',
+	#traits : 'FASTPyTCanBeSplatExpression',
+	#classTraits : 'FASTPyTCanBeSplatExpression classTrait',
 	#instVars : [
 		'#initializers => FMMany type: #FASTPyExpression opposite: #collectionInitializer'
 	],
