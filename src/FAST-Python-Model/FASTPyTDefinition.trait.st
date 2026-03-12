@@ -2,12 +2,27 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+| `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
+| `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
 
 
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `endPos` | `Number` | nil | |
+| `name` | `String` | nil | |
+| `startPos` | `Number` | nil | |
 
 "
 Trait {
@@ -15,6 +30,8 @@ Trait {
 	#instVars : [
 		'#decorators => FMMany type: #FASTPyDecorator opposite: #definitionOwner'
 	],
+	#traits : 'FASTTNamedBehaviouralEntity',
+	#classTraits : 'FASTTNamedBehaviouralEntity classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

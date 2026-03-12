@@ -27,9 +27,9 @@
 "
 Class {
 	#name : 'FASTPyMethodDefinition',
-	#superclass : 'FASTPyEntity',
-	#traits : 'FASTPyTDefinition + FASTTNamedBehaviouralEntity',
-	#classTraits : 'FASTPyTDefinition classTrait + FASTTNamedBehaviouralEntity classTrait',
+	#superclass : 'FASTPyStatement',
+	#traits : 'FASTPyTDefinition',
+	#classTraits : 'FASTPyTDefinition classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -38,7 +38,7 @@ Class {
 { #category : 'meta' }
 FASTPyMethodDefinition class >> annotation [
 
-	<FMClass: #MethodDefinition super: #FASTPyEntity>
+	<FMClass: #MethodDefinition super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

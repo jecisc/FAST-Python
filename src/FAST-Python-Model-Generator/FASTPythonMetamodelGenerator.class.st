@@ -316,13 +316,12 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	super defineHierarchy.
 
 	entity --|> tEntity.
-	self flag: #todo. "The next two line are WRONG and NEEDS to be reviewed but we currently need it because else everything will break until the MM is in a better state."
-	entity --|> tStatement.
 	entity --|> tWithComment.
 	
 	"Adding a bunch of traits in errors to not interupt the parsing much if we have an error."
 	_ERROR --|> expression.
 
+	assignment --|> statement.
 	assignment --|> tAssignment.
 
 	assertStatement --|> statement.
@@ -331,7 +330,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> tDecoratorExpression.
 	attribute --|> tCanBeSplatExpression.
 	
-	await --|> tStatement.
+	augmentedAssignment --|> statement.
+	
+	await --|> statement.
 
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
@@ -353,7 +354,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tDecoratorExpression.
 	call --|> tCanBeSplatExpression.
 
-	classDefinition --|> tNamedBehaviouralEntity.
+	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
 
 	collectionInitializer --|> expression.
@@ -405,7 +406,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	forStatement --|> tLoopStatement.
 	forStatement --|> tWithElseClause.
 
-	functionDefinition --|> tNamedBehaviouralEntity.
+	functionDefinition --|> statement.
 	functionDefinition --|> tDefinition.
 	
 	generatorExpression --|> expression.
@@ -449,7 +450,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	literal --|> expression.
 	literal --|> tLiteral.
 
-	methodDefinition --|> tNamedBehaviouralEntity.
+	methodDefinition --|> statement.
 	methodDefinition --|> tDefinition.
 
 	module --|> block. "A Module has statements."
@@ -495,6 +496,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	subscript --|> tCanBeSplatExpression.
 	
 	tComprehension --|> tCanBeSplatExpression.
+	
+	tDefinition --|> tNamedBehaviouralEntity.
 
 	thenClause --|> block.
 

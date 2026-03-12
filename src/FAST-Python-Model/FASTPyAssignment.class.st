@@ -34,7 +34,7 @@
 "
 Class {
 	#name : 'FASTPyAssignment',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyStatement',
 	#traits : 'FASTTAssignment',
 	#classTraits : 'FASTTAssignment classTrait',
 	#category : 'FAST-Python-Model-Entities',
@@ -45,7 +45,7 @@ Class {
 { #category : 'meta' }
 FASTPyAssignment class >> annotation [
 
-	<FMClass: #Assignment super: #FASTPyEntity>
+	<FMClass: #Assignment super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

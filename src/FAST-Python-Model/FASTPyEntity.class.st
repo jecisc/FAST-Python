@@ -6,8 +6,6 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `genericParent` | `FASTPyEntity` | `genericChildren` | `FASTPyEntity` | |
-| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
-| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -28,8 +26,8 @@
 Class {
 	#name : 'FASTPyEntity',
 	#superclass : 'MooseEntity',
-	#traits : 'FASTTEntity + FASTTStatement + FASTTWithComments',
-	#classTraits : 'FASTTEntity classTrait + FASTTStatement classTrait + FASTTWithComments classTrait',
+	#traits : 'FASTTEntity + FASTTWithComments',
+	#classTraits : 'FASTTEntity classTrait + FASTTWithComments classTrait',
 	#instVars : [
 		'#genericChildren => FMMany type: #FASTPyEntity opposite: #genericParent',
 		'#genericParent => FMOne type: #FASTPyEntity opposite: #genericChildren'
@@ -194,6 +192,13 @@ FASTPyEntity >> isReturnStatement [
 
 { #category : 'testing' }
 FASTPyEntity >> isScopableEntity [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
+FASTPyEntity >> isStatement [
 
 	<generated>
 	^ false
