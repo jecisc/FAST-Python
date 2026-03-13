@@ -10444,6 +10444,215 @@ FASTPythonImporterTest >> testWhile [
 		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
+{ #category : 'tests - with statement' }
+FASTPythonImporterTest >> testWithStatement [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWithStatement 	"
+
+	self parse: 'with open("input.txt") as src, open("output.txt", "w") as dst:
+    dst.write(src.read())'.
+
+	self assert: (fast allWithType: FASTPyAsPattern) size equals: 2.
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 2.
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 4.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 6.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 3.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 2.
+	self assert: (fast allWithType: FASTPyWithClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyWithItem) size equals: 2.
+	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'with open("input.txt") as src, open("output.txt", "w") as dst:
+    dst.write(src.read())' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyWithStatement).
+	
+	"Testing value of multivalued relation genericChildren"
+	self assert: self topEntity genericChildren size equals: 2.
+	
+		stack push: (stack top genericChildren at: 1).
+		self assert: self topEntity sourceCode equals: 'open("input.txt") as src, open("output.txt", "w") as dst'.
+		self assert: (self topEntity isOfType: FASTPyWithClause).
+		
+		"Testing value of multivalued relation genericChildren"
+		self assert: self topEntity genericChildren size equals: 2.
+		
+			stack push: (stack top genericChildren at: 1).
+			self assert: self topEntity sourceCode equals: 'open("input.txt") as src'.
+			self assert: (self topEntity isOfType: FASTPyWithItem).
+			
+			"Testing value of multivalued relation genericChildren"
+			self assert: self topEntity genericChildren size equals: 1.
+			
+				stack push: (stack top genericChildren at: 1).
+				self assert: self topEntity sourceCode equals: 'open("input.txt") as src'.
+				self assert: (self topEntity isOfType: FASTPyAsPattern).
+				
+				"Testing value of multivalued relation genericChildren"
+				self assert: self topEntity genericChildren size equals: 2.
+				
+					stack push: (stack top genericChildren at: 1).
+					self assert: self topEntity sourceCode equals: 'open("input.txt")'.
+					self assert: (self topEntity isOfType: FASTPyCall).
+					self assert: (self topEntity isOfType: FASTTInvocation).
+					self assert: (self topEntity isOfType: FASTTWithArguments).
+					
+					"Testing value of multivalued relation arguments"
+					self assert: self topEntity arguments size equals: 1.
+					
+						stack push: (stack top arguments at: 1).
+						self assert: self topEntity sourceCode equals: '"input.txt"'.
+						self assert: (self topEntity isOfType: FASTPyString).
+						self assert: (self topEntity isOfType: FASTTLiteral).
+						self assert: (self topEntity isOfType: FASTTStringLiteral).
+						stack pop.
+					
+					"Testing value of monovalue relation callee"
+					self assert: self topEntity callee isNotNil.
+
+						stack push: self topEntity callee.
+						self assert: self topEntity sourceCode equals: 'open'.
+						self assert: (self topEntity isOfType: FASTPyIdentifier).
+						stack pop.
+					stack pop.
+				
+					stack push: (stack top genericChildren at: 2).
+					self assert: self topEntity sourceCode equals: 'src'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
+					stack pop.
+				stack pop.
+			stack pop.
+		
+			stack push: (stack top genericChildren at: 2).
+			self assert: self topEntity sourceCode equals: 'open("output.txt", "w") as dst'.
+			self assert: (self topEntity isOfType: FASTPyWithItem).
+			
+			"Testing value of multivalued relation genericChildren"
+			self assert: self topEntity genericChildren size equals: 1.
+			
+				stack push: (stack top genericChildren at: 1).
+				self assert: self topEntity sourceCode equals: 'open("output.txt", "w") as dst'.
+				self assert: (self topEntity isOfType: FASTPyAsPattern).
+				
+				"Testing value of multivalued relation genericChildren"
+				self assert: self topEntity genericChildren size equals: 2.
+				
+					stack push: (stack top genericChildren at: 1).
+					self assert: self topEntity sourceCode equals: 'open("output.txt", "w")'.
+					self assert: (self topEntity isOfType: FASTPyCall).
+					self assert: (self topEntity isOfType: FASTTInvocation).
+					self assert: (self topEntity isOfType: FASTTWithArguments).
+					
+					"Testing value of multivalued relation arguments"
+					self assert: self topEntity arguments size equals: 2.
+					
+						stack push: (stack top arguments at: 1).
+						self assert: self topEntity sourceCode equals: '"output.txt"'.
+						self assert: (self topEntity isOfType: FASTPyString).
+						self assert: (self topEntity isOfType: FASTTLiteral).
+						self assert: (self topEntity isOfType: FASTTStringLiteral).
+						stack pop.
+					
+						stack push: (stack top arguments at: 2).
+						self assert: self topEntity sourceCode equals: '"w"'.
+						self assert: (self topEntity isOfType: FASTPyString).
+						self assert: (self topEntity isOfType: FASTTLiteral).
+						self assert: (self topEntity isOfType: FASTTStringLiteral).
+						stack pop.
+					
+					"Testing value of monovalue relation callee"
+					self assert: self topEntity callee isNotNil.
+
+						stack push: self topEntity callee.
+						self assert: self topEntity sourceCode equals: 'open'.
+						self assert: (self topEntity isOfType: FASTPyIdentifier).
+						stack pop.
+					stack pop.
+				
+					stack push: (stack top genericChildren at: 2).
+					self assert: self topEntity sourceCode equals: 'dst'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
+					stack pop.
+				stack pop.
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top genericChildren at: 2).
+		self assert: self topEntity sourceCode equals: 'dst.write(src.read())'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'dst.write(src.read())'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of multivalued relation arguments"
+			self assert: self topEntity arguments size equals: 1.
+			
+				stack push: (stack top arguments at: 1).
+				self assert: self topEntity sourceCode equals: 'src.read()'.
+				self assert: (self topEntity isOfType: FASTPyCall).
+				self assert: (self topEntity isOfType: FASTTInvocation).
+				self assert: (self topEntity isOfType: FASTTWithArguments).
+				
+				"Testing value of monovalue relation callee"
+				self assert: self topEntity callee isNotNil.
+
+					stack push: self topEntity callee.
+					self assert: self topEntity sourceCode equals: 'src.read'.
+					self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+					
+					"Testing value of monovalue relation attribute"
+					self assert: self topEntity attribute isNotNil.
+
+						stack push: self topEntity attribute.
+						self assert: self topEntity sourceCode equals: 'read'.
+						self assert: (self topEntity isOfType: FASTPyVariable).
+						self assert: (self topEntity isOfType: FASTTVariableEntity).
+						stack pop.
+					
+					"Testing value of monovalue relation object"
+					self assert: self topEntity object isNotNil.
+
+						stack push: self topEntity object.
+						self assert: self topEntity sourceCode equals: 'src'.
+						self assert: (self topEntity isOfType: FASTPyIdentifier).
+						stack pop.
+					stack pop.
+				stack pop.
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'dst.write'.
+				self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+				
+				"Testing value of monovalue relation attribute"
+				self assert: self topEntity attribute isNotNil.
+
+					stack push: self topEntity attribute.
+					self assert: self topEntity sourceCode equals: 'write'.
+					self assert: (self topEntity isOfType: FASTPyVariable).
+					self assert: (self topEntity isOfType: FASTTVariableEntity).
+					stack pop.
+				
+				"Testing value of monovalue relation object"
+				self assert: self topEntity object isNotNil.
+
+					stack push: self topEntity object.
+					self assert: self topEntity sourceCode equals: 'dst'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'running' }
 FASTPythonImporterTest >> topEntity [
 

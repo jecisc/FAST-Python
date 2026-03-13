@@ -51,6 +51,13 @@ TSFASTPythonImporter >> visitArgumentList: aTSNode [
 	self rawVisitChildren: aTSNode
 ]
 
+{ #category : 'visiting - skip' }
+TSFASTPythonImporter >> visitAsPatternTarget: aTSNode [
+	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
+
+	self rawVisitChildren: aTSNode
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 

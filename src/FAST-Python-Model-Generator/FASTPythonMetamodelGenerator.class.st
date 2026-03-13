@@ -6,7 +6,6 @@ Class {
 		'_ERROR',
 		'tEntity',
 		'asPattern',
-		'asPatternTarget',
 		'assertStatement',
 		'assignment',
 		'attribute',
@@ -186,7 +185,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	entity := builder ensureClassNamed: #Entity.
 	_ERROR := builder ensureClassNamed: #ERROR.
 	asPattern := builder ensureClassNamed: #AsPattern."Todo"
-	asPatternTarget := builder ensureClassNamed: #AsPatternTarget."Todo"
 	assertStatement := builder ensureClassNamed: #AssertStatement.
 	assignment := builder ensureClassNamed: #Assignment."To review"
 	attribute := builder ensureClassNamed: #AttributeAccess.
@@ -513,7 +511,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	whileStatement --|> statement.
 	whileStatement --|> tConditionalStatement.
-	whileStatement --|> tLoopStatement
+	whileStatement --|> tLoopStatement.
+	
+	withStatement --|> statement
 ]
 
 { #category : 'definition' }

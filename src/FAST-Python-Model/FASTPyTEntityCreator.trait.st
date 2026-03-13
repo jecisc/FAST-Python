@@ -28,13 +28,6 @@ FASTPyTEntityCreator >> newAsPattern [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newAsPatternTarget [
-
-	<generated>
-	^ self add: FASTPyAsPatternTarget new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newAssertStatement [
 
 	<generated>
