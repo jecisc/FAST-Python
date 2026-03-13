@@ -126,6 +126,7 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 										nextPutAll: selector;
 										nextPutAll: ' equals: ';
 										store: result.
+									(result isString and: [ result lines size > 1 ]) ifTrue: [ stream nextPutAll: ' withPlatformLineEndings' ].
 									skipPop ifFalse: [
 											stream
 												nextPut: $.;

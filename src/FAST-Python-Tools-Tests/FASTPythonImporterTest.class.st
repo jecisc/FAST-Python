@@ -8051,7 +8051,7 @@ False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
 	self assert: (self topEntity isOfType: FamixTSourceAnchor).
 	self assert: self topEntity source equals: 'True
-False'.
+False' withPlatformLineEndings.
 	
 	"Testing value of multivalued relation statements"
 	self assert: self topEntity statements size equals: 2.
@@ -10964,7 +10964,7 @@ FASTPythonImporterTest >> testTwoComments [
 		stack pop.
 	self assert: self topEntity source equals: '# Comment 1
 	
-# Comment 2'
+# Comment 2' withPlatformLineEndings
 ]
 
 { #category : 'tests - imports' }
@@ -10988,7 +10988,7 @@ import mathplotlib as mpl' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
 	self assert: (self topEntity isOfType: FamixTSourceAnchor).
 	self assert: self topEntity source equals: 'import numpy as np
-import mathplotlib as mpl'.
+import mathplotlib as mpl' withPlatformLineEndings.
 	
 	"Testing value of multivalued relation statements"
 	self assert: self topEntity statements size equals: 2.
