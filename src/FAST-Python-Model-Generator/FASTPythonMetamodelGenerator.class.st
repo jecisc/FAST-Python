@@ -328,6 +328,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> expression.
 	attribute --|> tDecoratorExpression.
 	attribute --|> tCanBeSplatExpression.
+	attribute --|> tAsPatternTarget.
 	
 	augmentedAssignment --|> statement.
 	
@@ -353,6 +354,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tDecoratorExpression.
 	call --|> tCanBeSplatExpression.
 	call --|> tAsPatternSource.
+	call --|> tWithStatementItem.
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
@@ -442,6 +444,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	lambda --|> tDecoratorExpression.
 	
 	list --|> collectionInitializer.
+	list --|> tAsPatternTarget.
 	
 	listComprehension --|> expression.
 	listComprehension --|> tComprehension.
@@ -495,6 +498,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	subscript --|> expression.
 	subscript --|> tDecoratorExpression.
 	subscript --|> tCanBeSplatExpression.
+	subscript --|> tAsPatternTarget.
 	
 	tComprehension --|> tCanBeSplatExpression.
 	
@@ -503,6 +507,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	thenClause --|> block.
 
 	tuple --|> collectionInitializer.
+	tuple --|> tAsPatternTarget.
 	
 	tuplePattern --|> expression. "TO REVIEW. This might be wrong."
 
@@ -662,7 +667,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
 
-	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithClauseItem)
+	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithStatementItem)
 ]
 
 { #category : 'definition' }

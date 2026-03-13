@@ -7,7 +7,7 @@ I represent an entity that can be the item of a with_statement.
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentWithClauseItem` | `FASTPyTWithStatementItem` | `items` | `FASTPyWithStatement` | |
+| `parentWithStatementItem` | `FASTPyTWithStatementItem` | `items` | `FASTPyWithStatement` | |
 
 
 
@@ -15,7 +15,7 @@ I represent an entity that can be the item of a with_statement.
 Trait {
 	#name : 'FASTPyTWithStatementItem',
 	#instVars : [
-		'#parentWithClauseItem => FMOne type: #FASTPyWithStatement opposite: #items'
+		'#parentWithStatementItem => FMOne type: #FASTPyWithStatement opposite: #items'
 	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
@@ -32,24 +32,24 @@ FASTPyTWithStatementItem classSide >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyTWithStatementItem >> parentWithClauseItem [
-	"Relation named: #parentWithClauseItem type: #FASTPyWithStatement opposite: #items"
+FASTPyTWithStatementItem >> parentWithStatementItem [
+	"Relation named: #parentWithStatementItem type: #FASTPyWithStatement opposite: #items"
 
 	<generated>
 	<container>
-	^ parentWithClauseItem
+	^ parentWithStatementItem
 ]
 
 { #category : 'accessing' }
-FASTPyTWithStatementItem >> parentWithClauseItem: anObject [
+FASTPyTWithStatementItem >> parentWithStatementItem: anObject [
 
 	<generated>
-	parentWithClauseItem := anObject
+	parentWithStatementItem := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTWithStatementItem >> parentWithClauseItemGroup [
+FASTPyTWithStatementItem >> parentWithStatementItemGroup [
 	<generated>
-	<navigation: 'ParentWithClauseItem'>
-	^ MooseSpecializedGroup with: self parentWithClauseItem
+	<navigation: 'ParentWithStatementItem'>
+	^ MooseSpecializedGroup with: self parentWithStatementItem
 ]

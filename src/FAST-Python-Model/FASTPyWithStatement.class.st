@@ -12,7 +12,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `items` | `FASTPyWithStatement` | `parentWithClauseItem` | `FASTPyTWithStatementItem` | |
+| `items` | `FASTPyWithStatement` | `parentWithStatementItem` | `FASTPyTWithStatementItem` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
@@ -31,7 +31,7 @@ Class {
 	#traits : 'FASTTStatementBlock',
 	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
-		'#items => FMMany type: #FASTPyTWithStatementItem opposite: #parentWithClauseItem'
+		'#items => FMMany type: #FASTPyTWithStatementItem opposite: #parentWithStatementItem'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -55,7 +55,7 @@ FASTPyWithStatement >> addItem: anObject [
 
 { #category : 'accessing' }
 FASTPyWithStatement >> items [
-	"Relation named: #items type: #FASTPyTWithStatementItem opposite: #parentWithClauseItem"
+	"Relation named: #items type: #FASTPyTWithStatementItem opposite: #parentWithStatementItem"
 
 	<generated>
 	<derived>

@@ -17,6 +17,7 @@
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentWithStatementItem` | `FASTPyTWithStatementItem` | `items` | `FASTPyWithStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 
 ### Children
@@ -39,8 +40,8 @@
 Class {
 	#name : 'FASTPyCall',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTTInvocation',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTTInvocation classTrait',
+	#traits : 'FASTPyTAsPatternSource + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTPyTWithStatementItem + FASTTInvocation',
+	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTWithStatementItem classTrait + FASTTInvocation classTrait',
 	#instVars : [
 		'#callee => FMOne type: #FASTPyExpression opposite: #caller'
 	],

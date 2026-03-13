@@ -2,10 +2,10 @@
 ## Relations
 ======================
 
-### Children
+### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `initializers` | `FASTPyTCollectionInitializer` | `collectionInitializers` | `FASTTExpression` | Each initializer defines one element.|
+| `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
 
 
 
@@ -13,6 +13,8 @@
 Class {
 	#name : 'FASTPyTuple',
 	#superclass : 'FASTPyCollectionInitializer',
+	#traits : 'FASTPyTAsPatternTarget',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

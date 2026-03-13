@@ -5,7 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentWithClauseItem` | `FASTPyTWithStatementItem` | `items` | `FASTPyWithStatement` | |
+| `parentWithStatementItem` | `FASTPyTWithStatementItem` | `items` | `FASTPyWithStatement` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |

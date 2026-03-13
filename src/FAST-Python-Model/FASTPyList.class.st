@@ -5,7 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
 
 
 
@@ -13,6 +13,8 @@
 Class {
 	#name : 'FASTPyList',
 	#superclass : 'FASTPyCollectionInitializer',
+	#traits : 'FASTPyTAsPatternTarget',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
