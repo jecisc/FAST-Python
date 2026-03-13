@@ -835,23 +835,41 @@ FASTPythonImporterTest >> testAssertStatementWithConcatenatedString [
 			self assert: (self topEntity isOfType: FASTTStringLiteral)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - assignment' }
 FASTPythonImporterTest >> testAssignment [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAssignment 	"
 
-	| assignment |
 	self parse: 'x = 1'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyAssignment) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
-	assignment := (fast allWithType: FASTPyAssignment) anyOne.
-	self assert: assignment sourceCode equals: 'x = 1'.
-	self assert: (assignment isOfType: FASTTAssignment).
-	self skip. "TODO"
-	self assert: assignment variable sourceCode equals: 'x'.
-	self assert: assignment expression sourceCode equals: '1'.
-	self assert: (assignment variable isOfType: FASTPyVariable).
-	self assert: (assignment expression isOfType: FASTPyInteger)
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'x = 1'.
+	self assert: (self topEntity isOfType: FASTPyAssignment).
+	
+	"Testing value of monovalue relation left"
+	self assert: self topEntity left isNotNil.
+
+		stack push: self topEntity left.
+		self assert: self topEntity sourceCode equals: 'x'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		self assert: (self topEntity isOfType: FASTPyTAssignable).
+		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		stack pop.
+	
+	"Testing value of monovalue relation right"
+	self assert: self topEntity right isNotNil.
+
+		stack push: self topEntity right.
+		self assert: self topEntity sourceCode equals: '1'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
 ]
 
 { #category : 'tests - accesses' }

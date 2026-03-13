@@ -77,18 +77,6 @@ TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyAssertStatement
 ]
 
-{ #category : 'visiting - alias' }
-TSFASTPythonImporter >> visitAssignment: aTSNode [
-
-	self onNextContextDo: [ :entry |
-		self flag: #todo.
-			entry
-				"add: 'variable' asAliasOfField: 'left';" 
-				add: 'expression' asAliasOfField: 'right' ].
-
-	^ self handleNode: aTSNode
-]
-
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAttribute: aTSNode [
 

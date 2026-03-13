@@ -121,13 +121,6 @@ FASTPyEntity >> hasImmediateSource [
 ]
 
 { #category : 'testing' }
-FASTPyEntity >> isAssignment [
-
-	<generated>
-	^ false
-]
-
-{ #category : 'testing' }
 FASTPyEntity >> isBehaviouralEntity [
 
 	<generated>

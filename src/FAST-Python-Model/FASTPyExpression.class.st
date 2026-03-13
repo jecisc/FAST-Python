@@ -27,6 +27,7 @@
 | `pairKeyOwner` | `FASTPyExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTPyExpression` | `value` | `FASTPyPair` | |
 | `parentAssertStatement` | `FASTPyExpression` | `expressions` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
+| `parentAssignmentRight` | `FASTPyExpression` | `right` | `FASTPyAssignment` | |
 | `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
@@ -78,6 +79,7 @@ Class {
 		'#pairKeyOwner => FMOne type: #FASTPyPair opposite: #key',
 		'#pairValueOwner => FMOne type: #FASTPyPair opposite: #value',
 		'#parentAssertStatement => FMOne type: #FASTPyAssertStatement opposite: #expressions',
+		'#parentAssignmentRight => FMOne type: #FASTPyAssignment opposite: #right',
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
@@ -561,6 +563,30 @@ FASTPyExpression >> parentAssertStatementGroup [
 	<generated>
 	<navigation: 'ParentAssertStatement'>
 	^ MooseSpecializedGroup with: self parentAssertStatement
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentAssignmentRight [
+	"Relation named: #parentAssignmentRight type: #FASTPyAssignment opposite: #right"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentAssignmentRight
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentAssignmentRight: anObject [
+
+	<generated>
+	parentAssignmentRight := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentAssignmentRightGroup [
+	<generated>
+	<navigation: 'ParentAssignmentRight'>
+	^ MooseSpecializedGroup with: self parentAssignmentRight
 ]
 
 { #category : 'accessing' }

@@ -157,7 +157,8 @@ Class {
 		'tAsPatternTarget',
 		'tAsPatternSource',
 		'tWithStatementItem',
-		'tRaised'
+		'tRaised',
+		'tAssignable'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -322,7 +323,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	asPattern --|> tWithStatementItem.
 
 	assignment --|> statement.
-	assignment --|> tAssignment.
 
 	assertStatement --|> statement.
 
@@ -534,6 +534,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	variable --|> expression.
 	variable --|> tVariableEntity.
+	variable --|> tAssignable.
 
 	whileStatement --|> statement.
 	whileStatement --|> tConditionalStatement.
@@ -575,6 +576,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	super defineRelations.
 
 	(entity property: #genericChildren) <>-* (entity property: #genericParent).
+	
+	(assignment property: #left) <>- (tAssignable property: #parentAssignmentLeft).
+	(assignment property: #right) <>- (expression property: #parentAssignmentRight).
 
 	(asPattern property: #target) <>- (tAsPatternTarget property: #parentAsPatternTarget).
 
@@ -703,6 +707,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	"FAST-Python"
 	tAsPatternTarget := (builder newTraitNamed: #TAsPatternTarget) comment: 'I represent an entity that could be the alias/target of an as pattern.'.
 	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
+	(tAssignable := builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
 	tCanBeSplatExpression := (builder newTraitNamed: #TCanBeSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.

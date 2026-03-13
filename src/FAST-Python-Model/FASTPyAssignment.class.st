@@ -2,39 +2,22 @@
 ## Relations
 ======================
 
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
-| `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
-| `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
-| `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
-| `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
-| `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
-| `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
-| `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
-
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTTAssignment` | `assignedIn` | `FASTTExpression` | Assigned expression (rhs of assignment)|
-| `variable` | `FASTTAssignment` | `parentAssignmentExpression` | `FASTTVariableEntity` | An assigned variable (lhs of assignment)|
+| `left` | `FASTPyAssignment` | `parentAssignmentLeft` | `FASTPyTAssignable` | |
+| `right` | `FASTPyAssignment` | `parentAssignmentRight` | `FASTPyExpression` | |
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `endPos` | `Number` | nil | |
-| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyAssignment',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTAssignment',
-	#classTraits : 'FASTTAssignment classTrait',
+	#instVars : [
+		'#left => FMOne type: #FASTPyTAssignable opposite: #parentAssignmentLeft',
+		'#right => FMOne type: #FASTPyExpression opposite: #parentAssignmentRight'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -47,4 +30,48 @@ FASTPyAssignment class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyAssignment >> left [
+	"Relation named: #left type: #FASTPyTAssignable opposite: #parentAssignmentLeft"
+
+	<generated>
+	^ left
+]
+
+{ #category : 'accessing' }
+FASTPyAssignment >> left: anObject [
+
+	<generated>
+	left := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyAssignment >> leftGroup [
+	<generated>
+	<navigation: 'Left'>
+	^ MooseSpecializedGroup with: self left
+]
+
+{ #category : 'accessing' }
+FASTPyAssignment >> right [
+	"Relation named: #right type: #FASTPyExpression opposite: #parentAssignmentRight"
+
+	<generated>
+	^ right
+]
+
+{ #category : 'accessing' }
+FASTPyAssignment >> right: anObject [
+
+	<generated>
+	right := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyAssignment >> rightGroup [
+	<generated>
+	<navigation: 'Right'>
+	^ MooseSpecializedGroup with: self right
 ]

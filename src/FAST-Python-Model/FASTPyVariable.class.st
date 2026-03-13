@@ -11,6 +11,7 @@
 | `nonlocalOwner` | `FASTPyVariable` | `variables` | `FASTPyNonlocalStatement` | The global statement defining my scope (if it's the case)|
 | `parameterOwner` | `FASTTVariableEntity` | `parameters` | `FASTTWithParameters` | parameterOwner|
 | `parentAssignmentExpression` | `FASTTVariableEntity` | `variable` | `FASTTAssignment` | Optional assignment to the variable|
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
 
 
 ## Properties
@@ -26,8 +27,8 @@
 Class {
 	#name : 'FASTPyVariable',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTVariableEntity',
-	#classTraits : 'FASTTVariableEntity classTrait',
+	#traits : 'FASTPyTAssignable + FASTTVariableEntity',
+	#classTraits : 'FASTPyTAssignable classTrait + FASTTVariableEntity classTrait',
 	#instVars : [
 		'#attributeOwner => FMOne type: #FASTPyAttributeAccess opposite: #attribute',
 		'#globalOwner => FMOne type: #FASTPyGlobalStatement opposite: #variables',
