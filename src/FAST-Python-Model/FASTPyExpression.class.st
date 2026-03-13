@@ -24,8 +24,8 @@
 | `ifClauseOwner` | `FASTPyExpression` | `expression` | `FASTPyIfClause` | |
 | `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
 | `lambdaOwner` | `FASTPyExpression` | `expression` | `FASTPyLambda` | |
-| `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
-| `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
+| `pairKeyOwner` | `FASTPyExpression` | `key` | `FASTPyPair` | |
+| `pairValueOwner` | `FASTPyExpression` | `value` | `FASTPyPair` | |
 | `parentAssertStatement` | `FASTPyExpression` | `expressions` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
@@ -75,6 +75,8 @@ Class {
 		'#ifClauseOwner => FMOne type: #FASTPyIfClause opposite: #expression',
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#lambdaOwner => FMOne type: #FASTPyLambda opposite: #expression',
+		'#pairKeyOwner => FMOne type: #FASTPyPair opposite: #key',
+		'#pairValueOwner => FMOne type: #FASTPyPair opposite: #value',
 		'#parentAssertStatement => FMOne type: #FASTPyAssertStatement opposite: #expressions',
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
@@ -487,6 +489,54 @@ FASTPyExpression >> lambdaOwnerGroup [
 	<generated>
 	<navigation: 'LambdaOwner'>
 	^ MooseSpecializedGroup with: self lambdaOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> pairKeyOwner [
+	"Relation named: #pairKeyOwner type: #FASTPyPair opposite: #key"
+
+	<generated>
+	<container>
+	<derived>
+	^ pairKeyOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> pairKeyOwner: anObject [
+
+	<generated>
+	pairKeyOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> pairKeyOwnerGroup [
+	<generated>
+	<navigation: 'PairKeyOwner'>
+	^ MooseSpecializedGroup with: self pairKeyOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> pairValueOwner [
+	"Relation named: #pairValueOwner type: #FASTPyPair opposite: #value"
+
+	<generated>
+	<container>
+	<derived>
+	^ pairValueOwner
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> pairValueOwner: anObject [
+
+	<generated>
+	pairValueOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> pairValueOwnerGroup [
+	<generated>
+	<navigation: 'PairValueOwner'>
+	^ MooseSpecializedGroup with: self pairValueOwner
 ]
 
 { #category : 'accessing' }

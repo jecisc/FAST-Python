@@ -5,8 +5,8 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `key` | `FASTPyPair` | `pairKeyOwner` | `FASTTExpression` | |
-| `value` | `FASTPyPair` | `pairValueOwner` | `FASTTExpression` | |
+| `key` | `FASTPyPair` | `pairKeyOwner` | `FASTPyExpression` | |
+| `value` | `FASTPyPair` | `pairValueOwner` | `FASTPyExpression` | |
 
 
 
@@ -14,6 +14,10 @@
 Class {
 	#name : 'FASTPyPair',
 	#superclass : 'FASTPyExpression',
+	#instVars : [
+		'#key => FMOne type: #FASTPyExpression opposite: #pairKeyOwner',
+		'#value => FMOne type: #FASTPyExpression opposite: #pairValueOwner'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -30,25 +34,17 @@ FASTPyPair class >> annotation [
 
 { #category : 'accessing' }
 FASTPyPair >> key [
-	"Relation named: #key type: #FASTTExpression opposite: #pairKeyOwner"
+	"Relation named: #key type: #FASTPyExpression opposite: #pairKeyOwner"
 
 	<generated>
-	<FMProperty: #key type: #FASTTExpression opposite: #pairKeyOwner>
-	^ self attributeAt: #key ifAbsent: [ nil ]
+	^ key
 ]
 
 { #category : 'accessing' }
 FASTPyPair >> key: anObject [
 
 	<generated>
-	(self attributeAt: #key ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self key.
-		self attributeAt: #key put: anObject.
-		otherSide pairKeyOwner: nil ]
-	ifNotNil: [ 
-		self attributeAt: #key put: anObject.
-		anObject pairKeyOwner: self ]
+	key := anObject
 ]
 
 { #category : 'navigation' }
@@ -60,25 +56,17 @@ FASTPyPair >> keyGroup [
 
 { #category : 'accessing' }
 FASTPyPair >> value [
-	"Relation named: #value type: #FASTTExpression opposite: #pairValueOwner"
+	"Relation named: #value type: #FASTPyExpression opposite: #pairValueOwner"
 
 	<generated>
-	<FMProperty: #value type: #FASTTExpression opposite: #pairValueOwner>
-	^ self attributeAt: #value ifAbsent: [ nil ]
+	^ value
 ]
 
 { #category : 'accessing' }
 FASTPyPair >> value: anObject [
 
 	<generated>
-	(self attributeAt: #value ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self value.
-		self attributeAt: #value put: anObject.
-		otherSide pairValueOwner: nil ]
-	ifNotNil: [ 
-		self attributeAt: #value put: anObject.
-		anObject pairValueOwner: self ]
+	value := anObject
 ]
 
 { #category : 'navigation' }

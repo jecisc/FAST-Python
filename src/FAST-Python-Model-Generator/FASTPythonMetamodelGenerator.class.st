@@ -653,9 +653,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 
-	(pair property: #key) <>- (tExpression property: #pairKeyOwner).
+	(pair property: #key) <>- (expression property: #pairKeyOwner).
 
-	(pair property: #value) <>- (tExpression property: #pairValueOwner).
+	(pair property: #value) <>- (expression property: #pairValueOwner).
 
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 
