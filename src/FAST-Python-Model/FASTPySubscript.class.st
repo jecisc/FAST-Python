@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
@@ -21,8 +22,8 @@
 Class {
 	#name : 'FASTPySubscript',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternTarget + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression',
-	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait',
+	#traits : 'FASTPyTAsPatternSource + FASTPyTAsPatternTarget + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression',
+	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAsPatternTarget classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait',
 	#instVars : [
 		'#indices => FMMany type: #FASTPyExpression opposite: #subscriptIndiceOwner',
 		'#value => FMOne type: #FASTPyExpression opposite: #subscriptValueOwner'

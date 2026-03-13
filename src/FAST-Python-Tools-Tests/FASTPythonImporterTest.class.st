@@ -273,6 +273,257 @@ FASTPythonImporterTest >> testAsPatternWithList [
 ]
 
 { #category : 'tests - with statement' }
+FASTPythonImporterTest >> testAsPatternWithSourceAttributeAccess [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAsPatternWithSourceAttributeAccess 	"
+
+	self parse: 'with x.y as f: pass'.
+
+	self assert: (fast allWithType: FASTPyAsPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'with x.y as f: pass'.
+	self assert: (self topEntity isOfType: FASTPyWithStatement).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	
+	"Testing value of multivalued relation items"
+	self assert: self topEntity items size equals: 1.
+	
+		stack push: (stack top items at: 1).
+		self assert: self topEntity sourceCode equals: 'x.y as f'.
+		self assert: (self topEntity isOfType: FASTPyAsPattern).
+		
+		"Testing value of monovalue relation source"
+		self assert: self topEntity source isNotNil.
+
+			stack push: self topEntity source.
+			self assert: self topEntity sourceCode equals: 'x.y'.
+			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+			
+			"Testing value of monovalue relation attribute"
+			self assert: self topEntity attribute isNotNil.
+
+				stack push: self topEntity attribute.
+				self assert: self topEntity sourceCode equals: 'y'.
+				self assert: (self topEntity isOfType: FASTPyVariable).
+				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				stack pop.
+			
+			"Testing value of monovalue relation object"
+			self assert: self topEntity object isNotNil.
+
+				stack push: self topEntity object.
+				self assert: self topEntity sourceCode equals: 'x'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		
+		"Testing value of monovalue relation target"
+		self assert: self topEntity target isNotNil.
+
+			stack push: self topEntity target.
+			self assert: self topEntity sourceCode equals: 'f'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - with statement' }
+FASTPythonImporterTest >> testAsPatternWithSourceCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAsPatternWithSourceCall 	"
+
+	self parse: 'with x() as f: pass'.
+
+	self assert: (fast allWithType: FASTPyAsPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'with x() as f: pass'.
+	self assert: (self topEntity isOfType: FASTPyWithStatement).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	
+	"Testing value of multivalued relation items"
+	self assert: self topEntity items size equals: 1.
+	
+		stack push: (stack top items at: 1).
+		self assert: self topEntity sourceCode equals: 'x() as f'.
+		self assert: (self topEntity isOfType: FASTPyAsPattern).
+		
+		"Testing value of monovalue relation source"
+		self assert: self topEntity source isNotNil.
+
+			stack push: self topEntity source.
+			self assert: self topEntity sourceCode equals: 'x()'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'x'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		
+		"Testing value of monovalue relation target"
+		self assert: self topEntity target isNotNil.
+
+			stack push: self topEntity target.
+			self assert: self topEntity sourceCode equals: 'f'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - with statement' }
+FASTPythonImporterTest >> testAsPatternWithSourceIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAsPatternWithSourceIdentifier 	"
+
+	self parse: 'with x as f: pass'.
+
+	self assert: (fast allWithType: FASTPyAsPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'with x as f: pass'.
+	self assert: (self topEntity isOfType: FASTPyWithStatement).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	
+	"Testing value of multivalued relation items"
+	self assert: self topEntity items size equals: 1.
+	
+		stack push: (stack top items at: 1).
+		self assert: self topEntity sourceCode equals: 'x as f'.
+		self assert: (self topEntity isOfType: FASTPyAsPattern).
+		
+		"Testing value of monovalue relation source"
+		self assert: self topEntity source isNotNil.
+
+			stack push: self topEntity source.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of monovalue relation target"
+		self assert: self topEntity target isNotNil.
+
+			stack push: self topEntity target.
+			self assert: self topEntity sourceCode equals: 'f'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - with statement' }
+FASTPythonImporterTest >> testAsPatternWithSourceSubscript [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testAsPatternWithSourceSubscript 	"
+
+	self parse: 'with x[y] as f: pass'.
+
+	self assert: (fast allWithType: FASTPyAsPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'with x[y] as f: pass'.
+	self assert: (self topEntity isOfType: FASTPyWithStatement).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	
+	"Testing value of multivalued relation items"
+	self assert: self topEntity items size equals: 1.
+	
+		stack push: (stack top items at: 1).
+		self assert: self topEntity sourceCode equals: 'x[y] as f'.
+		self assert: (self topEntity isOfType: FASTPyAsPattern).
+		
+		"Testing value of monovalue relation source"
+		self assert: self topEntity source isNotNil.
+
+			stack push: self topEntity source.
+			self assert: self topEntity sourceCode equals: 'x[y]'.
+			self assert: (self topEntity isOfType: FASTPySubscript).
+			
+			"Testing value of multivalued relation indices"
+			self assert: self topEntity indices size equals: 1.
+			
+				stack push: (stack top indices at: 1).
+				self assert: self topEntity sourceCode equals: 'y'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: 'x'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		
+		"Testing value of monovalue relation target"
+		self assert: self topEntity target isNotNil.
+
+			stack push: self topEntity target.
+			self assert: self topEntity sourceCode equals: 'f'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - with statement' }
 FASTPythonImporterTest >> testAsPatternWithSubscript [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:

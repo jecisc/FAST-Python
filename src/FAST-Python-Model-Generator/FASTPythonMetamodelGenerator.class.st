@@ -329,6 +329,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> tDecoratorExpression.
 	attribute --|> tCanBeSplatExpression.
 	attribute --|> tAsPatternTarget.
+	attribute --|> tAsPatternSource.
 	
 	augmentedAssignment --|> statement.
 	
@@ -420,6 +421,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	identifier --|> tDecoratorExpression.
 	identifier --|> tCanBeSplatExpression.
 	identifier --|> tAsPatternTarget.
+	identifier --|> tAsPatternSource.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -499,6 +501,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	subscript --|> tDecoratorExpression.
 	subscript --|> tCanBeSplatExpression.
 	subscript --|> tAsPatternTarget.
+	subscript --|> tAsPatternSource.
+	
+	tAsPatternTarget --|> tAsPatternSource.
 	
 	tComprehension --|> tCanBeSplatExpression.
 	
