@@ -7,6 +7,7 @@ I represent an entity that could be the alias/target of an as pattern.
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
 
 
@@ -17,6 +18,8 @@ Trait {
 	#instVars : [
 		'#parentAsPatternTarget => FMOne type: #FASTPyAsPattern opposite: #target'
 	],
+	#traits : 'FASTPyTAsPatternSource',
+	#classTraits : 'FASTPyTAsPatternSource classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

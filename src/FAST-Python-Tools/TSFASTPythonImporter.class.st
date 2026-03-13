@@ -119,9 +119,9 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 
 	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self handleNode: aTSNode kind: FASTPyThenClause ].
 
-	(context top isOfFASTType: FASTPyElifClause) ifTrue: [ self setTopFieldTo: #statements. "We manually update the field to bypass the block and" ^ self rawVisitChildren: aTSNode ].
-
-	(context top isOfFASTType: FASTPyWithStatement) ifTrue: [ self setTopFieldTo: #statements. "We manually update the field to bypass the block and" ^ self rawVisitChildren: aTSNode ].
+	({  FASTPyElifClause. FASTPyWithStatement. FASTPyTryStatement. FASTPyExceptClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
+			self setTopFieldTo: #statements. "We manually update the field to bypass the block and"
+			^ self rawVisitChildren: aTSNode ].
 
 	^ self handleNode: aTSNode kind: FASTPyBlock
 ]
@@ -322,6 +322,12 @@ TSFASTPythonImporter >> visitEscapedInterpolation: aTSNode [
 TSFASTPythonImporter >> visitEscapedSequence: aTSNode [
 
 	self error: 'We sould never finish here because we took the decision of not representing them and the node visit should be skipped in #visitStringContent:.'
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitExceptClause: aTSNode [
+
+	^ self handleNode: aTSNode kind: FASTPyExceptClause parentBlock: [ :entity | self topFastEntity addExcept: entity ]
 ]
 
 { #category : 'visiting - alias' }

@@ -394,6 +394,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	elifClause --|> tConditionalStatement.
 	
 	ellipsis --|> literal.
+	
+	exceptClause --|> tStatementBlock.
 
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
@@ -515,6 +517,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tuple --|> tAsPatternTarget.
 	
 	tuplePattern --|> expression. "TO REVIEW. This might be wrong."
+	
+	tryStatement --|> statement.
+	tryStatement --|> tStatementBlock.
 
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
@@ -664,6 +669,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tComprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
 
 	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
+	
+	(tryStatement property: #excepts) <>-* (exceptClause property: #parentTryStatement).
 
 	(tuplePattern property: #patterns) <>-* (expression property: #tuplePatternOwner).
 

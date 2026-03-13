@@ -10485,6 +10485,56 @@ FASTPythonImporterTest >> testTrue [
 	self assert: (boolean isOfType: FASTTBooleanLiteral)
 ]
 
+{ #category : 'tests - try statement' }
+FASTPythonImporterTest >> testTryStatement [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTryStatement 	"
+
+	self parse: 'try:
+    pass
+except:
+    pass'.
+
+	self assert: (fast allWithType: FASTPyExceptClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 2.
+	self assert: (fast allWithType: FASTPyTryStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'try:
+    pass
+except:
+    pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	
+	"Testing value of multivalued relation excepts"
+	self assert: self topEntity excepts size equals: 1.
+	
+		stack push: (stack top excepts at: 1).
+		self assert: self topEntity sourceCode equals: 'except:
+    pass' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyExceptClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
 { #category : 'tests - collections' }
 FASTPythonImporterTest >> testTuple [
 	<generated>
