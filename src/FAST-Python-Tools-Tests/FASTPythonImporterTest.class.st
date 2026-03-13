@@ -71,7 +71,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTCanBeSplatExpression. "Too many elements with it."
 		  FASTPyTAsPatternTarget.
 		  FASTPyTAsPatternSource.
-		  FASTPyTWithStatementItem }
+		  FASTPyTWithStatementItem.
+		  FASTPyTRaised }
 ]
 
 { #category : 'running' }
@@ -8624,6 +8625,215 @@ FASTPythonImporterTest >> testPrintStatement [
 		self assert: (self topEntity isOfType: FASTPyInteger).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - raise statement' }
+FASTPythonImporterTest >> testRaise [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testRaise 	"
+
+	self parse: 'raise'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'raise'.
+	self assert: (self topEntity isOfType: FASTPyRaiseStatement)
+]
+
+{ #category : 'tests - raise statement' }
+FASTPythonImporterTest >> testRaiseAttribute [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testRaiseAttribute 	"
+
+	self parse: 'raise module.Exception'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'raise module.Exception'.
+	self assert: (self topEntity isOfType: FASTPyRaiseStatement).
+	
+	"Testing value of monovalue relation exception"
+	self assert: self topEntity exception isNotNil.
+
+		stack push: self topEntity exception.
+		self assert: self topEntity sourceCode equals: 'module.Exception'.
+		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+		
+		"Testing value of monovalue relation attribute"
+		self assert: self topEntity attribute isNotNil.
+
+			stack push: self topEntity attribute.
+			self assert: self topEntity sourceCode equals: 'Exception'.
+			self assert: (self topEntity isOfType: FASTPyVariable).
+			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			stack pop.
+		
+		"Testing value of monovalue relation object"
+		self assert: self topEntity object isNotNil.
+
+			stack push: self topEntity object.
+			self assert: self topEntity sourceCode equals: 'module'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - raise statement' }
+FASTPythonImporterTest >> testRaiseBooleanOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testRaiseBooleanOperator 	"
+
+	self parse: 'raise (ValueError or TypeError)'.
+
+	self assert: (fast allWithType: FASTPyBooleanOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'raise (ValueError or TypeError)'.
+	self assert: (self topEntity isOfType: FASTPyRaiseStatement).
+	
+	"Testing value of monovalue relation exception"
+	self assert: self topEntity exception isNotNil.
+
+		stack push: self topEntity exception.
+		self assert: self topEntity sourceCode equals: 'ValueError or TypeError'.
+		self assert: (self topEntity isOfType: FASTPyBooleanOperator).
+		self assert: (self topEntity isOfType: FASTTBinaryExpression).
+		
+		"Testing value of monovalue relation leftOperand"
+		self assert: self topEntity leftOperand isNotNil.
+
+			stack push: self topEntity leftOperand.
+			self assert: self topEntity sourceCode equals: 'ValueError'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		self assert: self topEntity operator equals: 'or'.
+		
+		"Testing value of monovalue relation rightOperand"
+		self assert: self topEntity rightOperand isNotNil.
+
+			stack push: self topEntity rightOperand.
+			self assert: self topEntity sourceCode equals: 'TypeError'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - raise statement' }
+FASTPythonImporterTest >> testRaiseCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testRaiseCall 	"
+
+	self parse: 'raise Exception("New instance")'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'raise Exception("New instance")'.
+	self assert: (self topEntity isOfType: FASTPyRaiseStatement).
+	
+	"Testing value of monovalue relation exception"
+	self assert: self topEntity exception isNotNil.
+
+		stack push: self topEntity exception.
+		self assert: self topEntity sourceCode equals: 'Exception("New instance")'.
+		self assert: (self topEntity isOfType: FASTPyCall).
+		self assert: (self topEntity isOfType: FASTTInvocation).
+		self assert: (self topEntity isOfType: FASTTWithArguments).
+		
+		"Testing value of multivalued relation arguments"
+		self assert: self topEntity arguments size equals: 1.
+		
+			stack push: (stack top arguments at: 1).
+			self assert: self topEntity sourceCode equals: '"New instance"'.
+			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
+			stack pop.
+		
+		"Testing value of monovalue relation callee"
+		self assert: self topEntity callee isNotNil.
+
+			stack push: self topEntity callee.
+			self assert: self topEntity sourceCode equals: 'Exception'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - raise statement' }
+FASTPythonImporterTest >> testRaiseIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testRaiseIdentifier 	"
+
+	self parse: 'raise Exception'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'raise Exception'.
+	self assert: (self topEntity isOfType: FASTPyRaiseStatement).
+	
+	"Testing value of monovalue relation exception"
+	self assert: self topEntity exception isNotNil.
+
+		stack push: self topEntity exception.
+		self assert: self topEntity sourceCode equals: 'Exception'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - raise statement' }
+FASTPythonImporterTest >> testRaiseSubscript [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testRaiseSubscript 	"
+
+	self parse: 'raise exceptions[x]'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'raise exceptions[x]'.
+	self assert: (self topEntity isOfType: FASTPyRaiseStatement).
+	
+	"Testing value of monovalue relation exception"
+	self assert: self topEntity exception isNotNil.
+
+		stack push: self topEntity exception.
+		self assert: self topEntity sourceCode equals: 'exceptions[x]'.
+		self assert: (self topEntity isOfType: FASTPySubscript).
+		
+		"Testing value of multivalued relation indices"
+		self assert: self topEntity indices size equals: 1.
+		
+			stack push: (stack top indices at: 1).
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'exceptions'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - literals' }

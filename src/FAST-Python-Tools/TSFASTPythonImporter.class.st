@@ -559,6 +559,14 @@ TSFASTPythonImporter >> visitPrintStatement: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyPrintStatement
 ]
 
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitRaiseStatement: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #exception asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyRaiseStatement
+]
+
 { #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitRelativeImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."

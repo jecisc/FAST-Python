@@ -156,7 +156,8 @@ Class {
 		'tCanBeSplatExpression',
 		'tAsPatternTarget',
 		'tAsPatternSource',
-		'tWithStatementItem'
+		'tWithStatementItem',
+		'tRaised'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -330,6 +331,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> tCanBeSplatExpression.
 	attribute --|> tAsPatternTarget.
 	attribute --|> tAsPatternSource.
+	attribute --|> tRaised.
 	
 	augmentedAssignment --|> statement.
 	
@@ -344,6 +346,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
 	booleanOperator --|> tCanBeSplatExpression.
+	booleanOperator --|> tRaised.
 
 	boolean --|> literal.
 	boolean --|> tBooleanLiteral.
@@ -356,6 +359,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tCanBeSplatExpression.
 	call --|> tAsPatternSource.
 	call --|> tWithStatementItem.
+	call --|> tRaised.
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
@@ -424,6 +428,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	identifier --|> tCanBeSplatExpression.
 	identifier --|> tAsPatternTarget.
 	identifier --|> tAsPatternSource.
+	identifier --|> tRaised.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -482,6 +487,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	passStatement --|> statement.
 	
 	printStatement --|> statement.
+	
+	raiseStatement --|> statement.
 
 	returnStatement --|> statement.
 	returnStatement --|> tReturnStatement.
@@ -504,6 +511,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	subscript --|> tCanBeSplatExpression.
 	subscript --|> tAsPatternTarget.
 	subscript --|> tAsPatternSource.
+	subscript --|> tRaised.
 	
 	tAsPatternTarget --|> tAsPatternSource.
 	
@@ -652,6 +660,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 
 	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
+	
+	(raiseStatement property: #exception) <>- (tRaised property: #parentRaiseStatement).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
 	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''). "Originally, I created a trait for Slice content because the python syntax does not allow all expressions. But multiple libraries are changing the syntax to accept other objects such as float, list or even string. So now I point FASTPyExpression to not fail on all those cases."
@@ -697,6 +707,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
+	(tRaised := builder newTraitNamed: #TRaised) comment: 'I represent an expression that can give an exception to raise in a raise statement.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	tWithStatementItem := (builder newTraitNamed: #TWithStatementItem) comment: 'I represent an entity that can be the item of a with_statement.'.
 	tWithElseClause := builder newTraitNamed: #TWithElseClause.
