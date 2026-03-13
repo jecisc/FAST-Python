@@ -111,8 +111,6 @@ Class {
 		'unionPattern',
 		'unionType',
 		'whileStatement',
-		'withClause',
-		'withItem',
 		'withStatement',
 		'yield',
 		'tComment',
@@ -155,7 +153,10 @@ Class {
 		'tWithElseClause',
 		'tWithComment',
 		'collectionSplat',
-		'tCanBeSplatExpression'
+		'tCanBeSplatExpression',
+		'tAsPatternTarget',
+		'tAsPatternSource',
+		'tWithStatementItem'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -301,8 +302,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	unionType := builder ensureClassNamed: #UnionType."Todo"
 	variable := builder ensureClassNamed: #Variable. "To review"
 	whileStatement := builder ensureClassNamed: #WhileStatement.
-	withClause := builder ensureClassNamed: #WithClause."Todo"
-	withItem := builder ensureClassNamed: #WithItem."Todo"
 	withStatement := builder ensureClassNamed: #WithStatement."Todo"
 	yield := builder ensureClassNamed: #Yield"Todo"
 ]
@@ -318,6 +317,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	"Adding a bunch of traits in errors to not interupt the parsing much if we have an error."
 	_ERROR --|> expression.
+
+	asPattern --|> tWithStatementItem.
 
 	assignment --|> statement.
 	assignment --|> tAssignment.
@@ -351,6 +352,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tInvocation.
 	call --|> tDecoratorExpression.
 	call --|> tCanBeSplatExpression.
+	call --|> tAsPatternSource.
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
@@ -415,6 +417,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	identifier --|> expression.
 	identifier --|> tDecoratorExpression.
 	identifier --|> tCanBeSplatExpression.
+	identifier --|> tAsPatternTarget.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -513,7 +516,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	whileStatement --|> tConditionalStatement.
 	whileStatement --|> tLoopStatement.
 	
-	withStatement --|> statement
+	withStatement --|> statement.
+	withStatement --|> tStatementBlock
 ]
 
 { #category : 'definition' }
@@ -549,15 +553,19 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	(entity property: #genericChildren) <>-* (entity property: #genericParent).
 
+	(asPattern property: #target) <>- (tAsPatternTarget property: #parentAsPatternTarget).
+
+	(asPattern property: #source) <>- (tAsPatternSource property: #parentAsPatternSource).
+
+	((assertStatement property: #expressions) comment: 'The expressions asserted')
+	<>-* ((expression property: #parentAssertStatement) comment: 'The assert statement that own the expression (if it''s the case)').
+
 	((attribute property: #object) comment:
 		 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...')
 	<>- ((expression property: #attributeObjectOwner) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
 
 	((attribute property: #attribute) comment: 'The variable been accessed')
 	<>- ((variable property: #attributeOwner) comment: 'The attribute access accessing me (if it''s the case)').
-
-	((assertStatement property: #expressions) comment: 'The expressions asserted')
-	<>-* ((expression property: #parentAssertStatement) comment: 'The assert statement that own the expression (if it''s the case)').
 
 	(await property: #expression) <>- (expression property: #parentAwait).
 
@@ -567,13 +575,13 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
-	
+
 	(collectionSplat property: #expression) <>- (tCanBeSplatExpression property: #parentSplat).
 
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
-	
+
 	(concatenatedString property: #strings) <>-* (string property: #parentConcatenatedString).
 
 	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
@@ -627,7 +635,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #value) <>- (tExpression property: #pairValueOwner).
 
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
-	
+
 	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
@@ -652,7 +660,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
 
-	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner)
+	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
+
+	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithClauseItem)
 ]
 
 { #category : 'definition' }
@@ -664,11 +674,14 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 	
 	"FAST-Python"
+	tAsPatternTarget := (builder newTraitNamed: #TAsPatternTarget) comment: 'I represent an entity that could be the alias/target of an as pattern.'.
+	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
 	tCanBeSplatExpression := (builder newTraitNamed: #TCanBeSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
+	tWithStatementItem := (builder newTraitNamed: #TWithStatementItem) comment: 'I represent an entity that can be the item of a with_statement.'.
 	tWithElseClause := builder newTraitNamed: #TWithElseClause.
 	
 	"Remotes"

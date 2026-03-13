@@ -51,6 +51,17 @@ TSFASTPythonImporter >> visitArgumentList: aTSNode [
 	self rawVisitChildren: aTSNode
 ]
 
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitAsPattern: aTSNode [
+
+	self onNextContextDo: [ :entry |
+			entry
+				add: 'target' asAliasOfField: 'alias';
+				add: 'source' asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyAsPattern
+]
+
 { #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitAsPatternTarget: aTSNode [
 	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
@@ -69,9 +80,9 @@ TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitAssignment: aTSNode [
 
-	self onNextContextDo: [ :contextEntry |
+	self onNextContextDo: [ :entry |
 		self flag: #todo.
-			contextEntry
+			entry
 				"add: 'variable' asAliasOfField: 'left';" 
 				add: 'expression' asAliasOfField: 'right' ].
 
@@ -110,6 +121,8 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 
 	(context top isOfFASTType: FASTPyElifClause) ifTrue: [ self setTopFieldTo: #statements. "We manually update the field to bypass the block and" ^ self rawVisitChildren: aTSNode ].
 
+	(context top isOfFASTType: FASTPyWithStatement) ifTrue: [ self setTopFieldTo: #statements. "We manually update the field to bypass the block and" ^ self rawVisitChildren: aTSNode ].
+
 	^ self handleNode: aTSNode kind: FASTPyBlock
 ]
 
@@ -130,7 +143,7 @@ TSFASTPythonImporter >> visitCall: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitClassDefinition: aNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'statementBlock' asAliasOfField: 'body' ].
+	self onNextContextDo: [ :entry | entry add: 'statementBlock' asAliasOfField: 'body' ].
 
 	^ self handleNode: aNode kind: FASTPyClassDefinition
 ]
@@ -365,7 +378,7 @@ TSFASTPythonImporter >> visitGeneratorExpression: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'variables' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry add: 'variables' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode kind: FASTPyGlobalStatement
 ]
@@ -405,7 +418,7 @@ TSFASTPythonImporter >> visitIfClause: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitIfStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'thenClause' asAliasOfField: 'consequence' ].
+	self onNextContextDo: [ :entry | entry add: 'thenClause' asAliasOfField: 'consequence' ].
 
 	^ self handleNode: aTSNode kind: FASTPyIfStatement
 ]
@@ -413,8 +426,8 @@ TSFASTPythonImporter >> visitIfStatement: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitImportFromStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry |
-			contextEntry
+	self onNextContextDo: [ :entry |
+			entry
 				add: 'importedEntities' asAliasOfField: 'name';
 				add: 'fromModule' asAliasOfField: 'module_name' ].
 
@@ -433,7 +446,7 @@ TSFASTPythonImporter >> visitImportPrefix: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitImportStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'importedEntities' asAliasOfField: 'name' ].
+	self onNextContextDo: [ :entry | entry add: 'importedEntities' asAliasOfField: 'name' ].
 
 	^ self handleNode: aTSNode
 ]
@@ -500,7 +513,7 @@ TSFASTPythonImporter >> visitModule: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'variables' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry add: 'variables' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode kind: FASTPyNonlocalStatement
 ]
@@ -666,4 +679,26 @@ TSFASTPythonImporter >> visitWildcardImport: aTSNode [
 	self topFastEntity addImportedEntity: fastEntity.
 	fastEntity segments: { '*' }.
 	^ fastEntity
+]
+
+{ #category : 'visiting - skip' }
+TSFASTPythonImporter >> visitWithClause: aTSNode [
+	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
+
+	self rawVisitChildren: aTSNode
+]
+
+{ #category : 'visiting - skip' }
+TSFASTPythonImporter >> visitWithItem: aTSNode [
+	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
+
+	self rawVisitChildren: aTSNode
+]
+
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitWithStatement: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'items' asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyWithStatement
 ]

@@ -10,6 +10,7 @@
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `pairKeyOwner` | `FASTTExpression` | `key` | `FASTPyPair` | |
 | `pairValueOwner` | `FASTTExpression` | `value` | `FASTPyPair` | |
+| `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
@@ -38,8 +39,8 @@
 Class {
 	#name : 'FASTPyCall',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTTInvocation',
-	#classTraits : 'FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTTInvocation classTrait',
+	#traits : 'FASTPyTAsPatternSource + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTTInvocation',
+	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTTInvocation classTrait',
 	#instVars : [
 		'#callee => FMOne type: #FASTPyExpression opposite: #caller'
 	],

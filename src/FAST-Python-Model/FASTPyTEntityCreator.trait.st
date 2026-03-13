@@ -840,20 +840,6 @@ FASTPyTEntityCreator >> newWhileStatement [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newWithClause [
-
-	<generated>
-	^ self add: FASTPyWithClause new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newWithItem [
-
-	<generated>
-	^ self add: FASTPyWithItem new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newWithStatement [
 
 	<generated>

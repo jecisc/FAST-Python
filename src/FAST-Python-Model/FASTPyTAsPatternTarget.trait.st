@@ -1,0 +1,56 @@
+"
+I represent an entity that could be the alias/target of an as pattern.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
+
+
+
+"
+Trait {
+	#name : 'FASTPyTAsPatternTarget',
+	#instVars : [
+		'#parentAsPatternTarget => FMOne type: #FASTPyAsPattern opposite: #target'
+	],
+	#category : 'FAST-Python-Model-Traits',
+	#package : 'FAST-Python-Model',
+	#tag : 'Traits'
+}
+
+{ #category : 'meta' }
+FASTPyTAsPatternTarget classSide >> annotation [
+
+	<FMClass: #TAsPatternTarget super: #Object>
+	<package: #'FAST-Python-Model'>
+	<generated>
+	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyTAsPatternTarget >> parentAsPatternTarget [
+	"Relation named: #parentAsPatternTarget type: #FASTPyAsPattern opposite: #target"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentAsPatternTarget
+]
+
+{ #category : 'accessing' }
+FASTPyTAsPatternTarget >> parentAsPatternTarget: anObject [
+
+	<generated>
+	parentAsPatternTarget := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyTAsPatternTarget >> parentAsPatternTargetGroup [
+	<generated>
+	<navigation: 'ParentAsPatternTarget'>
+	^ MooseSpecializedGroup with: self parentAsPatternTarget
+]
