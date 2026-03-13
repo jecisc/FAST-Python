@@ -141,6 +141,16 @@ FASTPyImporterTestGenerator >> generateAssertionsFor: entity pushing: pushString
 ]
 
 { #category : 'test generation' }
+FASTPyImporterTestGenerator >> generateMethod: aString inProtocol: protocol [
+
+	self testCase
+		compiledMethodAt: aString lines first asSymbol
+		ifPresent: [ :method | method sourceCode = aString ifTrue: [ ^ self "No need to recompile here." ] ].
+
+	self testCase compile: stream contents classified: protocol
+]
+
+{ #category : 'test generation' }
 FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protocol: protocol [
 
 	| model methodName |
@@ -188,7 +198,7 @@ FASTPyImporterTestGenerator >> generateTestNamed: aString fromCode: code protoco
 		ifTrue: [ self generateAssertionsFor: model rootEntities anyOne containedEntities first pushing: 'fast rootEntities anyOne containedEntities first' popAtTheEnd: false ]
 		ifFalse: [ self generateAssertionsFor: model rootEntities anyOne pushing: 'fast rootEntities anyOne' popAtTheEnd: false ].
 
-	self testCase compile: stream contents classified: protocol
+	self generateMethod:  stream contents inProtocol: protocol
 ]
 
 { #category : 'initialization' }
