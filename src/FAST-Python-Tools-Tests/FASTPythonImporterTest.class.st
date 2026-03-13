@@ -35,7 +35,7 @@ FASTPythonImporterTest class >> initialize [
 { #category : 'test generation' }
 FASTPythonImporterTest class >> propertiesToExclude [
 
-	^ #( source startPos endPos )
+	^ #( startPos endPos )
 ]
 
 { #category : 'test generation' }
@@ -6814,7 +6814,7 @@ FASTPythonImporterTest >> testListSplatInCall [
 FASTPythonImporterTest >> testListSplatInList [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
-	Regenerate executing: 	self regenerateTest: #testListSplatInListl 	"
+	Regenerate executing: 	self regenerateTest: #testListSplatInList 	"
 
 	self parse: '[*args, 4]'.
 
@@ -7463,6 +7463,8 @@ False' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
 	self assert: (self topEntity isOfType: FamixTSourceAnchor).
+	self assert: self topEntity source equals: 'True
+False'.
 	
 	"Testing value of multivalued relation statements"
 	self assert: self topEntity statements size equals: 2.
@@ -10321,7 +10323,11 @@ FASTPythonImporterTest >> testTwoComments [
 		stack push: (stack top comments at: 2).
 		self assert: self topEntity sourceCode equals: '# Comment 2'.
 		self assert: (self topEntity isOfType: FASTPyComment).
-		self assert: (self topEntity isOfType: FASTTComment)
+		self assert: (self topEntity isOfType: FASTTComment).
+		stack pop.
+	self assert: self topEntity source equals: '# Comment 1
+	
+# Comment 2'
 ]
 
 { #category : 'tests - imports' }
@@ -10344,6 +10350,8 @@ import mathplotlib as mpl' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	self assert: (self topEntity isOfType: FamixTHasImmediateSource).
 	self assert: (self topEntity isOfType: FamixTSourceAnchor).
+	self assert: self topEntity source equals: 'import numpy as np
+import mathplotlib as mpl'.
 	
 	"Testing value of multivalued relation statements"
 	self assert: self topEntity statements size equals: 2.
