@@ -73,7 +73,6 @@ Class {
 		'listComprehension',
 		'listPattern',
 		'listSplat',
-		'listSplatPattern',
 		'matchStatement',
 		'memberType',
 		'module',
@@ -153,13 +152,16 @@ Class {
 		'tWithElseClause',
 		'tWithComment',
 		'collectionSplat',
-		'tCanBeSplatExpression',
 		'tAsPatternTarget',
 		'tAsPatternSource',
 		'tWithStatementItem',
 		'tRaised',
 		'tAssignable',
-		'tReturnReferenceable'
+		'tReturnReferenceable',
+		'tSplatExpression',
+		'listSplatParameter',
+		'tSplatParameterTarget',
+		'tSplatParameter'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -262,7 +264,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
 	listPattern := builder ensureClassNamed: #ListPattern."Todo"
 	listSplat := builder ensureClassNamed: #ListSplat."To Review"
-	listSplatPattern := builder ensureClassNamed: #ListSplatPattern."Todo"
+	listSplatParameter := builder ensureClassNamed: #ListSplatParameter."Todo"
 	literal := builder ensureClassNamed: #Literal.
 	matchStatement := builder ensureClassNamed: #MatchStatement."Todo"
 	memberType := builder ensureClassNamed: #MemberType."Todo"
@@ -330,6 +332,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> expression.
 	attribute --|> tReturnReferenceable.
 	attribute --|> tAsPatternTarget.
+	attribute --|> tSplatParameterTarget.
 	
 	augmentedAssignment --|> statement.
 	
@@ -337,13 +340,13 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
-	binaryOperator --|> tCanBeSplatExpression.
+	binaryOperator --|> tSplatExpression.
 
 	block --|> tStatementBlock.
 
 	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
-	booleanOperator --|> tCanBeSplatExpression.
+	booleanOperator --|> tSplatExpression.
 	booleanOperator --|> tRaised.
 
 	boolean --|> literal.
@@ -360,7 +363,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	classDefinition --|> tDefinition.
 
 	collectionInitializer --|> expression.
-	collectionInitializer --|> tCanBeSplatExpression.
+	collectionInitializer --|> tSplatExpression.
 	
 	collectionSplat --|> expression.
 
@@ -386,6 +389,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	dictionaryComprehension --|> tComprehension.
 	
 	dictionarySplat --|> collectionSplat.
+	
+	dictionarySplatPattern --|> parameter.
+	dictionarySplatPattern --|> tSplatParameter.
 
 	elseClause --|> block.
 
@@ -421,6 +427,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	identifier --|> expression.
 	identifier --|> tReturnReferenceable.
 	identifier --|> tAsPatternTarget.
+	identifier --|> tSplatParameterTarget.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -451,6 +458,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	listComprehension --|> tComprehension.
 
 	listSplat --|> collectionSplat.
+	
+	listSplatParameter --|> parameter.
+	listSplatParameter --|> tSplatParameter.
 
 	literal --|> expression.
 	literal --|> tLiteral.
@@ -496,7 +506,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	string --|> literal.
 	string --|> tStringLiteral.
-	string --|> tCanBeSplatExpression.
+	string --|> tSplatExpression.
 	
 	subscript --|> expression.
 	subscript --|> tReturnReferenceable.
@@ -504,14 +514,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	tAsPatternTarget --|> tAsPatternSource.
 	
-	tComprehension --|> tCanBeSplatExpression.
+	tComprehension --|> tSplatExpression.
 	
 	tDefinition --|> tNamedBehaviouralEntity.
 	
 	tReturnReferenceable --|> tAssignable.
 	tReturnReferenceable --|> tRaised.
 	tReturnReferenceable --|> tAsPatternSource.
-	tReturnReferenceable --|> tCanBeSplatExpression.
+	tReturnReferenceable --|> tSplatExpression.
 	tReturnReferenceable --|> tDecoratorExpression.
 
 	thenClause --|> block.
@@ -599,7 +609,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
 
-	(collectionSplat property: #expression) <>- (tCanBeSplatExpression property: #parentSplat).
+	(collectionSplat property: #expression) <>- (tSplatExpression property: #parentSplat).
 
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
@@ -649,7 +659,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
 
 	(lambda property: #expression) <>- (expression property: #lambdaOwner).
-
+	
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 
@@ -682,6 +692,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(tryStatement property: #excepts) <>-* (exceptClause property: #parentTryStatement).
 
+	(tSplatParameter property: #target) <>- (tSplatParameterTarget property: #parentSplatParameter).
+
 	(tuplePattern property: #patterns) <>-* (expression property: #tuplePatternOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
@@ -704,7 +716,9 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tAsPatternTarget := (builder newTraitNamed: #TAsPatternTarget) comment: 'I represent an entity that could be the alias/target of an as pattern.'.
 	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
 	(tAssignable := builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
-	tCanBeSplatExpression := (builder newTraitNamed: #TCanBeSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
+	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
+	(tSplatParameter := builder newTraitNamed: #TSplatParameter) comment: 'I represent a parameter that is a list or dictionary splat.'.
+	tSplatParameterTarget := (builder newTraitNamed: #TSplatParameterTarget) comment: 'My users are parameter target in a splat. For example in `def f(*list): pass`, we have a list splat parameter named list.'.
 	tComprehension := builder newTraitNamed: #TComprehension.
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.

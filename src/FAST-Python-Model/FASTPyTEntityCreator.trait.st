@@ -539,10 +539,10 @@ FASTPyTEntityCreator >> newListSplat [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newListSplatPattern [
+FASTPyTEntityCreator >> newListSplatParameter [
 
 	<generated>
-	^ self add: FASTPyListSplatPattern new
+	^ self add: FASTPyListSplatParameter new
 ]
 
 { #category : 'entity creation' }

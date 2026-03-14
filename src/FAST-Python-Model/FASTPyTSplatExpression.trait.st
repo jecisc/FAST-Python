@@ -7,13 +7,13 @@ My users are expressions that can be in a collection splat. For example in `[ *g
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 
 
 "
 Trait {
-	#name : 'FASTPyTCanBeSplatExpression',
+	#name : 'FASTPyTSplatExpression',
 	#instVars : [
 		'#parentSplat => FMOne type: #FASTPyCollectionSplat opposite: #expression'
 	],
@@ -23,16 +23,16 @@ Trait {
 }
 
 { #category : 'meta' }
-FASTPyTCanBeSplatExpression classSide >> annotation [
+FASTPyTSplatExpression classSide >> annotation [
 
-	<FMClass: #TCanBeSplatExpression super: #Object>
+	<FMClass: #TSplatExpression super: #Object>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
 ]
 
 { #category : 'accessing' }
-FASTPyTCanBeSplatExpression >> parentSplat [
+FASTPyTSplatExpression >> parentSplat [
 	"Relation named: #parentSplat type: #FASTPyCollectionSplat opposite: #expression"
 
 	<generated>
@@ -42,14 +42,14 @@ FASTPyTCanBeSplatExpression >> parentSplat [
 ]
 
 { #category : 'accessing' }
-FASTPyTCanBeSplatExpression >> parentSplat: anObject [
+FASTPyTSplatExpression >> parentSplat: anObject [
 
 	<generated>
 	parentSplat := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTCanBeSplatExpression >> parentSplatGroup [
+FASTPyTSplatExpression >> parentSplatGroup [
 	<generated>
 	<navigation: 'ParentSplat'>
 	^ MooseSpecializedGroup with: self parentSplat

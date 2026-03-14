@@ -11,7 +11,7 @@
 
 "
 Class {
-	#name : 'FASTPyDictionarySplatPattern',
+	#name : 'FASTPyListSplatParameter',
 	#superclass : 'FASTPyParameter',
 	#traits : 'FASTPyTSplatParameter',
 	#classTraits : 'FASTPyTSplatParameter classTrait',
@@ -21,9 +21,9 @@ Class {
 }
 
 { #category : 'meta' }
-FASTPyDictionarySplatPattern class >> annotation [
+FASTPyListSplatParameter class >> annotation [
 
-	<FMClass: #DictionarySplatPattern super: #FASTPyParameter>
+	<FMClass: #ListSplatParameter super: #FASTPyParameter>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

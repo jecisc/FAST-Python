@@ -68,13 +68,15 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTTExpression. "I need to enable this one later but I'm still unsure of how to manage expression statements"
 		  FASTPyTDecoratorExpression. "Adds too much noise in tests"
 		  FASTTWithComments. "Everything has that"
-		  FASTPyTCanBeSplatExpression. "Too many elements with it."
+		  FASTPyTSplatExpression. "Too many elements with it."
 		  FASTPyTAsPatternTarget.
 		  FASTPyTAsPatternSource.
 		  FASTPyTWithStatementItem.
 		  FASTPyTRaised.
 		  FASTPyTReturnReferenceable.
-		  FASTPyTAssignable }
+		  FASTPyTAssignable.
+		  FASTPyTSplatParameter.
+		  FASTPyTSplatParameterTarget }
 ]
 
 { #category : 'running' }
@@ -5161,7 +5163,7 @@ FASTPythonImporterTest >> testFromImportWithWildcard [
 		self assert: self topEntity segments equals: #('*')
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - function definitions' }
 FASTPythonImporterTest >> testFunctionDefinition [
 
 	| function |
@@ -8193,6 +8195,63 @@ FASTPythonImporterTest >> testListSplatOnTuple [
 		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
+{ #category : 'tests - function definitions' }
+FASTPythonImporterTest >> testListSplatParameter [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testListSplatParameter 	"
+
+	self parse: 'def function(*args): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyListSplatParameter) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def function(*args): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'function'.
+	
+	"Testing value of multivalued relation parameters"
+	self assert: self topEntity parameters size equals: 1.
+	
+		stack push: (stack top parameters at: 1).
+		self assert: self topEntity sourceCode equals: '*args'.
+		self assert: (self topEntity isOfType: FASTPyListSplatParameter).
+		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: self topEntity name equals: '*args'.
+		
+		"Testing value of monovalue relation target"
+		self assert: self topEntity target isNotNil.
+
+			stack push: self topEntity target.
+			self assert: self topEntity sourceCode equals: 'args'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
 { #category : 'tests - collections' }
 FASTPythonImporterTest >> testListWithEllipsis [
 	<generated>
@@ -8628,6 +8687,54 @@ FASTPythonImporterTest >> testNotOperator [
 	self assert: (operator isOfType: FASTTExpression).
 	self assert: operator argument sourceCode equals: 'True'.
 	self assert: (operator argument isOfType: FASTPyBoolean)
+]
+
+{ #category : 'tests - function definitions' }
+FASTPythonImporterTest >> testParameter [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testParameter 	"
+
+	self parse: 'def function(a): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def function(a): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'function'.
+	
+	"Testing value of multivalued relation parameters"
+	self assert: self topEntity parameters size equals: 1.
+	
+		stack push: (stack top parameters at: 1).
+		self assert: self topEntity sourceCode equals: 'a'.
+		self assert: (self topEntity isOfType: FASTPyParameter).
+		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: self topEntity name equals: 'a'.
+		stack pop.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
 ]
 
 { #category : 'tests - statements' }

@@ -13,7 +13,7 @@
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
-| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 
 ### Children
@@ -36,8 +36,8 @@
 Class {
 	#name : 'FASTPyBooleanOperator',
 	#superclass : 'FASTPyOperator',
-	#traits : 'FASTPyTCanBeSplatExpression + FASTPyTRaised + FASTTBinaryExpression',
-	#classTraits : 'FASTPyTCanBeSplatExpression classTrait + FASTPyTRaised classTrait + FASTTBinaryExpression classTrait',
+	#traits : 'FASTPyTRaised + FASTPyTSplatExpression + FASTTBinaryExpression',
+	#classTraits : 'FASTPyTRaised classTrait + FASTPyTSplatExpression classTrait + FASTTBinaryExpression classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

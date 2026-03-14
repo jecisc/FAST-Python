@@ -11,15 +11,15 @@ Lot of relations in python points to references. And some nodes can return lot o
 | `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
-| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 
 
 "
 Trait {
 	#name : 'FASTPyTReturnReferenceable',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTAssignable + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTPyTRaised',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAssignable classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTRaised classTrait',
+	#traits : 'FASTPyTAsPatternSource + FASTPyTAssignable + FASTPyTDecoratorExpression + FASTPyTRaised + FASTPyTSplatExpression',
+	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAssignable classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTRaised classTrait + FASTPyTSplatExpression classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

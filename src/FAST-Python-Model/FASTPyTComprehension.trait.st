@@ -5,7 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -22,8 +22,8 @@ Trait {
 		'#body => FMOne type: #FASTPyExpression opposite: #comprehensionBodyOwner',
 		'#clauses => FMMany type: #FASTPyExpression opposite: #comprehensionClauseOwner'
 	],
-	#traits : 'FASTPyTCanBeSplatExpression',
-	#classTraits : 'FASTPyTCanBeSplatExpression classTrait',
+	#traits : 'FASTPyTSplatExpression',
+	#classTraits : 'FASTPyTSplatExpression classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

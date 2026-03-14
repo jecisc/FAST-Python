@@ -7,7 +7,7 @@ In Python a collection (list or dictionary) splat is the unpacking of a collecti
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyCollectionSplat` | `parentSplat` | `FASTPyTCanBeSplatExpression` | |
+| `expression` | `FASTPyCollectionSplat` | `parentSplat` | `FASTPyTSplatExpression` | |
 
 
 
@@ -16,7 +16,7 @@ Class {
 	#name : 'FASTPyCollectionSplat',
 	#superclass : 'FASTPyExpression',
 	#instVars : [
-		'#expression => FMOne type: #FASTPyTCanBeSplatExpression opposite: #parentSplat'
+		'#expression => FMOne type: #FASTPyTSplatExpression opposite: #parentSplat'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -34,7 +34,7 @@ FASTPyCollectionSplat class >> annotation [
 
 { #category : 'accessing' }
 FASTPyCollectionSplat >> expression [
-	"Relation named: #expression type: #FASTPyTCanBeSplatExpression opposite: #parentSplat"
+	"Relation named: #expression type: #FASTPyTSplatExpression opposite: #parentSplat"
 
 	<generated>
 	^ expression

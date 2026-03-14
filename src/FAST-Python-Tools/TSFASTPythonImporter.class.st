@@ -380,6 +380,8 @@ TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
+	(#(parameters lambda_parameters) includes: aNode parent type) ifTrue: [ ^ self handleNode: aNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ] ].
+
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
 	(context anySatisfy: [ :entry |
 			 entry field = #name and: [
@@ -495,6 +497,14 @@ TSFASTPythonImporter >> visitListSplat: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitListSplatPattern: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #target asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyListSplatParameter
+]
+
+{ #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitModule: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'statements' asAliasOfField: '<unnamedChild>' ].
@@ -514,11 +524,11 @@ TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 TSFASTPythonImporter >> visitParameters: aNode [
 	"For parameters we want one by parameter. Not one node for multiple ones.
 	
-	Maybe we should manage it in the children? TODO: Manage other kind of parameters."
+	TODO: Manage other kind of parameters."
 
 	aNode collectNamedChild do: [ :parameterNode |
 			| parameter |
-			parameter := self handleNode: parameterNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
+			parameter := parameterNode accept: self.
 			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
 ]
 
