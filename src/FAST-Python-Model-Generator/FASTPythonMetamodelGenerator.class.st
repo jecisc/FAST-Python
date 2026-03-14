@@ -447,6 +447,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	keywordArgument --|> expression.
 	keywordArgument --|> tNamedEntity.
 	
+	keywordSeparator --|> tVariableEntity. "I'm not fan because they cannot be in assignation but that will do for now."
+	
 	lambda --|> expression.
 	lambda --|> tWithParameters.
 	lambda --|> tDecoratorExpression.
@@ -487,6 +489,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	parameter --|> tVariableEntity.
 
 	passStatement --|> statement.
+	
+	positionalSeparator --|> tVariableEntity. "I'm not fan because they cannot be in assignation but that will do for now."
 	
 	printStatement --|> statement.
 	
