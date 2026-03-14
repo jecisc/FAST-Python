@@ -3965,6 +3965,54 @@ FASTPythonImporterTest >> testDictionarySplatOnSubscript [
 		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
+{ #category : 'tests - function definitions' }
+FASTPythonImporterTest >> testDictionarySplatParameter [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDictionarySplatParameter 	"
+
+	self parse: 'def function(**kwargs): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyDictionarySplatParameter) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def function(**kwargs): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'function'.
+	
+	"Testing value of multivalued relation parameters"
+	self assert: self topEntity parameters size equals: 1.
+	
+		stack push: (stack top parameters at: 1).
+		self assert: self topEntity sourceCode equals: '**kwargs'.
+		self assert: (self topEntity isOfType: FASTPyDictionarySplatParameter).
+		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: self topEntity name equals: 'kwargs'.
+		stack pop.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testDoubleQuotedString [
 

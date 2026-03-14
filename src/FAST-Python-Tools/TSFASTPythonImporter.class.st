@@ -254,6 +254,20 @@ TSFASTPythonImporter >> visitDictionarySplat: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyDictionarySplat
 ]
 
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitDictionarySplatPattern: aTSNode [
+	"In case we are a parameter we skip the children because it always is an identifier"
+
+	(#( parameters lambda_parameters ) includes: aTSNode parent type) ifTrue: [
+			| fastEntity |
+			fastEntity := self instantiateFastEntity: FASTPyDictionarySplatParameter from: aTSNode.
+			self topFastEntity addParameter: fastEntity.
+			fastEntity name: (self sourceCodeOf: aTSNode collectNamedChild anyOne).
+			^ fastEntity ].
+
+	^ self handleNode: aTSNode
+]
+
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDottedName: aTSNode [
 
@@ -383,7 +397,8 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	(#( parameters lambda_parameters ) includes: aNode parent type) ifTrue: [
 			| parameter |
 			parameter := self handleNode: aNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
-			parameter name: parameter sourceCode ].
+			parameter name: parameter sourceCode.
+			^ parameter ].
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
 	(context anySatisfy: [ :entry |

@@ -259,10 +259,10 @@ FASTPyTEntityCreator >> newDictionarySplat [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newDictionarySplatPattern [
+FASTPyTEntityCreator >> newDictionarySplatParameter [
 
 	<generated>
-	^ self add: FASTPyDictionarySplatPattern new
+	^ self add: FASTPyDictionarySplatParameter new
 ]
 
 { #category : 'entity creation' }

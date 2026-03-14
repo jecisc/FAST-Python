@@ -36,7 +36,6 @@ Class {
 		'dictionary',
 		'dictionaryComprehension',
 		'dictionarySplat',
-		'dictionarySplatPattern',
 		'dottedName',
 		'elifClause',
 		'ellipsis',
@@ -161,7 +160,8 @@ Class {
 		'tSplatExpression',
 		'listSplatParameter',
 		'tSplatParameterTarget',
-		'tSplatParameter'
+		'tSplatParameter',
+		'dictionarySplatParameter'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -225,7 +225,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	dictionary := builder ensureClassNamed: #Dictionary."To Review"
 	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
 	dictionarySplat := builder ensureClassNamed: #DictionarySplat."Todo"
-	dictionarySplatPattern := builder ensureClassNamed: #DictionarySplatPattern."Todo"
+	dictionarySplatParameter := builder ensureClassNamed: #DictionarySplatParameter."Todo"
 	dottedName := builder ensureClassNamed: #DottedName."Todo"
 	elifClause := builder ensureClassNamed: #ElifClause."Todo"
 	ellipsis := builder ensureClassNamed: #Ellipsis.
@@ -390,8 +390,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	dictionarySplat --|> collectionSplat.
 	
-	dictionarySplatPattern --|> parameter.
-	dictionarySplatPattern --|> tSplatParameter.
+	dictionarySplatParameter --|> parameter.
+	dictionarySplatParameter --|> tSplatParameter.
 
 	elseClause --|> block.
 
