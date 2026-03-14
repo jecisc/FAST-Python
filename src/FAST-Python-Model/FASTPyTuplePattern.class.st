@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -13,6 +18,8 @@
 Class {
 	#name : 'FASTPyTuplePattern',
 	#superclass : 'FASTPyExpression',
+	#traits : 'FASTPyTAssignable',
+	#classTraits : 'FASTPyTAssignable classTrait',
 	#instVars : [
 		'#patterns => FMMany type: #FASTPyExpression opposite: #tuplePatternOwner'
 	],

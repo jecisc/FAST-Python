@@ -520,6 +520,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tuple --|> tAsPatternTarget.
 	
 	tuplePattern --|> expression. "TO REVIEW. This might be wrong."
+	tuplePattern --|> tAssignable.
 	
 	tryStatement --|> statement.
 	tryStatement --|> tStatementBlock.
