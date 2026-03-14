@@ -72,7 +72,9 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTAsPatternTarget.
 		  FASTPyTAsPatternSource.
 		  FASTPyTWithStatementItem.
-		  FASTPyTRaised }
+		  FASTPyTRaised.
+		  FASTPyTReturnReferenceable.
+		  FASTPyTAssignable }
 ]
 
 { #category : 'running' }
@@ -127,10 +129,9 @@ FASTPythonImporterTest >> testAsPatternWithAttribute [
 	self assert: (fast allWithType: FASTPyAsPattern) size equals: 1.
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
@@ -175,8 +176,7 @@ FASTPythonImporterTest >> testAsPatternWithAttribute [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'resource'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -283,10 +283,9 @@ FASTPythonImporterTest >> testAsPatternWithSourceAttributeAccess [
 
 	self assert: (fast allWithType: FASTPyAsPattern) size equals: 1.
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 	self assert: (fast allWithType: FASTPyWithStatement) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
@@ -313,8 +312,7 @@ FASTPythonImporterTest >> testAsPatternWithSourceAttributeAccess [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'y'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -858,7 +856,6 @@ FASTPythonImporterTest >> testAssignment [
 		stack push: self topEntity left.
 		self assert: self topEntity sourceCode equals: 'x'.
 		self assert: (self topEntity isOfType: FASTPyVariable).
-		self assert: (self topEntity isOfType: FASTPyTAssignable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
 	
@@ -881,9 +878,8 @@ FASTPythonImporterTest >> testAttributeAccess [
 	self parse: 'obj.count'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'obj.count'.
@@ -894,8 +890,7 @@ FASTPythonImporterTest >> testAttributeAccess [
 
 		stack push: self topEntity attribute.
 		self assert: self topEntity sourceCode equals: 'count'.
-		self assert: (self topEntity isOfType: FASTPyVariable).
-		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
 	"Testing value of monovalue relation object"
@@ -915,9 +910,8 @@ FASTPythonImporterTest >> testAttributeAccessNested [
 	self parse: 'obj.toto.count'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 2.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 2.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'obj.toto.count'.
@@ -928,8 +922,7 @@ FASTPythonImporterTest >> testAttributeAccessNested [
 
 		stack push: self topEntity attribute.
 		self assert: self topEntity sourceCode equals: 'count'.
-		self assert: (self topEntity isOfType: FASTPyVariable).
-		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
 	"Testing value of monovalue relation object"
@@ -944,8 +937,7 @@ FASTPythonImporterTest >> testAttributeAccessNested [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'toto'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -965,9 +957,9 @@ FASTPythonImporterTest >> testAttributeAccessOnString [
 	self parse: ''' ''.join'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyString) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: ''' ''.join'.
@@ -978,8 +970,7 @@ FASTPythonImporterTest >> testAttributeAccessOnString [
 
 		stack push: self topEntity attribute.
 		self assert: self topEntity sourceCode equals: 'join'.
-		self assert: (self topEntity isOfType: FASTPyVariable).
-		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
 	"Testing value of monovalue relation object"
@@ -1001,9 +992,8 @@ FASTPythonImporterTest >> testAttributeAccessWithReceiverParenthesised [
 	self parse: '(obj).attribute'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '(obj).attribute'.
@@ -1014,8 +1004,7 @@ FASTPythonImporterTest >> testAttributeAccessWithReceiverParenthesised [
 
 		stack push: self topEntity attribute.
 		self assert: self topEntity sourceCode equals: 'attribute'.
-		self assert: (self topEntity isOfType: FASTPyVariable).
-		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
 	"Testing value of monovalue relation object"
@@ -1309,9 +1298,8 @@ FASTPythonImporterTest >> testCallArgumentWithAttribute [
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(CFG.seed)'.
@@ -1331,8 +1319,7 @@ FASTPythonImporterTest >> testCallArgumentWithAttribute [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'seed'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -1436,12 +1423,11 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 2.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyString) size equals: 2.
 	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'function(data[0].replace(''case'',''''))'.
@@ -1487,8 +1473,7 @@ FASTPythonImporterTest >> testCallArgumentWithCall [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'replace'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -2009,9 +1994,8 @@ FASTPythonImporterTest >> testCallWithAttribute [
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'tqdm.pandas()'.
@@ -2031,8 +2015,7 @@ FASTPythonImporterTest >> testCallWithAttribute [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'pandas'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -2559,10 +2542,9 @@ def funct(): pass'.
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyDecorator) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'def funct(): pass'.
@@ -2590,8 +2572,7 @@ def funct(): pass'.
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'lru_cache'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -2635,10 +2616,9 @@ def funct(): pass'.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
 	self assert: (fast allWithType: FASTPyDecorator) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'def funct(): pass'.
@@ -2675,8 +2655,7 @@ def funct(): pass'.
 
 					stack push: self topEntity attribute.
 					self assert: self topEntity sourceCode equals: 'make_decorator'.
-					self assert: (self topEntity isOfType: FASTPyVariable).
-					self assert: (self topEntity isOfType: FASTTVariableEntity).
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
 					stack pop.
 				
 				"Testing value of monovalue relation object"
@@ -3097,11 +3076,10 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
 	self assert: (fast allWithType: FASTPyDictionaryComprehension) size equals: 1.
 	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 5.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 6.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPair) size equals: 1.
 	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{ v:k for k,v in class_indices.items() }'.
@@ -3181,8 +3159,7 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 
 					stack push: self topEntity attribute.
 					self assert: self topEntity sourceCode equals: 'items'.
-					self assert: (self topEntity isOfType: FASTPyVariable).
-					self assert: (self topEntity isOfType: FASTTVariableEntity).
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
 					stack pop.
 				
 				"Testing value of monovalue relation object"
@@ -3307,9 +3284,8 @@ FASTPythonImporterTest >> testDictionarySplatOnAttributeAccess [
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
 	self assert: (fast allWithType: FASTPyDictionarySplat) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'funct(**obj.settings)'.
@@ -3336,8 +3312,7 @@ FASTPythonImporterTest >> testDictionarySplatOnAttributeAccess [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'settings'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -6287,11 +6262,10 @@ FASTPythonImporterTest >> testImportInFunction [
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyImportStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyImportedEntity) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'def fun():
@@ -6348,8 +6322,7 @@ FASTPythonImporterTest >> testImportInFunction [
 
 					stack push: self topEntity attribute.
 					self assert: self topEntity sourceCode equals: 'fit'.
-					self assert: (self topEntity isOfType: FASTPyVariable).
-					self assert: (self topEntity isOfType: FASTTVariableEntity).
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
 					stack pop.
 				
 				"Testing value of monovalue relation object"
@@ -6556,11 +6529,10 @@ FASTPythonImporterTest >> testInterpolationWithAttributeAccess [
 	self parse: 'f"{CFG.model_name}"'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyInterpolation) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyString) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f"{CFG.model_name}"'.
@@ -6587,8 +6559,7 @@ FASTPythonImporterTest >> testInterpolationWithAttributeAccess [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'model_name'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -7467,10 +7438,9 @@ FASTPythonImporterTest >> testListSplatOnAttributeAccess [
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyListSplat) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'func(*obj.list)'.
@@ -7497,8 +7467,7 @@ FASTPythonImporterTest >> testListSplatOnAttributeAccess [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'list'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -8670,10 +8639,9 @@ FASTPythonImporterTest >> testRaiseAttribute [
 	self parse: 'raise module.Exception'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyRaiseStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'raise module.Exception'.
@@ -8691,8 +8659,7 @@ FASTPythonImporterTest >> testRaiseAttribute [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'Exception'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -9149,10 +9116,9 @@ FASTPythonImporterTest >> testSetComprehension [
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
 	self assert: (fast allWithType: FASTPyCall) size equals: 1.
 	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 4.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPySetComprehension) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{k1 for k1 in v.items() }'.
@@ -9203,8 +9169,7 @@ FASTPythonImporterTest >> testSetComprehension [
 
 					stack push: self topEntity attribute.
 					self assert: self topEntity sourceCode equals: 'items'.
-					self assert: (self topEntity isOfType: FASTPyVariable).
-					self assert: (self topEntity isOfType: FASTTVariableEntity).
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
 					stack pop.
 				
 				"Testing value of monovalue relation object"
@@ -9264,11 +9229,10 @@ FASTPythonImporterTest >> testSliceAttribute [
 	self parse: 'values[:obj.attr]'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPySlice) size equals: 1.
 	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'values[:obj.attr]'.
@@ -9293,8 +9257,7 @@ FASTPythonImporterTest >> testSliceAttribute [
 
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'attr'.
-				self assert: (self topEntity isOfType: FASTPyVariable).
-				self assert: (self topEntity isOfType: FASTTVariableEntity).
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -10289,11 +10252,10 @@ FASTPythonImporterTest >> testSubscriptOnAttribute [
 	self parse: 'os.environ[''CUDA_LAUNCH_BLOCKING'']'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyString) size equals: 1.
 	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'os.environ[''CUDA_LAUNCH_BLOCKING'']'.
@@ -10321,8 +10283,7 @@ FASTPythonImporterTest >> testSubscriptOnAttribute [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'environ'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -10342,11 +10303,10 @@ FASTPythonImporterTest >> testSubscriptOnAttributeWithParenthesis [
 	self parse: '(os.environ)[''ATTR'']'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyString) size equals: 1.
 	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '(os.environ)[''ATTR'']'.
@@ -10374,8 +10334,7 @@ FASTPythonImporterTest >> testSubscriptOnAttributeWithParenthesis [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'environ'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -10447,10 +10406,9 @@ FASTPythonImporterTest >> testSubscriptWithAttributeInSubscript [
 	self parse: 'coll[obj.attr]'.
 
 	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'coll[obj.attr]'.
@@ -10468,8 +10426,7 @@ FASTPythonImporterTest >> testSubscriptWithAttributeInSubscript [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'attr'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -10894,7 +10851,7 @@ FASTPythonImporterTest >> testTupleOverview [
 	self assert: (fast allWithType: FASTPyDictionary) size equals: 1.
 	self assert: (fast allWithType: FASTPyEllipsis) size equals: 1.
 	self assert: (fast allWithType: FASTPyFloat) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 6.
 	self assert: (fast allWithType: FASTPyList) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
@@ -10902,7 +10859,6 @@ FASTPythonImporterTest >> testTupleOverview [
 	self assert: (fast allWithType: FASTPyPair) size equals: 1.
 	self assert: (fast allWithType: FASTPyString) size equals: 3.
 	self assert: (fast allWithType: FASTPyTuple) size equals: 2.
-	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '(2, 2.0, 2j, "abc", [3], (2,2), {3: 3}, b"def", bytearray(b"ghi"), True, False, None, ..., self.a)'.
@@ -11076,8 +11032,7 @@ FASTPythonImporterTest >> testTupleOverview [
 
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'a'.
-			self assert: (self topEntity isOfType: FASTPyVariable).
-			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of monovalue relation object"

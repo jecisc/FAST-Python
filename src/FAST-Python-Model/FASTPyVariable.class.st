@@ -5,7 +5,6 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `attributeOwner` | `FASTPyVariable` | `attribute` | `FASTPyAttributeAccess` | The attribute access accessing me (if it's the case)|
 | `globalOwner` | `FASTPyVariable` | `variables` | `FASTPyGlobalStatement` | The global statement defining my scope (if it's the case)|
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
 | `nonlocalOwner` | `FASTPyVariable` | `variables` | `FASTPyNonlocalStatement` | The global statement defining my scope (if it's the case)|
@@ -30,7 +29,6 @@ Class {
 	#traits : 'FASTPyTAssignable + FASTTVariableEntity',
 	#classTraits : 'FASTPyTAssignable classTrait + FASTTVariableEntity classTrait',
 	#instVars : [
-		'#attributeOwner => FMOne type: #FASTPyAttributeAccess opposite: #attribute',
 		'#globalOwner => FMOne type: #FASTPyGlobalStatement opposite: #variables',
 		'#nonlocalOwner => FMOne type: #FASTPyNonlocalStatement opposite: #variables'
 	],
@@ -46,31 +44,6 @@ FASTPyVariable class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
-]
-
-{ #category : 'accessing' }
-FASTPyVariable >> attributeOwner [
-	"Relation named: #attributeOwner type: #FASTPyAttributeAccess opposite: #attribute"
-
-	<generated>
-	<FMComment: 'The attribute access accessing me (if it''s the case)'>
-	<container>
-	<derived>
-	^ attributeOwner
-]
-
-{ #category : 'accessing' }
-FASTPyVariable >> attributeOwner: anObject [
-
-	<generated>
-	attributeOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyVariable >> attributeOwnerGroup [
-	<generated>
-	<navigation: 'AttributeOwner'>
-	^ MooseSpecializedGroup with: self attributeOwner
 ]
 
 { #category : 'accessing' }

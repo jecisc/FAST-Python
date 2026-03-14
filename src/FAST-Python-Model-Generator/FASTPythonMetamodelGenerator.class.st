@@ -158,7 +158,8 @@ Class {
 		'tAsPatternSource',
 		'tWithStatementItem',
 		'tRaised',
-		'tAssignable'
+		'tAssignable',
+		'tReturnReferenceable'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -327,11 +328,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	assertStatement --|> statement.
 
 	attribute --|> expression.
-	attribute --|> tDecoratorExpression.
-	attribute --|> tCanBeSplatExpression.
+	attribute --|> tReturnReferenceable.
 	attribute --|> tAsPatternTarget.
-	attribute --|> tAsPatternSource.
-	attribute --|> tRaised.
 	
 	augmentedAssignment --|> statement.
 	
@@ -355,11 +353,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	call --|> expression.
 	call --|> tInvocation.
-	call --|> tDecoratorExpression.
-	call --|> tCanBeSplatExpression.
-	call --|> tAsPatternSource.
+	call --|> tReturnReferenceable.
 	call --|> tWithStatementItem.
-	call --|> tRaised.
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
@@ -424,11 +419,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	globalStatement --|> statement.
 
 	identifier --|> expression.
-	identifier --|> tDecoratorExpression.
-	identifier --|> tCanBeSplatExpression.
+	identifier --|> tReturnReferenceable.
 	identifier --|> tAsPatternTarget.
-	identifier --|> tAsPatternSource.
-	identifier --|> tRaised.
 	
 	ifClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
@@ -507,17 +499,20 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	string --|> tCanBeSplatExpression.
 	
 	subscript --|> expression.
-	subscript --|> tDecoratorExpression.
-	subscript --|> tCanBeSplatExpression.
+	subscript --|> tReturnReferenceable.
 	subscript --|> tAsPatternTarget.
-	subscript --|> tAsPatternSource.
-	subscript --|> tRaised.
 	
 	tAsPatternTarget --|> tAsPatternSource.
 	
 	tComprehension --|> tCanBeSplatExpression.
 	
 	tDefinition --|> tNamedBehaviouralEntity.
+	
+	tReturnReferenceable --|> tAssignable.
+	tReturnReferenceable --|> tRaised.
+	tReturnReferenceable --|> tAsPatternSource.
+	tReturnReferenceable --|> tCanBeSplatExpression.
+	tReturnReferenceable --|> tDecoratorExpression.
 
 	thenClause --|> block.
 
@@ -592,7 +587,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #attributeObjectOwner) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
 
 	((attribute property: #attribute) comment: 'The variable been accessed')
-	<>- ((variable property: #attributeOwner) comment: 'The attribute access accessing me (if it''s the case)').
+	<>- ((identifier property: #attributeOwner) comment: 'The attribute access accessing me (if it''s the case)').
 
 	(await property: #expression) <>- (expression property: #parentAwait).
 
@@ -713,6 +708,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tDefinition := builder newTraitNamed: #TDefinition.
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 	(tRaised := builder newTraitNamed: #TRaised) comment: 'I represent an expression that can give an exception to raise in a raise statement.'.
+	((tReturnReferenceable := builder newTraitNamed: #TReturnReferenceable) comment: 'Lot of relations in python points to references. And some nodes can return lot of those references such as call, subscript, tuple, attribute. I am here to group those dependences.').
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	tWithStatementItem := (builder newTraitNamed: #TWithStatementItem) comment: 'I represent an entity that can be the item of a with_statement.'.
 	tWithElseClause := builder newTraitNamed: #TWithElseClause.

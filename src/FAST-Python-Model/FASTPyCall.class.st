@@ -9,6 +9,7 @@
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
@@ -39,8 +40,8 @@
 Class {
 	#name : 'FASTPyCall',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTPyTRaised + FASTPyTWithStatementItem + FASTTInvocation',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTRaised classTrait + FASTPyTWithStatementItem classTrait + FASTTInvocation classTrait',
+	#traits : 'FASTPyTReturnReferenceable + FASTPyTWithStatementItem + FASTTInvocation',
+	#classTraits : 'FASTPyTReturnReferenceable classTrait + FASTPyTWithStatementItem classTrait + FASTTInvocation classTrait',
 	#instVars : [
 		'#callee => FMOne type: #FASTPyExpression opposite: #caller'
 	],

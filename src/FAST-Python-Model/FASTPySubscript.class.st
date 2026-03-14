@@ -7,6 +7,7 @@
 |---|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
 | `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
@@ -23,8 +24,8 @@
 Class {
 	#name : 'FASTPySubscript',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTAsPatternTarget + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTPyTRaised',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAsPatternTarget classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTRaised classTrait',
+	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait',
 	#instVars : [
 		'#indices => FMMany type: #FASTPyExpression opposite: #subscriptIndiceOwner',
 		'#value => FMOne type: #FASTPyExpression opposite: #subscriptValueOwner'

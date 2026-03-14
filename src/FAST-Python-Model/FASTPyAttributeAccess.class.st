@@ -7,6 +7,7 @@
 |---|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
 | `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
@@ -14,7 +15,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `attribute` | `FASTPyAttributeAccess` | `attributeOwner` | `FASTPyVariable` | The variable been accessed|
+| `attribute` | `FASTPyAttributeAccess` | `attributeOwner` | `FASTPyIdentifier` | The variable been accessed|
 | `object` | `FASTPyAttributeAccess` | `attributeObjectOwner` | `FASTPyExpression` | I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...|
 
 
@@ -23,10 +24,10 @@
 Class {
 	#name : 'FASTPyAttributeAccess',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTAsPatternTarget + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTPyTRaised',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAsPatternTarget classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTRaised classTrait',
+	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait',
 	#instVars : [
-		'#attribute => FMOne type: #FASTPyVariable opposite: #attributeOwner',
+		'#attribute => FMOne type: #FASTPyIdentifier opposite: #attributeOwner',
 		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -45,7 +46,7 @@ FASTPyAttributeAccess class >> annotation [
 
 { #category : 'accessing' }
 FASTPyAttributeAccess >> attribute [
-	"Relation named: #attribute type: #FASTPyVariable opposite: #attributeOwner"
+	"Relation named: #attribute type: #FASTPyIdentifier opposite: #attributeOwner"
 
 	<generated>
 	<FMComment: 'The variable been accessed'>

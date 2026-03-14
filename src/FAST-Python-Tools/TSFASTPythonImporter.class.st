@@ -395,8 +395,6 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 	"Those statements points a variable"
 	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ])
 		 ifTrue:  [ ^self handleNode: aNode kind: FASTPyVariable ].
-		
-	(context top field = #attribute and: [ context top isOfFASTType: FASTPyAttributeAccess ]) ifTrue: [ ^ self handleNode: aNode kind: FASTPyVariable ].
 	
 	^ self handleNode: aNode
 ]

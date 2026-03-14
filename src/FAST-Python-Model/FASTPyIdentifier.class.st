@@ -5,8 +5,10 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `attributeOwner` | `FASTPyIdentifier` | `attribute` | `FASTPyAttributeAccess` | The attribute access accessing me (if it's the case)|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
 | `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
@@ -17,8 +19,11 @@
 Class {
 	#name : 'FASTPyIdentifier',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTAsPatternTarget + FASTPyTCanBeSplatExpression + FASTPyTDecoratorExpression + FASTPyTRaised',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAsPatternTarget classTrait + FASTPyTCanBeSplatExpression classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTRaised classTrait',
+	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait',
+	#instVars : [
+		'#attributeOwner => FMOne type: #FASTPyAttributeAccess opposite: #attribute'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -31,4 +36,29 @@ FASTPyIdentifier class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyIdentifier >> attributeOwner [
+	"Relation named: #attributeOwner type: #FASTPyAttributeAccess opposite: #attribute"
+
+	<generated>
+	<FMComment: 'The attribute access accessing me (if it''s the case)'>
+	<container>
+	<derived>
+	^ attributeOwner
+]
+
+{ #category : 'accessing' }
+FASTPyIdentifier >> attributeOwner: anObject [
+
+	<generated>
+	attributeOwner := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyIdentifier >> attributeOwnerGroup [
+	<generated>
+	<navigation: 'AttributeOwner'>
+	^ MooseSpecializedGroup with: self attributeOwner
 ]
