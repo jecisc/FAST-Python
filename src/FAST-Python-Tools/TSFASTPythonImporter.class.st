@@ -380,7 +380,10 @@ TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
-	(#(parameters lambda_parameters) includes: aNode parent type) ifTrue: [ ^ self handleNode: aNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ] ].
+	(#( parameters lambda_parameters ) includes: aNode parent type) ifTrue: [
+			| parameter |
+			parameter := self handleNode: aNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
+			parameter name: parameter sourceCode ].
 
 	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
 	(context anySatisfy: [ :entry |
@@ -498,10 +501,16 @@ TSFASTPythonImporter >> visitListSplat: aTSNode [
 
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitListSplatPattern: aTSNode [
+	"In case we are a parameter we skip the children because it always is an identifier"
 
-	self onNextContextDo: [ :entry | entry add: #target asAliasOfField: '<unnamedChild>' ].
+	(#( parameters lambda_parameters ) includes: aTSNode parent type) ifTrue: [
+			| fastEntity |
+			fastEntity := self instantiateFastEntity: FASTPyListSplatParameter from: aTSNode.
+			self topFastEntity addParameter: fastEntity.
+			fastEntity name: (self sourceCodeOf: aTSNode collectNamedChild anyOne).
+			^ fastEntity ].
 
-	^ self handleNode: aTSNode kind: FASTPyListSplatParameter
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting - alias' }
@@ -520,16 +529,11 @@ TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyNonlocalStatement
 ]
 
-{ #category : 'visiting' }
+{ #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitParameters: aNode [
-	"For parameters we want one by parameter. Not one node for multiple ones.
-	
-	TODO: Manage other kind of parameters."
+	"For parameters we want one by parameter. Not one node for multiple ones."
 
-	aNode collectNamedChild do: [ :parameterNode |
-			| parameter |
-			parameter := parameterNode accept: self.
-			parameter name: parameter sourceCode "This case is pretty straightforward since names are the source code of the parameter." ]
+	^ self rawVisitChildren: aNode
 ]
 
 { #category : 'visiting - skip' }

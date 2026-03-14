@@ -8205,7 +8205,6 @@ FASTPythonImporterTest >> testListSplatParameter [
 
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyListSplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
@@ -8225,15 +8224,7 @@ FASTPythonImporterTest >> testListSplatParameter [
 		self assert: self topEntity sourceCode equals: '*args'.
 		self assert: (self topEntity isOfType: FASTPyListSplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
-		self assert: self topEntity name equals: '*args'.
-		
-		"Testing value of monovalue relation target"
-		self assert: self topEntity target isNotNil.
-
-			stack push: self topEntity target.
-			self assert: self topEntity sourceCode equals: 'args'.
-			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			stack pop.
+		self assert: self topEntity name equals: 'args'.
 		stack pop.
 	
 	"Testing value of monovalue relation statementBlock"
