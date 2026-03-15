@@ -539,6 +539,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	whileStatement --|> statement.
 	whileStatement --|> tConditionalStatement.
 	whileStatement --|> tLoopStatement.
+	whileStatement --|> tWithElseClause.
 	
 	withStatement --|> statement.
 	withStatement --|> tStatementBlock

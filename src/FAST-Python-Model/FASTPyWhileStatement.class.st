@@ -13,6 +13,7 @@
 |---|
 | `body` | `FASTTLoopStatement` | `parentLoopStatement` | `FASTTStatement` | The body of the loop|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
+| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
 
 
 ## Properties
@@ -27,8 +28,8 @@
 Class {
 	#name : 'FASTPyWhileStatement',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTConditionalStatement + FASTTLoopStatement',
-	#classTraits : 'FASTTConditionalStatement classTrait + FASTTLoopStatement classTrait',
+	#traits : 'FASTPyTWithElseClause + FASTTConditionalStatement + FASTTLoopStatement',
+	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTConditionalStatement classTrait + FASTTLoopStatement classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
