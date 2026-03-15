@@ -356,7 +356,10 @@ TSFASTPythonImporter >> visitFormatSpecifier: aTSNode [
 TSFASTPythonImporter >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'statementBlock' asAliasOfField: 'body' ].
+	self onNextContextDo: [ :contextEntry |
+			contextEntry
+				add: 'statementBlock' asAliasOfField: 'body';
+				add: 'returnType' asAliasOfField: 'return_type' ].
 
 	^ (context anySatisfy: [ :entry | entry fastEntity isClassDefinition ])
 		  ifTrue: [ self handleNode: aNode kind: FASTPyMethodDefinition ]
@@ -686,6 +689,14 @@ TSFASTPythonImporter >> visitTuplePattern: aTSNode [
 	self onNextContextDo: [ :entry | entry add: 'patterns' asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode kind: FASTPyTuplePattern
+]
+
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitType: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: FASTPyType
 ]
 
 { #category : 'visiting' }

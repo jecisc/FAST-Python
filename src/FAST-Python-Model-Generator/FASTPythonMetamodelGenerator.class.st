@@ -640,6 +640,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #forStatementLeftOwner) comment: 'The for statement owner (if possible)').
 	((forStatement property: #left) comment: 'The identifier of the created local variable or tuple')
 	<>- ((expression property: #forStatementRightOwner) comment: 'The for statement owner (if possible)').
+	
+	(functionDefinition property: #returnType) <>- (type property: #parentFunctionDefinition).
 
 	((globalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
@@ -702,6 +704,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
+	
+	(type property: #expression) <>- (expression property: #parentType). "I am not 100% sure I should point to an expression because all of them cannot be a type."
 
 	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
 

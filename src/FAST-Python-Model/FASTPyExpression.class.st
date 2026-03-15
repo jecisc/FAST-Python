@@ -35,6 +35,7 @@
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentInterpolation` | `FASTPyExpression` | `expression` | `FASTPyInterpolation` | |
+| `parentType` | `FASTPyExpression` | `expression` | `FASTPyType` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `patternListOwner` | `FASTPyExpression` | `elements` | `FASTPyPatternList` | |
 | `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
@@ -83,6 +84,7 @@ Class {
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
+		'#parentType => FMOne type: #FASTPyType opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#patternListOwner => FMOne type: #FASTPyPatternList opposite: #elements',
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
@@ -659,6 +661,30 @@ FASTPyExpression >> parentInterpolationGroup [
 	<generated>
 	<navigation: 'ParentInterpolation'>
 	^ MooseSpecializedGroup with: self parentInterpolation
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentType [
+	"Relation named: #parentType type: #FASTPyType opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentType
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentType: anObject [
+
+	<generated>
+	parentType := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentTypeGroup [
+	<generated>
+	<navigation: 'ParentType'>
+	^ MooseSpecializedGroup with: self parentType
 ]
 
 { #category : 'accessing' }

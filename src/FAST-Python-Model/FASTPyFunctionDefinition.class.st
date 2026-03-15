@@ -12,6 +12,7 @@
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
 | `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
+| `returnType` | `FASTPyFunctionDefinition` | `parentFunctionDefinition` | `FASTPyType` | |
 | `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
 
 
@@ -30,6 +31,9 @@ Class {
 	#superclass : 'FASTPyStatement',
 	#traits : 'FASTPyTDefinition',
 	#classTraits : 'FASTPyTDefinition classTrait',
+	#instVars : [
+		'#returnType => FMOne type: #FASTPyType opposite: #parentFunctionDefinition'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -42,4 +46,26 @@ FASTPyFunctionDefinition class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyFunctionDefinition >> returnType [
+	"Relation named: #returnType type: #FASTPyType opposite: #parentFunctionDefinition"
+
+	<generated>
+	^ returnType
+]
+
+{ #category : 'accessing' }
+FASTPyFunctionDefinition >> returnType: anObject [
+
+	<generated>
+	returnType := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyFunctionDefinition >> returnTypeGroup [
+	<generated>
+	<navigation: 'ReturnType'>
+	^ MooseSpecializedGroup with: self returnType
 ]
