@@ -6,6 +6,8 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentFunctionDefinition` | `FASTPyType` | `returnType` | `FASTPyFunctionDefinition` | |
+| `parentyTypeAliasStatementAlias` | `FASTPyType` | `left` | `FASTPyTypeAliasStatement` | |
+| `parentyTypeAliasStatementType` | `FASTPyType` | `right` | `FASTPyTypeAliasStatement` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -20,7 +22,9 @@ Class {
 	#superclass : 'FASTPyEntity',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #parentType',
-		'#parentFunctionDefinition => FMOne type: #FASTPyFunctionDefinition opposite: #returnType'
+		'#parentFunctionDefinition => FMOne type: #FASTPyFunctionDefinition opposite: #returnType',
+		'#parentyTypeAliasStatementAlias => FMOne type: #FASTPyTypeAliasStatement opposite: #left',
+		'#parentyTypeAliasStatementType => FMOne type: #FASTPyTypeAliasStatement opposite: #right'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -80,4 +84,52 @@ FASTPyType >> parentFunctionDefinitionGroup [
 	<generated>
 	<navigation: 'ParentFunctionDefinition'>
 	^ MooseSpecializedGroup with: self parentFunctionDefinition
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentyTypeAliasStatementAlias [
+	"Relation named: #parentyTypeAliasStatementAlias type: #FASTPyTypeAliasStatement opposite: #left"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentyTypeAliasStatementAlias
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentyTypeAliasStatementAlias: anObject [
+
+	<generated>
+	parentyTypeAliasStatementAlias := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentyTypeAliasStatementAliasGroup [
+	<generated>
+	<navigation: 'ParentyTypeAliasStatementAlias'>
+	^ MooseSpecializedGroup with: self parentyTypeAliasStatementAlias
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentyTypeAliasStatementType [
+	"Relation named: #parentyTypeAliasStatementType type: #FASTPyTypeAliasStatement opposite: #right"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentyTypeAliasStatementType
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentyTypeAliasStatementType: anObject [
+
+	<generated>
+	parentyTypeAliasStatementType := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentyTypeAliasStatementTypeGroup [
+	<generated>
+	<navigation: 'ParentyTypeAliasStatementType'>
+	^ MooseSpecializedGroup with: self parentyTypeAliasStatementType
 ]

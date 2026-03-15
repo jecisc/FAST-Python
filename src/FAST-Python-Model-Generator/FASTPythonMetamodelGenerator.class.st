@@ -538,6 +538,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	tryStatement --|> statement.
 	tryStatement --|> tStatementBlock.
+	
+	typeAliasStatement --|> statement.
 
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
@@ -706,6 +708,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
 	
 	(type property: #expression) <>- (expression property: #parentType). "I am not 100% sure I should point to an expression because all of them cannot be a type."
+	
+	(typeAliasStatement property: #left) <>- (type property: #parentyTypeAliasStatementAlias).
+	(typeAliasStatement property: #right) <>- (type property: #parentyTypeAliasStatementType).
 
 	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
 
