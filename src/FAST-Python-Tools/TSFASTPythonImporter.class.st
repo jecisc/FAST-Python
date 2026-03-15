@@ -30,11 +30,26 @@ TSFASTPythonImporter >> handleBinaryOperator: aTSNode ofKind: aClass [
 	^ fastEntity
 ]
 
+{ #category : 'private' }
+TSFASTPythonImporter >> handleParameterNode: aTSNode name: aString [
+
+	| parameter |
+	parameter := self handleNode: aTSNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
+	parameter name: aString.
+	^ parameter
+]
+
 { #category : 'initialization' }
 TSFASTPythonImporter >> initialize [
 
 	super initialize.
 	self languageName: 'Py'
+]
+
+{ #category : 'testing' }
+TSFASTPythonImporter >> isInParameter: aNode [
+
+	^ #( parameters lambda_parameters typed_parameter typed_default_parameter default_parameter ) includes: aNode parent type
 ]
 
 { #category : 'visiting - skip' }
@@ -226,6 +241,24 @@ TSFASTPythonImporter >> visitDecorator: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyDecorator
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitDefaultParameter: aTSNode [
+
+	| children parameter |
+	children := aTSNode collectNamedChild.
+	parameter := children first accept: self.
+	
+	"We want the positions of the full parameter."
+	parameter startPos: (self characterPositionAtByte: aTSNode startByte) + 1.
+	parameter endPos: (self characterPositionAtByte: aTSNode endByte).
+
+	self pushContext: parameter node: aTSNode during: [
+			self setTopFieldTo: 'defaultValue'.
+			children second accept: self ].
+
+	^ parameter
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 
@@ -258,7 +291,7 @@ TSFASTPythonImporter >> visitDictionarySplat: aTSNode [
 TSFASTPythonImporter >> visitDictionarySplatPattern: aTSNode [
 	"In case we are a parameter we skip the children because it always is an identifier"
 
-	(#( parameters lambda_parameters ) includes: aTSNode parent type) ifTrue: [
+	(self isInParameter: aTSNode) ifTrue: [
 			| fastEntity |
 			fastEntity := self instantiateFastEntity: FASTPyDictionarySplatParameter from: aTSNode.
 			self topFastEntity addParameter: fastEntity.
@@ -397,28 +430,19 @@ TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
-	(#( parameters lambda_parameters ) includes: aNode parent type) ifTrue: [
-			| parameter |
-			parameter := self handleNode: aNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
-			parameter name: parameter sourceCode.
-			^ parameter ].
-
-	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
+	(self isInParameter: aNode) ifTrue: [ ^ self handleParameterNode: aNode name: (self sourceCodeOf: aNode) ]. "If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
 	(context anySatisfy: [ :entry |
 			 entry field = #name and: [
-					 { FASTPyMethodDefinition. FASTPyClassDefinition. FASTPyFunctionDefinition. FASTPyKeywordArgument } anySatisfy: [ :class | entry isOfFASTType: class ] ] ]) ifTrue: [ ^ self topFastEntity name: (self sourceCodeOf: aNode) ].
-				
-	 "If I am on the left side of an assignation then I am a variable."
-	(context top field = #left and: [ context top isOfFASTType: FASTPyAssignment ]) ifTrue: [
+					 {
+						 FASTPyMethodDefinition.
+						 FASTPyClassDefinition.
+						 FASTPyFunctionDefinition.
+						 FASTPyKeywordArgument } anySatisfy: [ :class | entry isOfFASTType: class ] ] ]) ifTrue: [ ^ self topFastEntity name: (self sourceCodeOf: aNode) ]. "If I am on the left side of an assignation then I am a variable."
+	(context top field = #left and: [ context top isOfFASTType: FASTPyAssignment ]) ifTrue: [ ^ self handleNode: aNode kind: FASTPyVariable ]. "In case we are in an alias, we edit the property alias of the last imported entity"
+	aNode parent type = #aliased_import ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ]. "Those statements points a variable"
+	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ]) ifTrue: [
 		^ self handleNode: aNode kind: FASTPyVariable ].
-	
-	"In case we are in an alias, we edit the property alias of the last imported entity"
-	(aNode parent type = #aliased_import) ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ].
 
-	"Those statements points a variable"
-	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ])
-		 ifTrue:  [ ^self handleNode: aNode kind: FASTPyVariable ].
-	
 	^ self handleNode: aNode
 ]
 
@@ -521,7 +545,7 @@ TSFASTPythonImporter >> visitListSplat: aTSNode [
 TSFASTPythonImporter >> visitListSplatPattern: aTSNode [
 	"In case we are a parameter we skip the children because it always is an identifier"
 
-	(#( parameters lambda_parameters ) includes: aTSNode parent type) ifTrue: [
+	(self isInParameter: aTSNode) ifTrue: [
 			| fastEntity |
 			fastEntity := self instantiateFastEntity: FASTPyListSplatParameter from: aTSNode.
 			self topFastEntity addParameter: fastEntity.
@@ -697,6 +721,44 @@ TSFASTPythonImporter >> visitType: aTSNode [
 	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
 
 	^ self handleNode: aTSNode kind: FASTPyType
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitTypedDefaultParameter: aTSNode [
+
+	| children parameter |
+	children := aTSNode collectNamedChild.
+	parameter := children first accept: self.
+	
+	"We want the positions of the full parameter."
+	parameter startPos: (self characterPositionAtByte: aTSNode startByte) + 1.
+	parameter endPos: (self characterPositionAtByte: aTSNode endByte).
+
+	self pushContext: parameter node: aTSNode during: [
+			self setTopFieldTo: 'type'.
+			children second accept: self.
+			self setTopFieldTo: 'defaultValue'.
+			children third accept: self ].
+
+	^ parameter
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitTypedParameter: aTSNode [
+
+	| children parameter |
+	children := aTSNode collectNamedChild.
+	parameter := children first accept: self.
+	
+	"We want the positions of the full parameter."
+	parameter startPos: (self characterPositionAtByte: aTSNode startByte) + 1.
+	parameter endPos: (self characterPositionAtByte: aTSNode endByte).
+
+	self pushContext: parameter node: aTSNode during: [
+			self setTopFieldTo: 'type'.
+			children second accept: self ].
+
+	^ parameter
 ]
 
 { #category : 'visiting' }

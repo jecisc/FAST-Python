@@ -9,6 +9,12 @@
 | `parameterOwner` | `FASTTVariableEntity` | `parameters` | `FASTTWithParameters` | parameterOwner|
 | `parentAssignmentExpression` | `FASTTVariableEntity` | `variable` | `FASTTAssignment` | Optional assignment to the variable|
 
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `defaultValue` | `FASTPyParameter` | `parentDefaultParameterValue` | `FASTPyExpression` | |
+| `type` | `FASTPyParameter` | `parentParameter` | `FASTPyType` | |
+
 
 ## Properties
 ======================
@@ -25,6 +31,10 @@ Class {
 	#superclass : 'FASTPyEntity',
 	#traits : 'FASTTVariableEntity',
 	#classTraits : 'FASTTVariableEntity classTrait',
+	#instVars : [
+		'#defaultValue => FMOne type: #FASTPyExpression opposite: #parentDefaultParameterValue',
+		'#type => FMOne type: #FASTPyType opposite: #parentParameter'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -37,4 +47,48 @@ FASTPyParameter class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyParameter >> defaultValue [
+	"Relation named: #defaultValue type: #FASTPyExpression opposite: #parentDefaultParameterValue"
+
+	<generated>
+	^ defaultValue
+]
+
+{ #category : 'accessing' }
+FASTPyParameter >> defaultValue: anObject [
+
+	<generated>
+	defaultValue := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyParameter >> defaultValueGroup [
+	<generated>
+	<navigation: 'DefaultValue'>
+	^ MooseSpecializedGroup with: self defaultValue
+]
+
+{ #category : 'accessing' }
+FASTPyParameter >> type [
+	"Relation named: #type type: #FASTPyType opposite: #parentParameter"
+
+	<generated>
+	^ type
+]
+
+{ #category : 'accessing' }
+FASTPyParameter >> type: anObject [
+
+	<generated>
+	type := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyParameter >> typeGroup [
+	<generated>
+	<navigation: 'Type'>
+	^ MooseSpecializedGroup with: self type
 ]

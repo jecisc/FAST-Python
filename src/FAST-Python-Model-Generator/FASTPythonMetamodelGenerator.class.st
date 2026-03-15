@@ -28,9 +28,7 @@ Class {
 		'conditionalExpression',
 		'constrainedType',
 		'continueStatement',
-		'decoratedDefinition',
 		'decorator',
-		'defaultParameter',
 		'deleteStatement',
 		'dictPattern',
 		'dictionary',
@@ -50,7 +48,6 @@ Class {
 		'forInClause',
 		'forStatement',
 		'formatExpression',
-		'formatSpecifier',
 		'functionDefinition',
 		'generatorExpression',
 		'genericType',
@@ -67,7 +64,6 @@ Class {
 		'keywordSeparator',
 		'lambda',
 		'lambdaParameters',
-		'lineContinuation',
 		'list',
 		'listComprehension',
 		'listPattern',
@@ -81,7 +77,6 @@ Class {
 		'notOperator',
 		'pair',
 		'parameter',
-		'parenthesizedExpression',
 		'parenthesizedListSplat',
 		'passStatement',
 		'patternList',
@@ -102,9 +97,6 @@ Class {
 		'type',
 		'typeAliasStatement',
 		'typeConversion',
-		'typeParameter',
-		'typedDefaultParameter',
-		'typedParameter',
 		'unaryOperator',
 		'unionPattern',
 		'unionType',
@@ -219,7 +211,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	constrainedType := builder ensureClassNamed: #ConstrainedType."Todo"
 	continueStatement := builder ensureClassNamed: #ContinueStatement.
 	decorator := builder ensureClassNamed: #Decorator."Todo"
-	defaultParameter := builder ensureClassNamed: #DefaultParameter."Todo"
 	deleteStatement := builder ensureClassNamed: #DeleteStatement.
 	dictPattern := builder ensureClassNamed: #DictPattern."Todo"
 	dictionary := builder ensureClassNamed: #Dictionary."To Review"
@@ -299,9 +290,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	type := builder ensureClassNamed: #Type."Todo"
 	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement."Todo"
 	typeConversion := builder ensureClassNamed: #TypeConversion."Todo"
-	typeParameter := builder ensureClassNamed: #TypeParameter."Todo"
-	typedDefaultParameter := builder ensureClassNamed: #TypedDefaultParameter."Todo"
-	typedParameter := builder ensureClassNamed: #TypedParameter."Todo"
 	unaryOperator := builder ensureClassNamed: #UnaryOperator.
 	unionPattern := builder ensureClassNamed: #UnionPattern."Todo"
 	unionType := builder ensureClassNamed: #UnionType."Todo"
@@ -674,6 +662,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #key) <>- (expression property: #pairKeyOwner).
 
 	(pair property: #value) <>- (expression property: #pairValueOwner).
+	
+	(parameter property: #type) <>- (type property: #parentParameter).
+	
+	(parameter property: #defaultValue) <>- (expression property: #parentDefaultParameterValue). "I need to refine the relation with a new trait."
 
 	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 

@@ -31,6 +31,7 @@
 | `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
+| `parentDefaultParameterValue` | `FASTPyExpression` | `defaultValue` | `FASTPyParameter` | |
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
@@ -83,6 +84,7 @@ Class {
 		'#parentAssignmentRight => FMOne type: #FASTPyAssignment opposite: #right',
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
+		'#parentDefaultParameterValue => FMOne type: #FASTPyParameter opposite: #defaultValue',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentType => FMOne type: #FASTPyType opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
@@ -637,6 +639,30 @@ FASTPyExpression >> parentComparisonOperatorGroup [
 	<generated>
 	<navigation: 'ParentComparisonOperator'>
 	^ MooseSpecializedGroup with: self parentComparisonOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentDefaultParameterValue [
+	"Relation named: #parentDefaultParameterValue type: #FASTPyParameter opposite: #defaultValue"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentDefaultParameterValue
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentDefaultParameterValue: anObject [
+
+	<generated>
+	parentDefaultParameterValue := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentDefaultParameterValueGroup [
+	<generated>
+	<navigation: 'ParentDefaultParameterValue'>
+	^ MooseSpecializedGroup with: self parentDefaultParameterValue
 ]
 
 { #category : 'accessing' }

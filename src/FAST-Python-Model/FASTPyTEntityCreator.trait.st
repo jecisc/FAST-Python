@@ -217,13 +217,6 @@ FASTPyTEntityCreator >> newDecorator [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newDefaultParameter [
-
-	<generated>
-	^ self add: FASTPyDefaultParameter new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newDeleteStatement [
 
 	<generated>
@@ -781,27 +774,6 @@ FASTPyTEntityCreator >> newTypeConversion [
 
 	<generated>
 	^ self add: FASTPyTypeConversion new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newTypeParameter [
-
-	<generated>
-	^ self add: FASTPyTypeParameter new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newTypedDefaultParameter [
-
-	<generated>
-	^ self add: FASTPyTypedDefaultParameter new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newTypedParameter [
-
-	<generated>
-	^ self add: FASTPyTypedParameter new
 ]
 
 { #category : 'entity creation' }
