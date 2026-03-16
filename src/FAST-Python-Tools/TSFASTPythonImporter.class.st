@@ -33,7 +33,7 @@ TSFASTPythonImporter >> handleBinaryOperator: aTSNode ofKind: aClass [
 { #category : 'private' }
 TSFASTPythonImporter >> handleCollectionNode: aTSNode kind: aFASTClass [
 
-	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #initializers ].
 
 	^ self handleNode: aTSNode kind: aFASTClass
 ]
@@ -80,7 +80,7 @@ TSFASTPythonImporter >> visitAsPattern: aTSNode [
 	self onNextContextDo: [ :entry |
 			entry
 				add: 'target' asAliasOfField: 'alias';
-				add: 'source' asAliasOfField: '<unnamedChild>' ].
+				aliasUnnamedFieldAs: 'source' ].
 
 	^ self handleNode: aTSNode kind: FASTPyAsPattern
 ]
@@ -95,7 +95,7 @@ TSFASTPythonImporter >> visitAsPatternTarget: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expressions asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expressions ].
 
 	^ self handleNode: aTSNode kind: FASTPyAssertStatement
 ]
@@ -109,7 +109,7 @@ TSFASTPythonImporter >> visitAttribute: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitAwait: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
 	^ self handleNode: aTSNode kind: FASTPyAwait
 ]
@@ -123,16 +123,22 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBlock: aTSNode [
 
-	(context top isOfFASTType: FASTPyMatchStatement) ifTrue: [ ^ self rawVisitChildren: aTSNode "In case of a match, we only have case_clause inside and nothing else so we skip the block node." ].
+	(context top isOfFASTType: FASTPyMatchStatement) ifTrue: [
+		^ self rawVisitChildren: aTSNode "In case of a match, we only have case_clause inside and nothing else so we skip the block node." ].
 
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'statements' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :contextEntry | contextEntry aliasUnnamedFieldAs: 'statements' ].
 
 	aTSNode parent type = #else_clause ifTrue: [
 		^ self handleNode: aTSNode kind: FASTPyElseClause parentBlock: [ :entity | self topFastEntity elseClause: entity ] ].
 
 	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self handleNode: aTSNode kind: FASTPyThenClause ].
 
-	({  FASTPyElifClause. FASTPyWithStatement. FASTPyTryStatement. FASTPyExceptClause. FASTPyCaseClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
+	({
+		 FASTPyElifClause.
+		 FASTPyWithStatement.
+		 FASTPyTryStatement.
+		 FASTPyExceptClause.
+		 FASTPyCaseClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
 			self setTopFieldTo: #statements. "We manually update the field to bypass the block and"
 			^ self rawVisitChildren: aTSNode ].
 
@@ -155,6 +161,8 @@ TSFASTPythonImporter >> visitCall: aTSNode [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitCaseClause: aTSNode [
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'pattern' ].
 
 	^ self handleNode: aTSNode kind: FASTPyCaseClause parentBlock: [ :entity | self topFastEntity addCase: entity ]
 ]
@@ -184,13 +192,12 @@ TSFASTPythonImporter >> visitComment: aTSNode [
 TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 
 	| fastEntity |
-	self onNextContextDo: [ :contextEntry | contextEntry add: 'operands' asAliasOfField: '<unnamedChild>' ].
-	
-	fastEntity := self handleNode: aTSNode.
-	
-	"The node does not gives us the operators so we try to get them ourselves."
+	self onNextContextDo: [ :contextEntry | contextEntry aliasUnnamedFieldAs: 'operands' ].
+
+	fastEntity := self handleNode: aTSNode. "The node does not gives us the operators so we try to get them ourselves."
 	fastEntity operators:
-		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ]) asArray.
+		(fastEntity operands overlappingPairsCollect: [ :operand1 :operand2 | (fastEntity sourceText copyFrom: operand1 endPos + 1 to: operand2 startPos - 1) trim ])
+			asArray.
 
 	^ fastEntity
 ]
@@ -198,15 +205,15 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitComprehension: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'clauses' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'clauses' ].
 
-	^ self handleNode: aTSNode 
+	^ self handleNode: aTSNode
 ]
 
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitConcatenatedString: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #strings asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #strings ].
 
 	^ self handleNode: aTSNode kind: FASTPyConcatenatedString
 ]
@@ -251,7 +258,7 @@ TSFASTPythonImporter >> visitDecoratedDefinition: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitDecorator: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
 	^ self handleNode: aTSNode kind: FASTPyDecorator
 ]
@@ -277,7 +284,7 @@ TSFASTPythonImporter >> visitDefaultParameter: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
 	^ self handleNode: aTSNode kind: FASTPyDeleteStatement
 ]
@@ -303,7 +310,7 @@ TSFASTPythonImporter >> visitDictionaryPattern: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitDictionarySplat: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'expression' ].
 
 	^ self handleNode: aTSNode kind: FASTPyDictionarySplat
 ]
@@ -389,7 +396,7 @@ TSFASTPythonImporter >> visitExceptClause: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitExpressionList: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'expressions' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'expressions' ].
 
 	^ self handleNode: aTSNode kind: FASTPyExpressionList
 ]
@@ -443,7 +450,7 @@ TSFASTPythonImporter >> visitGeneratorExpression: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'variables' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'variables' ].
 
 	^ self handleNode: aTSNode kind: FASTPyGlobalStatement
 ]
@@ -470,7 +477,7 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitIfClause: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'expression' ].
 
 	^ self handleNode: aTSNode kind: FASTPyIfClause
 ]
@@ -563,7 +570,7 @@ TSFASTPythonImporter >> visitListPattern: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitListSplat: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'expression' ].
 
 	^ self handleNode: aTSNode kind: FASTPyListSplat
 ]
@@ -585,7 +592,7 @@ TSFASTPythonImporter >> visitListSplatPattern: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitModule: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'statements' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'statements' ].
 
 	^ self handleNode: aTSNode kind: FASTPyModule
 ]
@@ -593,7 +600,7 @@ TSFASTPythonImporter >> visitModule: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'variables' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'variables' ].
 
 	^ self handleNode: aTSNode kind: FASTPyNonlocalStatement
 ]
@@ -615,7 +622,7 @@ TSFASTPythonImporter >> visitParenthesizedExpression: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitPatternList: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'elements' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'elements' ].
 
 	^ self handleNode: aTSNode kind: FASTPyPatternList
 ]
@@ -631,7 +638,7 @@ TSFASTPythonImporter >> visitPrintStatement: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitRaiseStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #exception asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #exception ].
 
 	^ self handleNode: aTSNode kind: FASTPyRaiseStatement
 ]
@@ -664,7 +671,7 @@ TSFASTPythonImporter >> visitSetComprehension: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitSlice: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'components' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'components' ].
 
 	^ self handleNode: aTSNode kind: FASTPySlice
 ]
@@ -672,7 +679,7 @@ TSFASTPythonImporter >> visitSlice: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
 	^ self handleNode: aTSNode
 ]
@@ -680,7 +687,7 @@ TSFASTPythonImporter >> visitStatement: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitString: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #interpolations asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #interpolations ].
 
 	^ self handleNode: aTSNode kind: FASTPyString
 ]
@@ -729,7 +736,7 @@ TSFASTPythonImporter >> visitTuple: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitTupleExpression: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #initializers ].
 
 	^ self handleNode: aTSNode kind: FASTPyTuple
 ]
@@ -743,7 +750,7 @@ TSFASTPythonImporter >> visitTuplePattern: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitType: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: #expression asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
 	^ self handleNode: aTSNode kind: FASTPyType
 ]
@@ -825,7 +832,7 @@ TSFASTPythonImporter >> visitWithItem: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitWithStatement: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'items' asAliasOfField: '<unnamedChild>' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'items' ].
 
 	^ self handleNode: aTSNode kind: FASTPyWithStatement
 ]
