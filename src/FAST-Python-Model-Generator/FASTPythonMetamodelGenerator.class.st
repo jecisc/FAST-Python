@@ -92,7 +92,6 @@ Class {
 		'subscript',
 		'tryStatement',
 		'tuple',
-		'tuplePattern',
 		'type',
 		'typeAliasStatement',
 		'typeConversion',
@@ -283,7 +282,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	thenClause := builder ensureClassNamed: #ThenClause.
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
 	tuple := builder ensureClassNamed: #Tuple."To Review"
-	tuplePattern := builder ensureClassNamed: #TuplePattern.
 	type := builder ensureClassNamed: #Type."Todo"
 	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement."Todo"
 	typeConversion := builder ensureClassNamed: #TypeConversion."Todo"
@@ -525,9 +523,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	tuple --|> collectionInitializer.
 	tuple --|> tAsPatternTarget.
-	
-	tuplePattern --|> expression. "TO REVIEW. This might be wrong."
-	tuplePattern --|> tAssignable.
+	tuple --|> tAssignable.
 	
 	tryStatement --|> statement.
 	tryStatement --|> tStatementBlock.
@@ -705,8 +701,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tryStatement property: #excepts) <>-* (exceptClause property: #parentTryStatement).
 
 	(tSplatParameter property: #target) <>- (tSplatParameterTarget property: #parentSplatParameter).
-
-	(tuplePattern property: #patterns) <>-* (expression property: #tuplePatternOwner).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').

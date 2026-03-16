@@ -728,13 +728,6 @@ FASTPyTEntityCreator >> newTuple [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newTuplePattern [
-
-	<generated>
-	^ self add: FASTPyTuplePattern new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newType [
 
 	<generated>

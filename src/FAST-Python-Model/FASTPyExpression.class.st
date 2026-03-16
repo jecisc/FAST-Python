@@ -45,7 +45,6 @@
 | `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
 | `subscriptIndiceOwner` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
 | `subscriptValueOwner` | `FASTPyExpression` | `value` | `FASTPySubscript` | My parent if I define the receiver of a subscript (if it's the case).|
-| `tuplePatternOwner` | `FASTPyExpression` | `patterns` | `FASTPyTuplePattern` | |
 
 
 ## Properties
@@ -94,8 +93,7 @@ Class {
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
 		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
 		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
-		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value',
-		'#tuplePatternOwner => FMOne type: #FASTPyTuplePattern opposite: #patterns'
+		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -881,27 +879,4 @@ FASTPyExpression >> subscriptValueOwnerGroup [
 	<generated>
 	<navigation: 'SubscriptValueOwner'>
 	^ MooseSpecializedGroup with: self subscriptValueOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> tuplePatternOwner [
-	"Relation named: #tuplePatternOwner type: #FASTPyTuplePattern opposite: #patterns"
-
-	<generated>
-	<container>
-	^ tuplePatternOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> tuplePatternOwner: anObject [
-
-	<generated>
-	tuplePatternOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> tuplePatternOwnerGroup [
-	<generated>
-	<navigation: 'TuplePatternOwner'>
-	^ MooseSpecializedGroup with: self tuplePatternOwner
 ]

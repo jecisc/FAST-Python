@@ -76,7 +76,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTReturnReferenceable.
 		  FASTPyTAssignable.
 		  FASTPyTSplatParameter.
-		  FASTPyTSplatParameterTarget }
+		  FASTPyTSplatParameterTarget.
+		  FASTPyTPattern }
 ]
 
 { #category : 'running' }
@@ -1051,7 +1052,7 @@ FASTPythonImporterTest >> testAssignmentInTuple [
 	self assert: (fast allWithType: FASTPyAssignment) size equals: 1.
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyTuplePattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '(a, b) = x'.
@@ -1062,17 +1063,17 @@ FASTPythonImporterTest >> testAssignmentInTuple [
 
 		stack push: self topEntity left.
 		self assert: self topEntity sourceCode equals: '(a, b)'.
-		self assert: (self topEntity isOfType: FASTPyTuplePattern).
+		self assert: (self topEntity isOfType: FASTPyTuple).
 		
-		"Testing value of multivalued relation patterns"
-		self assert: self topEntity patterns size equals: 2.
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 2.
 		
-			stack push: (stack top patterns at: 1).
+			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: 'a'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-			stack push: (stack top patterns at: 2).
+			stack push: (stack top initializers at: 2).
 			self assert: self topEntity sourceCode equals: 'b'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
@@ -1437,6 +1438,7 @@ FASTPythonImporterTest >> testBreakStatement [
 	self assert: self topEntity sourceCode equals: 'while True:
 	break' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
@@ -2601,6 +2603,7 @@ FASTPythonImporterTest >> testContinueStatement [
 	self assert: self topEntity sourceCode equals: 'while True:
 	continue' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
@@ -4820,7 +4823,7 @@ FASTPythonImporterTest >> testForStatementWithForInClauseAndTuplePattern [
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 8.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
-	self assert: (fast allWithType: FASTPyTuplePattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'for idx, (heights, widths) in data:
@@ -4891,17 +4894,17 @@ FASTPythonImporterTest >> testForStatementWithForInClauseAndTuplePattern [
 		
 			stack push: (stack top elements at: 2).
 			self assert: self topEntity sourceCode equals: '(heights, widths)'.
-			self assert: (self topEntity isOfType: FASTPyTuplePattern).
+			self assert: (self topEntity isOfType: FASTPyTuple).
 			
-			"Testing value of multivalued relation patterns"
-			self assert: self topEntity patterns size equals: 2.
+			"Testing value of multivalued relation initializers"
+			self assert: self topEntity initializers size equals: 2.
 			
-				stack push: (stack top patterns at: 1).
+				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: 'heights'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-				stack push: (stack top patterns at: 2).
+				stack push: (stack top initializers at: 2).
 				self assert: self topEntity sourceCode equals: 'widths'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
@@ -13469,7 +13472,7 @@ FASTPythonImporterTest >> testTypeTrue [
 FASTPythonImporterTest >> testTypeTuple [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
-	Regenerate executing: 	self regenerateTest: #testTypeTyple 	"
+	Regenerate executing: 	self regenerateTest: #testTypeTuple 	"
 
 	self parse: 'def func() -> (1, ): pass'.
 
@@ -13767,6 +13770,7 @@ FASTPythonImporterTest >> testWhile [
 	self assert: self topEntity sourceCode equals: 'while True:
 	break' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyWhileStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTConditionalStatement).
 	self assert: (self topEntity isOfType: FASTTLoopStatement).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
