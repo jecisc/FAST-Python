@@ -13,6 +13,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `pattern` | `FASTPyCaseClause` | `parentCaseClause` | `FASTPyTPattern` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
@@ -31,7 +32,8 @@ Class {
 	#traits : 'FASTTStatementBlock',
 	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
-		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #cases'
+		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #cases',
+		'#pattern => FMOne type: #FASTPyTPattern opposite: #parentCaseClause'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -68,4 +70,26 @@ FASTPyCaseClause >> parentMatchStatementGroup [
 	<generated>
 	<navigation: 'ParentMatchStatement'>
 	^ MooseSpecializedGroup with: self parentMatchStatement
+]
+
+{ #category : 'accessing' }
+FASTPyCaseClause >> pattern [
+	"Relation named: #pattern type: #FASTPyTPattern opposite: #parentCaseClause"
+
+	<generated>
+	^ pattern
+]
+
+{ #category : 'accessing' }
+FASTPyCaseClause >> pattern: anObject [
+
+	<generated>
+	pattern := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyCaseClause >> patternGroup [
+	<generated>
+	<navigation: 'Pattern'>
+	^ MooseSpecializedGroup with: self pattern
 ]

@@ -217,13 +217,6 @@ FASTPyTEntityCreator >> newDeleteStatement [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newDictPattern [
-
-	<generated>
-	^ self add: FASTPyDictPattern new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newDictionary [
 
 	<generated>
@@ -508,13 +501,6 @@ FASTPyTEntityCreator >> newListComprehension [
 
 	<generated>
 	^ self add: FASTPyListComprehension new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newListPattern [
-
-	<generated>
-	^ self add: FASTPyListPattern new
 ]
 
 { #category : 'entity creation' }

@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
 | `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
 
 ### Children
@@ -18,8 +19,8 @@
 Class {
 	#name : 'FASTPyCollectionInitializer',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTSplatExpression',
-	#classTraits : 'FASTPyTSplatExpression classTrait',
+	#traits : 'FASTPyTPattern + FASTPyTSplatExpression',
+	#classTraits : 'FASTPyTPattern classTrait + FASTPyTSplatExpression classTrait',
 	#instVars : [
 		'#initializers => FMMany type: #FASTPyExpression opposite: #collectionInitializer'
 	],

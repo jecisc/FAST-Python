@@ -152,7 +152,8 @@ Class {
 		'listSplatParameter',
 		'tSplatParameterTarget',
 		'tSplatParameter',
-		'dictionarySplatParameter'
+		'dictionarySplatParameter',
+		'tPattern'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -210,7 +211,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	continueStatement := builder ensureClassNamed: #ContinueStatement.
 	decorator := builder ensureClassNamed: #Decorator."Todo"
 	deleteStatement := builder ensureClassNamed: #DeleteStatement.
-	dictPattern := builder ensureClassNamed: #DictPattern."Todo"
 	dictionary := builder ensureClassNamed: #Dictionary."To Review"
 	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
 	dictionarySplat := builder ensureClassNamed: #DictionarySplat."Todo"
@@ -251,7 +251,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	lambdaParameters := builder ensureClassNamed: #LambdaParameters."Todo"
 	list := builder ensureClassNamed: #List.
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
-	listPattern := builder ensureClassNamed: #ListPattern."Todo"
 	listSplat := builder ensureClassNamed: #ListSplat."To Review"
 	listSplatParameter := builder ensureClassNamed: #ListSplatParameter."Todo"
 	literal := builder ensureClassNamed: #Literal.
@@ -284,7 +283,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	thenClause := builder ensureClassNamed: #ThenClause.
 	tryStatement := builder ensureClassNamed: #TryStatement."Todo"
 	tuple := builder ensureClassNamed: #Tuple."To Review"
-	tuplePattern := builder ensureClassNamed: #TuplePattern."Todo"
+	tuplePattern := builder ensureClassNamed: #TuplePattern.
 	type := builder ensureClassNamed: #Type."Todo"
 	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement."Todo"
 	typeConversion := builder ensureClassNamed: #TypeConversion."Todo"
@@ -352,6 +351,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	collectionInitializer --|> expression.
 	collectionInitializer --|> tSplatExpression.
+	collectionInitializer --|> tPattern.
 	
 	collectionSplat --|> expression.
 
@@ -456,6 +456,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	literal --|> expression.
 	literal --|> tLiteral.
+	literal --|> tPattern.
 	
 	matchStatement --|> statement.
 
@@ -604,6 +605,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((call property: #callee) comment:
 		 'I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...')
 	<>- ((expression property: #caller) comment: 'The call entity calling me (if it''s the case)').
+	
+	(caseClause property: #pattern) <>-(tPattern property: #parentCaseClause).
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
@@ -728,18 +731,33 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	
 	"FAST-Python"
 	tAsPatternTarget := (builder newTraitNamed: #TAsPatternTarget) comment: 'I represent an entity that could be the alias/target of an as pattern.'.
+
 	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
+
 	(tAssignable := builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
-	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
-	(tSplatParameter := builder newTraitNamed: #TSplatParameter) comment: 'I represent a parameter that is a list or dictionary splat.'.
-	tSplatParameterTarget := (builder newTraitNamed: #TSplatParameterTarget) comment: 'My users are parameter target in a splat. For example in `def f(*list): pass`, we have a list splat parameter named list.'.
+
 	tComprehension := builder newTraitNamed: #TComprehension.
+
 	tDefinition := builder newTraitNamed: #TDefinition.
+
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
+	
+	(tPattern := builder newTraitNamed: #TPattern) comment: 'I represent an entity that can be the pattern of a case clause in a match statement..'.
+
 	(tRaised := builder newTraitNamed: #TRaised) comment: 'I represent an expression that can give an exception to raise in a raise statement.'.
+
 	((tReturnReferenceable := builder newTraitNamed: #TReturnReferenceable) comment: 'Lot of relations in python points to references. And some nodes can return lot of those references such as call, subscript, tuple, attribute. I am here to group those dependences.').
+
+	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
+
+	(tSplatParameter := builder newTraitNamed: #TSplatParameter) comment: 'I represent a parameter that is a list or dictionary splat.'.
+
+	tSplatParameterTarget := (builder newTraitNamed: #TSplatParameterTarget) comment: 'My users are parameter target in a splat. For example in `def f(*list): pass`, we have a list splat parameter named list.'.
+
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
+
 	tWithStatementItem := (builder newTraitNamed: #TWithStatementItem) comment: 'I represent an entity that can be the item of a with_statement.'.
+
 	tWithElseClause := builder newTraitNamed: #TWithElseClause.
 	
 	"Remotes"
