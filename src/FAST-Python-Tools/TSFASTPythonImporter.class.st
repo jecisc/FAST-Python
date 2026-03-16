@@ -31,6 +31,14 @@ TSFASTPythonImporter >> handleBinaryOperator: aTSNode ofKind: aClass [
 ]
 
 { #category : 'private' }
+TSFASTPythonImporter >> handleCollectionNode: aTSNode kind: aFASTClass [
+
+	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
+
+	^ self handleNode: aTSNode kind: aFASTClass
+]
+
+{ #category : 'private' }
 TSFASTPythonImporter >> handleParameterNode: aTSNode name: aString [
 
 	| parameter |
@@ -166,14 +174,6 @@ TSFASTPythonImporter >> visitClassDefinition: aNode [
 	^ self handleNode: aNode kind: FASTPyClassDefinition
 ]
 
-{ #category : 'visiting - alias' }
-TSFASTPythonImporter >> visitCollection: aTSNode [
-
-	self onNextContextDo: [ :entry | entry add: #initializers asAliasOfField: '<unnamedChild>' ].
-
-	^ self handleNode: aTSNode
-]
-
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitComment: aTSNode [
 
@@ -285,13 +285,19 @@ TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDictionary: aTSNode [
 
-	^ self visitCollection: aTSNode
+	^ self handleCollectionNode: aTSNode kind: FASTPyDictionary
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDictionaryComprehension: aTSNode [
 
 	^ self visitComprehension: aTSNode
+]
+
+{ #category : 'visiting - redirect' }
+TSFASTPythonImporter >> visitDictionaryPattern: aTSNode [
+
+	^ self visitDictionary: aTSNode
 ]
 
 { #category : 'visiting - alias' }
@@ -539,13 +545,19 @@ TSFASTPythonImporter >> visitLineContinuation: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitList: aTSNode [
 
-	^ self visitCollection: aTSNode
+	^ self handleCollectionNode: aTSNode kind: FASTPyList
 ]
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitListComprehension: aTSNode [
 
 	^ self visitComprehension: aTSNode
+]
+
+{ #category : 'visiting - redirect' }
+TSFASTPythonImporter >> visitListPattern: aTSNode [
+
+	^ self visitList: aTSNode
 ]
 
 { #category : 'visiting - alias' }
@@ -640,7 +652,7 @@ TSFASTPythonImporter >> visitReturnStatement: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitSet: aTSNode [
 
-	^ self visitCollection: aTSNode
+	^ self handleCollectionNode: aTSNode kind: FASTPySet
 ]
 
 { #category : 'visiting' }
@@ -711,7 +723,7 @@ TSFASTPythonImporter >> visitTrue: aNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitTuple: aTSNode [
 
-	^ self visitCollection: aTSNode
+	^ self handleCollectionNode: aTSNode kind: FASTPyTuple
 ]
 
 { #category : 'visiting - alias' }
@@ -722,12 +734,10 @@ TSFASTPythonImporter >> visitTupleExpression: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyTuple
 ]
 
-{ #category : 'visiting - alias' }
+{ #category : 'visiting - redirect' }
 TSFASTPythonImporter >> visitTuplePattern: aTSNode [
 
-	self onNextContextDo: [ :entry | entry add: 'initializers' asAliasOfField: '<unnamedChild>' ].
-
-	^ self handleNode: aTSNode kind: FASTPyTuple
+	^ self visitTuple: aTSNode
 ]
 
 { #category : 'visiting - alias' }
