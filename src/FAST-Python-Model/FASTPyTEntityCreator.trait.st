@@ -112,13 +112,6 @@ FASTPyTEntityCreator >> newCaseClause [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newCasePattern [
-
-	<generated>
-	^ self add: FASTPyCasePattern new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newChevron [
 
 	<generated>

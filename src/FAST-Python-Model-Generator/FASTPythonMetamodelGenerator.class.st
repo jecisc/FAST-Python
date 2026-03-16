@@ -17,7 +17,6 @@ Class {
 		'breakStatement',
 		'call',
 		'caseClause',
-		'casePattern',
 		'chevron',
 		'classDefinition',
 		'classPattern',
@@ -195,7 +194,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	breakStatement := builder ensureClassNamed: #BreakStatement.
 	call := builder ensureClassNamed: #Call."Todo"
 	caseClause := builder ensureClassNamed: #CaseClause."Todo"
-	casePattern := builder ensureClassNamed: #CasePattern."Todo"
 	chevron := builder ensureClassNamed: #Chevron."Todo"
 	classDefinition := builder ensureClassNamed: #ClassDefinition."ToReview"
 	classDefinition withTesting.
@@ -346,6 +344,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tInvocation.
 	call --|> tReturnReferenceable.
 	call --|> tWithStatementItem.
+	
+	caseClause --|> tStatementBlock.
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
@@ -389,6 +389,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	ellipsis --|> literal.
 	
 	exceptClause --|> tStatementBlock.
+	
+	execStatement --|> statement.
 
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
@@ -454,6 +456,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	literal --|> expression.
 	literal --|> tLiteral.
+	
+	matchStatement --|> statement.
 
 	methodDefinition --|> statement.
 	methodDefinition --|> tDefinition.
@@ -656,6 +660,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
 
 	(lambda property: #expression) <>- (expression property: #lambdaOwner).
+	
+	(matchStatement property: #subject) <>- (expression property: #parentMatchStatement).
+	
+	(matchStatement property: #cases) <>-* (caseClause property: #parentMatchStatement).
 	
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').

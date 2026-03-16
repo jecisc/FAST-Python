@@ -115,6 +115,8 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBlock: aTSNode [
 
+	(context top isOfFASTType: FASTPyMatchStatement) ifTrue: [ ^ self rawVisitChildren: aTSNode "In case of a match, we only have case_clause inside and nothing else so we skip the block node." ].
+
 	self onNextContextDo: [ :contextEntry | contextEntry add: 'statements' asAliasOfField: '<unnamedChild>' ].
 
 	aTSNode parent type = #else_clause ifTrue: [
@@ -122,7 +124,7 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 
 	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self handleNode: aTSNode kind: FASTPyThenClause ].
 
-	({  FASTPyElifClause. FASTPyWithStatement. FASTPyTryStatement. FASTPyExceptClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
+	({  FASTPyElifClause. FASTPyWithStatement. FASTPyTryStatement. FASTPyExceptClause. FASTPyCaseClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
 			self setTopFieldTo: #statements. "We manually update the field to bypass the block and"
 			^ self rawVisitChildren: aTSNode ].
 
@@ -141,6 +143,19 @@ TSFASTPythonImporter >> visitCall: aTSNode [
 	self onNextContextDo: [ :entry | entry add: 'callee' asAliasOfField: 'function' ].
 
 	^ self handleNode: aTSNode kind: FASTPyCall
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitCaseClause: aTSNode [
+
+	^ self handleNode: aTSNode kind: FASTPyCaseClause parentBlock: [ :entity | self topFastEntity addCase: entity ]
+]
+
+{ #category : 'visiting - skip' }
+TSFASTPythonImporter >> visitCasePattern: aTSNode [
+	"We skip this node to put the content in the case_clause."
+
+	^ self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - alias' }

@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyExecStatement',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyStatement',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyExecStatement class >> annotation [
 
-	<FMClass: #ExecStatement super: #FASTPyEntity>
+	<FMClass: #ExecStatement super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
