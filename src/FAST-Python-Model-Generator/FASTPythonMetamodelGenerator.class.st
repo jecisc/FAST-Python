@@ -152,7 +152,8 @@ Class {
 		'tSplatParameterTarget',
 		'tSplatParameter',
 		'dictionarySplatParameter',
-		'tPattern'
+		'tPattern',
+		'tClassPatternElement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -346,6 +347,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
+	
+	classPattern --|> tPattern.
 
 	collectionInitializer --|> expression.
 	collectionInitializer --|> tSplatExpression.
@@ -380,6 +383,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	dictionarySplatParameter --|> tSplatParameter.
 	
 	dottedName --|> tPattern.
+	dottedName --|> tClassPatternElement.
 
 	elseClause --|> block.
 
@@ -436,6 +440,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	keywordArgument --|> expression.
 	keywordArgument --|> tNamedEntity.
+	
+	keywordPattern --|> tClassPatternElement.
 	
 	keywordSeparator --|> tVariableEntity. "I'm not fan because they cannot be in assignation but that will do for now."
 	
@@ -611,6 +617,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((expression property: #caller) comment: 'The call entity calling me (if it''s the case)').
 	
 	(caseClause property: #pattern) <>-(tPattern property: #parentCaseClause).
+	
+	(classPattern property: #elements) <>-* (tClassPatternElement property: #parentClassPattern).
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
@@ -737,6 +745,8 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
 
 	(tAssignable := builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
+	
+	(tClassPatternElement := builder newTraitNamed: #TClassPatternElement) comment: 'I represent the elements of a class pattern in python pattern matcher. The first element is the class name, the others the arguments.'.
 
 	tComprehension := builder newTraitNamed: #TComprehension.
 

@@ -74,7 +74,7 @@ TSFASTPythonImporter >> visitArgumentList: aTSNode [
 	self rawVisitChildren: aTSNode
 ]
 
-{ #category : 'visiting - alias' }
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitAsPattern: aTSNode [
 
 	aTSNode parent type = #case_pattern ifTrue: [
@@ -189,6 +189,14 @@ TSFASTPythonImporter >> visitClassDefinition: aNode [
 	self onNextContextDo: [ :entry | entry add: 'statementBlock' asAliasOfField: 'body' ].
 
 	^ self handleNode: aNode kind: FASTPyClassDefinition
+]
+
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitClassPattern: aNode [
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #elements ].
+
+	^ self handleNode: aNode kind: FASTPyClassPattern
 ]
 
 { #category : 'visiting' }

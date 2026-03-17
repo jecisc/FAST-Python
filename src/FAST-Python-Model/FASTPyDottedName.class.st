@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
+| `parentClassPattern` | `FASTPyTClassPatternElement` | `elements` | `FASTPyClassPattern` | |
 
 
 ## Properties
@@ -19,8 +20,8 @@
 Class {
 	#name : 'FASTPyDottedName',
 	#superclass : 'FASTPyEntity',
-	#traits : 'FASTPyTPattern',
-	#classTraits : 'FASTPyTPattern classTrait',
+	#traits : 'FASTPyTClassPatternElement + FASTPyTPattern',
+	#classTraits : 'FASTPyTClassPatternElement classTrait + FASTPyTPattern classTrait',
 	#instVars : [
 		'#identifiers => FMProperty'
 	],

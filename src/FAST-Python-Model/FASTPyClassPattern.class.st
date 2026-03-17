@@ -1,6 +1,28 @@
+"
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `elements` | `FASTPyClassPattern` | `parentClassPattern` | `FASTPyTClassPatternElement` | |
+
+
+
+"
 Class {
 	#name : 'FASTPyClassPattern',
 	#superclass : 'FASTPyEntity',
+	#traits : 'FASTPyTPattern',
+	#classTraits : 'FASTPyTPattern classTrait',
+	#instVars : [
+		'#elements => FMMany type: #FASTPyTClassPatternElement opposite: #parentClassPattern'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -13,4 +35,33 @@ FASTPyClassPattern class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FASTPyClassPattern >> addElement: anObject [
+	<generated>
+	^ self elements add: anObject
+]
+
+{ #category : 'accessing' }
+FASTPyClassPattern >> elements [
+	"Relation named: #elements type: #FASTPyTClassPatternElement opposite: #parentClassPattern"
+
+	<generated>
+	<derived>
+	^ elements
+]
+
+{ #category : 'accessing' }
+FASTPyClassPattern >> elements: anObject [
+
+	<generated>
+	elements value: anObject
+]
+
+{ #category : 'navigation' }
+FASTPyClassPattern >> elementsGroup [
+	<generated>
+	<navigation: 'Elements'>
+	^ MooseSpecializedGroup withAll: self elements asSet
 ]
