@@ -877,6 +877,14 @@ TSFASTPythonImporter >> visitUnaryOperator: aTSNode [
 	^ fastEntity
 ]
 
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitUnionPattern: aTSNode [
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #members ].
+
+	^ self handleNode: aTSNode kind: FASTPyUnionPattern
+]
+
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitWildcardImport: aTSNode [
 

@@ -7,6 +7,7 @@
 |---|
 | `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
 | `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentUnionPattern` | `FASTPyTPattern` | `members` | `FASTPyUnionPattern` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |

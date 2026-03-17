@@ -152,7 +152,8 @@ Class {
 		'tSplatParameter',
 		'dictionarySplatParameter',
 		'tPattern',
-		'tClassPatternElement'
+		'tClassPatternElement',
+		'tUnionMember'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -540,6 +541,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
+	
+	unionPattern --|> tPattern.
 
 	variable --|> expression.
 	variable --|> tVariableEntity.
@@ -727,6 +730,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(typeAliasStatement property: #right) <>- (type property: #parentyTypeAliasStatementType).
 
 	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
+	
+	(unionPattern property: #members) <>-* (tPattern property: #parentUnionPattern).
 
 	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithStatementItem)
 ]

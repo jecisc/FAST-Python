@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
+| `parentUnionPattern` | `FASTPyTPattern` | `members` | `FASTPyUnionPattern` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
