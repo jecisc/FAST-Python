@@ -168,13 +168,6 @@ FASTPyTEntityCreator >> newComplex [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newComplexPattern [
-
-	<generated>
-	^ self add: FASTPyComplexPattern new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newConcatenatedString [
 
 	<generated>

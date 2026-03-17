@@ -219,6 +219,26 @@ TSFASTPythonImporter >> visitComparisonOperator: aTSNode [
 	^ fastEntity
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitComplexPattern: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyBinaryOperator from: aTSNode.
+
+	self setParentOf: fastEntity.
+
+	self pushContext: fastEntity node: aTSNode during: [
+			"The TS node has no field for this node but we have 2 concepts in the nodes: the left and the right."
+			self setTopFieldTo: 'leftOperand'.
+			(aTSNode namedChildAt: 1) accept: self.
+			self setTopFieldTo: 'rightOperand'.
+			(aTSNode namedChildAt: 2) accept: self ].
+		
+	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity leftOperand endPos + 1 to: fastEntity rightOperand startPos - 1) trim.
+
+	^ fastEntity
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitComprehension: aTSNode [
 

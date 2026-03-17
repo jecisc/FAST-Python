@@ -8836,6 +8836,84 @@ FASTPythonImporterTest >> testMatch [
 ]
 
 { #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternComplexOperation [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternComplexOperation 	"
+
+	self parse: 'match value:
+    case 0 + 1j: pass'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyComplex) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match value:
+    case 0 + 1j: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case 0 + 1j: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: '0 + 1j'.
+			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
+			
+			"Testing value of monovalue relation leftOperand"
+			self assert: self topEntity leftOperand isNotNil.
+
+				stack push: self topEntity leftOperand.
+				self assert: self topEntity sourceCode equals: '0'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			self assert: self topEntity operator equals: '+'.
+			
+			"Testing value of monovalue relation rightOperand"
+			self assert: self topEntity rightOperand isNotNil.
+
+				stack push: self topEntity rightOperand.
+				self assert: self topEntity sourceCode equals: '1j'.
+				self assert: (self topEntity isOfType: FASTPyComplex).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'value'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
 FASTPythonImporterTest >> testMatchPatternComplexe [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:

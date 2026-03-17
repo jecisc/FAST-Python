@@ -204,7 +204,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	comment := builder ensureClassNamed: #Comment."Todo"
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
 	complex := builder ensureClassNamed: #Complex.
-	complexPattern := builder ensureClassNamed: #ComplexPattern."Todo"
 	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
 	constrainedType := builder ensureClassNamed: #ConstrainedType."Todo"
@@ -325,6 +324,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.
 	binaryOperator --|> tSplatExpression.
+	binaryOperator --|> tPattern.
 
 	block --|> tStatementBlock.
 
