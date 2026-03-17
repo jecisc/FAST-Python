@@ -343,6 +343,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	call --|> tWithStatementItem.
 	
 	caseClause --|> tStatementBlock.
+	caseClause --|> tWithCondition.
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.

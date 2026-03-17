@@ -13,6 +13,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 | `pattern` | `FASTPyCaseClause` | `parentCaseClause` | `FASTPyTPattern` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
@@ -30,8 +31,8 @@
 Class {
 	#name : 'FASTPyCaseClause',
 	#superclass : 'FASTPyEntity',
-	#traits : 'FASTTStatementBlock',
-	#classTraits : 'FASTTStatementBlock classTrait',
+	#traits : 'FASTTStatementBlock + FASTTWithCondition',
+	#classTraits : 'FASTTStatementBlock classTrait + FASTTWithCondition classTrait',
 	#instVars : [
 		'#alias => FMProperty',
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #cases',
