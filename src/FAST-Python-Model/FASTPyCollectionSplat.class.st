@@ -4,6 +4,11 @@ In Python a collection (list or dictionary) splat is the unpacking of a collecti
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -15,6 +20,8 @@ In Python a collection (list or dictionary) splat is the unpacking of a collecti
 Class {
 	#name : 'FASTPyCollectionSplat',
 	#superclass : 'FASTPyExpression',
+	#traits : 'FASTPyTPattern',
+	#classTraits : 'FASTPyTPattern classTrait',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyTSplatExpression opposite: #parentSplat'
 	],

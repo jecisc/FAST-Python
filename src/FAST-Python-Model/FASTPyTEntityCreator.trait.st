@@ -665,13 +665,6 @@ FASTPyTEntityCreator >> newSlice [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newSplatPattern [
-
-	<generated>
-	^ self add: FASTPySplatPattern new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newSplatType [
 
 	<generated>

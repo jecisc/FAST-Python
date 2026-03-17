@@ -86,7 +86,6 @@ Class {
 		'set',
 		'setComprehension',
 		'slice',
-		'splatPattern',
 		'splatType',
 		'string',
 		'subscript',
@@ -274,7 +273,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	set := builder ensureClassNamed: #Set.
 	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
 	slice := builder ensureClassNamed: #Slice. "To review"
-	splatPattern := builder ensureClassNamed: #SplatPattern."Todo"
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
@@ -355,6 +353,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	collectionInitializer --|> tPattern.
 	
 	collectionSplat --|> expression.
+	collectionSplat --|> tPattern.
 
 	comment --|> tComment.
 

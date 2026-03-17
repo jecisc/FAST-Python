@@ -326,6 +326,12 @@ TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyDeleteStatement
 ]
 
+{ #category : 'visiting - redirect' }
+TSFASTPythonImporter >> visitDictPattern: aTSNode [
+
+	^ self visitDictionary: aTSNode
+]
+
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDictionary: aTSNode [
 
@@ -336,12 +342,6 @@ TSFASTPythonImporter >> visitDictionary: aTSNode [
 TSFASTPythonImporter >> visitDictionaryComprehension: aTSNode [
 
 	^ self visitComprehension: aTSNode
-]
-
-{ #category : 'visiting - redirect' }
-TSFASTPythonImporter >> visitDictionaryPattern: aTSNode [
-
-	^ self visitDictionary: aTSNode
 ]
 
 { #category : 'visiting - alias' }
@@ -715,6 +715,14 @@ TSFASTPythonImporter >> visitSlice: aTSNode [
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'components' ].
 
 	^ self handleNode: aTSNode kind: FASTPySlice
+]
+
+{ #category : 'visiting - redirect' }
+TSFASTPythonImporter >> visitSplatPattern: aTSNode [
+
+	^ ((self sourceCodeOf: aTSNode) beginsWith: '**')
+		  ifTrue: [ self visitDictionarySplat: aTSNode ]
+		  ifFalse: [ self visitListSplat: aTSNode ]
 ]
 
 { #category : 'visiting - alias' }
