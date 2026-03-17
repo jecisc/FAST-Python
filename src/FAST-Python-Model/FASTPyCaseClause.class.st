@@ -22,6 +22,7 @@
 
 | Name | Type | Default value | Comment |
 |---|
+| `alias` | `String` | nil | Alias used if an as pattern is used in the clause.|
 | `endPos` | `Number` | nil | |
 | `startPos` | `Number` | nil | |
 
@@ -32,6 +33,7 @@ Class {
 	#traits : 'FASTTStatementBlock',
 	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
+		'#alias => FMProperty',
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #cases',
 		'#pattern => FMOne type: #FASTPyTPattern opposite: #parentCaseClause'
 	],
@@ -47,6 +49,21 @@ FASTPyCaseClause class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyCaseClause >> alias [
+
+	<FMProperty: #alias type: #String>
+	<generated>
+	<FMComment: 'Alias used if an as pattern is used in the clause.'>
+	^ alias
+]
+
+{ #category : 'accessing' }
+FASTPyCaseClause >> alias: anObject [
+	<generated>
+	alias := anObject
 ]
 
 { #category : 'accessing' }

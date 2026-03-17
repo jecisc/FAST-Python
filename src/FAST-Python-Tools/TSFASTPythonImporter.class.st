@@ -77,6 +77,15 @@ TSFASTPythonImporter >> visitArgumentList: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitAsPattern: aTSNode [
 
+	aTSNode parent type = #case_pattern ifTrue: [
+			"We are the alias of a case clause."
+			| fastEntity children |
+			children := aTSNode collectNamedChild.
+			"This is ugly code because I skip the case_pattern but I don't have time to do better for now."
+			fastEntity := children first collectNamedChild first accept: self.
+			fastEntity parentCaseClause alias: (self sourceCodeOf: children second).
+			^ fastEntity ].
+
 	self onNextContextDo: [ :entry |
 			entry
 				add: 'target' asAliasOfField: 'alias';
@@ -332,35 +341,39 @@ TSFASTPythonImporter >> visitDictionarySplatPattern: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitDottedName: aTSNode [
 
+	| fastEntity |
+
 	"In case it is in the `name` field of an import, we create an ImportedEntity."
 	(context anySatisfy: [ :entry | entry field = #name and: [ entry isOfFASTType: FASTPyImport ] ]) ifTrue: [
-			| fastEntity |
 			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
 			fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: (aTSNode parent type = #aliased_import
 					               ifTrue: [ aTSNode parent ]
 					               ifFalse: [ aTSNode ]).
-			self setParentOf: fastEntity.
+			self topFastEntity addImportedEntity: fastEntity.
 			
 			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
 			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
 			^ fastEntity ].
-		
 		
 	"In a relative import, I add my parts in the list of segments."
 	(aTSNode parent type = #relative_import) ifTrue: [  ^ self topFastEntity fromModule addSegments: ((self sourceCodeOf: aTSNode) splitOn: $.) ].
 	
 	"In case it is in the `module_name` field of an import, we create a FromImportModule."
 	(context anySatisfy: [ :entry | (entry isOfFASTType: FASTPyImportFromStatement) and: [ entry field = #module_name ] ]) ifTrue: [
-			| fastEntity |
 			"For the souce anchor, if the parent is an alias, we want to include it in the imported entity source."
 			fastEntity := self instantiateFastEntity: FASTPyFromModule from: aTSNode.
-			self setParentOf: fastEntity.
+			self topFastEntity fromModule: fastEntity.
 			
 			"Instead of saving a collection of FASTPyIdentifier, we save in a property the segments of the imported entity."
 			fastEntity segments: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
 			^ fastEntity ].
+		
+	"In the general case, I do not create children nodes. Only having a collection of the names is enought I think."
+	fastEntity := self instantiateFastEntity: FASTPyDottedName from: aTSNode.
+	self setParentOf: fastEntity.
+	fastEntity identifiers: (aTSNode namedChildren collect: [ :child | self sourceCodeOf: child ]).
 
-	^ self handleNode: aTSNode
+	^ fastEntity 
 ]
 
 { #category : 'visiting' }

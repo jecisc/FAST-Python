@@ -378,6 +378,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	dictionarySplatParameter --|> parameter.
 	dictionarySplatParameter --|> tSplatParameter.
+	
+	dottedName --|> tPattern.
 
 	elseClause --|> block.
 
@@ -550,10 +552,16 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 FASTPythonMetamodelGenerator >> defineProperties [
 
 	super defineProperties.
+	
+	(caseClause property: #alias type: #String) comment: 'Alias used if an as pattern is used in the clause.'.
 
 	(comparisonOperator property: #operators type: #String)
 		multivalued: true;
 		comment: 'The comparators applied in order. Possible operators:  <, <=, ==, !=, >=, >, <>, in, not in, is, is not'.
+
+	(dottedName property: #identifiers type: #String)
+		multivalued: true;
+		comment: 'The elements separated by a .'.
 
 	(fromModule property: #segments type: #String)
 		multivalued: true;
