@@ -522,6 +522,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tAsPatternTarget --|> tAsPatternSource.
 	
 	tComprehension --|> tSplatExpression.
+	tComprehension --|> tWithCondition.
 	
 	tDefinition --|> tNamedBehaviouralEntity.
 	

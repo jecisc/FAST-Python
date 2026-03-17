@@ -3442,6 +3442,7 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 	self assert: self topEntity sourceCode equals: '{ v:k for k,v in class_indices.items() }'.
 	self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
 	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -3907,6 +3908,7 @@ FASTPythonImporterTest >> testDictionarySplatOnDictionaryComprehension [
 			self assert: self topEntity sourceCode equals: '{k: v * 2 for k, v in items}'.
 			self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
 			self assert: (self topEntity isOfType: FASTPyTComprehension).
+			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.
@@ -5444,6 +5446,7 @@ FASTPythonImporterTest >> testGeneratorExpression [
 	self assert: self topEntity sourceCode equals: '(x * x for x in range(10))'.
 	self assert: (self topEntity isOfType: FASTPyGeneratorExpression).
 	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -5755,7 +5758,6 @@ FASTPythonImporterTest >> testIfClauseInListComprehension [
 	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
 	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 4.
-	self assert: (fast allWithType: FASTPyIfClause) size equals: 1.
 	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
 	self assert: (fast allWithType: FASTPyListComprehension) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
@@ -5764,6 +5766,7 @@ FASTPythonImporterTest >> testIfClauseInListComprehension [
 	self assert: self topEntity sourceCode equals: '[x for x in range(10) if x  == 0]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
 	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -5818,31 +5821,24 @@ FASTPythonImporterTest >> testIfClauseInListComprehension [
 		stack pop.
 	
 		stack push: (stack top clauses at: 2).
-		self assert: self topEntity sourceCode equals: 'if x  == 0'.
-		self assert: (self topEntity isOfType: FASTPyIfClause).
+		self assert: self topEntity sourceCode equals: 'x  == 0'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
-
-			stack push: self topEntity expression.
-			self assert: self topEntity sourceCode equals: 'x  == 0'.
-			self assert: (self topEntity isOfType: FASTPyComparisonOperator).
-			
-			"Testing value of multivalued relation operands"
-			self assert: self topEntity operands size equals: 2.
-			
-				stack push: (stack top operands at: 1).
-				self assert: self topEntity sourceCode equals: 'x'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				stack pop.
-			
-				stack push: (stack top operands at: 2).
-				self assert: self topEntity sourceCode equals: '0'.
-				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTTLiteral).
-				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
-				stack pop.
-			self assert: self topEntity operators equals: #('==')
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '0'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('==')
 ]
 
 { #category : 'tests - advanced statements' }
@@ -7221,6 +7217,7 @@ FASTPythonImporterTest >> testInterpolationWithComprehension [
 			self assert: self topEntity sourceCode equals: '[x for x in items]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
 			self assert: (self topEntity isOfType: FASTPyTComprehension).
+			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.
@@ -8015,6 +8012,7 @@ FASTPythonImporterTest >> testListComprehension [
 	self assert: self topEntity sourceCode equals: '[x * x for x in range(5)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
 	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -8440,6 +8438,7 @@ FASTPythonImporterTest >> testListSplatOnListComprehension [
 			self assert: self topEntity sourceCode equals: '[format(f) for f in FILES]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
 			self assert: (self topEntity isOfType: FASTPyTComprehension).
+			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.
@@ -9210,6 +9209,7 @@ FASTPythonImporterTest >> testMatchPatternComplexOperation [
 		self assert: self topEntity sourceCode equals: 'case 0 + 1j: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9286,6 +9286,7 @@ FASTPythonImporterTest >> testMatchPatternComplexe [
 		self assert: self topEntity sourceCode equals: 'case 1j: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9344,6 +9345,7 @@ FASTPythonImporterTest >> testMatchPatternDictionary [
 		self assert: self topEntity sourceCode equals: 'case { 0 : 0, 1 : 2 }: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9451,6 +9453,7 @@ FASTPythonImporterTest >> testMatchPatternDictionarySplat [
 		self assert: self topEntity sourceCode equals: 'case **kwargs: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9513,6 +9516,7 @@ FASTPythonImporterTest >> testMatchPatternDictionarySplatUnnamed [
 		self assert: self topEntity sourceCode equals: 'case **_: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9571,6 +9575,7 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithDictionary [
 		self assert: self topEntity sourceCode equals: 'case {"data": {"id": 1, "name": name}}: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9705,6 +9710,7 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithNoValues [
 		self assert: self topEntity sourceCode equals: 'case {"x": _, "y": _}: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9795,6 +9801,7 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithSplat [
 		self assert: self topEntity sourceCode equals: 'case { 0 : 0, **kwargs }: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9893,6 +9900,7 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithVariables [
 		self assert: self topEntity sourceCode equals: 'case {"host": host, "port": port}: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -9998,6 +10006,7 @@ FASTPythonImporterTest >> testMatchPatternDottedName [
 		self assert: self topEntity sourceCode equals: 'case Status.OK: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10053,6 +10062,7 @@ FASTPythonImporterTest >> testMatchPatternFalse [
 		self assert: self topEntity sourceCode equals: 'case False: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10109,6 +10119,7 @@ FASTPythonImporterTest >> testMatchPatternFloat [
 		self assert: self topEntity sourceCode equals: 'case 1.0: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10165,6 +10176,7 @@ FASTPythonImporterTest >> testMatchPatternInteger [
 		self assert: self topEntity sourceCode equals: 'case 1: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10222,6 +10234,7 @@ FASTPythonImporterTest >> testMatchPatternKeyword [
 		self assert: self topEntity sourceCode equals: 'case string=":": pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10289,6 +10302,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithClass [
 		self assert: self topEntity sourceCode equals: 'case val=AClass(): pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10364,6 +10378,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithComplexPattern [
 		self assert: self topEntity sourceCode equals: 'case val=0+2j: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10450,6 +10465,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithDottedName [
 		self assert: self topEntity sourceCode equals: 'case val=x.y: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10515,6 +10531,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithIdentifier [
 		self assert: self topEntity sourceCode equals: 'case val=x: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10580,6 +10597,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithInteger [
 		self assert: self topEntity sourceCode equals: 'case val=1: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10647,6 +10665,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithList [
 		self assert: self topEntity sourceCode equals: 'case val=[1]: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10722,6 +10741,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithTuple [
 		self assert: self topEntity sourceCode equals: 'case val=(1,): pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10797,6 +10817,7 @@ FASTPythonImporterTest >> testMatchPatternKeywordWithUnion [
 		self assert: self topEntity sourceCode equals: 'case val= 1 | 2: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10878,6 +10899,7 @@ FASTPythonImporterTest >> testMatchPatternList [
 		self assert: self topEntity sourceCode equals: 'case [1, 2]: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -10950,6 +10972,7 @@ FASTPythonImporterTest >> testMatchPatternListInList [
 		self assert: self topEntity sourceCode equals: 'case [ 1, [ 2 ] ]: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11029,6 +11052,7 @@ FASTPythonImporterTest >> testMatchPatternListSplat [
 		self assert: self topEntity sourceCode equals: 'case *list: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11091,6 +11115,7 @@ FASTPythonImporterTest >> testMatchPatternListSplatUnnamed [
 		self assert: self topEntity sourceCode equals: 'case *_: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11147,6 +11172,7 @@ FASTPythonImporterTest >> testMatchPatternListWithSplat [
 		self assert: self topEntity sourceCode equals: 'case [ 1, *args ]: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11226,6 +11252,7 @@ FASTPythonImporterTest >> testMatchPatternListWithTuple [
 		self assert: self topEntity sourceCode equals: 'case [ 1, (1, 2) ]: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11312,6 +11339,7 @@ FASTPythonImporterTest >> testMatchPatternNone [
 		self assert: self topEntity sourceCode equals: 'case None: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11367,6 +11395,7 @@ FASTPythonImporterTest >> testMatchPatternString [
 		self assert: self topEntity sourceCode equals: 'case "Hello": pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11423,6 +11452,7 @@ FASTPythonImporterTest >> testMatchPatternTrue [
 		self assert: self topEntity sourceCode equals: 'case True: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11480,6 +11510,7 @@ FASTPythonImporterTest >> testMatchPatternTuple [
 		self assert: self topEntity sourceCode equals: 'case (1, 2): pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11552,6 +11583,7 @@ FASTPythonImporterTest >> testMatchPatternUnion [
 		self assert: self topEntity sourceCode equals: 'case 1 | 2 | 3: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11633,6 +11665,7 @@ FASTPythonImporterTest >> testMatchPatternUnionClassPattern [
 		self assert: self topEntity sourceCode equals: 'case AClass() | 2: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11714,6 +11747,7 @@ FASTPythonImporterTest >> testMatchPatternUnionDictionary [
 		self assert: self topEntity sourceCode equals: 'case { 0:0 } | 2: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11813,6 +11847,7 @@ FASTPythonImporterTest >> testMatchPatternUnionDottedName [
 		self assert: self topEntity sourceCode equals: 'case x.y | 2: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11885,6 +11920,7 @@ FASTPythonImporterTest >> testMatchPatternUnionList [
 		self assert: self topEntity sourceCode equals: 'case [ 1 ] | 2: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -11966,6 +12002,7 @@ FASTPythonImporterTest >> testMatchPatternUnionTuple [
 		self assert: self topEntity sourceCode equals: 'case ( 1, ) | 2: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation pattern"
 		self assert: self topEntity pattern isNotNil.
@@ -12045,6 +12082,7 @@ FASTPythonImporterTest >> testMatchPatternWithAlias [
 		self assert: self topEntity sourceCode equals: 'case x as kind: pass'.
 		self assert: (self topEntity isOfType: FASTPyCaseClause).
 		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
 		self assert: self topEntity alias equals: 'kind'.
 		
 		"Testing value of monovalue relation pattern"
@@ -12778,6 +12816,7 @@ FASTPythonImporterTest >> testPatternListInListComprehension [
 	self assert: self topEntity sourceCode equals: '[abs(x) + abs(y) for x, y in points]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
 	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -13490,6 +13529,7 @@ FASTPythonImporterTest >> testSetComprehension [
 	self assert: self topEntity sourceCode equals: '{k1 for k1 in v.items() }'.
 	self assert: (self topEntity isOfType: FASTPySetComprehension).
 	self assert: (self topEntity isOfType: FASTPyTComprehension).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
 	self assert: self topEntity body isNotNil.
@@ -16522,6 +16562,7 @@ FASTPythonImporterTest >> testTypeListComprehension [
 			self assert: self topEntity sourceCode equals: '[T for T in T.name]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
 			self assert: (self topEntity isOfType: FASTPyTComprehension).
+			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.

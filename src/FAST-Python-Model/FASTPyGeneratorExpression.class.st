@@ -12,6 +12,7 @@
 |---|
 | `body` | `FASTPyTComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
 | `clauses` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
+| `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 
 
 

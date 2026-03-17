@@ -12,6 +12,7 @@
 |---|
 | `body` | `FASTPyTComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
 | `clauses` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
+| `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 
 
 
@@ -22,8 +23,8 @@ Trait {
 		'#body => FMOne type: #FASTPyExpression opposite: #comprehensionBodyOwner',
 		'#clauses => FMMany type: #FASTPyExpression opposite: #comprehensionClauseOwner'
 	],
-	#traits : 'FASTPyTSplatExpression',
-	#classTraits : 'FASTPyTSplatExpression classTrait',
+	#traits : 'FASTPyTSplatExpression + FASTTWithCondition',
+	#classTraits : 'FASTPyTSplatExpression classTrait + FASTTWithCondition classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'
