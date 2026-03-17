@@ -381,6 +381,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	dictionarySplatParameter --|> parameter.
 	dictionarySplatParameter --|> tSplatParameter.
 	
+	dottedName --|> expression.
 	dottedName --|> tPattern.
 	dottedName --|> tClassPatternElement.
 

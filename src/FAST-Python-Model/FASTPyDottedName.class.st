@@ -19,7 +19,7 @@
 "
 Class {
 	#name : 'FASTPyDottedName',
-	#superclass : 'FASTPyEntity',
+	#superclass : 'FASTPyExpression',
 	#traits : 'FASTPyTClassPatternElement + FASTPyTPattern',
 	#classTraits : 'FASTPyTClassPatternElement classTrait + FASTPyTPattern classTrait',
 	#instVars : [
@@ -33,7 +33,7 @@ Class {
 { #category : 'meta' }
 FASTPyDottedName class >> annotation [
 
-	<FMClass: #DottedName super: #FASTPyEntity>
+	<FMClass: #DottedName super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

@@ -326,10 +326,33 @@ TSFASTPythonImporter >> visitDeleteStatement: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyDeleteStatement
 ]
 
-{ #category : 'visiting - redirect' }
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitDictPattern: aTSNode [
+	"We do not want something specific for dict pattern, we just want to create a dictionary."
 
-	^ self visitDictionary: aTSNode
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyDictionary from: aTSNode.
+	self setParentOf: fastEntity.
+
+	self pushContext: fastEntity node: aTSNode during: [
+			| children |
+			children := aTSNode collectFieldNameOfNamedChild.
+			self setTopFieldTo: 'initializers'.
+			children at: #key ifPresent: [ :keys |
+					children at: #value ifPresent: [ :values |
+							keys asTSNodes with: values asTSNodes do: [ :key :value |
+									| pair |
+									pair := self instantiateFastEntity: FASTPyPair from: key.
+									pair endPos: (self characterPositionAtByte: value endByte).
+									fastEntity addInitializer: pair.
+									self pushContext: pair node: key during: [
+											self setTopFieldTo: 'key'.
+											key accept: self.
+											self setTopFieldTo: 'value'.
+											value accept: self ] ] ] ].
+			children at: '<unnamedChild>' ifPresent: [ :splats | splats asTSNodes do: [ :node | node accept: self ] ] ].
+
+	^ fastEntity
 ]
 
 { #category : 'visiting' }
