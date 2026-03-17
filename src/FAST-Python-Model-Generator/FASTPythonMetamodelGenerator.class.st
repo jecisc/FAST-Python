@@ -443,6 +443,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	keywordArgument --|> tNamedEntity.
 	
 	keywordPattern --|> tClassPatternElement.
+	keywordPattern --|> tPattern.
+	keywordPattern --|> tNamedEntity.
 	
 	keywordSeparator --|> tVariableEntity. "I'm not fan because they cannot be in assignation but that will do for now."
 	
@@ -676,6 +678,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((keywordArgument property: #value) comment: 'The value of the keyword argument.')
 	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
+	
+	(keywordPattern property: #value) <>- (tPattern property: #parentKeywordPatternValue).
 
 	(lambda property: #expression) <>- (expression property: #lambdaOwner).
 	

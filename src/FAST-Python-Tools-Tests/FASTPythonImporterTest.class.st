@@ -77,7 +77,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTAssignable.
 		  FASTPyTSplatParameter.
 		  FASTPyTSplatParameterTarget.
-		  FASTPyTPattern }
+		  FASTPyTPattern.
+		  FASTPyTClassPatternElement }
 ]
 
 { #category : 'running' }
@@ -9306,7 +9307,6 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithDictionary [
 							stack push: self topEntity value.
 							self assert: self topEntity sourceCode equals: 'name'.
 							self assert: (self topEntity isOfType: FASTPyDottedName).
-							self assert: (self topEntity isOfType: FASTPyTClassPatternElement).
 							self assert: self topEntity identifiers equals: #('name').
 							stack pop.
 						stack pop.
@@ -9580,7 +9580,6 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithVariables [
 					stack push: self topEntity value.
 					self assert: self topEntity sourceCode equals: 'host'.
 					self assert: (self topEntity isOfType: FASTPyDottedName).
-					self assert: (self topEntity isOfType: FASTPyTClassPatternElement).
 					self assert: self topEntity identifiers equals: #('host').
 					stack pop.
 				stack pop.
@@ -9605,7 +9604,6 @@ FASTPythonImporterTest >> testMatchPatternDictionaryWithVariables [
 					stack push: self topEntity value.
 					self assert: self topEntity sourceCode equals: 'port'.
 					self assert: (self topEntity isOfType: FASTPyDottedName).
-					self assert: (self topEntity isOfType: FASTPyTClassPatternElement).
 					self assert: self topEntity identifiers equals: #('port').
 					stack pop.
 				stack pop.
@@ -9832,6 +9830,662 @@ FASTPythonImporterTest >> testMatchPatternInteger [
 			self assert: (self topEntity isOfType: FASTPyInteger).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeyword [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeyword 	"
+
+	self parse: 'match status:
+	case string=":": pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case string=":": pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case string=":": pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'string=":"'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'string'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '":"'.
+				self assert: (self topEntity isOfType: FASTPyString).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTStringLiteral).
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithClass [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithClass 	"
+
+	self parse: 'match status:
+	case val=AClass(): pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyClassPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyDottedName) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=AClass(): pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=AClass(): pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=AClass()'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: 'AClass()'.
+				self assert: (self topEntity isOfType: FASTPyClassPattern).
+				
+				"Testing value of multivalued relation elements"
+				self assert: self topEntity elements size equals: 1.
+				
+					stack push: (stack top elements at: 1).
+					self assert: self topEntity sourceCode equals: 'AClass'.
+					self assert: (self topEntity isOfType: FASTPyDottedName).
+					self assert: self topEntity identifiers equals: #('AClass').
+					stack pop.
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithComplexPattern [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithComplexPattern 	"
+
+	self parse: 'match status:
+	case val=0+2j: pass'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyComplex) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=0+2j: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=0+2j: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=0+2j'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '0+2j'.
+				self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+				self assert: (self topEntity isOfType: FASTTBinaryExpression).
+				
+				"Testing value of monovalue relation leftOperand"
+				self assert: self topEntity leftOperand isNotNil.
+
+					stack push: self topEntity leftOperand.
+					self assert: self topEntity sourceCode equals: '0'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				self assert: self topEntity operator equals: '+'.
+				
+				"Testing value of monovalue relation rightOperand"
+				self assert: self topEntity rightOperand isNotNil.
+
+					stack push: self topEntity rightOperand.
+					self assert: self topEntity sourceCode equals: '2j'.
+					self assert: (self topEntity isOfType: FASTPyComplex).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithDottedName [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithDottedName 	"
+
+	self parse: 'match status:
+	case val=x.y: pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyDottedName) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=x.y: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=x.y: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=x.y'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: 'x.y'.
+				self assert: (self topEntity isOfType: FASTPyDottedName).
+				self assert: self topEntity identifiers equals: #('x' 'y').
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithIdentifier 	"
+
+	self parse: 'match status:
+	case val=x: pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyDottedName) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=x: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=x: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=x'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: 'x'.
+				self assert: (self topEntity isOfType: FASTPyDottedName).
+				self assert: self topEntity identifiers equals: #('x').
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithInteger [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithInteger 	"
+
+	self parse: 'match status:
+	case val=1: pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=1: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=1: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=1'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '1'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithList [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithList 	"
+
+	self parse: 'match status:
+	case val=[1]: pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=[1]: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=[1]: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=[1]'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '[1]'.
+				self assert: (self topEntity isOfType: FASTPyList).
+				
+				"Testing value of multivalued relation initializers"
+				self assert: self topEntity initializers size equals: 1.
+				
+					stack push: (stack top initializers at: 1).
+					self assert: self topEntity sourceCode equals: '1'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithTuple [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithTuple 	"
+
+	self parse: 'match status:
+	case val=(1,): pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val=(1,): pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val=(1,): pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val=(1,)'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '(1,)'.
+				self assert: (self topEntity isOfType: FASTPyTuple).
+				
+				"Testing value of multivalued relation initializers"
+				self assert: self topEntity initializers size equals: 1.
+				
+					stack push: (stack top initializers at: 1).
+					self assert: self topEntity sourceCode equals: '1'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of monovalue relation subject"
+	self assert: self topEntity subject isNotNil.
+
+		stack push: self topEntity subject.
+		self assert: self topEntity sourceCode equals: 'status'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - match' }
+FASTPythonImporterTest >> testMatchPatternKeywordWithUnion [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMatchPatternKeywordWithUnion 	"
+
+	self parse: 'match status:
+	case val= 1 | 2: pass'.
+
+	self assert: (fast allWithType: FASTPyCaseClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyKeywordPattern) size equals: 1.
+	self assert: (fast allWithType: FASTPyMatchStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnionPattern) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'match status:
+	case val= 1 | 2: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyMatchStatement).
+	
+	"Testing value of multivalued relation cases"
+	self assert: self topEntity cases size equals: 1.
+	
+		stack push: (stack top cases at: 1).
+		self assert: self topEntity sourceCode equals: 'case val= 1 | 2: pass'.
+		self assert: (self topEntity isOfType: FASTPyCaseClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of monovalue relation pattern"
+		self assert: self topEntity pattern isNotNil.
+
+			stack push: self topEntity pattern.
+			self assert: self topEntity sourceCode equals: 'val= 1 | 2'.
+			self assert: (self topEntity isOfType: FASTPyKeywordPattern).
+			self assert: self topEntity name equals: 'val'.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '1 | 2'.
+				self assert: (self topEntity isOfType: FASTPyUnionPattern).
+				
+				"Testing value of multivalued relation members"
+				self assert: self topEntity members size equals: 2.
+				
+					stack push: (stack top members at: 1).
+					self assert: self topEntity sourceCode equals: '1'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				
+					stack push: (stack top members at: 2).
+					self assert: self topEntity sourceCode equals: '2'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				stack pop.
 			stack pop.
 		
 		"Testing value of multivalued relation statements"
@@ -10656,7 +11310,6 @@ FASTPythonImporterTest >> testMatchPatternUnionClassPattern [
 					stack push: (stack top elements at: 1).
 					self assert: self topEntity sourceCode equals: 'AClass'.
 					self assert: (self topEntity isOfType: FASTPyDottedName).
-					self assert: (self topEntity isOfType: FASTPyTClassPatternElement).
 					self assert: self topEntity identifiers equals: #('AClass').
 					stack pop.
 				stack pop.
@@ -10830,7 +11483,6 @@ FASTPythonImporterTest >> testMatchPatternUnionDottedName [
 				stack push: (stack top members at: 1).
 				self assert: self topEntity sourceCode equals: 'x.y'.
 				self assert: (self topEntity isOfType: FASTPyDottedName).
-				self assert: (self topEntity isOfType: FASTPyTClassPatternElement).
 				self assert: self topEntity identifiers equals: #('x' 'y').
 				stack pop.
 			

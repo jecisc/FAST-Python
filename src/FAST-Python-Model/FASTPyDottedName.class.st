@@ -7,6 +7,7 @@
 |---|
 | `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
 | `parentClassPattern` | `FASTPyTClassPatternElement` | `elements` | `FASTPyClassPattern` | |
+| `parentKeywordPatternValue` | `FASTPyTPattern` | `value` | `FASTPyKeywordPattern` | |
 | `parentUnionPattern` | `FASTPyTPattern` | `members` | `FASTPyUnionPattern` | |
 
 

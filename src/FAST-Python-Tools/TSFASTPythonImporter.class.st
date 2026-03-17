@@ -592,6 +592,24 @@ TSFASTPythonImporter >> visitInteger: aTSNode [
 			   ifFalse: [ FASTPyInteger ])
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitKeywordPattern: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyKeywordPattern from: aTSNode.
+
+	self setParentOf: fastEntity.
+
+	self pushContext: fastEntity node: aTSNode during: [
+			| children |
+			children := aTSNode collectNamedChild.
+			fastEntity name: (self sourceCodeOf: children first).
+			self setTopFieldTo: 'value'.
+			children second accept: self ].
+
+	^ fastEntity
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitLambda: aTSNode [
 

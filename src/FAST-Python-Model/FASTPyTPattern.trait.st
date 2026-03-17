@@ -8,6 +8,7 @@ I represent an entity that can be the pattern of a case clause in a match statem
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
+| `parentKeywordPatternValue` | `FASTPyTPattern` | `value` | `FASTPyKeywordPattern` | |
 | `parentUnionPattern` | `FASTPyTPattern` | `members` | `FASTPyUnionPattern` | |
 
 
@@ -17,6 +18,7 @@ Trait {
 	#name : 'FASTPyTPattern',
 	#instVars : [
 		'#parentCaseClause => FMOne type: #FASTPyCaseClause opposite: #pattern',
+		'#parentKeywordPatternValue => FMOne type: #FASTPyKeywordPattern opposite: #value',
 		'#parentUnionPattern => FMOne type: #FASTPyUnionPattern opposite: #members'
 	],
 	#category : 'FAST-Python-Model-Traits',
@@ -55,6 +57,30 @@ FASTPyTPattern >> parentCaseClauseGroup [
 	<generated>
 	<navigation: 'ParentCaseClause'>
 	^ MooseSpecializedGroup with: self parentCaseClause
+]
+
+{ #category : 'accessing' }
+FASTPyTPattern >> parentKeywordPatternValue [
+	"Relation named: #parentKeywordPatternValue type: #FASTPyKeywordPattern opposite: #value"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentKeywordPatternValue
+]
+
+{ #category : 'accessing' }
+FASTPyTPattern >> parentKeywordPatternValue: anObject [
+
+	<generated>
+	parentKeywordPatternValue := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyTPattern >> parentKeywordPatternValueGroup [
+	<generated>
+	<navigation: 'ParentKeywordPatternValue'>
+	^ MooseSpecializedGroup with: self parentKeywordPatternValue
 ]
 
 { #category : 'accessing' }
