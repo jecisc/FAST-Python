@@ -131,6 +131,7 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBlock: aTSNode [
+	"I should be simplified a little bit when the importer will be stable."
 
 	(context top isOfFASTType: FASTPyMatchStatement) ifTrue: [
 		^ self rawVisitChildren: aTSNode "In case of a match, we only have case_clause inside and nothing else so we skip the block node." ].

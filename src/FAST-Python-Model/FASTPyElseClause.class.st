@@ -5,14 +5,31 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
 | `ifStatementOwner` | `FASTPyElseClause` | `elseClause` | `FASTPyTWithElseClause` | |
+| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
+| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `endPos` | `Number` | nil | |
+| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyElseClause',
-	#superclass : 'FASTPyBlock',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTStatementBlock',
+	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
 		'#ifStatementOwner => FMOne type: #FASTPyTWithElseClause opposite: #elseClause'
 	],
@@ -24,7 +41,7 @@ Class {
 { #category : 'meta' }
 FASTPyElseClause class >> annotation [
 
-	<FMClass: #ElseClause super: #FASTPyBlock>
+	<FMClass: #ElseClause super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

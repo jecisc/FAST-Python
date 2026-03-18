@@ -387,7 +387,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	dottedName --|> tPattern.
 	dottedName --|> tClassPatternElement.
 
-	elseClause --|> block.
+	elseClause --|> tStatementBlock.
 
 	elifClause --|> block.
 	elifClause --|> tConditionalStatement.
@@ -532,7 +532,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tReturnReferenceable --|> tDecoratorExpression.
 	tReturnReferenceable --|> tDeletable.
 
-	thenClause --|> block.
+	thenClause --|> tStatementBlock.
 
 	tuple --|> collectionInitializer.
 	tuple --|> tAsPatternTarget.
