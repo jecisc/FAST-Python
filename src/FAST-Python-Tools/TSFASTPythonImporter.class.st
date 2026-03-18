@@ -713,6 +713,12 @@ TSFASTPythonImporter >> visitParenthesizedExpression: aTSNode [
 	^ self rawVisitChildren: aTSNode
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitParenthesizedListSplat: aTSNode [
+
+	self error: 'Cyril: I have no idea how we can have this node? If you end up here, please open an issue with your file or a snippet to parse to end up here!'
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitPatternList: aTSNode [
 
