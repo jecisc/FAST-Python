@@ -590,6 +590,8 @@ FASTPythonMetamodelGenerator >> defineProperties [
 	(importedEntity property: #alias type: #String) comment: 'If the imported entity has an alias, I contain it.'.
 	
 	(interpolation property: #formatSpecifier type: #String) comment: 'If specified, the format of the interpolation.'.
+	
+	(interpolation property: #typeConversion type: #String) comment: 'If specified, the type conversion of the interpolation.'.
 
 	unaryOperator property: #operator type: #String
 ]

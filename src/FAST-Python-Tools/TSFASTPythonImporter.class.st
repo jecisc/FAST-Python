@@ -849,6 +849,12 @@ TSFASTPythonImporter >> visitType: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitTypeConversion: aTSNode [
+
+	^ self topFastEntity typeConversion: (self sourceCodeOf: aTSNode) allButFirst "We skip the $! character"
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitTypedDefaultParameter: aTSNode [
 
 	| children parameter |

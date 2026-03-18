@@ -146,7 +146,7 @@ FASTPyImporterTestGenerator >> generateMethod: aString inProtocol: protocol [
 
 	self testCase
 		compiledMethodAt: aString lines first asSymbol
-		ifPresent: [ :method | method sourceCode = aString ifTrue: [ ^ self "No need to recompile here." ] ].
+		ifPresent: [ :method |(method protocolName = protocol and: [ method sourceCode = aString ]) ifTrue: [ ^ self "No need to recompile here." ] ].
 
 	self testCase compile: stream contents classified: protocol
 ]

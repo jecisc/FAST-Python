@@ -19,6 +19,7 @@
 | Name | Type | Default value | Comment |
 |---|
 | `formatSpecifier` | `String` | nil | If specified, the format of the interpolation.|
+| `typeConversion` | `String` | nil | If specified, the type conversion of the interpolation.|
 
 "
 Class {
@@ -27,7 +28,8 @@ Class {
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #parentInterpolation',
 		'#formatSpecifier => FMProperty',
-		'#parentString => FMOne type: #FASTPyString opposite: #interpolations'
+		'#parentString => FMOne type: #FASTPyString opposite: #interpolations',
+		'#typeConversion => FMProperty'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -101,4 +103,19 @@ FASTPyInterpolation >> parentStringGroup [
 	<generated>
 	<navigation: 'ParentString'>
 	^ MooseSpecializedGroup with: self parentString
+]
+
+{ #category : 'accessing' }
+FASTPyInterpolation >> typeConversion [
+
+	<FMProperty: #typeConversion type: #String>
+	<generated>
+	<FMComment: 'If specified, the type conversion of the interpolation.'>
+	^ typeConversion
+]
+
+{ #category : 'accessing' }
+FASTPyInterpolation >> typeConversion: anObject [
+	<generated>
+	typeConversion := anObject
 ]
