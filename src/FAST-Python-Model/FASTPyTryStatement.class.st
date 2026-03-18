@@ -12,7 +12,9 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
 | `excepts` | `FASTPyTryStatement` | `parentTryStatement` | `FASTPyExceptClause` | |
+| `finally` | `FASTPyTryStatement` | `parentTryStatement` | `FASTPyFinallyClause` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
@@ -28,10 +30,11 @@
 Class {
 	#name : 'FASTPyTryStatement',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTStatementBlock',
-	#classTraits : 'FASTTStatementBlock classTrait',
+	#traits : 'FASTPyTWithElseClause + FASTTStatementBlock',
+	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTStatementBlock classTrait',
 	#instVars : [
-		'#excepts => FMMany type: #FASTPyExceptClause opposite: #parentTryStatement'
+		'#excepts => FMMany type: #FASTPyExceptClause opposite: #parentTryStatement',
+		'#finally => FMOne type: #FASTPyFinallyClause opposite: #parentTryStatement'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -74,4 +77,26 @@ FASTPyTryStatement >> exceptsGroup [
 	<generated>
 	<navigation: 'Excepts'>
 	^ MooseSpecializedGroup withAll: self excepts asSet
+]
+
+{ #category : 'accessing' }
+FASTPyTryStatement >> finally [
+	"Relation named: #finally type: #FASTPyFinallyClause opposite: #parentTryStatement"
+
+	<generated>
+	^ finally
+]
+
+{ #category : 'accessing' }
+FASTPyTryStatement >> finally: anObject [
+
+	<generated>
+	finally := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyTryStatement >> finallyGroup [
+	<generated>
+	<navigation: 'Finally'>
+	^ MooseSpecializedGroup with: self finally
 ]

@@ -147,6 +147,7 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 		 FASTPyElifClause.
 		 FASTPyWithStatement.
 		 FASTPyTryStatement.
+		 FASTPyFinallyClause.
 		 FASTPyExceptClause.
 		 FASTPyCaseClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
 			self setTopFieldTo: #statements. "We manually update the field to bypass the block and"
@@ -455,6 +456,8 @@ TSFASTPythonImporter >> visitEscapedSequence: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitExceptClause: aTSNode [
 
+	self onNextContextDo: [ :entry | entry add: 'expressions' asAliasOfField: 'value' ].
+
 	^ self handleNode: aTSNode kind: FASTPyExceptClause parentBlock: [ :entity | self topFastEntity addExcept: entity ]
 ]
 
@@ -469,6 +472,12 @@ TSFASTPythonImporter >> visitExpressionList: aTSNode [
 TSFASTPythonImporter >> visitFalse: aNode [
 
 	^ self handleNode: aNode kind: FASTPyBoolean
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitFinallyClause: aTSNode [
+
+	^ self handleNode: aTSNode kind: FASTPyFinallyClause parentBlock: [ :entity | self topFastEntity finally: entity ]
 ]
 
 { #category : 'visiting' }

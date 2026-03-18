@@ -30,6 +30,7 @@
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentDefaultParameterValue` | `FASTPyExpression` | `defaultValue` | `FASTPyParameter` | |
+| `parentExceptClause` | `FASTPyExpression` | `expressions` | `FASTPyExceptClause` | |
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
@@ -81,6 +82,7 @@ Class {
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentDefaultParameterValue => FMOne type: #FASTPyParameter opposite: #defaultValue',
+		'#parentExceptClause => FMOne type: #FASTPyExceptClause opposite: #expressions',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #subject',
 		'#parentType => FMOne type: #FASTPyType opposite: #expression',
@@ -611,6 +613,29 @@ FASTPyExpression >> parentDefaultParameterValueGroup [
 	<generated>
 	<navigation: 'ParentDefaultParameterValue'>
 	^ MooseSpecializedGroup with: self parentDefaultParameterValue
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentExceptClause [
+	"Relation named: #parentExceptClause type: #FASTPyExceptClause opposite: #expressions"
+
+	<generated>
+	<container>
+	^ parentExceptClause
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentExceptClause: anObject [
+
+	<generated>
+	parentExceptClause := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentExceptClauseGroup [
+	<generated>
+	<navigation: 'ParentExceptClause'>
+	^ MooseSpecializedGroup with: self parentExceptClause
 ]
 
 { #category : 'accessing' }

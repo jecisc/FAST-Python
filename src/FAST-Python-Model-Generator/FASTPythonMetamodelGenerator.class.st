@@ -41,7 +41,6 @@ Class {
 		'escapeSequence',
 		'exceptClause',
 		'execStatement',
-		'expressionList',
 		'finallyClause',
 		'float',
 		'forInClause',
@@ -401,6 +400,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
 	
+	finallyClause --|> tStatementBlock.
+	
 	float --|> literal.
 	float --|> tNumericalLiteral.
 	
@@ -541,6 +542,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	tryStatement --|> statement.
 	tryStatement --|> tStatementBlock.
+	tryStatement --|> tWithElseClause.
 	
 	typeAliasStatement --|> statement.
 
@@ -649,6 +651,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((tDeletable property: #parentDeleteStatement) comment: 'The delete statement that own the expression (if it''s the case)').
+	
+	(exceptClause property: #expressions) <>-* (expression property: #parentExceptClause). "We could point less things than expression, but in reality in Python any expression can be provided. It will just end up in runtime error."
 
 	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
 
@@ -735,6 +739,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(typeAliasStatement property: #left) <>- (type property: #parentyTypeAliasStatementAlias).
 	(typeAliasStatement property: #right) <>- (type property: #parentyTypeAliasStatementType).
+	
+	(tryStatement property: #finally) <>- (finallyClause property: #parentTryStatement).
 
 	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
 	

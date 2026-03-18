@@ -13,6 +13,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `expressions` | `FASTPyExceptClause` | `parentExceptClause` | `FASTPyExpression` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
@@ -31,6 +32,7 @@ Class {
 	#traits : 'FASTTStatementBlock',
 	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
+		'#expressions => FMMany type: #FASTPyExpression opposite: #parentExceptClause',
 		'#parentTryStatement => FMOne type: #FASTPyTryStatement opposite: #excepts'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -45,6 +47,35 @@ FASTPyExceptClause class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FASTPyExceptClause >> addExpression: anObject [
+	<generated>
+	^ self expressions add: anObject
+]
+
+{ #category : 'accessing' }
+FASTPyExceptClause >> expressions [
+	"Relation named: #expressions type: #FASTPyExpression opposite: #parentExceptClause"
+
+	<generated>
+	<derived>
+	^ expressions
+]
+
+{ #category : 'accessing' }
+FASTPyExceptClause >> expressions: anObject [
+
+	<generated>
+	expressions value: anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExceptClause >> expressionsGroup [
+	<generated>
+	<navigation: 'Expressions'>
+	^ MooseSpecializedGroup withAll: self expressions asSet
 ]
 
 { #category : 'accessing' }
