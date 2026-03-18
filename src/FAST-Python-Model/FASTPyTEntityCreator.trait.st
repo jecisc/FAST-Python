@@ -308,13 +308,6 @@ FASTPyTEntityCreator >> newExpression [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newExpressionList [
-
-	<generated>
-	^ self add: FASTPyExpressionList new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newFinallyClause [
 
 	<generated>

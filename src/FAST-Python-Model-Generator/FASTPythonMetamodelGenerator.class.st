@@ -223,7 +223,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	exceptClause := builder ensureClassNamed: #ExceptClause."Todo"
 	execStatement := builder ensureClassNamed: #ExecStatement."Todo"
 	expression := builder ensureClassNamed: #Expression.
-	expressionList := builder ensureClassNamed: #ExpressionList."Todo"
 	finallyClause := builder ensureClassNamed: #FinallyClause."Todo"
 	float := builder ensureClassNamed: #Float.
 	forInClause := builder ensureClassNamed: #ForInClause."Todo"
@@ -400,8 +399,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
-	
-	expressionList --|> expression.
 	
 	float --|> literal.
 	float --|> tNumericalLiteral.
@@ -646,8 +643,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
 	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
-
-	(expressionList property: #expressions) <>-* (expression property: #expressionListOwner).
 
 	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
 

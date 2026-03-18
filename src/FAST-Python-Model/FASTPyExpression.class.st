@@ -15,7 +15,6 @@
 | `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
 | `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
 | `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
-| `expressionListOwner` | `FASTPyExpression` | `expressions` | `FASTPyExpressionList` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `forInClauseLeftOwner` | `FASTPyExpression` | `left` | `FASTPyForInClause` | |
 | `forInClauseRightOwner` | `FASTPyExpression` | `right` | `FASTPyForInClause` | |
@@ -70,7 +69,6 @@ Class {
 		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
 		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
 		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
-		'#expressionListOwner => FMOne type: #FASTPyExpressionList opposite: #expressions',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
 		'#forInClauseRightOwner => FMOne type: #FASTPyForInClause opposite: #right',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
@@ -301,29 +299,6 @@ FASTPyExpression >> deleteOwnerGroup [
 	<generated>
 	<navigation: 'DeleteOwner'>
 	^ MooseSpecializedGroup with: self deleteOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> expressionListOwner [
-	"Relation named: #expressionListOwner type: #FASTPyExpressionList opposite: #expressions"
-
-	<generated>
-	<container>
-	^ expressionListOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> expressionListOwner: anObject [
-
-	<generated>
-	expressionListOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> expressionListOwnerGroup [
-	<generated>
-	<navigation: 'ExpressionListOwner'>
-	^ MooseSpecializedGroup with: self expressionListOwner
 ]
 
 { #category : 'accessing' }
