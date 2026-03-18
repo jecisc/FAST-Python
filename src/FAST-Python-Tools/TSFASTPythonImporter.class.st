@@ -172,10 +172,7 @@ TSFASTPythonImporter >> visitCall: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitCaseClause: aTSNode [
 
-	self onNextContextDo: [ :entry |
-			entry
-				aliasUnnamedFieldAs: 'pattern';
-				add: 'condition' asAliasOfField: 'guard' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'pattern' ].
 
 	^ self handleNode: aTSNode kind: FASTPyCaseClause parentBlock: [ :entity | self topFastEntity addCase: entity ]
 ]
@@ -543,8 +540,13 @@ TSFASTPythonImporter >> visitIdentifier: aNode [
 
 { #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitIfClause: aTSNode [
+	"The condition always goes in the condition property."
 
-	^ self rawVisitChildren: aTSNode
+	| oldField |
+	oldField := context top field.
+	self setTopFieldTo: 'condition'.
+	self rawVisitChildren: aTSNode.
+	self setTopFieldTo: oldField
 ]
 
 { #category : 'visiting - alias' }
