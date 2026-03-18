@@ -14,7 +14,6 @@
 | `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyTComprehension` | |
 | `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
 | `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
-| `deleteOwner` | `FASTPyExpression` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `forInClauseLeftOwner` | `FASTPyExpression` | `left` | `FASTPyForInClause` | |
 | `forInClauseRightOwner` | `FASTPyExpression` | `right` | `FASTPyForInClause` | |
@@ -68,7 +67,6 @@ Class {
 		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clauses',
 		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
 		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
-		'#deleteOwner => FMOne type: #FASTPyDeleteStatement opposite: #expression',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
 		'#forInClauseRightOwner => FMOne type: #FASTPyForInClause opposite: #right',
 		'#forStatementLeftOwner => FMOne type: #FASTPyForStatement opposite: #right',
@@ -274,31 +272,6 @@ FASTPyExpression >> conditionalExpressionThenOwnerGroup [
 	<generated>
 	<navigation: 'ConditionalExpressionThenOwner'>
 	^ MooseSpecializedGroup with: self conditionalExpressionThenOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> deleteOwner [
-	"Relation named: #deleteOwner type: #FASTPyDeleteStatement opposite: #expression"
-
-	<generated>
-	<FMComment: 'The delete statement that own the expression (if it''s the case)'>
-	<container>
-	<derived>
-	^ deleteOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> deleteOwner: anObject [
-
-	<generated>
-	deleteOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> deleteOwnerGroup [
-	<generated>
-	<navigation: 'DeleteOwner'>
-	^ MooseSpecializedGroup with: self deleteOwner
 ]
 
 { #category : 'accessing' }

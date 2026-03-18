@@ -8,6 +8,7 @@
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
 | `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
+| `parentDeleteStatement` | `FASTPyTDeletable` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 
 
 
@@ -15,8 +16,8 @@
 Class {
 	#name : 'FASTPyTuple',
 	#superclass : 'FASTPyCollectionInitializer',
-	#traits : 'FASTPyTAsPatternTarget + FASTPyTAssignable',
-	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTAssignable classTrait',
+	#traits : 'FASTPyTAsPatternTarget + FASTPyTAssignable + FASTPyTDeletable',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTAssignable classTrait + FASTPyTDeletable classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

@@ -153,7 +153,8 @@ Class {
 		'dictionarySplatParameter',
 		'tPattern',
 		'tClassPatternElement',
-		'tUnionMember'
+		'tUnionMember',
+		'tDeletable'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -528,12 +529,14 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tReturnReferenceable --|> tAsPatternSource.
 	tReturnReferenceable --|> tSplatExpression.
 	tReturnReferenceable --|> tDecoratorExpression.
+	tReturnReferenceable --|> tDeletable.
 
 	thenClause --|> block.
 
 	tuple --|> collectionInitializer.
 	tuple --|> tAsPatternTarget.
 	tuple --|> tAssignable.
+	tuple --|> tDeletable.
 	
 	tryStatement --|> statement.
 	tryStatement --|> tStatementBlock.
@@ -642,7 +645,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(decorator property: #expression) <>- (tDecoratorExpression property: #parentDeclarator).
 
 	((deleteStatement property: #expression) comment: 'The expression to apply the delete on')
-	<>- ((expression property: #deleteOwner) comment: 'The delete statement that own the expression (if it''s the case)').
+	<>- ((tDeletable property: #parentDeleteStatement) comment: 'The delete statement that own the expression (if it''s the case)').
 
 	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
 
@@ -755,10 +758,12 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	(tClassPatternElement := builder newTraitNamed: #TClassPatternElement) comment: 'I represent the elements of a class pattern in python pattern matcher. The first element is the class name, the others the arguments.'.
 
 	tComprehension := builder newTraitNamed: #TComprehension.
+	
+	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 
 	tDefinition := builder newTraitNamed: #TDefinition.
 
-	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
+	(tDeletable := builder newTraitNamed: #TDeletable) comment: 'I represent an expression that can be in a delete statement.'.
 	
 	(tPattern := builder newTraitNamed: #TPattern) comment: 'I represent an entity that can be the pattern of a case clause in a match statement..'.
 

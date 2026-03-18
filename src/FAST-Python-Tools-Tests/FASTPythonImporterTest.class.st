@@ -3274,56 +3274,217 @@ FASTPythonImporterTest >> testDelStatement [
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
 	Regenerate executing: 	self regenerateTest: #testDelStatement 	"
 
-	self parse: 'def aFunction(coll):
-	del coll'.
+	self parse: 'del coll'.
 
-	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyDeleteStatement) size equals: 1.
-	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
-	self assert: self topEntity sourceCode equals: 'def aFunction(coll):
-	del coll' withPlatformLineEndings.
-	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
-	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
-	self assert: (self topEntity isOfType: FASTTWithStatements).
-	self assert: self topEntity name equals: 'aFunction'.
+	self assert: self topEntity sourceCode equals: 'del coll'.
+	self assert: (self topEntity isOfType: FASTPyDeleteStatement).
 	
-	"Testing value of multivalued relation parameters"
-	self assert: self topEntity parameters size equals: 1.
-	
-		stack push: (stack top parameters at: 1).
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
 		self assert: self topEntity sourceCode equals: 'coll'.
-		self assert: (self topEntity isOfType: FASTPyParameter).
-		self assert: (self topEntity isOfType: FASTTVariableEntity).
-		self assert: self topEntity name equals: 'coll'.
-		stack pop.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testDelStatementAttribute [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDelStatementAttribute 	"
+
+	self parse: 'del obj.attr'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyDeleteStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'del obj.attr'.
+	self assert: (self topEntity isOfType: FASTPyDeleteStatement).
 	
-	"Testing value of monovalue relation statementBlock"
-	self assert: self topEntity statementBlock isNotNil.
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
 
-		stack push: self topEntity statementBlock.
-		self assert: self topEntity sourceCode equals: 'del coll'.
-		self assert: (self topEntity isOfType: FASTPyBlock).
-		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: 'obj.attr'.
+		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+		self assert: (self topEntity isOfType: FASTPyTDeletable).
 		
-		"Testing value of multivalued relation statements"
-		self assert: self topEntity statements size equals: 1.
+		"Testing value of monovalue relation attribute"
+		self assert: self topEntity attribute isNotNil.
+
+			stack push: self topEntity attribute.
+			self assert: self topEntity sourceCode equals: 'attr'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			self assert: (self topEntity isOfType: FASTPyTDeletable).
+			stack pop.
 		
-			stack push: (stack top statements at: 1).
-			self assert: self topEntity sourceCode equals: 'del coll'.
-			self assert: (self topEntity isOfType: FASTPyDeleteStatement).
+		"Testing value of monovalue relation object"
+		self assert: self topEntity object isNotNil.
+
+			stack push: self topEntity object.
+			self assert: self topEntity sourceCode equals: 'obj'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			self assert: (self topEntity isOfType: FASTPyTDeletable)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testDelStatementMultiple [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDelStatementMultiple 	"
+
+	self parse: 'del obj1, obj2, obj.attr'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyDeleteStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 4.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'del obj1, obj2, obj.attr'.
+	self assert: (self topEntity isOfType: FASTPyDeleteStatement).
+	
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: 'obj1, obj2, obj.attr'.
+		self assert: (self topEntity isOfType: FASTPyTuple).
+		self assert: (self topEntity isOfType: FASTPyTDeletable).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 3.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: 'obj1'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			self assert: (self topEntity isOfType: FASTPyTDeletable).
+			stack pop.
+		
+			stack push: (stack top initializers at: 2).
+			self assert: self topEntity sourceCode equals: 'obj2'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			self assert: (self topEntity isOfType: FASTPyTDeletable).
+			stack pop.
+		
+			stack push: (stack top initializers at: 3).
+			self assert: self topEntity sourceCode equals: 'obj.attr'.
+			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+			self assert: (self topEntity isOfType: FASTPyTDeletable).
 			
-			"Testing value of monovalue relation expression"
-			self assert: self topEntity expression isNotNil.
+			"Testing value of monovalue relation attribute"
+			self assert: self topEntity attribute isNotNil.
 
-				stack push: self topEntity expression.
-				self assert: self topEntity sourceCode equals: 'coll'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier)
+				stack push: self topEntity attribute.
+				self assert: self topEntity sourceCode equals: 'attr'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				self assert: (self topEntity isOfType: FASTPyTDeletable).
+				stack pop.
+			
+			"Testing value of monovalue relation object"
+			self assert: self topEntity object isNotNil.
+
+				stack push: self topEntity object.
+				self assert: self topEntity sourceCode equals: 'obj'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				self assert: (self topEntity isOfType: FASTPyTDeletable)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testDelStatementSubscript [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDelStatementSubscript 	"
+
+	self parse: 'del obj.attrs[1]'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyDeleteStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'del obj.attrs[1]'.
+	self assert: (self topEntity isOfType: FASTPyDeleteStatement).
+	
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: 'obj.attrs[1]'.
+		self assert: (self topEntity isOfType: FASTPySubscript).
+		self assert: (self topEntity isOfType: FASTPyTDeletable).
+		
+		"Testing value of multivalued relation indices"
+		self assert: self topEntity indices size equals: 1.
+		
+			stack push: (stack top indices at: 1).
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'obj.attrs'.
+			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+			self assert: (self topEntity isOfType: FASTPyTDeletable).
+			
+			"Testing value of monovalue relation attribute"
+			self assert: self topEntity attribute isNotNil.
+
+				stack push: self topEntity attribute.
+				self assert: self topEntity sourceCode equals: 'attrs'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				self assert: (self topEntity isOfType: FASTPyTDeletable).
+				stack pop.
+			
+			"Testing value of monovalue relation object"
+			self assert: self topEntity object isNotNil.
+
+				stack push: self topEntity object.
+				self assert: self topEntity sourceCode equals: 'obj'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				self assert: (self topEntity isOfType: FASTPyTDeletable)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testDelStatementTuple [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDelStatementTuple 	"
+
+	self parse: 'del ()'.
+
+	self assert: (fast allWithType: FASTPyDeleteStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'del ()'.
+	self assert: (self topEntity isOfType: FASTPyDeleteStatement).
+	
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: '()'.
+		self assert: (self topEntity isOfType: FASTPyTuple).
+		self assert: (self topEntity isOfType: FASTPyTDeletable)
 ]
 
 { #category : 'tests - collections' }

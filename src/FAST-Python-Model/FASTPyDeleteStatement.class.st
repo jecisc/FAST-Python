@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyDeleteStatement` | `deleteOwner` | `FASTPyExpression` | The expression to apply the delete on|
+| `expression` | `FASTPyDeleteStatement` | `parentDeleteStatement` | `FASTPyTDeletable` | The expression to apply the delete on|
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyDeleteStatement',
 	#superclass : 'FASTPyStatement',
 	#instVars : [
-		'#expression => FMOne type: #FASTPyExpression opposite: #deleteOwner'
+		'#expression => FMOne type: #FASTPyTDeletable opposite: #parentDeleteStatement'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -32,7 +32,7 @@ FASTPyDeleteStatement class >> annotation [
 
 { #category : 'accessing' }
 FASTPyDeleteStatement >> expression [
-	"Relation named: #expression type: #FASTPyExpression opposite: #deleteOwner"
+	"Relation named: #expression type: #FASTPyTDeletable opposite: #parentDeleteStatement"
 
 	<generated>
 	<FMComment: 'The expression to apply the delete on'>
