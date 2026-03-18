@@ -471,8 +471,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	methodDefinition --|> statement.
 	methodDefinition --|> tDefinition.
 
-	module --|> block. "A Module has statements."
+	module --|> tStatementBlock.
 	module --|> #THasImmediateSource.
+	module withPrecedenceOf: #THasImmediateSource.
 	
 	none --|> literal.
 

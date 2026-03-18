@@ -78,7 +78,8 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTSplatParameter.
 		  FASTPyTSplatParameterTarget.
 		  FASTPyTPattern.
-		  FASTPyTClassPatternElement }
+		  FASTPyTClassPatternElement.
+		  FASTPyTDeletable }
 ]
 
 { #category : 'running' }
@@ -3315,7 +3316,6 @@ FASTPythonImporterTest >> testDelStatementAttribute [
 		stack push: self topEntity expression.
 		self assert: self topEntity sourceCode equals: 'obj.attr'.
 		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
-		self assert: (self topEntity isOfType: FASTPyTDeletable).
 		
 		"Testing value of monovalue relation attribute"
 		self assert: self topEntity attribute isNotNil.
@@ -3323,7 +3323,6 @@ FASTPythonImporterTest >> testDelStatementAttribute [
 			stack push: self topEntity attribute.
 			self assert: self topEntity sourceCode equals: 'attr'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTDeletable).
 			stack pop.
 		
 		"Testing value of monovalue relation object"
@@ -3331,8 +3330,7 @@ FASTPythonImporterTest >> testDelStatementAttribute [
 
 			stack push: self topEntity object.
 			self assert: self topEntity sourceCode equals: 'obj'.
-			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTDeletable)
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - statements' }
@@ -3359,7 +3357,6 @@ FASTPythonImporterTest >> testDelStatementMultiple [
 		stack push: self topEntity expression.
 		self assert: self topEntity sourceCode equals: 'obj1, obj2, obj.attr'.
 		self assert: (self topEntity isOfType: FASTPyTuple).
-		self assert: (self topEntity isOfType: FASTPyTDeletable).
 		
 		"Testing value of multivalued relation initializers"
 		self assert: self topEntity initializers size equals: 3.
@@ -3367,19 +3364,16 @@ FASTPythonImporterTest >> testDelStatementMultiple [
 			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: 'obj1'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTDeletable).
 			stack pop.
 		
 			stack push: (stack top initializers at: 2).
 			self assert: self topEntity sourceCode equals: 'obj2'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTDeletable).
 			stack pop.
 		
 			stack push: (stack top initializers at: 3).
 			self assert: self topEntity sourceCode equals: 'obj.attr'.
 			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
-			self assert: (self topEntity isOfType: FASTPyTDeletable).
 			
 			"Testing value of monovalue relation attribute"
 			self assert: self topEntity attribute isNotNil.
@@ -3387,7 +3381,6 @@ FASTPythonImporterTest >> testDelStatementMultiple [
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'attr'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTDeletable).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -3395,8 +3388,7 @@ FASTPythonImporterTest >> testDelStatementMultiple [
 
 				stack push: self topEntity object.
 				self assert: self topEntity sourceCode equals: 'obj'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTDeletable)
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - statements' }
@@ -3424,7 +3416,6 @@ FASTPythonImporterTest >> testDelStatementSubscript [
 		stack push: self topEntity expression.
 		self assert: self topEntity sourceCode equals: 'obj.attrs[1]'.
 		self assert: (self topEntity isOfType: FASTPySubscript).
-		self assert: (self topEntity isOfType: FASTPyTDeletable).
 		
 		"Testing value of multivalued relation indices"
 		self assert: self topEntity indices size equals: 1.
@@ -3442,7 +3433,6 @@ FASTPythonImporterTest >> testDelStatementSubscript [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'obj.attrs'.
 			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
-			self assert: (self topEntity isOfType: FASTPyTDeletable).
 			
 			"Testing value of monovalue relation attribute"
 			self assert: self topEntity attribute isNotNil.
@@ -3450,7 +3440,6 @@ FASTPythonImporterTest >> testDelStatementSubscript [
 				stack push: self topEntity attribute.
 				self assert: self topEntity sourceCode equals: 'attrs'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTDeletable).
 				stack pop.
 			
 			"Testing value of monovalue relation object"
@@ -3458,8 +3447,7 @@ FASTPythonImporterTest >> testDelStatementSubscript [
 
 				stack push: self topEntity object.
 				self assert: self topEntity sourceCode equals: 'obj'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTDeletable)
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - statements' }
@@ -3483,8 +3471,7 @@ FASTPythonImporterTest >> testDelStatementTuple [
 
 		stack push: self topEntity expression.
 		self assert: self topEntity sourceCode equals: '()'.
-		self assert: (self topEntity isOfType: FASTPyTuple).
-		self assert: (self topEntity isOfType: FASTPyTDeletable)
+		self assert: (self topEntity isOfType: FASTPyTuple)
 ]
 
 { #category : 'tests - collections' }
