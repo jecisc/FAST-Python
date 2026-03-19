@@ -6,15 +6,18 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentAssignment` | `FASTPyType` | `type` | `FASTPyAssignment` | |
+| `parentContrainedType` | `FASTPyType` | `type` | `FASTPyConstrainedType` | |
+| `parentContrainedTypeBound` | `FASTPyType` | `bound` | `FASTPyConstrainedType` | |
 | `parentFunctionDefinition` | `FASTPyType` | `returnType` | `FASTPyFunctionDefinition` | |
 | `parentParameter` | `FASTPyType` | `type` | `FASTPyParameter` | |
+| `parentWithTypeParameters` | `FASTPyType` | `typeParameters` | `FASTPyTWithTypeParameters` | |
 | `parentyTypeAliasStatementAlias` | `FASTPyType` | `left` | `FASTPyTypeAliasStatement` | |
 | `parentyTypeAliasStatementType` | `FASTPyType` | `right` | `FASTPyTypeAliasStatement` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyType` | `parentType` | `FASTPyExpression` | |
+| `content` | `FASTPyType` | `parentType` | `FASTPyTTypeContent` | |
 
 
 
@@ -23,10 +26,13 @@ Class {
 	#name : 'FASTPyType',
 	#superclass : 'FASTPyEntity',
 	#instVars : [
-		'#expression => FMOne type: #FASTPyExpression opposite: #parentType',
+		'#content => FMOne type: #FASTPyTTypeContent opposite: #parentType',
 		'#parentAssignment => FMOne type: #FASTPyAssignment opposite: #type',
+		'#parentContrainedType => FMOne type: #FASTPyConstrainedType opposite: #type',
+		'#parentContrainedTypeBound => FMOne type: #FASTPyConstrainedType opposite: #bound',
 		'#parentFunctionDefinition => FMOne type: #FASTPyFunctionDefinition opposite: #returnType',
 		'#parentParameter => FMOne type: #FASTPyParameter opposite: #type',
+		'#parentWithTypeParameters => FMOne type: #FASTPyTWithTypeParameters opposite: #typeParameters',
 		'#parentyTypeAliasStatementAlias => FMOne type: #FASTPyTypeAliasStatement opposite: #left',
 		'#parentyTypeAliasStatementType => FMOne type: #FASTPyTypeAliasStatement opposite: #right'
 	],
@@ -45,25 +51,25 @@ FASTPyType class >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyType >> expression [
-	"Relation named: #expression type: #FASTPyExpression opposite: #parentType"
+FASTPyType >> content [
+	"Relation named: #content type: #FASTPyTTypeContent opposite: #parentType"
 
 	<generated>
-	^ expression
+	^ content
 ]
 
 { #category : 'accessing' }
-FASTPyType >> expression: anObject [
+FASTPyType >> content: anObject [
 
 	<generated>
-	expression := anObject
+	content := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyType >> expressionGroup [
+FASTPyType >> contentGroup [
 	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
+	<navigation: 'Content'>
+	^ MooseSpecializedGroup with: self content
 ]
 
 { #category : 'accessing' }
@@ -88,6 +94,54 @@ FASTPyType >> parentAssignmentGroup [
 	<generated>
 	<navigation: 'ParentAssignment'>
 	^ MooseSpecializedGroup with: self parentAssignment
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentContrainedType [
+	"Relation named: #parentContrainedType type: #FASTPyConstrainedType opposite: #type"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentContrainedType
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentContrainedType: anObject [
+
+	<generated>
+	parentContrainedType := anObject
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentContrainedTypeBound [
+	"Relation named: #parentContrainedTypeBound type: #FASTPyConstrainedType opposite: #bound"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentContrainedTypeBound
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentContrainedTypeBound: anObject [
+
+	<generated>
+	parentContrainedTypeBound := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentContrainedTypeBoundGroup [
+	<generated>
+	<navigation: 'ParentContrainedTypeBound'>
+	^ MooseSpecializedGroup with: self parentContrainedTypeBound
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentContrainedTypeGroup [
+	<generated>
+	<navigation: 'ParentContrainedType'>
+	^ MooseSpecializedGroup with: self parentContrainedType
 ]
 
 { #category : 'accessing' }
@@ -136,6 +190,29 @@ FASTPyType >> parentParameterGroup [
 	<generated>
 	<navigation: 'ParentParameter'>
 	^ MooseSpecializedGroup with: self parentParameter
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentWithTypeParameters [
+	"Relation named: #parentWithTypeParameters type: #FASTPyTWithTypeParameters opposite: #typeParameters"
+
+	<generated>
+	<container>
+	^ parentWithTypeParameters
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentWithTypeParameters: anObject [
+
+	<generated>
+	parentWithTypeParameters := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentWithTypeParametersGroup [
+	<generated>
+	<navigation: 'ParentWithTypeParameters'>
+	^ MooseSpecializedGroup with: self parentWithTypeParameters
 ]
 
 { #category : 'accessing' }

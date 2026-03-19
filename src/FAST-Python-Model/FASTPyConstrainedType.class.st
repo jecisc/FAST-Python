@@ -1,6 +1,30 @@
+"
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentType` | `FASTPyTTypeContent` | `content` | `FASTPyType` | |
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `bound` | `FASTPyConstrainedType` | `parentContrainedTypeBound` | `FASTPyType` | |
+| `type` | `FASTPyConstrainedType` | `parentContrainedType` | `FASTPyType` | |
+
+
+
+"
 Class {
 	#name : 'FASTPyConstrainedType',
 	#superclass : 'FASTPyEntity',
+	#traits : 'FASTPyTTypeContent',
+	#classTraits : 'FASTPyTTypeContent classTrait',
+	#instVars : [
+		'#bound => FMOne type: #FASTPyType opposite: #parentContrainedTypeBound',
+		'#type => FMOne type: #FASTPyType opposite: #parentContrainedType'
+	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -13,4 +37,48 @@ FASTPyConstrainedType class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyConstrainedType >> bound [
+	"Relation named: #bound type: #FASTPyType opposite: #parentContrainedTypeBound"
+
+	<generated>
+	^ bound
+]
+
+{ #category : 'accessing' }
+FASTPyConstrainedType >> bound: anObject [
+
+	<generated>
+	bound := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyConstrainedType >> boundGroup [
+	<generated>
+	<navigation: 'Bound'>
+	^ MooseSpecializedGroup with: self bound
+]
+
+{ #category : 'accessing' }
+FASTPyConstrainedType >> type [
+	"Relation named: #type type: #FASTPyType opposite: #parentContrainedType"
+
+	<generated>
+	^ type
+]
+
+{ #category : 'accessing' }
+FASTPyConstrainedType >> type: anObject [
+
+	<generated>
+	type := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyConstrainedType >> typeGroup [
+	<generated>
+	<navigation: 'Type'>
+	^ MooseSpecializedGroup with: self type
 ]

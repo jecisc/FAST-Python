@@ -79,7 +79,9 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTSplatParameterTarget.
 		  FASTPyTPattern.
 		  FASTPyTClassPatternElement.
-		  FASTPyTDeletable }
+		  FASTPyTDeletable.
+		  FASTPyTTypeContent.
+		  FASTPyTWithTypeParameters }
 ]
 
 { #category : 'running' }
@@ -2492,10 +2494,10 @@ FASTPythonImporterTest >> testAssignmentType [
 		self assert: self topEntity sourceCode equals: 'x'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
@@ -4656,6 +4658,92 @@ FASTPythonImporterTest >> testConditionalExpression [
 		self assert: (self topEntity isOfType: FASTTStringLiteral)
 ]
 
+{ #category : 'tests - types' }
+FASTPythonImporterTest >> testConstrainedType [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testConstrainedType 	"
+
+	self parse: 'def f[T: int](): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyConstrainedType) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyType) size equals: 3.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def f[T: int](): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'f'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation typeParameters"
+	self assert: self topEntity typeParameters size equals: 1.
+	
+		stack push: (stack top typeParameters at: 1).
+		self assert: self topEntity sourceCode equals: 'T: int'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'T: int'.
+			self assert: (self topEntity isOfType: FASTPyConstrainedType).
+			
+			"Testing value of monovalue relation bound"
+			self assert: self topEntity bound isNotNil.
+
+				stack push: self topEntity bound.
+				self assert: self topEntity sourceCode equals: 'int'.
+				self assert: (self topEntity isOfType: FASTPyType).
+				
+				"Testing value of monovalue relation content"
+				self assert: self topEntity content isNotNil.
+
+					stack push: self topEntity content.
+					self assert: self topEntity sourceCode equals: 'int'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier).
+					stack pop.
+				stack pop.
+			
+			"Testing value of monovalue relation type"
+			self assert: self topEntity type isNotNil.
+
+				stack push: self topEntity type.
+				self assert: self topEntity sourceCode equals: 'T'.
+				self assert: (self topEntity isOfType: FASTPyType).
+				
+				"Testing value of monovalue relation content"
+				self assert: self topEntity content isNotNil.
+
+					stack push: self topEntity content.
+					self assert: self topEntity sourceCode equals: 'T'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'tests - statements' }
 FASTPythonImporterTest >> testContinueStatement [
 	<generated>
@@ -5311,10 +5399,10 @@ FASTPythonImporterTest >> testDefaultTypedParameter [
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyType).
 			
-			"Testing value of monovalue relation expression"
-			self assert: self topEntity expression isNotNil.
+			"Testing value of monovalue relation content"
+			self assert: self topEntity content isNotNil.
 
-				stack push: self topEntity expression.
+				stack push: self topEntity content.
 				self assert: self topEntity sourceCode equals: '1'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
 				self assert: (self topEntity isOfType: FASTTLiteral).
@@ -9695,6 +9783,38 @@ FASTPythonImporterTest >> testGeneratorExpression [
 				stack push: self topEntity callee.
 				self assert: self topEntity sourceCode equals: 'range'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - types' }
+FASTPythonImporterTest >> testGenericType [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testGenericType 	"
+
+	self parse: 'list[Path]'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'list[Path]'.
+	self assert: (self topEntity isOfType: FASTPySubscript).
+	
+	"Testing value of multivalued relation indices"
+	self assert: self topEntity indices size equals: 1.
+	
+		stack push: (stack top indices at: 1).
+		self assert: self topEntity sourceCode equals: 'Path'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'list'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - statements' }
@@ -22384,10 +22504,10 @@ FASTPythonImporterTest >> testTypeAliasStatement [
 		self assert: self topEntity sourceCode equals: 'MyInt'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'MyInt'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
@@ -22400,10 +22520,10 @@ FASTPythonImporterTest >> testTypeAliasStatement [
 		self assert: self topEntity sourceCode equals: 'int'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'int'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
@@ -22453,10 +22573,10 @@ FASTPythonImporterTest >> testTypeAliasStatementInBlock [
 				self assert: self topEntity sourceCode equals: 'MyInt'.
 				self assert: (self topEntity isOfType: FASTPyType).
 				
-				"Testing value of monovalue relation expression"
-				self assert: self topEntity expression isNotNil.
+				"Testing value of monovalue relation content"
+				self assert: self topEntity content isNotNil.
 
-					stack push: self topEntity expression.
+					stack push: self topEntity content.
 					self assert: self topEntity sourceCode equals: 'MyInt'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
 					stack pop.
@@ -22469,10 +22589,10 @@ FASTPythonImporterTest >> testTypeAliasStatementInBlock [
 				self assert: self topEntity sourceCode equals: 'int'.
 				self assert: (self topEntity isOfType: FASTPyType).
 				
-				"Testing value of monovalue relation expression"
-				self assert: self topEntity expression isNotNil.
+				"Testing value of monovalue relation content"
+				self assert: self topEntity content isNotNil.
 
-					stack push: self topEntity expression.
+					stack push: self topEntity content.
 					self assert: self topEntity sourceCode equals: 'int'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
@@ -22508,10 +22628,10 @@ FASTPythonImporterTest >> testTypeAttribute [
 		self assert: self topEntity sourceCode equals: 'subprocess.CompletedProcess'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'subprocess.CompletedProcess'.
 			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
 			
@@ -22580,10 +22700,10 @@ FASTPythonImporterTest >> testTypeBinaryOperator [
 		self assert: self topEntity sourceCode equals: 'int | str'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'int | str'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
 			self assert: (self topEntity isOfType: FASTTBinaryExpression).
@@ -22654,10 +22774,10 @@ FASTPythonImporterTest >> testTypeCall [
 		self assert: self topEntity sourceCode equals: 'f()'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'f()'.
 			self assert: (self topEntity isOfType: FASTPyCall).
 			self assert: (self topEntity isOfType: FASTTInvocation).
@@ -22720,10 +22840,10 @@ FASTPythonImporterTest >> testTypeComparisonOperator [
 		self assert: self topEntity sourceCode equals: '1 > 3'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '1 > 3'.
 			self assert: (self topEntity isOfType: FASTPyComparisonOperator).
 			
@@ -22797,10 +22917,10 @@ FASTPythonImporterTest >> testTypeDictionary [
 		self assert: self topEntity sourceCode equals: '{42: ''ham''}'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '{42: ''ham''}'.
 			self assert: (self topEntity isOfType: FASTPyDictionary).
 			
@@ -22889,10 +23009,10 @@ FASTPythonImporterTest >> testTypeEllipsis [
 		self assert: self topEntity sourceCode equals: '...'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '...'.
 			self assert: (self topEntity isOfType: FASTPyEllipsis).
 			self assert: (self topEntity isOfType: FASTTLiteral).
@@ -22945,10 +23065,10 @@ FASTPythonImporterTest >> testTypeFalse [
 		self assert: self topEntity sourceCode equals: 'False'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
@@ -23002,10 +23122,10 @@ FASTPythonImporterTest >> testTypeFloat [
 		self assert: self topEntity sourceCode equals: '1.5'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '1.5'.
 			self assert: (self topEntity isOfType: FASTPyFloat).
 			self assert: (self topEntity isOfType: FASTTLiteral).
@@ -23059,10 +23179,10 @@ FASTPythonImporterTest >> testTypeIdentifier [
 		self assert: self topEntity sourceCode equals: 'Path'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'Path'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
@@ -23114,10 +23234,10 @@ FASTPythonImporterTest >> testTypeInteger [
 		self assert: self topEntity sourceCode equals: '1'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
 			self assert: (self topEntity isOfType: FASTTLiteral).
@@ -23172,10 +23292,10 @@ FASTPythonImporterTest >> testTypeLambda [
 		self assert: self topEntity sourceCode equals: 'lambda : None'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'lambda : None'.
 			self assert: (self topEntity isOfType: FASTPyLambda).
 			self assert: (self topEntity isOfType: FASTTWithParameters).
@@ -23238,10 +23358,10 @@ FASTPythonImporterTest >> testTypeList [
 		self assert: self topEntity sourceCode equals: '[object]'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '[object]'.
 			self assert: (self topEntity isOfType: FASTPyList).
 			
@@ -23304,10 +23424,10 @@ FASTPythonImporterTest >> testTypeListComprehension [
 		self assert: self topEntity sourceCode equals: '[T for T in T.name]'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '[T for T in T.name]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
 			self assert: (self topEntity isOfType: FASTPyTComprehension).
@@ -23409,10 +23529,10 @@ FASTPythonImporterTest >> testTypeNone [
 		self assert: self topEntity sourceCode equals: 'None'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'None'.
 			self assert: (self topEntity isOfType: FASTPyNone).
 			self assert: (self topEntity isOfType: FASTTLiteral).
@@ -23466,10 +23586,10 @@ FASTPythonImporterTest >> testTypeNotOperator [
 		self assert: self topEntity sourceCode equals: 'not True'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'not True'.
 			self assert: (self topEntity isOfType: FASTPyNotOperator).
 			self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
@@ -23503,6 +23623,142 @@ FASTPythonImporterTest >> testTypeNotOperator [
 ]
 
 { #category : 'tests - types' }
+FASTPythonImporterTest >> testTypeParametersInFunctionDefinition [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTypeParametersInFunctionDefinition 	"
+
+	self parse: 'def f[T](): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyType) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def f[T](): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'f'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation typeParameters"
+	self assert: self topEntity typeParameters size equals: 1.
+	
+		stack push: (stack top typeParameters at: 1).
+		self assert: self topEntity sourceCode equals: 'T'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'T'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - types' }
+FASTPythonImporterTest >> testTypeParametersMultiple [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testTypeParametersMultiple 	"
+
+	self parse: 'def f[T, K, L](): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyType) size equals: 3.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def f[T, K, L](): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	self assert: self topEntity name equals: 'f'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation typeParameters"
+	self assert: self topEntity typeParameters size equals: 3.
+	
+		stack push: (stack top typeParameters at: 1).
+		self assert: self topEntity sourceCode equals: 'T'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'T'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top typeParameters at: 2).
+		self assert: self topEntity sourceCode equals: 'K'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'K'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top typeParameters at: 3).
+		self assert: self topEntity sourceCode equals: 'L'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'L'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - types' }
 FASTPythonImporterTest >> testTypeSet [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
@@ -23533,10 +23789,10 @@ FASTPythonImporterTest >> testTypeSet [
 		self assert: self topEntity sourceCode equals: '{ 1 }'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '{ 1 }'.
 			self assert: (self topEntity isOfType: FASTPySet).
 			
@@ -23598,10 +23854,10 @@ FASTPythonImporterTest >> testTypeString [
 		self assert: self topEntity sourceCode equals: '"test"'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '"test"'.
 			self assert: (self topEntity isOfType: FASTPyString).
 			self assert: (self topEntity isOfType: FASTTLiteral).
@@ -23655,10 +23911,10 @@ FASTPythonImporterTest >> testTypeTrue [
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
@@ -23713,10 +23969,10 @@ FASTPythonImporterTest >> testTypeTuple [
 		self assert: self topEntity sourceCode equals: '(1, )'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '(1, )'.
 			self assert: (self topEntity isOfType: FASTPyTuple).
 			
@@ -23779,10 +24035,10 @@ FASTPythonImporterTest >> testTypeUnaryOperator [
 		self assert: self topEntity sourceCode equals: '-1'.
 		self assert: (self topEntity isOfType: FASTPyType).
 		
-		"Testing value of monovalue relation expression"
-		self assert: self topEntity expression isNotNil.
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
 
-			stack push: self topEntity expression.
+			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '-1'.
 			self assert: (self topEntity isOfType: FASTPyUnaryOperator).
 			self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
@@ -23856,10 +24112,10 @@ FASTPythonImporterTest >> testTypedListSplatParameter [
 			self assert: self topEntity sourceCode equals: 'Any'.
 			self assert: (self topEntity isOfType: FASTPyType).
 			
-			"Testing value of monovalue relation expression"
-			self assert: self topEntity expression isNotNil.
+			"Testing value of monovalue relation content"
+			self assert: self topEntity content isNotNil.
 
-				stack push: self topEntity expression.
+				stack push: self topEntity content.
 				self assert: self topEntity sourceCode equals: 'Any'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
@@ -23922,10 +24178,10 @@ FASTPythonImporterTest >> testTypedParameter [
 			self assert: self topEntity sourceCode equals: 'Path'.
 			self assert: (self topEntity isOfType: FASTPyType).
 			
-			"Testing value of monovalue relation expression"
-			self assert: self topEntity expression isNotNil.
+			"Testing value of monovalue relation content"
+			self assert: self topEntity content isNotNil.
 
-				stack push: self topEntity expression.
+				stack push: self topEntity content.
 				self assert: self topEntity sourceCode equals: 'Path'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.

@@ -14,6 +14,7 @@
 | `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 | `returnType` | `FASTPyFunctionDefinition` | `parentFunctionDefinition` | `FASTPyType` | |
 | `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
+| `typeParameters` | `FASTPyTWithTypeParameters` | `parentWithTypeParameters` | `FASTPyType` | |
 
 
 ## Properties
@@ -29,8 +30,8 @@
 Class {
 	#name : 'FASTPyFunctionDefinition',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTPyTDefinition',
-	#classTraits : 'FASTPyTDefinition classTrait',
+	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait',
 	#instVars : [
 		'#returnType => FMOne type: #FASTPyType opposite: #parentFunctionDefinition'
 	],

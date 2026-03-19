@@ -37,7 +37,7 @@
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentInterpolation` | `FASTPyExpression` | `expression` | `FASTPyInterpolation` | |
 | `parentMatchStatement` | `FASTPyExpression` | `subject` | `FASTPyMatchStatement` | |
-| `parentType` | `FASTPyExpression` | `expression` | `FASTPyType` | |
+| `parentType` | `FASTPyTTypeContent` | `content` | `FASTPyType` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
@@ -58,8 +58,8 @@
 Class {
 	#name : 'FASTPyExpression',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTTExpression',
-	#classTraits : 'FASTTExpression classTrait',
+	#traits : 'FASTPyTTypeContent + FASTTExpression',
+	#classTraits : 'FASTPyTTypeContent classTrait + FASTTExpression classTrait',
 	#instVars : [
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #object',
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
@@ -86,7 +86,6 @@ Class {
 		'#parentExceptClause => FMOne type: #FASTPyExceptClause opposite: #expressions',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #subject',
-		'#parentType => FMOne type: #FASTPyType opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
 		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
@@ -708,30 +707,6 @@ FASTPyExpression >> parentMatchStatementGroup [
 	<generated>
 	<navigation: 'ParentMatchStatement'>
 	^ MooseSpecializedGroup with: self parentMatchStatement
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> parentType [
-	"Relation named: #parentType type: #FASTPyType opposite: #expression"
-
-	<generated>
-	<container>
-	<derived>
-	^ parentType
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> parentType: anObject [
-
-	<generated>
-	parentType := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentTypeGroup [
-	<generated>
-	<navigation: 'ParentType'>
-	^ MooseSpecializedGroup with: self parentType
 ]
 
 { #category : 'accessing' }

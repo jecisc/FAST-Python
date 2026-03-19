@@ -317,6 +317,24 @@ TSFASTPythonImporter >> visitConditionalExpression: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitConstrainedType: aTSNode [
+
+	| fastEntity |
+	fastEntity := self instantiateFastEntity: FASTPyConstrainedType from: aTSNode.
+
+	self topFastEntity content: fastEntity.
+
+	self pushContext: fastEntity node: aTSNode during: [
+			"The TS node has no field for this node but we have 2 concepts in the nodes: the type and its bounds.."
+			self setTopFieldTo: 'type'.
+			(aTSNode namedChildAt: 1) accept: self.
+			self setTopFieldTo: 'bound'.
+			(aTSNode namedChildAt: 2) accept: self ].
+		
+	^ fastEntity
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitDecoratedDefinition: aTSNode [
 	"We do not wish to create a node for a decorated_definition. The node will always have an unnamed field containing the decorators and a definition field with the definition."
 
@@ -901,7 +919,7 @@ TSFASTPythonImporter >> visitTuplePattern: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitType: aTSNode [
 
-	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #content ].
 
 	^ self handleNode: aTSNode kind: FASTPyType
 ]
@@ -910,6 +928,14 @@ TSFASTPythonImporter >> visitType: aTSNode [
 TSFASTPythonImporter >> visitTypeConversion: aTSNode [
 
 	^ self topFastEntity typeConversion: (self sourceCodeOf: aTSNode) allButFirst "We skip the $! character"
+]
+
+{ #category : 'visiting - skip' }
+TSFASTPythonImporter >> visitTypeParameter: aTSNode [
+	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
+
+	self setTopFieldTo: 'typeParameters'.
+	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }

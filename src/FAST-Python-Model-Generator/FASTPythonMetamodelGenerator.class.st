@@ -153,7 +153,10 @@ Class {
 		'tPattern',
 		'tClassPatternElement',
 		'tUnionMember',
-		'tDeletable'
+		'tDeletable',
+		'tTypeContent',
+		'typeParameter',
+		'tWithTypeParameters'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -282,6 +285,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	type := builder ensureClassNamed: #Type."Todo"
 	typeAliasStatement := builder ensureClassNamed: #TypeAliasStatement."Todo"
 	typeConversion := builder ensureClassNamed: #TypeConversion."Todo"
+	typeParameter := builder ensureClassNamed: #TypeParameter.
 	unaryOperator := builder ensureClassNamed: #UnaryOperator.
 	unionPattern := builder ensureClassNamed: #UnionPattern."Todo"
 	unionType := builder ensureClassNamed: #UnionType."Todo"
@@ -346,6 +350,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	classDefinition --|> statement.
 	classDefinition --|> tDefinition.
+	classDefinition --|> tWithTypeParameters.
 	
 	classPattern --|> tPattern.
 
@@ -369,6 +374,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	conditionalExpression --|> tWithCondition.
 	
 	continueStatement --|> statement.
+	
+	constrainedType --|> tTypeContent.
 
 	deleteStatement --|> statement.
 
@@ -399,6 +406,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	expression --|> statement. "In Python expressions can also be expression statements."
 	expression --|> tExpression.
+	expression --|> tTypeContent. "Not sure all expressions should be but it's simpler like this."
 	
 	finallyClause --|> tStatementBlock.
 	
@@ -413,9 +421,13 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	functionDefinition --|> statement.
 	functionDefinition --|> tDefinition.
+	functionDefinition --|> tWithTypeParameters.
 	
 	generatorExpression --|> expression.
 	generatorExpression --|> tComprehension.
+	
+	genericType --|> tTypeContent.
+	genericType --|> tWithTypeParameters.
 
 	globalStatement --|> statement.
 
@@ -472,6 +484,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	methodDefinition --|> statement.
 	methodDefinition --|> tDefinition.
+	methodDefinition --|> tWithTypeParameters.
 
 	module --|> tStatementBlock.
 	module --|> #THasImmediateSource.
@@ -544,6 +557,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tryStatement --|> tWithElseClause.
 	
 	typeAliasStatement --|> statement.
+	
+	typeParameter --|> tTypeContent.
 
 	unaryOperator --|> operator.
 	unaryOperator --|> tUnaryOperator.
@@ -652,6 +667,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
 
 	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
+	
+	(constrainedType property: #type) <>- (type property: #parentContrainedType).
+	
+	(constrainedType property: #bound) <>- (type property: #parentContrainedTypeBound).
 
 	(decorator property: #expression) <>- (tDecoratorExpression property: #parentDeclarator).
 
@@ -741,7 +760,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
 	
-	(type property: #expression) <>- (expression property: #parentType). "I am not 100% sure I should point to an expression because all of them cannot be a type."
+	(type property: #content) <>- (tTypeContent property: #parentType).
 	
 	(typeAliasStatement property: #left) <>- (type property: #parentyTypeAliasStatementAlias).
 	(typeAliasStatement property: #right) <>- (type property: #parentyTypeAliasStatementType).
@@ -749,6 +768,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tryStatement property: #finally) <>- (finallyClause property: #parentTryStatement).
 
 	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
+	
+	(tWithTypeParameters property: #typeParameters) <>-* (type property: #parentWithTypeParameters).
 	
 	(unionPattern property: #members) <>-* (tPattern property: #parentUnionPattern).
 
@@ -791,12 +812,16 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	(tSplatParameter := builder newTraitNamed: #TSplatParameter) comment: 'I represent a parameter that is a list or dictionary splat.'.
 
 	tSplatParameterTarget := (builder newTraitNamed: #TSplatParameterTarget) comment: 'My users are parameter target in a splat. For example in `def f(*list): pass`, we have a list splat parameter named list.'.
+	
+	(tTypeContent := builder newTraitNamed: #TTypeContent) comment: 'My user can be used as a type declaration'.
 
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
+	
+	tWithElseClause := builder newTraitNamed: #TWithElseClause.
 
 	tWithStatementItem := (builder newTraitNamed: #TWithStatementItem) comment: 'I represent an entity that can be the item of a with_statement.'.
 
-	tWithElseClause := builder newTraitNamed: #TWithElseClause.
+	(tWithTypeParameters := builder newTraitNamed: #TWithTypeParameters) comment: 'I represent an entity with type parameters such as generic types, function/method definition or class definition'.
 	
 	"Remotes"
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.

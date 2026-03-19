@@ -721,6 +721,13 @@ FASTPyTEntityCreator >> newTypeConversion [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newTypeParameter [
+
+	<generated>
+	^ self add: FASTPyTypeParameter new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newUnaryOperator [
 
 	<generated>

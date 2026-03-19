@@ -13,6 +13,7 @@
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
 | `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 | `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
+| `typeParameters` | `FASTPyTWithTypeParameters` | `parentWithTypeParameters` | `FASTPyType` | |
 
 
 ## Properties
@@ -28,8 +29,8 @@
 Class {
 	#name : 'FASTPyMethodDefinition',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTPyTDefinition',
-	#classTraits : 'FASTPyTDefinition classTrait',
+	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
