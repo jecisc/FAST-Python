@@ -22,6 +22,7 @@
 
 | Name | Type | Default value | Comment |
 |---|
+| `alias` | `String` | nil | Alias used if an as pattern is used in the clause.|
 | `endPos` | `Number` | nil | |
 | `startPos` | `Number` | nil | |
 
@@ -32,6 +33,7 @@ Class {
 	#traits : 'FASTTStatementBlock',
 	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
+		'#alias => FMProperty',
 		'#expressions => FMMany type: #FASTPyExpression opposite: #parentExceptClause',
 		'#parentTryStatement => FMOne type: #FASTPyTryStatement opposite: #excepts'
 	],
@@ -53,6 +55,21 @@ FASTPyExceptClause class >> annotation [
 FASTPyExceptClause >> addExpression: anObject [
 	<generated>
 	^ self expressions add: anObject
+]
+
+{ #category : 'accessing' }
+FASTPyExceptClause >> alias [
+
+	<FMProperty: #alias type: #String>
+	<generated>
+	<FMComment: 'Alias used if an as pattern is used in the clause.'>
+	^ alias
+]
+
+{ #category : 'accessing' }
+FASTPyExceptClause >> alias: anObject [
+	<generated>
+	alias := anObject
 ]
 
 { #category : 'accessing' }

@@ -2687,6 +2687,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentInAttribute [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -2723,6 +2724,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentInIdentifier [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -2777,6 +2779,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentInSubscript [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -2826,6 +2829,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentInTuple [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -2863,6 +2867,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToAttribute [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -2913,6 +2918,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToBinaryOperator [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -2969,6 +2975,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToCall [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3012,6 +3019,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToComplexe [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3050,6 +3058,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToConditionalExpression [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3110,6 +3119,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToFloat [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3146,6 +3156,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToIdentifier [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3180,6 +3191,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToInteger [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3218,6 +3230,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToSubscript [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -3270,6 +3283,7 @@ FASTPythonImporterTest >> testAugmentedAssignmentToUnaryOperator [
 		self assert: (self topEntity isOfType: FASTPyVariable).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		stack pop.
+	self assert: self topEntity operator equals: '+='.
 	
 	"Testing value of monovalue relation right"
 	self assert: self topEntity right isNotNil.
@@ -8463,6 +8477,62 @@ except exceptions[2]: pass' withPlatformLineEndings.
 				self assert: self topEntity sourceCode equals: 'exceptions'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - try statements' }
+FASTPythonImporterTest >> testExceptWithAlias [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testExceptWithAlias 	"
+
+	self parse: 'try: pass
+except Exception as e: pass'.
+
+	self assert: (fast allWithType: FASTPyExceptClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 2.
+	self assert: (fast allWithType: FASTPyTryStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'try: pass
+except Exception as e: pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	
+	"Testing value of multivalued relation excepts"
+	self assert: self topEntity excepts size equals: 1.
+	
+		stack push: (stack top excepts at: 1).
+		self assert: self topEntity sourceCode equals: 'except Exception as e: pass'.
+		self assert: (self topEntity isOfType: FASTPyExceptClause).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: self topEntity alias equals: 'e'.
+		
+		"Testing value of multivalued relation expressions"
+		self assert: self topEntity expressions size equals: 1.
+		
+			stack push: (stack top expressions at: 1).
+			self assert: self topEntity sourceCode equals: 'Exception'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
 		"Testing value of multivalued relation statements"

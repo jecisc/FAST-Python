@@ -92,6 +92,14 @@ TSFASTPythonImporter >> visitAsPattern: aTSNode [
 			fastEntity := children first collectNamedChild first accept: self.
 			fastEntity parentCaseClause alias: (self sourceCodeOf: children second).
 			^ fastEntity ].
+		
+	aTSNode parent type = #except_clause ifTrue: [
+			"We are the alias of a except clause."
+			| fastEntity children |
+			children := aTSNode collectNamedChild.
+			fastEntity := children first accept: self.
+			fastEntity parentExceptClause alias: (self sourceCodeOf: children second).
+			^ fastEntity ].
 
 	self onNextContextDo: [ :entry |
 			entry
@@ -120,6 +128,20 @@ TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 TSFASTPythonImporter >> visitAttribute: aTSNode [
 
 	^ self handleNode: aTSNode kind: FASTPyAttributeAccess
+]
+
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitAugmentedAssignment: aTSNode [
+
+	| fastEntity |
+
+	fastEntity := self handleNode: aTSNode kind: FASTPyAugmentedAssignment.
+	
+	"TreeSitter does not seems to manage operator. See: https://github.com/tree-sitter/tree-sitter-python/issues/328
+	So I try to het this property manually."
+	fastEntity operator: (fastEntity sourceText copyFrom: fastEntity left endPos + 1 to: fastEntity right startPos - 1) trim.
+
+	^ fastEntity
 ]
 
 { #category : 'visiting - alias' }

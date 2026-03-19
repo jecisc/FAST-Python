@@ -568,6 +568,8 @@ FASTPythonMetamodelGenerator >> defineProperties [
 
 	super defineProperties.
 	
+	augmentedAssignment property: #operator type: #String. 
+	
 	(caseClause property: #alias type: #String) comment: 'Alias used if an as pattern is used in the clause.'.
 
 	(comparisonOperator property: #operators type: #String)
@@ -577,6 +579,8 @@ FASTPythonMetamodelGenerator >> defineProperties [
 	(dottedName property: #identifiers type: #String)
 		multivalued: true;
 		comment: 'The elements separated by a .'.
+	
+	(exceptClause property: #alias type: #String) comment: 'Alias used if an as pattern is used in the clause.'.
 
 	(fromModule property: #segments type: #String)
 		multivalued: true;
