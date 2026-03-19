@@ -769,6 +769,12 @@ TSFASTPythonImporter >> visitModule: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyModule
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitNamedExpression: aTSNode [
+
+	^ self handleNode: aTSNode kind: FASTPyWalrus
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitNonlocalStatement: aTSNode [
 

@@ -259,7 +259,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	memberType := builder ensureClassNamed: #MemberType."Todo"
 	methodDefinition := builder ensureClassNamed: #MethodDefinition."ToReview"
 	module := builder ensureClassNamed: #Module."ToReview"
-	namedExpression := builder ensureClassNamed: #NamedExpression."Todo"
+	namedExpression := builder ensureClassNamed: #Walrus.
 	none := builder ensureClassNamed: #None.
 	nonlocalStatement := builder ensureClassNamed: #NonlocalStatement.
 	notOperator := builder ensureClassNamed: #NotOperator.
@@ -490,6 +490,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	module --|> tStatementBlock.
 	module --|> #THasImmediateSource.
 	module withPrecedenceOf: #THasImmediateSource.
+	
+	namedExpression --|> expression.
+	namedExpression --|> tNamedEntity.
 	
 	none --|> literal.
 
@@ -726,6 +729,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(matchStatement property: #subject) <>- (expression property: #parentMatchStatement).
 	
 	(matchStatement property: #cases) <>-* (caseClause property: #parentMatchStatement).
+	
+	(namedExpression property: #value) <>- (expression property: #parentWalrus).
 	
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').

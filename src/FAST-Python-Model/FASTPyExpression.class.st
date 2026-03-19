@@ -39,6 +39,7 @@
 | `parentMatchStatement` | `FASTPyExpression` | `subject` | `FASTPyMatchStatement` | |
 | `parentType` | `FASTPyTTypeContent` | `content` | `FASTPyType` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
+| `parentWalrus` | `FASTPyExpression` | `value` | `FASTPyWalrus` | |
 | `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 | `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
@@ -87,6 +88,7 @@ Class {
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #subject',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
+		'#parentWalrus => FMOne type: #FASTPyWalrus opposite: #value',
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
 		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
 		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
@@ -732,6 +734,30 @@ FASTPyExpression >> parentUnaryOperatorGroup [
 	<generated>
 	<navigation: 'ParentUnaryOperator'>
 	^ MooseSpecializedGroup with: self parentUnaryOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentWalrus [
+	"Relation named: #parentWalrus type: #FASTPyWalrus opposite: #value"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentWalrus
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentWalrus: anObject [
+
+	<generated>
+	parentWalrus := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentWalrusGroup [
+	<generated>
+	<navigation: 'ParentWalrus'>
+	^ MooseSpecializedGroup with: self parentWalrus
 ]
 
 { #category : 'accessing' }

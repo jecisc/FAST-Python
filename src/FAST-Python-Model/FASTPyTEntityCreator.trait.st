@@ -539,13 +539,6 @@ FASTPyTEntityCreator >> newModule [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newNamedExpression [
-
-	<generated>
-	^ self add: FASTPyNamedExpression new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newNone [
 
 	<generated>
@@ -753,6 +746,13 @@ FASTPyTEntityCreator >> newVariable [
 
 	<generated>
 	^ self add: FASTPyVariable new
+]
+
+{ #category : 'entity creation' }
+FASTPyTEntityCreator >> newWalrus [
+
+	<generated>
+	^ self add: FASTPyWalrus new
 ]
 
 { #category : 'entity creation' }

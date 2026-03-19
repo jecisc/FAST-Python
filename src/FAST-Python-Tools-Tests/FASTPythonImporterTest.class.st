@@ -1,5 +1,38 @@
 "
-A FASTPythonImporterTest is a test class for testing the behavior of FASTPythonImporter
+A FASTPythonImporterTest is a test class for testing the behavior of FASTPythonImporter.
+
+```
+Dictionary new
+	at: 'identifier' put: 'element';
+	at: 'attribute' put: 'x.y';
+	at: 'binaryOperator' put: '10 / 2';
+	at: 'booleanOperator' put: 'x and y';
+	at: 'call' put: 'obj()';
+	at: 'comparisonOperator' put: '1 > 3';
+	at: 'conditionalExpression' put: 'x if True else y';
+	at: 'dictionary' put: '{ 1:1 }';
+	at: 'ellipsis' put: '...';
+	at: 'false' put: 'False';
+	at: 'float' put: '0.1';
+	at: 'integer' put: '1';
+	at: 'complexe' put: '1j';
+	at: 'lambda' put: 'lambda x:x';
+	at: 'list' put: '[ remote ]';
+	at: 'list_comprehension' put: '[random for i in range(3)]';
+	at: 'listSplat' put: '*args';
+	at: 'none' put: 'None';
+	at: 'notOperator' put: 'not old';
+	at: 'patternList' put: 'a, b';
+	at: 'set' put: '{ 1 }';
+	at: 'setComprehension' put: '{random for i in range(3)}';
+	at: 'string' put: '""Hello""';
+	at: 'subscript' put: 'attrs[2]';
+	at: 'true' put: 'True';
+	at: 'tuple' put: '(a,b)';
+	at: 'unaryOperator' put: '-1';
+	keysAndValuesDo: [ :name :code |
+		FASTPythonImporterTest generateTestNamed: 'walrus' , name capitalized fromCode:  'a :=  ' , code protocol: 'tests - assignments' ].
+```
 "
 Class {
 	#name : 'FASTPythonImporterTest',
@@ -24549,6 +24582,1129 @@ FASTPythonImporterTest >> testUnionType [
 			stack push: (stack top statements at: 1).
 			self assert: self topEntity sourceCode equals: 'pass'.
 			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testVariableDeclaration [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testVariableDeclaration 	"
+
+	self parse: 'posix: ModuleType'.
+
+	self assert: (fast allWithType: FASTPyAssignment) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyType) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'posix: ModuleType'.
+	self assert: (self topEntity isOfType: FASTPyAssignment).
+	
+	"Testing value of monovalue relation left"
+	self assert: self topEntity left isNotNil.
+
+		stack push: self topEntity left.
+		self assert: self topEntity sourceCode equals: 'posix'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		stack pop.
+	
+	"Testing value of monovalue relation type"
+	self assert: self topEntity type isNotNil.
+
+		stack push: self topEntity type.
+		self assert: self topEntity sourceCode equals: 'ModuleType'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'ModuleType'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrus [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrus 	"
+
+	self parse: '(x := 1)'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'x := 1'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'x'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '1'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusAttribute [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusAttribute 	"
+
+	self parse: 'a :=  x.y'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  x.y'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'x.y'.
+		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+		
+		"Testing value of monovalue relation attribute"
+		self assert: self topEntity attribute isNotNil.
+
+			stack push: self topEntity attribute.
+			self assert: self topEntity sourceCode equals: 'y'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of monovalue relation object"
+		self assert: self topEntity object isNotNil.
+
+			stack push: self topEntity object.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusBinaryOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusBinaryOperator 	"
+
+	self parse: 'a :=  10 / 2'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  10 / 2'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '10 / 2'.
+		self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+		self assert: (self topEntity isOfType: FASTTBinaryExpression).
+		
+		"Testing value of monovalue relation leftOperand"
+		self assert: self topEntity leftOperand isNotNil.
+
+			stack push: self topEntity leftOperand.
+			self assert: self topEntity sourceCode equals: '10'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operator equals: '/'.
+		
+		"Testing value of monovalue relation rightOperand"
+		self assert: self topEntity rightOperand isNotNil.
+
+			stack push: self topEntity rightOperand.
+			self assert: self topEntity sourceCode equals: '2'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusBooleanOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusBooleanOperator 	"
+
+	self parse: 'a :=  x and y'.
+
+	self assert: (fast allWithType: FASTPyBooleanOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  x and y'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'x and y'.
+		self assert: (self topEntity isOfType: FASTPyBooleanOperator).
+		self assert: (self topEntity isOfType: FASTTBinaryExpression).
+		
+		"Testing value of monovalue relation leftOperand"
+		self assert: self topEntity leftOperand isNotNil.
+
+			stack push: self topEntity leftOperand.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		self assert: self topEntity operator equals: 'and'.
+		
+		"Testing value of monovalue relation rightOperand"
+		self assert: self topEntity rightOperand isNotNil.
+
+			stack push: self topEntity rightOperand.
+			self assert: self topEntity sourceCode equals: 'y'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusCall 	"
+
+	self parse: 'a :=  obj()'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  obj()'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'obj()'.
+		self assert: (self topEntity isOfType: FASTPyCall).
+		self assert: (self topEntity isOfType: FASTTInvocation).
+		self assert: (self topEntity isOfType: FASTTWithArguments).
+		
+		"Testing value of monovalue relation callee"
+		self assert: self topEntity callee isNotNil.
+
+			stack push: self topEntity callee.
+			self assert: self topEntity sourceCode equals: 'obj'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusComparisonOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusComparisonOperator 	"
+
+	self parse: 'a :=  1 > 3'.
+
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  1 > 3'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '1 > 3'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('>')
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusComplexe [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusComplexe 	"
+
+	self parse: 'a :=  1j'.
+
+	self assert: (fast allWithType: FASTPyComplex) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  1j'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '1j'.
+		self assert: (self topEntity isOfType: FASTPyComplex).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusConditionalExpression [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusConditionalExpression 	"
+
+	self parse: 'a :=  x if True else y'.
+
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyConditionalExpression) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  x if True else y'.
+	self assert: (self topEntity isOfType: FASTPyConditionalExpression).
+	self assert: (self topEntity isOfType: FASTTWithCondition).
+	
+	"Testing value of monovalue relation condition"
+	self assert: self topEntity condition isNotNil.
+
+		stack push: self topEntity condition.
+		self assert: self topEntity sourceCode equals: 'True'.
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		stack pop.
+	
+	"Testing value of monovalue relation elseExpression"
+	self assert: self topEntity elseExpression isNotNil.
+
+		stack push: self topEntity elseExpression.
+		self assert: self topEntity sourceCode equals: 'y'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+	"Testing value of monovalue relation thenExpression"
+	self assert: self topEntity thenExpression isNotNil.
+
+		stack push: self topEntity thenExpression.
+		self assert: self topEntity sourceCode equals: 'a :=  x'.
+		self assert: (self topEntity isOfType: FASTPyWalrus).
+		self assert: self topEntity name equals: 'a'.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusDictionary [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusDictionary 	"
+
+	self parse: 'a :=  { 1:1 }'.
+
+	self assert: (fast allWithType: FASTPyDictionary) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPair) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  { 1:1 }'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '{ 1:1 }'.
+		self assert: (self topEntity isOfType: FASTPyDictionary).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 1.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: '1:1'.
+			self assert: (self topEntity isOfType: FASTPyPair).
+			
+			"Testing value of monovalue relation key"
+			self assert: self topEntity key isNotNil.
+
+				stack push: self topEntity key.
+				self assert: self topEntity sourceCode equals: '1'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			
+			"Testing value of monovalue relation value"
+			self assert: self topEntity value isNotNil.
+
+				stack push: self topEntity value.
+				self assert: self topEntity sourceCode equals: '1'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusEllipsis [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusEllipsis 	"
+
+	self parse: 'a :=  ...'.
+
+	self assert: (fast allWithType: FASTPyEllipsis) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  ...'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '...'.
+		self assert: (self topEntity isOfType: FASTPyEllipsis).
+		self assert: (self topEntity isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusFalse [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusFalse 	"
+
+	self parse: 'a :=  False'.
+
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  False'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'False'.
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusFloat [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusFloat 	"
+
+	self parse: 'a :=  0.1'.
+
+	self assert: (fast allWithType: FASTPyFloat) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  0.1'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '0.1'.
+		self assert: (self topEntity isOfType: FASTPyFloat).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusIdentifier 	"
+
+	self parse: 'a :=  element'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  element'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'element'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusInteger [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusInteger 	"
+
+	self parse: 'a :=  1'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  1'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '1'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusLambda [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusLambda 	"
+
+	self parse: 'a :=  lambda x:x'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyLambda) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  lambda x:x'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'lambda x:x'.
+		self assert: (self topEntity isOfType: FASTPyLambda).
+		self assert: (self topEntity isOfType: FASTTWithParameters).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of multivalued relation parameters"
+		self assert: self topEntity parameters size equals: 1.
+		
+			stack push: (stack top parameters at: 1).
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyParameter).
+			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: self topEntity name equals: 'x'
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusList [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusList 	"
+
+	self parse: 'a :=  [ remote ]'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyList) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  [ remote ]'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '[ remote ]'.
+		self assert: (self topEntity isOfType: FASTPyList).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 1.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: 'remote'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusListSplat [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusListSplat 	"
+
+	self parse: 'a :=  *args'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyListSplat) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  *args'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '*args'.
+		self assert: (self topEntity isOfType: FASTPyListSplat).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'args'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusList_comprehension [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusList_comprehension 	"
+
+	self parse: 'a :=  [random for i in range(3)]'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyListComprehension) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  [random for i in range(3)]'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
+		self assert: (self topEntity isOfType: FASTPyListComprehension).
+		self assert: (self topEntity isOfType: FASTPyTComprehension).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
+		
+		"Testing value of monovalue relation body"
+		self assert: self topEntity body isNotNil.
+
+			stack push: self topEntity body.
+			self assert: self topEntity sourceCode equals: 'random'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of multivalued relation clauses"
+		self assert: self topEntity clauses size equals: 1.
+		
+			stack push: (stack top clauses at: 1).
+			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
+			self assert: (self topEntity isOfType: FASTPyForInClause).
+			
+			"Testing value of monovalue relation left"
+			self assert: self topEntity left isNotNil.
+
+				stack push: self topEntity left.
+				self assert: self topEntity sourceCode equals: 'i'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			
+			"Testing value of monovalue relation right"
+			self assert: self topEntity right isNotNil.
+
+				stack push: self topEntity right.
+				self assert: self topEntity sourceCode equals: 'range(3)'.
+				self assert: (self topEntity isOfType: FASTPyCall).
+				self assert: (self topEntity isOfType: FASTTInvocation).
+				self assert: (self topEntity isOfType: FASTTWithArguments).
+				
+				"Testing value of multivalued relation arguments"
+				self assert: self topEntity arguments size equals: 1.
+				
+					stack push: (stack top arguments at: 1).
+					self assert: self topEntity sourceCode equals: '3'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				
+				"Testing value of monovalue relation callee"
+				self assert: self topEntity callee isNotNil.
+
+					stack push: self topEntity callee.
+					self assert: self topEntity sourceCode equals: 'range'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusNone [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusNone 	"
+
+	self parse: 'a :=  None'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyNone) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  None'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'None'.
+		self assert: (self topEntity isOfType: FASTPyNone).
+		self assert: (self topEntity isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusNotOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusNotOperator 	"
+
+	self parse: 'a :=  not old'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyNotOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  not old'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'not old'.
+		self assert: (self topEntity isOfType: FASTPyNotOperator).
+		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+		
+		"Testing value of monovalue relation argument"
+		self assert: self topEntity argument isNotNil.
+
+			stack push: self topEntity argument.
+			self assert: self topEntity sourceCode equals: 'old'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusPatternList [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusPatternList 	"
+
+	self parse: 'a :=  a, b'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  a, b'.
+	self assert: (self topEntity isOfType: FASTPyTuple).
+	
+	"Testing value of multivalued relation initializers"
+	self assert: self topEntity initializers size equals: 2.
+	
+		stack push: (stack top initializers at: 1).
+		self assert: self topEntity sourceCode equals: 'a :=  a'.
+		self assert: (self topEntity isOfType: FASTPyWalrus).
+		self assert: self topEntity name equals: 'a'.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'a'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top initializers at: 2).
+		self assert: self topEntity sourceCode equals: 'b'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusSet [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusSet 	"
+
+	self parse: 'a :=  { 1 }'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySet) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  { 1 }'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '{ 1 }'.
+		self assert: (self topEntity isOfType: FASTPySet).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 1.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusSetComprehension [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusSetComprehension 	"
+
+	self parse: 'a :=  {random for i in range(3)}'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyForInClause) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 3.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySetComprehension) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  {random for i in range(3)}'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
+		self assert: (self topEntity isOfType: FASTPySetComprehension).
+		self assert: (self topEntity isOfType: FASTPyTComprehension).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
+		
+		"Testing value of monovalue relation body"
+		self assert: self topEntity body isNotNil.
+
+			stack push: self topEntity body.
+			self assert: self topEntity sourceCode equals: 'random'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of multivalued relation clauses"
+		self assert: self topEntity clauses size equals: 1.
+		
+			stack push: (stack top clauses at: 1).
+			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
+			self assert: (self topEntity isOfType: FASTPyForInClause).
+			
+			"Testing value of monovalue relation left"
+			self assert: self topEntity left isNotNil.
+
+				stack push: self topEntity left.
+				self assert: self topEntity sourceCode equals: 'i'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			
+			"Testing value of monovalue relation right"
+			self assert: self topEntity right isNotNil.
+
+				stack push: self topEntity right.
+				self assert: self topEntity sourceCode equals: 'range(3)'.
+				self assert: (self topEntity isOfType: FASTPyCall).
+				self assert: (self topEntity isOfType: FASTTInvocation).
+				self assert: (self topEntity isOfType: FASTTWithArguments).
+				
+				"Testing value of multivalued relation arguments"
+				self assert: self topEntity arguments size equals: 1.
+				
+					stack push: (stack top arguments at: 1).
+					self assert: self topEntity sourceCode equals: '3'.
+					self assert: (self topEntity isOfType: FASTPyInteger).
+					self assert: (self topEntity isOfType: FASTTLiteral).
+					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+					stack pop.
+				
+				"Testing value of monovalue relation callee"
+				self assert: self topEntity callee isNotNil.
+
+					stack push: self topEntity callee.
+					self assert: self topEntity sourceCode equals: 'range'.
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusString [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusString 	"
+
+	self parse: 'a :=  "Hello"'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  "Hello"'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '"Hello"'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusSubscript [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusSubscript 	"
+
+	self parse: 'a :=  attrs[2]'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  attrs[2]'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'attrs[2]'.
+		self assert: (self topEntity isOfType: FASTPySubscript).
+		
+		"Testing value of multivalued relation indices"
+		self assert: self topEntity indices size equals: 1.
+		
+			stack push: (stack top indices at: 1).
+			self assert: self topEntity sourceCode equals: '2'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'attrs'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusTrue [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusTrue 	"
+
+	self parse: 'a :=  True'.
+
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  True'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: 'True'.
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusTuple [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusTuple 	"
+
+	self parse: 'a :=  (a,b)'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  (a,b)'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '(a,b)'.
+		self assert: (self topEntity isOfType: FASTPyTuple).
+		
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 2.
+		
+			stack push: (stack top initializers at: 1).
+			self assert: self topEntity sourceCode equals: 'a'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top initializers at: 2).
+			self assert: self topEntity sourceCode equals: 'b'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testWalrusUnaryOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testWalrusUnaryOperator 	"
+
+	self parse: 'a :=  -1'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyWalrus) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'a :=  -1'.
+	self assert: (self topEntity isOfType: FASTPyWalrus).
+	self assert: self topEntity name equals: 'a'.
+	
+	"Testing value of monovalue relation value"
+	self assert: self topEntity value isNotNil.
+
+		stack push: self topEntity value.
+		self assert: self topEntity sourceCode equals: '-1'.
+		self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+		
+		"Testing value of monovalue relation argument"
+		self assert: self topEntity argument isNotNil.
+
+			stack push: self topEntity argument.
+			self assert: self topEntity sourceCode equals: '1'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operator equals: '-'
 ]
 
 { #category : 'tests - advanced statements' }

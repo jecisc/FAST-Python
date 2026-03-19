@@ -41,6 +41,15 @@ FASTPyAssignment class >> annotation [
 	^ self
 ]
 
+{ #category : 'testing' }
+FASTPyAssignment >> isDeclaration [
+
+	<FMProperty>
+	<derived>
+	<comment: 'An assignment is a simple declaration if it has no right expression.'>
+	^ self right isNil
+]
+
 { #category : 'accessing' }
 FASTPyAssignment >> left [
 	"Relation named: #left type: #FASTPyTAssignable opposite: #parentAssignmentLeft"
