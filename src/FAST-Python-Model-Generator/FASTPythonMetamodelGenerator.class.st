@@ -265,7 +265,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	parameter := builder ensureClassNamed: #Parameter."ToReview"
 	parenthesizedListSplat := builder ensureClassNamed: #ParenthesizedListSplat."Todo"
 	passStatement := builder ensureClassNamed: #PassStatement."To Review"
-	patternList := builder ensureClassNamed: #PatternList."Todo"
 	positionalSeparator := builder ensureClassNamed: #PositionalSeparator."Todo"
 	printStatement := builder ensureClassNamed: #PrintStatement."Todo"
 	raiseStatement := builder ensureClassNamed: #RaiseStatement."Todo"
@@ -487,8 +486,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	pair --|> expression.
 	
-	patternList --|> expression. "This is wrong! As for forInClause I should not be an expression. To fix later."
-
 	parameter --|> tVariableEntity.
 
 	passStatement --|> statement.
@@ -704,8 +701,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(parameter property: #type) <>- (type property: #parentParameter).
 	
 	(parameter property: #defaultValue) <>- (expression property: #parentDefaultParameterValue). "I need to refine the relation with a new trait."
-
-	(patternList property: #elements) <>-* (expression property: #patternListOwner).
 
 	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
 	

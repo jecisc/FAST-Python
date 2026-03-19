@@ -602,13 +602,6 @@ FASTPyTEntityCreator >> newPassStatement [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newPatternList [
-
-	<generated>
-	^ self add: FASTPyPatternList new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newPositionalSeparator [
 
 	<generated>

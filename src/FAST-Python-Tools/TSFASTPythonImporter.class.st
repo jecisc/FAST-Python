@@ -728,9 +728,9 @@ TSFASTPythonImporter >> visitParenthesizedListSplat: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitPatternList: aTSNode [
 
-	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'elements' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'initializers' ].
 
-	^ self handleNode: aTSNode kind: FASTPyPatternList
+	^ self handleNode: aTSNode kind: FASTPyTuple
 ]
 
 { #category : 'visiting - alias' }

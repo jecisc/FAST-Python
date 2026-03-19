@@ -38,7 +38,6 @@
 | `parentMatchStatement` | `FASTPyExpression` | `subject` | `FASTPyMatchStatement` | |
 | `parentType` | `FASTPyExpression` | `expression` | `FASTPyType` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
-| `patternListOwner` | `FASTPyExpression` | `elements` | `FASTPyPatternList` | |
 | `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 | `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
@@ -87,7 +86,6 @@ Class {
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #subject',
 		'#parentType => FMOne type: #FASTPyType opposite: #expression',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
-		'#patternListOwner => FMOne type: #FASTPyPatternList opposite: #elements',
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
 		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
 		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
@@ -733,29 +731,6 @@ FASTPyExpression >> parentUnaryOperatorGroup [
 	<generated>
 	<navigation: 'ParentUnaryOperator'>
 	^ MooseSpecializedGroup with: self parentUnaryOperator
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> patternListOwner [
-	"Relation named: #patternListOwner type: #FASTPyPatternList opposite: #elements"
-
-	<generated>
-	<container>
-	^ patternListOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> patternListOwner: anObject [
-
-	<generated>
-	patternListOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> patternListOwnerGroup [
-	<generated>
-	<navigation: 'PatternListOwner'>
-	^ MooseSpecializedGroup with: self patternListOwner
 ]
 
 { #category : 'accessing' }

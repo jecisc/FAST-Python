@@ -3584,7 +3584,7 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 6.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPair) size equals: 1.
-	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{ v:k for k,v in class_indices.items() }'.
@@ -3628,17 +3628,17 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 
 			stack push: self topEntity left.
 			self assert: self topEntity sourceCode equals: 'k,v'.
-			self assert: (self topEntity isOfType: FASTPyPatternList).
+			self assert: (self topEntity isOfType: FASTPyTuple).
 			
-			"Testing value of multivalued relation elements"
-			self assert: self topEntity elements size equals: 2.
+			"Testing value of multivalued relation initializers"
+			self assert: self topEntity initializers size equals: 2.
 			
-				stack push: (stack top elements at: 1).
+				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: 'k'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-				stack push: (stack top elements at: 2).
+				stack push: (stack top initializers at: 2).
 				self assert: self topEntity sourceCode equals: 'v'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
@@ -3693,7 +3693,7 @@ FASTPythonImporterTest >> testDictionaryComprehensionWithIfClause [
 	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPair) size equals: 1.
-	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{ v:k for k,v in class_indices.items() if v > 3 }'.
@@ -3737,17 +3737,17 @@ FASTPythonImporterTest >> testDictionaryComprehensionWithIfClause [
 
 			stack push: self topEntity left.
 			self assert: self topEntity sourceCode equals: 'k,v'.
-			self assert: (self topEntity isOfType: FASTPyPatternList).
+			self assert: (self topEntity isOfType: FASTPyTuple).
 			
-			"Testing value of multivalued relation elements"
-			self assert: self topEntity elements size equals: 2.
+			"Testing value of multivalued relation initializers"
+			self assert: self topEntity initializers size equals: 2.
 			
-				stack push: (stack top elements at: 1).
+				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: 'k'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-				stack push: (stack top elements at: 2).
+				stack push: (stack top initializers at: 2).
 				self assert: self topEntity sourceCode equals: 'v'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
@@ -4170,7 +4170,7 @@ FASTPythonImporterTest >> testDictionarySplatOnDictionaryComprehension [
 	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPair) size equals: 1.
-	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'funct(**{k: v * 2 for k, v in items})'.
@@ -4250,17 +4250,17 @@ FASTPythonImporterTest >> testDictionarySplatOnDictionaryComprehension [
 
 					stack push: self topEntity left.
 					self assert: self topEntity sourceCode equals: 'k, v'.
-					self assert: (self topEntity isOfType: FASTPyPatternList).
+					self assert: (self topEntity isOfType: FASTPyTuple).
 					
-					"Testing value of multivalued relation elements"
-					self assert: self topEntity elements size equals: 2.
+					"Testing value of multivalued relation initializers"
+					self assert: self topEntity initializers size equals: 2.
 					
-						stack push: (stack top elements at: 1).
+						stack push: (stack top initializers at: 1).
 						self assert: self topEntity sourceCode equals: 'k'.
 						self assert: (self topEntity isOfType: FASTPyIdentifier).
 						stack pop.
 					
-						stack push: (stack top elements at: 2).
+						stack push: (stack top initializers at: 2).
 						self assert: self topEntity sourceCode equals: 'v'.
 						self assert: (self topEntity isOfType: FASTPyIdentifier).
 						stack pop.
@@ -6079,6 +6079,7 @@ except exceptions.Exception: pass '.
 	self assert: self topEntity sourceCode equals: 'try: pass
 except exceptions.Exception: pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	
 	"Testing value of multivalued relation excepts"
@@ -6150,6 +6151,7 @@ except Exception(): pass '.
 	self assert: self topEntity sourceCode equals: 'try: pass
 except Exception(): pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	
 	"Testing value of multivalued relation excepts"
@@ -6217,6 +6219,7 @@ except Exception if n > 1 else Error: pass '.
 	self assert: self topEntity sourceCode equals: 'try: pass
 except Exception if n > 1 else Error: pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	
 	"Testing value of multivalued relation excepts"
@@ -6312,6 +6315,7 @@ except Exception: pass '.
 	self assert: self topEntity sourceCode equals: 'try: pass
 except Exception: pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	
 	"Testing value of multivalued relation excepts"
@@ -6368,6 +6372,7 @@ except exceptions[2]: pass '.
 	self assert: self topEntity sourceCode equals: 'try: pass
 except exceptions[2]: pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	
 	"Testing value of multivalued relation excepts"
@@ -6876,8 +6881,7 @@ FASTPythonImporterTest >> testForStatementWithForInClauseAndTuplePattern [
 	self assert: (fast allWithType: FASTPyForStatement) size equals: 1.
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 8.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
-	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 2.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'for idx, (heights, widths) in data:
@@ -6936,17 +6940,17 @@ FASTPythonImporterTest >> testForStatementWithForInClauseAndTuplePattern [
 
 		stack push: self topEntity left.
 		self assert: self topEntity sourceCode equals: 'idx, (heights, widths)'.
-		self assert: (self topEntity isOfType: FASTPyPatternList).
+		self assert: (self topEntity isOfType: FASTPyTuple).
 		
-		"Testing value of multivalued relation elements"
-		self assert: self topEntity elements size equals: 2.
+		"Testing value of multivalued relation initializers"
+		self assert: self topEntity initializers size equals: 2.
 		
-			stack push: (stack top elements at: 1).
+			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: 'idx'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-			stack push: (stack top elements at: 2).
+			stack push: (stack top initializers at: 2).
 			self assert: self topEntity sourceCode equals: '(heights, widths)'.
 			self assert: (self topEntity isOfType: FASTPyTuple).
 			
@@ -10186,7 +10190,7 @@ FASTPythonImporterTest >> testListComprehensionWithPatternList [
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 7.
 	self assert: (fast allWithType: FASTPyListComprehension) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
-	self assert: (fast allWithType: FASTPyPatternList) size equals: 1.
+	self assert: (fast allWithType: FASTPyTuple) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[abs(x) + abs(y) for x, y in points]'.
@@ -10268,17 +10272,17 @@ FASTPythonImporterTest >> testListComprehensionWithPatternList [
 
 			stack push: self topEntity left.
 			self assert: self topEntity sourceCode equals: 'x, y'.
-			self assert: (self topEntity isOfType: FASTPyPatternList).
+			self assert: (self topEntity isOfType: FASTPyTuple).
 			
-			"Testing value of multivalued relation elements"
-			self assert: self topEntity elements size equals: 2.
+			"Testing value of multivalued relation initializers"
+			self assert: self topEntity initializers size equals: 2.
 			
-				stack push: (stack top elements at: 1).
+				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-				stack push: (stack top elements at: 2).
+				stack push: (stack top initializers at: 2).
 				self assert: self topEntity sourceCode equals: 'y'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
@@ -17742,7 +17746,7 @@ FASTPythonImporterTest >> testSetWithSetComprehension [
 FASTPythonImporterTest >> testSetWithSplat [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
-	Regenerate executing: 	self regenerateTest: #testLsetWithSplat 	"
+	Regenerate executing: 	self regenerateTest: #testSetWithSplat 	"
 
 	self parse: '{*args, 1}'.
 
@@ -19428,6 +19432,7 @@ except: pass '.
 	self assert: self topEntity sourceCode equals: 'try: pass
 except: pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyTryStatement).
+	self assert: (self topEntity isOfType: FASTPyTWithElseClause).
 	self assert: (self topEntity isOfType: FASTTStatementBlock).
 	
 	"Testing value of multivalued relation excepts"
