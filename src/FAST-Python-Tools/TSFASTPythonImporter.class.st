@@ -67,6 +67,19 @@ TSFASTPythonImporter >> isInParameter: aNode [
 	^ (#( typed_default_parameter default_parameter ) includes: type) and: [ context top field ~= #defaultValue ]
 ]
 
+{ #category : 'testing' }
+TSFASTPythonImporter >> shouldIdentifierSetNameProperty [
+
+	(context top isOfFASTType: FASTPyGenericType) ifTrue: [ ^ true ].
+
+	^ context top field = #name and: [
+			  {
+				  FASTPyMethodDefinition.
+				  FASTPyClassDefinition.
+				  FASTPyFunctionDefinition.
+				  FASTPyKeywordArgument } anySatisfy: [ :class | context top isOfFASTType: class ] ]
+]
+
 { #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitAliasedImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
@@ -576,6 +589,14 @@ TSFASTPythonImporter >> visitGeneratorExpression: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitGenericType: aTSNode [
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #typeConstructor ].
+
+	^ self handleNode: aTSNode kind: FASTPyGenericType
+]
+
+{ #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'variables' ].
@@ -586,18 +607,19 @@ TSFASTPythonImporter >> visitGlobalStatement: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitIdentifier: aNode [
 
-	(self isInParameter: aNode) ifTrue: [ ^ self handleParameterNode: aNode name: (self sourceCodeOf: aNode) ]. "If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
-	(context anySatisfy: [ :entry |
-			 entry field = #name and: [
-					 {
-						 FASTPyMethodDefinition.
-						 FASTPyClassDefinition.
-						 FASTPyFunctionDefinition.
-						 FASTPyKeywordArgument } anySatisfy: [ :class | entry isOfFASTType: class ] ] ]) ifTrue: [ ^ self topFastEntity name: (self sourceCodeOf: aNode) ]. "If I am on the left side of an assignation then I am a variable."
-	(context top field = #left and: [ context top isOfFASTType: FASTPyAssignment ]) ifTrue: [ ^ self handleNode: aNode kind: FASTPyVariable ]. "In case we are in an alias, we edit the property alias of the last imported entity"
-	aNode parent type = #aliased_import ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ]. "Those statements points a variable"
-	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ]) ifTrue: [
-		^ self handleNode: aNode kind: FASTPyVariable ].
+	(self isInParameter: aNode) ifTrue: [ ^ self handleParameterNode: aNode name: (self sourceCodeOf: aNode) ].
+	
+	"If we are in a field `name` then we are probably in a definition of an entity and we set my content as a name."
+	self shouldIdentifierSetNameProperty ifTrue: [ ^ self topFastEntity name: (self sourceCodeOf: aNode) ].
+	
+	"If I am on the left side of an assignation then I am a variable."
+	(context top field = #left and: [ context top isOfFASTType: FASTPyAssignment ]) ifTrue: [ ^ self handleNode: aNode kind: FASTPyVariable ].
+	
+	"In case we are in an alias, we edit the property alias of the last imported entity"
+	aNode parent type = #aliased_import ifTrue: [ ^ self topFastEntity importedEntities last alias: (self sourceCodeOf: aNode) ].
+	
+	"Those statements points a variable"
+	((context top isOfFASTType: FASTPyGlobalStatement) or: [ context top isOfFASTType: FASTPyNonlocalStatement ]) ifTrue: [ ^ self handleNode: aNode kind: FASTPyVariable ].
 
 	^ self handleNode: aNode
 ]

@@ -9,6 +9,7 @@
 | `parentContrainedType` | `FASTPyType` | `type` | `FASTPyConstrainedType` | |
 | `parentContrainedTypeBound` | `FASTPyType` | `bound` | `FASTPyConstrainedType` | |
 | `parentFunctionDefinition` | `FASTPyType` | `returnType` | `FASTPyFunctionDefinition` | |
+| `parentGenericTypeArgument` | `FASTPyType` | `arguments` | `FASTPyGenericType` | |
 | `parentParameter` | `FASTPyType` | `type` | `FASTPyParameter` | |
 | `parentWithTypeParameters` | `FASTPyType` | `typeParameters` | `FASTPyTWithTypeParameters` | |
 | `parentyTypeAliasStatementAlias` | `FASTPyType` | `left` | `FASTPyTypeAliasStatement` | |
@@ -31,6 +32,7 @@ Class {
 		'#parentContrainedType => FMOne type: #FASTPyConstrainedType opposite: #type',
 		'#parentContrainedTypeBound => FMOne type: #FASTPyConstrainedType opposite: #bound',
 		'#parentFunctionDefinition => FMOne type: #FASTPyFunctionDefinition opposite: #returnType',
+		'#parentGenericTypeArgument => FMOne type: #FASTPyGenericType opposite: #arguments',
 		'#parentParameter => FMOne type: #FASTPyParameter opposite: #type',
 		'#parentWithTypeParameters => FMOne type: #FASTPyTWithTypeParameters opposite: #typeParameters',
 		'#parentyTypeAliasStatementAlias => FMOne type: #FASTPyTypeAliasStatement opposite: #left',
@@ -166,6 +168,29 @@ FASTPyType >> parentFunctionDefinitionGroup [
 	<generated>
 	<navigation: 'ParentFunctionDefinition'>
 	^ MooseSpecializedGroup with: self parentFunctionDefinition
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentGenericTypeArgument [
+	"Relation named: #parentGenericTypeArgument type: #FASTPyGenericType opposite: #arguments"
+
+	<generated>
+	<container>
+	^ parentGenericTypeArgument
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentGenericTypeArgument: anObject [
+
+	<generated>
+	parentGenericTypeArgument := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentGenericTypeArgumentGroup [
+	<generated>
+	<navigation: 'ParentGenericTypeArgument'>
+	^ MooseSpecializedGroup with: self parentGenericTypeArgument
 ]
 
 { #category : 'accessing' }

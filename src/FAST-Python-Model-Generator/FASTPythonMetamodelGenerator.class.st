@@ -428,6 +428,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	genericType --|> tTypeContent.
 	genericType --|> tWithTypeParameters.
+	genericType --|> tNamedEntity.
 
 	globalStatement --|> statement.
 
@@ -690,6 +691,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(functionDefinition property: #returnType) <>- (type property: #parentFunctionDefinition).
 
+	(genericType property: #arguments) <>-* (type property: #parentGenericTypeArgument).
+	
 	((globalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 
