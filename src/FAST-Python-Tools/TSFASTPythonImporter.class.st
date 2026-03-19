@@ -57,7 +57,14 @@ TSFASTPythonImporter >> initialize [
 { #category : 'testing' }
 TSFASTPythonImporter >> isInParameter: aNode [
 
-	^ #( parameters lambda_parameters typed_parameter typed_default_parameter default_parameter ) includes: aNode parent type
+	| parent type |
+	parent := aNode parent.
+	type := parent type.
+
+
+	(#( parameters lambda_parameters typed_parameter ) includes: type) ifTrue: [ ^ true ].
+
+	^ (#( typed_default_parameter default_parameter ) includes: type) and: [ context top field ~= #defaultValue ]
 ]
 
 { #category : 'visiting - skip' }
