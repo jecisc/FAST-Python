@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -14,7 +19,9 @@
 "
 Class {
 	#name : 'FASTPyAssignment',
-	#superclass : 'FASTPyStatement',
+	#superclass : 'FASTPyExpression',
+	#traits : 'FASTPyTAssignable',
+	#classTraits : 'FASTPyTAssignable classTrait',
 	#instVars : [
 		'#left => FMOne type: #FASTPyTAssignable opposite: #parentAssignmentLeft',
 		'#right => FMOne type: #FASTPyExpression opposite: #parentAssignmentRight',
@@ -28,7 +35,7 @@ Class {
 { #category : 'meta' }
 FASTPyAssignment class >> annotation [
 
-	<FMClass: #Assignment super: #FASTPyStatement>
+	<FMClass: #Assignment super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

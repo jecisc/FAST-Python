@@ -16980,6 +16980,58 @@ False' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTTLiteral)
 ]
 
+{ #category : 'tests - assignments' }
+FASTPythonImporterTest >> testNestAssignment [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testNestAssignment 	"
+
+	self parse: 'name_len = actual_len = 130'.
+
+	self assert: (fast allWithType: FASTPyAssignment) size equals: 2.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyVariable) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'name_len = actual_len = 130'.
+	self assert: (self topEntity isOfType: FASTPyAssignment).
+	
+	"Testing value of monovalue relation left"
+	self assert: self topEntity left isNotNil.
+
+		stack push: self topEntity left.
+		self assert: self topEntity sourceCode equals: 'name_len'.
+		self assert: (self topEntity isOfType: FASTPyVariable).
+		self assert: (self topEntity isOfType: FASTTVariableEntity).
+		stack pop.
+	
+	"Testing value of monovalue relation right"
+	self assert: self topEntity right isNotNil.
+
+		stack push: self topEntity right.
+		self assert: self topEntity sourceCode equals: 'actual_len = 130'.
+		self assert: (self topEntity isOfType: FASTPyAssignment).
+		
+		"Testing value of monovalue relation left"
+		self assert: self topEntity left isNotNil.
+
+			stack push: self topEntity left.
+			self assert: self topEntity sourceCode equals: 'actual_len'.
+			self assert: (self topEntity isOfType: FASTPyVariable).
+			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			stack pop.
+		
+		"Testing value of monovalue relation right"
+		self assert: self topEntity right isNotNil.
+
+			stack push: self topEntity right.
+			self assert: self topEntity sourceCode equals: '130'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
+]
+
 { #category : 'tests - advanced statements' }
 FASTPythonImporterTest >> testNestedIf [
 	<generated>

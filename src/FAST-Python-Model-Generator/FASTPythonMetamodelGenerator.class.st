@@ -305,7 +305,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	asPattern --|> tWithStatementItem.
 
-	assignment --|> statement.
+	assignment --|> expression. "This should be a statement and not an expression. But making it an expression make it easier to manage nested assignments."
+	assignment --|> tAssignable.
 
 	assertStatement --|> statement.
 
