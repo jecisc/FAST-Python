@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `parentAssignment` | `FASTPyType` | `type` | `FASTPyAssignment` | |
 | `parentFunctionDefinition` | `FASTPyType` | `returnType` | `FASTPyFunctionDefinition` | |
 | `parentParameter` | `FASTPyType` | `type` | `FASTPyParameter` | |
 | `parentyTypeAliasStatementAlias` | `FASTPyType` | `left` | `FASTPyTypeAliasStatement` | |
@@ -23,6 +24,7 @@ Class {
 	#superclass : 'FASTPyEntity',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #parentType',
+		'#parentAssignment => FMOne type: #FASTPyAssignment opposite: #type',
 		'#parentFunctionDefinition => FMOne type: #FASTPyFunctionDefinition opposite: #returnType',
 		'#parentParameter => FMOne type: #FASTPyParameter opposite: #type',
 		'#parentyTypeAliasStatementAlias => FMOne type: #FASTPyTypeAliasStatement opposite: #left',
@@ -62,6 +64,30 @@ FASTPyType >> expressionGroup [
 	<generated>
 	<navigation: 'Expression'>
 	^ MooseSpecializedGroup with: self expression
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentAssignment [
+	"Relation named: #parentAssignment type: #FASTPyAssignment opposite: #type"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentAssignment
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentAssignment: anObject [
+
+	<generated>
+	parentAssignment := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentAssignmentGroup [
+	<generated>
+	<navigation: 'ParentAssignment'>
+	^ MooseSpecializedGroup with: self parentAssignment
 ]
 
 { #category : 'accessing' }

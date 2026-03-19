@@ -605,6 +605,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(assignment property: #left) <>- (tAssignable property: #parentAssignmentLeft).
 	(assignment property: #right) <>- (expression property: #parentAssignmentRight).
+	(assignment property: #type) <>- (type property: #parentAssignment).
 
 	(asPattern property: #target) <>- (tAsPatternTarget property: #parentAsPatternTarget).
 

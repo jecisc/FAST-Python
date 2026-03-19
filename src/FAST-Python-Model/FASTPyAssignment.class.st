@@ -7,6 +7,7 @@
 |---|
 | `left` | `FASTPyAssignment` | `parentAssignmentLeft` | `FASTPyTAssignable` | |
 | `right` | `FASTPyAssignment` | `parentAssignmentRight` | `FASTPyExpression` | |
+| `type` | `FASTPyAssignment` | `parentAssignment` | `FASTPyType` | |
 
 
 
@@ -16,7 +17,8 @@ Class {
 	#superclass : 'FASTPyStatement',
 	#instVars : [
 		'#left => FMOne type: #FASTPyTAssignable opposite: #parentAssignmentLeft',
-		'#right => FMOne type: #FASTPyExpression opposite: #parentAssignmentRight'
+		'#right => FMOne type: #FASTPyExpression opposite: #parentAssignmentRight',
+		'#type => FMOne type: #FASTPyType opposite: #parentAssignment'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -74,4 +76,26 @@ FASTPyAssignment >> rightGroup [
 	<generated>
 	<navigation: 'Right'>
 	^ MooseSpecializedGroup with: self right
+]
+
+{ #category : 'accessing' }
+FASTPyAssignment >> type [
+	"Relation named: #type type: #FASTPyType opposite: #parentAssignment"
+
+	<generated>
+	^ type
+]
+
+{ #category : 'accessing' }
+FASTPyAssignment >> type: anObject [
+
+	<generated>
+	type := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyAssignment >> typeGroup [
+	<generated>
+	<navigation: 'Type'>
+	^ MooseSpecializedGroup with: self type
 ]
