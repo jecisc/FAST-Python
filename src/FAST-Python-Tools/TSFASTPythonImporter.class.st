@@ -214,6 +214,14 @@ TSFASTPythonImporter >> visitCasePattern: aTSNode [
 	^ self rawVisitChildren: aTSNode
 ]
 
+{ #category : 'visiting' }
+TSFASTPythonImporter >> visitChevron: aTSNode [
+	
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
+
+	^ self handleNode: aTSNode kind: FASTPyChevron parentBlock: [ :entity | self topFastEntity redirection: entity ]
+]
+
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitClassDefinition: aNode [
 

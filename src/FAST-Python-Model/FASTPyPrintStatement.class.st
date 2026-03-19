@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `expressions` | `FASTPyPrintStatement` | `prarentPrintStatement` | `FASTPyExpression` | |
+| `redirection` | `FASTPyPrintStatement` | `parentPrintStatement` | `FASTPyChevron` | |
 
 
 
@@ -14,7 +15,8 @@ Class {
 	#name : 'FASTPyPrintStatement',
 	#superclass : 'FASTPyStatement',
 	#instVars : [
-		'#expressions => FMMany type: #FASTPyExpression opposite: #prarentPrintStatement'
+		'#expressions => FMMany type: #FASTPyExpression opposite: #prarentPrintStatement',
+		'#redirection => FMOne type: #FASTPyChevron opposite: #parentPrintStatement'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -57,4 +59,26 @@ FASTPyPrintStatement >> expressionsGroup [
 	<generated>
 	<navigation: 'Expressions'>
 	^ MooseSpecializedGroup withAll: self expressions asSet
+]
+
+{ #category : 'accessing' }
+FASTPyPrintStatement >> redirection [
+	"Relation named: #redirection type: #FASTPyChevron opposite: #parentPrintStatement"
+
+	<generated>
+	^ redirection
+]
+
+{ #category : 'accessing' }
+FASTPyPrintStatement >> redirection: anObject [
+
+	<generated>
+	redirection := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyPrintStatement >> redirectionGroup [
+	<generated>
+	<navigation: 'Redirection'>
+	^ MooseSpecializedGroup with: self redirection
 ]

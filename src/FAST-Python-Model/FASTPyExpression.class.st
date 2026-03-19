@@ -27,6 +27,7 @@
 | `parentAssertStatement` | `FASTPyExpression` | `expressions` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `parentAssignmentRight` | `FASTPyExpression` | `right` | `FASTPyAssignment` | |
 | `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
+| `parentChevron` | `FASTPyExpression` | `expression` | `FASTPyChevron` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentDefaultParameterValue` | `FASTPyExpression` | `defaultValue` | `FASTPyParameter` | |
@@ -79,6 +80,7 @@ Class {
 		'#parentAssertStatement => FMOne type: #FASTPyAssertStatement opposite: #expressions',
 		'#parentAssignmentRight => FMOne type: #FASTPyAssignment opposite: #right',
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
+		'#parentChevron => FMOne type: #FASTPyChevron opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentDefaultParameterValue => FMOne type: #FASTPyParameter opposite: #defaultValue',
 		'#parentExceptClause => FMOne type: #FASTPyExceptClause opposite: #expressions',
@@ -563,6 +565,30 @@ FASTPyExpression >> parentAwaitGroup [
 	<generated>
 	<navigation: 'ParentAwait'>
 	^ MooseSpecializedGroup with: self parentAwait
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentChevron [
+	"Relation named: #parentChevron type: #FASTPyChevron opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentChevron
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentChevron: anObject [
+
+	<generated>
+	parentChevron := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentChevronGroup [
+	<generated>
+	<navigation: 'ParentChevron'>
+	^ MooseSpecializedGroup with: self parentChevron
 ]
 
 { #category : 'accessing' }

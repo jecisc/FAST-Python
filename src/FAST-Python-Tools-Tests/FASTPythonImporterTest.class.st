@@ -18294,6 +18294,49 @@ FASTPythonImporterTest >> testPrintStatement [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral)
 ]
 
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testPrintStatmentWithChevron [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testPrintStatmentWithChevron 	"
+
+	self parse: 'print >> file_object, "message"'.
+
+	self assert: (fast allWithType: FASTPyChevron) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPrintStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'print >> file_object, "message"'.
+	self assert: (self topEntity isOfType: FASTPyPrintStatement).
+	
+	"Testing value of multivalued relation expressions"
+	self assert: self topEntity expressions size equals: 1.
+	
+		stack push: (stack top expressions at: 1).
+		self assert: self topEntity sourceCode equals: '"message"'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
+		stack pop.
+	
+	"Testing value of monovalue relation redirection"
+	self assert: self topEntity redirection isNotNil.
+
+		stack push: self topEntity redirection.
+		self assert: self topEntity sourceCode equals: '>> file_object'.
+		self assert: (self topEntity isOfType: FASTPyChevron).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'file_object'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'tests - raise statement' }
 FASTPythonImporterTest >> testRaise [
 	<generated>

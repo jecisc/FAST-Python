@@ -634,6 +634,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(caseClause property: #pattern) <>-(tPattern property: #parentCaseClause).
 	
+	(chevron property: #expression) <>- (expression property: #parentChevron).
+	
 	(classPattern property: #elements) <>-* (tClassPatternElement property: #parentClassPattern).
 
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
@@ -710,6 +712,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(parameter property: #defaultValue) <>- (expression property: #parentDefaultParameterValue). "I need to refine the relation with a new trait."
 
 	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
+	
+	(printStatement property: #redirection) <>- (chevron property: #parentPrintStatement). 
 	
 	(raiseStatement property: #exception) <>- (tRaised property: #parentRaiseStatement).
 
