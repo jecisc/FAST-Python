@@ -453,6 +453,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	list --|> collectionInitializer.
 	list --|> tAsPatternTarget.
+	list --|> tAssignable.
 	
 	listComprehension --|> expression.
 	listComprehension --|> tComprehension.
