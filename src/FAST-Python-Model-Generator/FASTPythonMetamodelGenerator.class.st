@@ -315,7 +315,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> tAsPatternTarget.
 	attribute --|> tSplatParameterTarget.
 	
-	augmentedAssignment --|> statement.
+	augmentedAssignment --|> assignment.
 	
 	await --|> statement.
 

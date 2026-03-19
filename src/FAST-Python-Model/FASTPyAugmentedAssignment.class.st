@@ -1,6 +1,6 @@
 Class {
 	#name : 'FASTPyAugmentedAssignment',
-	#superclass : 'FASTPyStatement',
+	#superclass : 'FASTPyAssignment',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -9,7 +9,7 @@ Class {
 { #category : 'meta' }
 FASTPyAugmentedAssignment class >> annotation [
 
-	<FMClass: #AugmentedAssignment super: #FASTPyStatement>
+	<FMClass: #AugmentedAssignment super: #FASTPyAssignment>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
