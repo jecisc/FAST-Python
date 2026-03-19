@@ -568,6 +568,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	unaryOperator --|> tUnaryOperator.
 	
 	unionPattern --|> tPattern.
+	
+	unionType --|> tTypeContent.
 
 	variable --|> expression.
 	variable --|> tVariableEntity.
@@ -778,6 +780,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(tWithTypeParameters property: #typeParameters) <>-* (type property: #parentWithTypeParameters).
 	
 	(unionPattern property: #members) <>-* (tPattern property: #parentUnionPattern).
+	
+	(unionType property: #types) <>-* (type property: #parentUnionType).
 
 	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithStatementItem)
 ]

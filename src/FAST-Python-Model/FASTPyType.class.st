@@ -11,6 +11,7 @@
 | `parentFunctionDefinition` | `FASTPyType` | `returnType` | `FASTPyFunctionDefinition` | |
 | `parentGenericTypeArgument` | `FASTPyType` | `arguments` | `FASTPyGenericType` | |
 | `parentParameter` | `FASTPyType` | `type` | `FASTPyParameter` | |
+| `parentUnionType` | `FASTPyType` | `types` | `FASTPyUnionType` | |
 | `parentWithTypeParameters` | `FASTPyType` | `typeParameters` | `FASTPyTWithTypeParameters` | |
 | `parentyTypeAliasStatementAlias` | `FASTPyType` | `left` | `FASTPyTypeAliasStatement` | |
 | `parentyTypeAliasStatementType` | `FASTPyType` | `right` | `FASTPyTypeAliasStatement` | |
@@ -34,6 +35,7 @@ Class {
 		'#parentFunctionDefinition => FMOne type: #FASTPyFunctionDefinition opposite: #returnType',
 		'#parentGenericTypeArgument => FMOne type: #FASTPyGenericType opposite: #arguments',
 		'#parentParameter => FMOne type: #FASTPyParameter opposite: #type',
+		'#parentUnionType => FMOne type: #FASTPyUnionType opposite: #types',
 		'#parentWithTypeParameters => FMOne type: #FASTPyTWithTypeParameters opposite: #typeParameters',
 		'#parentyTypeAliasStatementAlias => FMOne type: #FASTPyTypeAliasStatement opposite: #left',
 		'#parentyTypeAliasStatementType => FMOne type: #FASTPyTypeAliasStatement opposite: #right'
@@ -215,6 +217,29 @@ FASTPyType >> parentParameterGroup [
 	<generated>
 	<navigation: 'ParentParameter'>
 	^ MooseSpecializedGroup with: self parentParameter
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentUnionType [
+	"Relation named: #parentUnionType type: #FASTPyUnionType opposite: #types"
+
+	<generated>
+	<container>
+	^ parentUnionType
+]
+
+{ #category : 'accessing' }
+FASTPyType >> parentUnionType: anObject [
+
+	<generated>
+	parentUnionType := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyType >> parentUnionTypeGroup [
+	<generated>
+	<navigation: 'ParentUnionType'>
+	^ MooseSpecializedGroup with: self parentUnionType
 ]
 
 { #category : 'accessing' }

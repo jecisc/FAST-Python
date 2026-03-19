@@ -1014,6 +1014,17 @@ TSFASTPythonImporter >> visitUnionPattern: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitUnionType: aTSNode [
+
+	"If we have union types in union types, we want to flatten them in only one node. But the implementation might need to change depending on this issue: https://github.com/tree-sitter/tree-sitter-python/issues/334"
+	(self topFastEntity isOfType: FASTPyUnionType) ifTrue: [ ^ self rawVisitChildren: aTSNode ].
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #types ].
+
+	^ self handleNode: aTSNode kind: FASTPyUnionType
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitWildcardImport: aTSNode [
 
 	| fastEntity |
