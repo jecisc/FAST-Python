@@ -70,14 +70,9 @@ TSFASTPythonImporter >> isInParameter: aNode [
 { #category : 'testing' }
 TSFASTPythonImporter >> shouldIdentifierSetNameProperty [
 
-	(context top isOfFASTType: FASTPyGenericType) ifTrue: [ ^ true ].
+	({ FASTPyGenericType.  FASTPySplatType } anySatisfy: [ :class | context top isOfFASTType: class ]) ifTrue: [ ^ true ].
 
-	^ context top field = #name and: [
-			  {
-				  FASTPyMethodDefinition.
-				  FASTPyClassDefinition.
-				  FASTPyFunctionDefinition.
-				  FASTPyKeywordArgument } anySatisfy: [ :class | context top isOfFASTType: class ] ]
+	^ context top field = #name and: [ context top isOfFASTType: FASTTNamedEntity ]
 ]
 
 { #category : 'visiting - skip' }

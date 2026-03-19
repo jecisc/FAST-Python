@@ -522,6 +522,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	slice --|> expression.
 	
+	splatType --|> tTypeContent.
+	splatType --|> tNamedEntity.
+	
 	statement --|> tStatement.
 
 	string --|> literal.
