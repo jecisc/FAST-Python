@@ -7,7 +7,7 @@ My users are expressions that can be in a collection splat. For example in `[ *g
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
+| `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPySplat` | |
 
 
 
@@ -15,7 +15,7 @@ My users are expressions that can be in a collection splat. For example in `[ *g
 Trait {
 	#name : 'FASTPyTSplatExpression',
 	#instVars : [
-		'#parentSplat => FMOne type: #FASTPyCollectionSplat opposite: #expression'
+		'#parentSplat => FMOne type: #FASTPySplat opposite: #expression'
 	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
@@ -33,7 +33,7 @@ FASTPyTSplatExpression classSide >> annotation [
 
 { #category : 'accessing' }
 FASTPyTSplatExpression >> parentSplat [
-	"Relation named: #parentSplat type: #FASTPyCollectionSplat opposite: #expression"
+	"Relation named: #parentSplat type: #FASTPySplat opposite: #expression"
 
 	<generated>
 	<container>

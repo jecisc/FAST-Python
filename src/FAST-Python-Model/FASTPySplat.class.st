@@ -14,13 +14,13 @@ In Python a collection (list or dictionary) splat is the unpacking of a collecti
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyCollectionSplat` | `parentSplat` | `FASTPyTSplatExpression` | |
+| `expression` | `FASTPySplat` | `parentSplat` | `FASTPyTSplatExpression` | |
 
 
 
 "
 Class {
-	#name : 'FASTPyCollectionSplat',
+	#name : 'FASTPySplat',
 	#superclass : 'FASTPyExpression',
 	#traits : 'FASTPyTPattern',
 	#classTraits : 'FASTPyTPattern classTrait',
@@ -33,16 +33,16 @@ Class {
 }
 
 { #category : 'meta' }
-FASTPyCollectionSplat class >> annotation [
+FASTPySplat class >> annotation [
 
-	<FMClass: #CollectionSplat super: #FASTPyExpression>
+	<FMClass: #Splat super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
 ]
 
 { #category : 'accessing' }
-FASTPyCollectionSplat >> expression [
+FASTPySplat >> expression [
 	"Relation named: #expression type: #FASTPyTSplatExpression opposite: #parentSplat"
 
 	<generated>
@@ -50,15 +50,24 @@ FASTPyCollectionSplat >> expression [
 ]
 
 { #category : 'accessing' }
-FASTPyCollectionSplat >> expression: anObject [
+FASTPySplat >> expression: anObject [
 
 	<generated>
 	expression := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyCollectionSplat >> expressionGroup [
+FASTPySplat >> expressionGroup [
 	<generated>
 	<navigation: 'Expression'>
 	^ MooseSpecializedGroup with: self expression
+]
+
+{ #category : 'testing' }
+FASTPySplat >> isDictionarySplat [
+
+	<FMProperty>
+	<derived>
+	<comment: 'If I return true, I correspond to a dictionary splat such as **kwargs. Else I am a list or set splat like *args.'>
+	^ self sourceCode beginsWith: '**'
 ]

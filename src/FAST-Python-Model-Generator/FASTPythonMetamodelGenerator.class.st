@@ -32,7 +32,6 @@ Class {
 		'dictPattern',
 		'dictionary',
 		'dictionaryComprehension',
-		'dictionarySplat',
 		'dottedName',
 		'elifClause',
 		'ellipsis',
@@ -65,7 +64,6 @@ Class {
 		'list',
 		'listComprehension',
 		'listPattern',
-		'listSplat',
 		'matchStatement',
 		'memberType',
 		'module',
@@ -138,7 +136,6 @@ Class {
 		'tDecoratorExpression',
 		'tWithElseClause',
 		'tWithComment',
-		'collectionSplat',
 		'tAsPatternTarget',
 		'tAsPatternSource',
 		'tWithStatementItem',
@@ -156,7 +153,8 @@ Class {
 		'tDeletable',
 		'tTypeContent',
 		'typeParameter',
-		'tWithTypeParameters'
+		'tWithTypeParameters',
+		'splat'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -203,7 +201,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	classDefinition withTesting.
 	classPattern := builder ensureClassNamed: #ClassPattern."Todo"
 	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
-	(collectionSplat := builder ensureClassNamed: #CollectionSplat) comment: 'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
 	comment := builder ensureClassNamed: #Comment."Todo"
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
 	complex := builder ensureClassNamed: #Complex.
@@ -215,7 +212,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	deleteStatement := builder ensureClassNamed: #DeleteStatement.
 	dictionary := builder ensureClassNamed: #Dictionary."To Review"
 	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
-	dictionarySplat := builder ensureClassNamed: #DictionarySplat."Todo"
 	dictionarySplatParameter := builder ensureClassNamed: #DictionarySplatParameter."Todo"
 	dottedName := builder ensureClassNamed: #DottedName."Todo"
 	elifClause := builder ensureClassNamed: #ElifClause."Todo"
@@ -252,7 +248,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	lambdaParameters := builder ensureClassNamed: #LambdaParameters."Todo"
 	list := builder ensureClassNamed: #List.
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
-	listSplat := builder ensureClassNamed: #ListSplat."To Review"
 	listSplatParameter := builder ensureClassNamed: #ListSplatParameter."Todo"
 	literal := builder ensureClassNamed: #Literal.
 	matchStatement := builder ensureClassNamed: #MatchStatement."Todo"
@@ -275,6 +270,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	set := builder ensureClassNamed: #Set.
 	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
 	slice := builder ensureClassNamed: #Slice. "To review"
+	(splat := builder ensureClassNamed: #Splat) comment: 'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
@@ -358,9 +354,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	collectionInitializer --|> tSplatExpression.
 	collectionInitializer --|> tPattern.
 	
-	collectionSplat --|> expression.
-	collectionSplat --|> tPattern.
-
 	comment --|> tComment.
 
 	comparisonOperator --|> operator.
@@ -383,8 +376,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	dictionaryComprehension --|> expression.
 	dictionaryComprehension --|> tComprehension.
-	
-	dictionarySplat --|> collectionSplat.
 	
 	dictionarySplatParameter --|> parameter.
 	dictionarySplatParameter --|> tSplatParameter.
@@ -471,8 +462,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	listComprehension --|> expression.
 	listComprehension --|> tComprehension.
-
-	listSplat --|> collectionSplat.
 	
 	listSplatParameter --|> parameter.
 	listSplatParameter --|> tSplatParameter.
@@ -524,6 +513,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	setComprehension --|> tComprehension.
 	
 	slice --|> expression.
+	
+	splat --|> expression.
+	splat --|> tPattern.
 	
 	splatType --|> tTypeContent.
 	splatType --|> tNamedEntity.
@@ -665,8 +657,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((collectionInitializer property: #initializers) comment: 'Each initializer defines one element.')
 	<>-* ((expression property: #collectionInitializer) comment: 'The owner of the expression').
 
-	(collectionSplat property: #expression) <>- (tSplatExpression property: #parentSplat).
-
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
@@ -748,6 +738,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(printStatement property: #redirection) <>- (chevron property: #parentPrintStatement). 
 	
 	(raiseStatement property: #exception) <>- (tRaised property: #parentRaiseStatement).
+
+	(splat property: #expression) <>- (tSplatExpression property: #parentSplat).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
 	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''). "Originally, I created a trait for Slice content because the python syntax does not allow all expressions. But multiple libraries are changing the syntax to accept other objects such as float, list or even string. So now I point FASTPyExpression to not fail on all those cases."

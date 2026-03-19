@@ -140,13 +140,6 @@ FASTPyTEntityCreator >> newCollectionInitializer [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newCollectionSplat [
-
-	<generated>
-	^ self add: FASTPyCollectionSplat new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newComment [
 
 	<generated>
@@ -221,13 +214,6 @@ FASTPyTEntityCreator >> newDictionaryComprehension [
 
 	<generated>
 	^ self add: FASTPyDictionaryComprehension new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newDictionarySplat [
-
-	<generated>
-	^ self add: FASTPyDictionarySplat new
 ]
 
 { #category : 'entity creation' }
@@ -490,13 +476,6 @@ FASTPyTEntityCreator >> newListComprehension [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newListSplat [
-
-	<generated>
-	^ self add: FASTPyListSplat new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newListSplatParameter [
 
 	<generated>
@@ -641,6 +620,13 @@ FASTPyTEntityCreator >> newSlice [
 
 	<generated>
 	^ self add: FASTPySlice new
+]
+
+{ #category : 'entity creation' }
+FASTPyTEntityCreator >> newSplat [
+
+	<generated>
+	^ self add: FASTPySplat new
 ]
 
 { #category : 'entity creation' }
