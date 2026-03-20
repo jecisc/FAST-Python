@@ -129,7 +129,6 @@ Class {
 		'statement',
 		'tWithStatements',
 		'tNumericalLiteral',
-		'tComprehension',
 		'tWithCondition',
 		'tWithParameters',
 		'tDefinition',
@@ -152,7 +151,8 @@ Class {
 		'typeParameter',
 		'tWithTypeParameters',
 		'splat',
-		'splatParameter'
+		'splatParameter',
+		'comprehension'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -201,6 +201,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	collectionInitializer := builder ensureClassNamed: #CollectionInitializer.
 	comment := builder ensureClassNamed: #Comment."Todo"
 	comparisonOperator := builder ensureClassNamed: #ComparisonOperator.
+	comprehension := builder ensureClassNamed: #Comprehension.
 	complex := builder ensureClassNamed: #Complex.
 	concatenatedString := builder ensureClassNamed: #ConcatenatedString."Todo"
 	conditionalExpression := builder ensureClassNamed: #ConditionalExpression."Todo"
@@ -359,6 +360,10 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	complex --|> literal.
 	complex --|> tNumericalLiteral.
 	
+	comprehension --|> expression.	
+	comprehension --|> tSplatExpression.
+	comprehension --|> tWithCondition.
+	
 	concatenatedString --|> expression.
 	
 	conditionalExpression --|> expression.
@@ -372,8 +377,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	dictionary --|> collectionInitializer.
 	
-	dictionaryComprehension --|> expression.
-	dictionaryComprehension --|> tComprehension.
+	dictionaryComprehension --|> comprehension.
 	
 	dottedName --|> expression.
 	dottedName --|> tPattern.
@@ -409,8 +413,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	functionDefinition --|> tDefinition.
 	functionDefinition --|> tWithTypeParameters.
 	
-	generatorExpression --|> expression.
-	generatorExpression --|> tComprehension.
+	generatorExpression --|> comprehension.
 	
 	genericType --|> tTypeContent.
 	genericType --|> tWithTypeParameters.
@@ -455,8 +458,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	list --|> tAsPatternTarget.
 	list --|> tAssignable.
 	
-	listComprehension --|> expression.
-	listComprehension --|> tComprehension.
+	listComprehension --|> comprehension.
 	
 	literal --|> expression.
 	literal --|> tLiteral.
@@ -501,8 +503,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	set --|> collectionInitializer.
 	
-	setComprehension --|> expression.
-	setComprehension --|> tComprehension.
+	setComprehension --|> comprehension.
 	
 	slice --|> expression.
 	
@@ -525,10 +526,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	subscript --|> tAsPatternTarget.
 	
 	tAsPatternTarget --|> tAsPatternSource.
-	
-	tComprehension --|> tSplatExpression.
-	tComprehension --|> tWithCondition.
-	
+
 	tDefinition --|> tNamedBehaviouralEntity.
 	
 	tReturnReferenceable --|> tAssignable.
@@ -651,15 +649,16 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((comparisonOperator property: #operands) comment:
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
+	
+	(comprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
+	(comprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
 
 	(concatenatedString property: #strings) <>-* (string property: #parentConcatenatedString).
 
 	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
-
 	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
 	
 	(constrainedType property: #type) <>- (type property: #parentContrainedType).
-	
 	(constrainedType property: #bound) <>- (type property: #parentContrainedTypeBound).
 
 	(decorator property: #expression) <>- (tDecoratorExpression property: #parentDeclarator).
@@ -670,7 +669,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(exceptClause property: #expressions) <>-* (expression property: #parentExceptClause). "We could point less things than expression, but in reality in Python any expression can be provided. It will just end up in runtime error."
 
 	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
-
 	(forInClause property: #right) <>- (expression property: #forInClauseRightOwner).
 
 	((forStatement property: #right) comment: 'The list that the for statement iterates over')
@@ -688,7 +686,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(ifClause property: #expression) <>- (expression property: #ifClauseOwner).
 
 	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
-
 	(ifStatement property: #elifClauses) <>-* (elifClause property: #ifStatementOwner).
 
 	((import property: #importedEntities) comment: 'List of the imported entities.')
@@ -708,7 +705,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(lambda property: #expression) <>- (expression property: #lambdaOwner).
 	
 	(matchStatement property: #subject) <>- (expression property: #parentMatchStatement).
-	
 	(matchStatement property: #cases) <>-* (caseClause property: #parentMatchStatement).
 	
 	(namedExpression property: #value) <>- (expression property: #parentWalrus).
@@ -721,11 +717,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(pair property: #value) <>- (expression property: #pairValueOwner).
 	
 	(parameter property: #type) <>- (type property: #parentParameter).
-	
 	(parameter property: #defaultValue) <>- (expression property: #parentDefaultParameterValue). "I need to refine the relation with a new trait."
 
 	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
-	
 	(printStatement property: #redirection) <>- (chevron property: #parentPrintStatement). 
 	
 	(raiseStatement property: #exception) <>- (tRaised property: #parentRaiseStatement).
@@ -742,10 +736,6 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((subscript property: #indices) comment: 'The elements defining the indices to select in a subscript.')
 	<>-* ((expression property: #subscriptIndiceOwner) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
-
-	(tComprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
-
-	(tComprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
 
 	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
 	
@@ -791,8 +781,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	
 	(tClassPatternElement := builder newTraitNamed: #TClassPatternElement) comment: 'I represent the elements of a class pattern in python pattern matcher. The first element is the class name, the others the arguments.'.
 
-	tComprehension := builder newTraitNamed: #TComprehension.
-	
 	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 
 	tDefinition := builder newTraitNamed: #TDefinition.

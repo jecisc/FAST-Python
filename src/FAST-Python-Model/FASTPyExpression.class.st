@@ -10,8 +10,8 @@
 | `attributeObjectOwner` | `FASTPyExpression` | `value` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
 | `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
-| `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyTComprehension` | |
-| `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyTComprehension` | |
+| `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyComprehension` | |
+| `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyComprehension` | |
 | `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
 | `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -65,8 +65,8 @@ Class {
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #value',
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
-		'#comprehensionBodyOwner => FMOne type: #FASTPyTComprehension opposite: #body',
-		'#comprehensionClauseOwner => FMOne type: #FASTPyTComprehension opposite: #clauses',
+		'#comprehensionBodyOwner => FMOne type: #FASTPyComprehension opposite: #body',
+		'#comprehensionClauseOwner => FMOne type: #FASTPyComprehension opposite: #clauses',
 		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
 		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
@@ -184,7 +184,7 @@ FASTPyExpression >> collectionInitializerGroup [
 
 { #category : 'accessing' }
 FASTPyExpression >> comprehensionBodyOwner [
-	"Relation named: #comprehensionBodyOwner type: #FASTPyTComprehension opposite: #body"
+	"Relation named: #comprehensionBodyOwner type: #FASTPyComprehension opposite: #body"
 
 	<generated>
 	<container>
@@ -208,7 +208,7 @@ FASTPyExpression >> comprehensionBodyOwnerGroup [
 
 { #category : 'accessing' }
 FASTPyExpression >> comprehensionClauseOwner [
-	"Relation named: #comprehensionClauseOwner type: #FASTPyTComprehension opposite: #clauses"
+	"Relation named: #comprehensionClauseOwner type: #FASTPyComprehension opposite: #clauses"
 
 	<generated>
 	<container>

@@ -19,9 +19,7 @@
 "
 Class {
 	#name : 'FASTPySetComprehension',
-	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTComprehension',
-	#classTraits : 'FASTPyTComprehension classTrait',
+	#superclass : 'FASTPyComprehension',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -30,7 +28,7 @@ Class {
 { #category : 'meta' }
 FASTPySetComprehension class >> annotation [
 
-	<FMClass: #SetComprehension super: #FASTPyExpression>
+	<FMClass: #SetComprehension super: #FASTPyComprehension>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

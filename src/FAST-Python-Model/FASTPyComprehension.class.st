@@ -10,43 +10,44 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `body` | `FASTPyTComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
-| `clauses` | `FASTPyTComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
+| `body` | `FASTPyComprehension` | `comprehensionBodyOwner` | `FASTPyExpression` | |
+| `clauses` | `FASTPyComprehension` | `comprehensionClauseOwner` | `FASTPyExpression` | |
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 
 
 
 "
-Trait {
-	#name : 'FASTPyTComprehension',
+Class {
+	#name : 'FASTPyComprehension',
+	#superclass : 'FASTPyExpression',
+	#traits : 'FASTPyTSplatExpression + FASTTWithCondition',
+	#classTraits : 'FASTPyTSplatExpression classTrait + FASTTWithCondition classTrait',
 	#instVars : [
 		'#body => FMOne type: #FASTPyExpression opposite: #comprehensionBodyOwner',
 		'#clauses => FMMany type: #FASTPyExpression opposite: #comprehensionClauseOwner'
 	],
-	#traits : 'FASTPyTSplatExpression + FASTTWithCondition',
-	#classTraits : 'FASTPyTSplatExpression classTrait + FASTTWithCondition classTrait',
-	#category : 'FAST-Python-Model-Traits',
+	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
-	#tag : 'Traits'
+	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPyTComprehension classSide >> annotation [
+FASTPyComprehension class >> annotation [
 
-	<FMClass: #TComprehension super: #Object>
+	<FMClass: #Comprehension super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
 ]
 
 { #category : 'adding' }
-FASTPyTComprehension >> addClause: anObject [
+FASTPyComprehension >> addClause: anObject [
 	<generated>
 	^ self clauses add: anObject
 ]
 
 { #category : 'accessing' }
-FASTPyTComprehension >> body [
+FASTPyComprehension >> body [
 	"Relation named: #body type: #FASTPyExpression opposite: #comprehensionBodyOwner"
 
 	<generated>
@@ -54,21 +55,21 @@ FASTPyTComprehension >> body [
 ]
 
 { #category : 'accessing' }
-FASTPyTComprehension >> body: anObject [
+FASTPyComprehension >> body: anObject [
 
 	<generated>
 	body := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTComprehension >> bodyGroup [
+FASTPyComprehension >> bodyGroup [
 	<generated>
 	<navigation: 'Body'>
 	^ MooseSpecializedGroup with: self body
 ]
 
 { #category : 'accessing' }
-FASTPyTComprehension >> clauses [
+FASTPyComprehension >> clauses [
 	"Relation named: #clauses type: #FASTPyExpression opposite: #comprehensionClauseOwner"
 
 	<generated>
@@ -77,14 +78,14 @@ FASTPyTComprehension >> clauses [
 ]
 
 { #category : 'accessing' }
-FASTPyTComprehension >> clauses: anObject [
+FASTPyComprehension >> clauses: anObject [
 
 	<generated>
 	clauses value: anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTComprehension >> clausesGroup [
+FASTPyComprehension >> clausesGroup [
 	<generated>
 	<navigation: 'Clauses'>
 	^ MooseSpecializedGroup withAll: self clauses asSet

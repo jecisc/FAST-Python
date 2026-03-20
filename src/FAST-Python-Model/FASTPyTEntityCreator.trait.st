@@ -161,6 +161,13 @@ FASTPyTEntityCreator >> newComplex [
 ]
 
 { #category : 'entity creation' }
+FASTPyTEntityCreator >> newComprehension [
+
+	<generated>
+	^ self add: FASTPyComprehension new
+]
+
+{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newConcatenatedString [
 
 	<generated>

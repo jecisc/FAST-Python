@@ -1927,7 +1927,6 @@ FASTPythonImporterTest >> testAssignmentToList_comprehension [
 		stack push: self topEntity right.
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -2185,7 +2184,6 @@ FASTPythonImporterTest >> testAssignmentToSetComprehension [
 		stack push: self topEntity right.
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -2926,7 +2924,6 @@ FASTPythonImporterTest >> testAttributeAccessOnDictionary_comprehension [
 		stack push: self topEntity value.
 		self assert: self topEntity sourceCode equals: '{ v:v for v in x }'.
 		self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -3115,7 +3112,6 @@ FASTPythonImporterTest >> testAttributeAccessOnList_comprehension [
 		stack push: self topEntity value.
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -3290,7 +3286,6 @@ FASTPythonImporterTest >> testAttributeAccessOnSetComprehension [
 		stack push: self topEntity value.
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -4851,7 +4846,6 @@ FASTPythonImporterTest >> testBinaryOperatorWithDictionary_comprehension [
 		stack push: self topEntity leftOperand.
 		self assert: self topEntity sourceCode equals: '{ v:v for v in x }'.
 		self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -4910,7 +4904,6 @@ FASTPythonImporterTest >> testBinaryOperatorWithDictionary_comprehension [
 		stack push: self topEntity rightOperand.
 		self assert: self topEntity sourceCode equals: '{ v:v for v in x }'.
 		self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -5185,7 +5178,6 @@ FASTPythonImporterTest >> testBinaryOperatorWithList_comprehension [
 		stack push: self topEntity leftOperand.
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -5248,7 +5240,6 @@ FASTPythonImporterTest >> testBinaryOperatorWithList_comprehension [
 		stack push: self topEntity rightOperand.
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -5434,7 +5425,6 @@ FASTPythonImporterTest >> testBinaryOperatorWithSetComprehension [
 		stack push: self topEntity leftOperand.
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -5497,7 +5487,6 @@ FASTPythonImporterTest >> testBinaryOperatorWithSetComprehension [
 		stack push: self topEntity rightOperand.
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -10045,7 +10034,6 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{ v:k for k,v in class_indices.items() }'.
 	self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -10147,7 +10135,6 @@ FASTPythonImporterTest >> testDictionaryComprehensionWithIfClause [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{ v:k for k,v in class_indices.items() if v > 3 }'.
 	self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -10626,7 +10613,6 @@ FASTPythonImporterTest >> testDictionarySplatOnDictionaryComprehension [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: '{k: v * 2 for k, v in items}'.
 			self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-			self assert: (self topEntity isOfType: FASTPyTComprehension).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
@@ -11786,7 +11772,6 @@ FASTPythonImporterTest >> testDictionaryWithList_comprehension [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
-			self assert: (self topEntity isOfType: FASTPyTComprehension).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
@@ -12033,7 +12018,6 @@ FASTPythonImporterTest >> testDictionaryWithSetComprehension [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 			self assert: (self topEntity isOfType: FASTPySetComprehension).
-			self assert: (self topEntity isOfType: FASTPyTComprehension).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
@@ -13977,7 +13961,6 @@ FASTPythonImporterTest >> testGeneratorExpression [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '(x * x for x in range(10))'.
 	self assert: (self topEntity isOfType: FASTPyGeneratorExpression).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -15820,7 +15803,6 @@ FASTPythonImporterTest >> testInterpolationWithComprehension [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: '[x for x in items]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
-			self assert: (self topEntity isOfType: FASTPyTComprehension).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
@@ -16651,7 +16633,6 @@ FASTPythonImporterTest >> testListComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[x * x for x in range(5)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -16741,7 +16722,6 @@ FASTPythonImporterTest >> testListComprehensionWithAttribute [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[x.y for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -16822,7 +16802,6 @@ FASTPythonImporterTest >> testListComprehensionWithAwait [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[await x for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -16902,7 +16881,6 @@ FASTPythonImporterTest >> testListComprehensionWithBinaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[y + x for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -16992,7 +16970,6 @@ FASTPythonImporterTest >> testListComprehensionWithBooleanOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[x or y for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17081,7 +17058,6 @@ FASTPythonImporterTest >> testListComprehensionWithCall [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[obj() for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17163,7 +17139,6 @@ FASTPythonImporterTest >> testListComprehensionWithComparisonOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[x in str for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17249,7 +17224,6 @@ FASTPythonImporterTest >> testListComprehensionWithComplexe [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[0j for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17324,7 +17298,6 @@ FASTPythonImporterTest >> testListComprehensionWithConditionalExpression [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[x if True else y for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17424,7 +17397,6 @@ FASTPythonImporterTest >> testListComprehensionWithDictionary [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[{ 1:x } for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17523,7 +17495,6 @@ FASTPythonImporterTest >> testListComprehensionWithDictionary_comprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[{ v:x for v in y } for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17532,7 +17503,6 @@ FASTPythonImporterTest >> testListComprehensionWithDictionary_comprehension [
 		stack push: self topEntity body.
 		self assert: self topEntity sourceCode equals: '{ v:x for v in y }'.
 		self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -17645,7 +17615,6 @@ FASTPythonImporterTest >> testListComprehensionWithEllipsis [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[... for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17718,7 +17687,6 @@ FASTPythonImporterTest >> testListComprehensionWithFalse [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[False for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17792,7 +17760,6 @@ FASTPythonImporterTest >> testListComprehensionWithFloat [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[0.0 for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17865,7 +17832,6 @@ FASTPythonImporterTest >> testListComprehensionWithIdentifier [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[obj for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -17937,7 +17903,6 @@ FASTPythonImporterTest >> testListComprehensionWithIfClause [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[x for x in range(10) if x  == 0]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18034,7 +17999,6 @@ FASTPythonImporterTest >> testListComprehensionWithInteger [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[0 for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18109,7 +18073,6 @@ FASTPythonImporterTest >> testListComprehensionWithLambda [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[lambda x:x for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18200,7 +18163,6 @@ FASTPythonImporterTest >> testListComprehensionWithList [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[[  ] for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18272,7 +18234,6 @@ FASTPythonImporterTest >> testListComprehensionWithList_comprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[[i + x for i in range(3)] for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18281,7 +18242,6 @@ FASTPythonImporterTest >> testListComprehensionWithList_comprehension [
 		stack push: self topEntity body.
 		self assert: self topEntity sourceCode equals: '[i + x for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -18416,7 +18376,6 @@ FASTPythonImporterTest >> testListComprehensionWithNone [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[None for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18489,7 +18448,6 @@ FASTPythonImporterTest >> testListComprehensionWithNotOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[not old for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18570,7 +18528,6 @@ FASTPythonImporterTest >> testListComprehensionWithPatternList [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[abs(x) + abs(y) for x, y in points]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18690,7 +18647,6 @@ FASTPythonImporterTest >> testListComprehensionWithSet [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[{ 1 } for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18773,7 +18729,6 @@ FASTPythonImporterTest >> testListComprehensionWithSetComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[{i + x for i in range(3) } for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18782,7 +18737,6 @@ FASTPythonImporterTest >> testListComprehensionWithSetComprehension [
 		stack push: self topEntity body.
 		self assert: self topEntity sourceCode equals: '{i + x for i in range(3) }'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -18917,7 +18871,6 @@ FASTPythonImporterTest >> testListComprehensionWithString [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '["Hello" for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -18991,7 +18944,6 @@ FASTPythonImporterTest >> testListComprehensionWithSubscript [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[attrs[2] for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -19081,7 +19033,6 @@ FASTPythonImporterTest >> testListComprehensionWithTrue [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[True for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -19155,7 +19106,6 @@ FASTPythonImporterTest >> testListComprehensionWithTuple [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[(x,) for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -19235,7 +19185,6 @@ FASTPythonImporterTest >> testListComprehensionWithUnaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '[-x for x in range(3)]'.
 	self assert: (self topEntity isOfType: FASTPyListComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -19646,7 +19595,6 @@ FASTPythonImporterTest >> testListSplatOnListComprehension [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: '[format(f) for f in FILES]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
-			self assert: (self topEntity isOfType: FASTPyTComprehension).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
@@ -20564,7 +20512,6 @@ FASTPythonImporterTest >> testListWithList_comprehension [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -20735,7 +20682,6 @@ FASTPythonImporterTest >> testListWithSetComprehension [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -26429,7 +26375,6 @@ FASTPythonImporterTest >> testSetComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{k1 for k1 in v.items() }'.
 	self assert: (self topEntity isOfType: FASTPySetComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -26500,7 +26445,6 @@ FASTPythonImporterTest >> testSetComprehensionWithIfClause [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: '{k1 for k1 in v.items() if k1 > 4}'.
 	self assert: (self topEntity isOfType: FASTPySetComprehension).
-	self assert: (self topEntity isOfType: FASTPyTComprehension).
 	self assert: (self topEntity isOfType: FASTTWithCondition).
 	
 	"Testing value of monovalue relation body"
@@ -27169,7 +27113,6 @@ FASTPythonImporterTest >> testSetWithList_comprehension [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -27339,7 +27282,6 @@ FASTPythonImporterTest >> testSetWithSetComprehension [
 		stack push: (stack top initializers at: 1).
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -30764,7 +30706,6 @@ FASTPythonImporterTest >> testTypeListComprehension [
 			stack push: self topEntity content.
 			self assert: self topEntity sourceCode equals: '[T for T in T.name]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
-			self assert: (self topEntity isOfType: FASTPyTComprehension).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation body"
@@ -32337,7 +32278,6 @@ FASTPythonImporterTest >> testWalrusList_comprehension [
 		stack push: self topEntity value.
 		self assert: self topEntity sourceCode equals: '[random for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
@@ -32551,7 +32491,6 @@ FASTPythonImporterTest >> testWalrusSetComprehension [
 		stack push: self topEntity value.
 		self assert: self topEntity sourceCode equals: '{random for i in range(3)}'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTComprehension).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation body"
