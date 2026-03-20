@@ -315,7 +315,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	augmentedAssignment --|> assignment.
 	
-	await --|> statement.
+	await --|> expression.
 
 	binaryOperator --|> operator.
 	binaryOperator --|> tBinaryExpression.

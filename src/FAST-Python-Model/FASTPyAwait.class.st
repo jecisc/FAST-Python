@@ -12,7 +12,7 @@
 "
 Class {
 	#name : 'FASTPyAwait',
-	#superclass : 'FASTPyStatement',
+	#superclass : 'FASTPyExpression',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #parentAwait'
 	],
@@ -24,7 +24,7 @@ Class {
 { #category : 'meta' }
 FASTPyAwait class >> annotation [
 
-	<FMClass: #Await super: #FASTPyStatement>
+	<FMClass: #Await super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
