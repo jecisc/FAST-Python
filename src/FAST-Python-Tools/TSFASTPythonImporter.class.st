@@ -71,6 +71,8 @@ TSFASTPythonImporter >> isInParameter: aNode [
 TSFASTPythonImporter >> shouldIdentifierSetNameProperty [
 
 	({ FASTPyGenericType.  FASTPySplatType } anySatisfy: [ :class | context top isOfFASTType: class ]) ifTrue: [ ^ true ].
+	
+	(context top field = #attribute and: [ context top isOfFASTType: FASTPyAttributeAccess ]) ifTrue: [ ^ true ].
 
 	^ context top field = #name and: [ context top isOfFASTType: FASTTNamedEntity ]
 ]
@@ -134,6 +136,8 @@ TSFASTPythonImporter >> visitAssertStatement: aTSNode [
 
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitAttribute: aTSNode [
+
+	self onNextContextDo: [ :entry | entry add: 'value' asAliasOfField: 'object' ].
 
 	^ self handleNode: aTSNode kind: FASTPyAttributeAccess
 ]

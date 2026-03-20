@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAsPatternTarget` | `FASTPyTAsPatternTarget` | `target` | `FASTPyAsPattern` | |
 | `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
@@ -17,20 +18,26 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `attribute` | `FASTPyAttributeAccess` | `attributeOwner` | `FASTPyIdentifier` | The variable been accessed|
-| `object` | `FASTPyAttributeAccess` | `attributeObjectOwner` | `FASTPyExpression` | I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...|
+| `value` | `FASTPyAttributeAccess` | `attributeObjectOwner` | `FASTPyExpression` | I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...|
 
 
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `endPos` | `Number` | nil | |
+| `name` | `String` | nil | |
+| `startPos` | `Number` | nil | |
 
 "
 Class {
 	#name : 'FASTPyAttributeAccess',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable + FASTPyTSplatParameterTarget',
-	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait + FASTPyTSplatParameterTarget classTrait',
+	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable + FASTPyTSplatParameterTarget + FASTTNamedEntity',
+	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait + FASTPyTSplatParameterTarget classTrait + FASTTNamedEntity classTrait',
 	#instVars : [
-		'#attribute => FMOne type: #FASTPyIdentifier opposite: #attributeOwner',
-		'#object => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
+		'#value => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -47,47 +54,24 @@ FASTPyAttributeAccess class >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyAttributeAccess >> attribute [
-	"Relation named: #attribute type: #FASTPyIdentifier opposite: #attributeOwner"
-
-	<generated>
-	<FMComment: 'The variable been accessed'>
-	^ attribute
-]
-
-{ #category : 'accessing' }
-FASTPyAttributeAccess >> attribute: anObject [
-
-	<generated>
-	attribute := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyAttributeAccess >> attributeGroup [
-	<generated>
-	<navigation: 'Attribute'>
-	^ MooseSpecializedGroup with: self attribute
-]
-
-{ #category : 'accessing' }
-FASTPyAttributeAccess >> object [
-	"Relation named: #object type: #FASTPyExpression opposite: #attributeObjectOwner"
+FASTPyAttributeAccess >> value [
+	"Relation named: #value type: #FASTPyExpression opposite: #attributeObjectOwner"
 
 	<generated>
 	<FMComment: 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...'>
-	^ object
+	^ value
 ]
 
 { #category : 'accessing' }
-FASTPyAttributeAccess >> object: anObject [
+FASTPyAttributeAccess >> value: anObject [
 
 	<generated>
-	object := anObject
+	value := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyAttributeAccess >> objectGroup [
+FASTPyAttributeAccess >> valueGroup [
 	<generated>
-	<navigation: 'Object'>
-	^ MooseSpecializedGroup with: self object
+	<navigation: 'Value'>
+	^ MooseSpecializedGroup with: self value
 ]

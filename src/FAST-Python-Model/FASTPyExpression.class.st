@@ -7,7 +7,7 @@
 |---|
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
-| `attributeObjectOwner` | `FASTPyExpression` | `object` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
+| `attributeObjectOwner` | `FASTPyExpression` | `value` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
 | `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyTComprehension` | |
@@ -62,7 +62,7 @@ Class {
 	#traits : 'FASTPyTTypeContent + FASTTExpression',
 	#classTraits : 'FASTPyTTypeContent classTrait + FASTTExpression classTrait',
 	#instVars : [
-		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #object',
+		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #value',
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#comprehensionBodyOwner => FMOne type: #FASTPyTComprehension opposite: #body',
@@ -110,7 +110,7 @@ FASTPyExpression class >> annotation [
 
 { #category : 'accessing' }
 FASTPyExpression >> attributeObjectOwner [
-	"Relation named: #attributeObjectOwner type: #FASTPyAttributeAccess opposite: #object"
+	"Relation named: #attributeObjectOwner type: #FASTPyAttributeAccess opposite: #value"
 
 	<generated>
 	<FMComment: 'My parent if I define the object of an attribute access (if it''s the case).'>

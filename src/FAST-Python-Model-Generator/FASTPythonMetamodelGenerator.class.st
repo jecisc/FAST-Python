@@ -311,6 +311,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	attribute --|> tReturnReferenceable.
 	attribute --|> tAsPatternTarget.
 	attribute --|> tSplatParameterTarget.
+	attribute --|> tNamedEntity.
 	
 	augmentedAssignment --|> assignment.
 	
@@ -628,12 +629,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((assertStatement property: #expressions) comment: 'The expressions asserted')
 	<>-* ((expression property: #parentAssertStatement) comment: 'The assert statement that own the expression (if it''s the case)').
 
-	((attribute property: #object) comment:
+	((attribute property: #value) comment:
 		 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...')
 	<>- ((expression property: #attributeObjectOwner) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
-
-	((attribute property: #attribute) comment: 'The variable been accessed')
-	<>- ((identifier property: #attributeOwner) comment: 'The attribute access accessing me (if it''s the case)').
 
 	(await property: #expression) <>- (expression property: #parentAwait).
 
