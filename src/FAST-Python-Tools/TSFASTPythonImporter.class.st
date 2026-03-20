@@ -432,26 +432,18 @@ TSFASTPythonImporter >> visitDictionaryComprehension: aTSNode [
 	^ self visitComprehension: aTSNode
 ]
 
-{ #category : 'visiting - alias' }
+{ #category : 'visiting - redirect' }
 TSFASTPythonImporter >> visitDictionarySplat: aTSNode [
+	"Treat both splat the same way."
 
-	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'expression' ].
-
-	^ self handleNode: aTSNode kind: FASTPySplat
+	^ self visitListSplat: aTSNode
 ]
 
-{ #category : 'visiting - alias' }
+{ #category : 'visiting - redirect' }
 TSFASTPythonImporter >> visitDictionarySplatPattern: aTSNode [
-	"In case we are a parameter we skip the children because it always is an identifier"
+	"Handle both nodes the same."
 
-	(self isInParameter: aTSNode) ifTrue: [
-			| fastEntity |
-			fastEntity := self instantiateFastEntity: FASTPySplatParameter from: aTSNode.
-			self topFastEntity addParameter: fastEntity.
-			fastEntity name: (self sourceCodeOf: aTSNode collectNamedChild anyOne).
-			^ fastEntity ].
-
-	^ self handleNode: aTSNode
+	^ self visitListSplatPattern: aTSNode
 ]
 
 { #category : 'visiting' }
