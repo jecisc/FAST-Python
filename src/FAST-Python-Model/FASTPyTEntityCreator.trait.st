@@ -217,13 +217,6 @@ FASTPyTEntityCreator >> newDictionaryComprehension [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newDictionarySplatParameter [
-
-	<generated>
-	^ self add: FASTPyDictionarySplatParameter new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newDottedName [
 
 	<generated>
@@ -476,13 +469,6 @@ FASTPyTEntityCreator >> newListComprehension [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newListSplatParameter [
-
-	<generated>
-	^ self add: FASTPyListSplatParameter new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newLiteral [
 
 	<generated>
@@ -627,6 +613,13 @@ FASTPyTEntityCreator >> newSplat [
 
 	<generated>
 	^ self add: FASTPySplat new
+]
+
+{ #category : 'entity creation' }
+FASTPyTEntityCreator >> newSplatParameter [
+
+	<generated>
+	^ self add: FASTPySplatParameter new
 ]
 
 { #category : 'entity creation' }

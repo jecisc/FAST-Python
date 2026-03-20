@@ -143,10 +143,7 @@ Class {
 		'tAssignable',
 		'tReturnReferenceable',
 		'tSplatExpression',
-		'listSplatParameter',
 		'tSplatParameterTarget',
-		'tSplatParameter',
-		'dictionarySplatParameter',
 		'tPattern',
 		'tClassPatternElement',
 		'tUnionMember',
@@ -154,7 +151,8 @@ Class {
 		'tTypeContent',
 		'typeParameter',
 		'tWithTypeParameters',
-		'splat'
+		'splat',
+		'splatParameter'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -212,7 +210,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	deleteStatement := builder ensureClassNamed: #DeleteStatement.
 	dictionary := builder ensureClassNamed: #Dictionary."To Review"
 	dictionaryComprehension := builder ensureClassNamed: #DictionaryComprehension."Todo"
-	dictionarySplatParameter := builder ensureClassNamed: #DictionarySplatParameter."Todo"
 	dottedName := builder ensureClassNamed: #DottedName."Todo"
 	elifClause := builder ensureClassNamed: #ElifClause."Todo"
 	ellipsis := builder ensureClassNamed: #Ellipsis.
@@ -248,7 +245,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	lambdaParameters := builder ensureClassNamed: #LambdaParameters."Todo"
 	list := builder ensureClassNamed: #List.
 	listComprehension := builder ensureClassNamed: #ListComprehension."Todo"
-	listSplatParameter := builder ensureClassNamed: #ListSplatParameter."Todo"
 	literal := builder ensureClassNamed: #Literal.
 	matchStatement := builder ensureClassNamed: #MatchStatement."Todo"
 	memberType := builder ensureClassNamed: #MemberType."Todo"
@@ -271,6 +267,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	setComprehension := builder ensureClassNamed: #SetComprehension."Todo"
 	slice := builder ensureClassNamed: #Slice. "To review"
 	(splat := builder ensureClassNamed: #Splat) comment: 'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
+	splatParameter := builder ensureClassNamed: #SplatParameter.
 	splatType := builder ensureClassNamed: #SplatType."Todo"
 	statement := builder ensureClassNamed: #Statement.
 	string := builder ensureClassNamed: #String.
@@ -377,9 +374,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	dictionaryComprehension --|> expression.
 	dictionaryComprehension --|> tComprehension.
 	
-	dictionarySplatParameter --|> parameter.
-	dictionarySplatParameter --|> tSplatParameter.
-	
 	dottedName --|> expression.
 	dottedName --|> tPattern.
 	dottedName --|> tClassPatternElement.
@@ -463,9 +457,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	listComprehension --|> expression.
 	listComprehension --|> tComprehension.
 	
-	listSplatParameter --|> parameter.
-	listSplatParameter --|> tSplatParameter.
-
 	literal --|> expression.
 	literal --|> tLiteral.
 	literal --|> tPattern.
@@ -516,6 +507,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	splat --|> expression.
 	splat --|> tPattern.
+
+	splatParameter --|> parameter.
 	
 	splatType --|> tTypeContent.
 	splatType --|> tNamedEntity.
@@ -760,7 +753,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(tryStatement property: #excepts) <>-* (exceptClause property: #parentTryStatement).
 
-	(tSplatParameter property: #target) <>- (tSplatParameterTarget property: #parentSplatParameter).
+	(splatParameter property: #target) <>- (tSplatParameterTarget property: #parentSplatParameter).
 
 	((tUnaryOperator property: #argument) comment: 'Expression influanced by the unary operator..')
 	<>- ((expression property: #parentUnaryOperator) comment: 'Parent unary operator in which I am.').
@@ -815,8 +808,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	((tReturnReferenceable := builder newTraitNamed: #TReturnReferenceable) comment: 'Lot of relations in python points to references. And some nodes can return lot of those references such as call, subscript, tuple, attribute. I am here to group those dependences.').
 
 	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
-
-	(tSplatParameter := builder newTraitNamed: #TSplatParameter) comment: 'I represent a parameter that is a list or dictionary splat.'.
 
 	tSplatParameterTarget := (builder newTraitNamed: #TSplatParameterTarget) comment: 'My users are parameter target in a splat. For example in `def f(*list): pass`, we have a list splat parameter named list.'.
 	

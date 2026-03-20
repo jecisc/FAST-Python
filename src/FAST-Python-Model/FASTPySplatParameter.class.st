@@ -1,38 +1,37 @@
 "
-I represent a parameter that is a list or dictionary splat.
-
 ## Relations
 ======================
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `target` | `FASTPyTSplatParameter` | `parentSplatParameter` | `FASTPyTSplatParameterTarget` | |
+| `target` | `FASTPySplatParameter` | `parentSplatParameter` | `FASTPyTSplatParameterTarget` | |
 
 
 
 "
-Trait {
-	#name : 'FASTPyTSplatParameter',
+Class {
+	#name : 'FASTPySplatParameter',
+	#superclass : 'FASTPyParameter',
 	#instVars : [
 		'#target => FMOne type: #FASTPyTSplatParameterTarget opposite: #parentSplatParameter'
 	],
-	#category : 'FAST-Python-Model-Traits',
+	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
-	#tag : 'Traits'
+	#tag : 'Entities'
 }
 
 { #category : 'meta' }
-FASTPyTSplatParameter classSide >> annotation [
+FASTPySplatParameter class >> annotation [
 
-	<FMClass: #TSplatParameter super: #Object>
+	<FMClass: #SplatParameter super: #FASTPyParameter>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
 ]
 
 { #category : 'accessing' }
-FASTPyTSplatParameter >> target [
+FASTPySplatParameter >> target [
 	"Relation named: #target type: #FASTPyTSplatParameterTarget opposite: #parentSplatParameter"
 
 	<generated>
@@ -40,14 +39,14 @@ FASTPyTSplatParameter >> target [
 ]
 
 { #category : 'accessing' }
-FASTPyTSplatParameter >> target: anObject [
+FASTPySplatParameter >> target: anObject [
 
 	<generated>
 	target := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTSplatParameter >> targetGroup [
+FASTPySplatParameter >> targetGroup [
 	<generated>
 	<navigation: 'Target'>
 	^ MooseSpecializedGroup with: self target

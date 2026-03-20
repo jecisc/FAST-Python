@@ -7,7 +7,7 @@ My users are parameter target in a splat. For example in `def f(*list): pass`, w
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentSplatParameter` | `FASTPyTSplatParameterTarget` | `target` | `FASTPyTSplatParameter` | |
+| `parentSplatParameter` | `FASTPyTSplatParameterTarget` | `target` | `FASTPySplatParameter` | |
 
 
 
@@ -15,7 +15,7 @@ My users are parameter target in a splat. For example in `def f(*list): pass`, w
 Trait {
 	#name : 'FASTPyTSplatParameterTarget',
 	#instVars : [
-		'#parentSplatParameter => FMOne type: #FASTPyTSplatParameter opposite: #target'
+		'#parentSplatParameter => FMOne type: #FASTPySplatParameter opposite: #target'
 	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
@@ -33,7 +33,7 @@ FASTPyTSplatParameterTarget classSide >> annotation [
 
 { #category : 'accessing' }
 FASTPyTSplatParameterTarget >> parentSplatParameter [
-	"Relation named: #parentSplatParameter type: #FASTPyTSplatParameter opposite: #target"
+	"Relation named: #parentSplatParameter type: #FASTPySplatParameter opposite: #target"
 
 	<generated>
 	<container>

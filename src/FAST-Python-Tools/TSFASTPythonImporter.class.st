@@ -446,7 +446,7 @@ TSFASTPythonImporter >> visitDictionarySplatPattern: aTSNode [
 
 	(self isInParameter: aTSNode) ifTrue: [
 			| fastEntity |
-			fastEntity := self instantiateFastEntity: FASTPyDictionarySplatParameter from: aTSNode.
+			fastEntity := self instantiateFastEntity: FASTPySplatParameter from: aTSNode.
 			self topFastEntity addParameter: fastEntity.
 			fastEntity name: (self sourceCodeOf: aTSNode collectNamedChild anyOne).
 			^ fastEntity ].
@@ -747,7 +747,7 @@ TSFASTPythonImporter >> visitListSplatPattern: aTSNode [
 
 	(self isInParameter: aTSNode) ifTrue: [
 			| fastEntity |
-			fastEntity := self instantiateFastEntity: FASTPyListSplatParameter from: aTSNode.
+			fastEntity := self instantiateFastEntity: FASTPySplatParameter from: aTSNode.
 			self topFastEntity addParameter: fastEntity.
 			fastEntity name: (self sourceCodeOf: aTSNode collectNamedChild anyOne).
 			^ fastEntity ].

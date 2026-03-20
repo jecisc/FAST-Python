@@ -6591,10 +6591,10 @@ FASTPythonImporterTest >> testDictionarySplatParameter [
 	self parse: 'def function(**kwargs): pass'.
 
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
-	self assert: (fast allWithType: FASTPyDictionarySplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPySplatParameter) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'def function(**kwargs): pass'.
@@ -6609,7 +6609,7 @@ FASTPythonImporterTest >> testDictionarySplatParameter [
 	
 		stack push: (stack top parameters at: 1).
 		self assert: self topEntity sourceCode equals: '**kwargs'.
-		self assert: (self topEntity isOfType: FASTPyDictionarySplatParameter).
+		self assert: (self topEntity isOfType: FASTPySplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		self assert: self topEntity name equals: 'kwargs'.
 		stack pop.
@@ -12041,11 +12041,11 @@ FASTPythonImporterTest >> testLambdaWithDictionarySplatParameter [
 
 	self parse: 'lambda **fp, x: x'.
 
-	self assert: (fast allWithType: FASTPyDictionarySplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyLambda) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
+	self assert: (fast allWithType: FASTPySplatParameter) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'lambda **fp, x: x'.
@@ -12065,7 +12065,7 @@ FASTPythonImporterTest >> testLambdaWithDictionarySplatParameter [
 	
 		stack push: (stack top parameters at: 1).
 		self assert: self topEntity sourceCode equals: '**fp'.
-		self assert: (self topEntity isOfType: FASTPyDictionarySplatParameter).
+		self assert: (self topEntity isOfType: FASTPySplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		self assert: self topEntity name equals: 'fp'.
 		stack pop.
@@ -12156,9 +12156,9 @@ FASTPythonImporterTest >> testLambdaWithListSplatParameter [
 
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
 	self assert: (fast allWithType: FASTPyLambda) size equals: 1.
-	self assert: (fast allWithType: FASTPyListSplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyParameter) size equals: 1.
+	self assert: (fast allWithType: FASTPySplatParameter) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'lambda *fp, x: x'.
@@ -12178,7 +12178,7 @@ FASTPythonImporterTest >> testLambdaWithListSplatParameter [
 	
 		stack push: (stack top parameters at: 1).
 		self assert: self topEntity sourceCode equals: '*fp'.
-		self assert: (self topEntity isOfType: FASTPyListSplatParameter).
+		self assert: (self topEntity isOfType: FASTPySplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		self assert: self topEntity name equals: 'fp'.
 		stack pop.
@@ -13369,9 +13369,9 @@ FASTPythonImporterTest >> testListSplatParameter [
 
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyListSplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPySplatParameter) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'def function(*args): pass'.
@@ -13386,7 +13386,7 @@ FASTPythonImporterTest >> testListSplatParameter [
 	
 		stack push: (stack top parameters at: 1).
 		self assert: self topEntity sourceCode equals: '*args'.
-		self assert: (self topEntity isOfType: FASTPyListSplatParameter).
+		self assert: (self topEntity isOfType: FASTPySplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		self assert: self topEntity name equals: 'args'.
 		stack pop.
@@ -21449,9 +21449,9 @@ FASTPythonImporterTest >> testSplatType [
 
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
-	self assert: (fast allWithType: FASTPyListSplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPySplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPySplatType) size equals: 1.
 	self assert: (fast allWithType: FASTPyType) size equals: 1.
 
@@ -21468,7 +21468,7 @@ FASTPythonImporterTest >> testSplatType [
 	
 		stack push: (stack top parameters at: 1).
 		self assert: self topEntity sourceCode equals: '*items: *Ts'.
-		self assert: (self topEntity isOfType: FASTPyListSplatParameter).
+		self assert: (self topEntity isOfType: FASTPySplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		self assert: self topEntity name equals: 'items'.
 		
@@ -24332,9 +24332,9 @@ FASTPythonImporterTest >> testTypedListSplatParameter [
 	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
-	self assert: (fast allWithType: FASTPyListSplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPySplatParameter) size equals: 1.
 	self assert: (fast allWithType: FASTPyType) size equals: 1.
 
 	stack push: fast rootEntities anyOne containedEntities first.
@@ -24350,7 +24350,7 @@ FASTPythonImporterTest >> testTypedListSplatParameter [
 	
 		stack push: (stack top parameters at: 1).
 		self assert: self topEntity sourceCode equals: '*arg: Any'.
-		self assert: (self topEntity isOfType: FASTPyListSplatParameter).
+		self assert: (self topEntity isOfType: FASTPySplatParameter).
 		self assert: (self topEntity isOfType: FASTTVariableEntity).
 		self assert: self topEntity name equals: 'arg'.
 		
