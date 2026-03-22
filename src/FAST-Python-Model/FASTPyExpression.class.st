@@ -10,8 +10,6 @@
 | `attributeObjectOwner` | `FASTPyExpression` | `value` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
 | `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
-| `comprehensionBodyOwner` | `FASTPyExpression` | `body` | `FASTPyComprehension` | |
-| `comprehensionClauseOwner` | `FASTPyExpression` | `clauses` | `FASTPyComprehension` | |
 | `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
 | `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
@@ -29,6 +27,9 @@
 | `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentChevron` | `FASTPyExpression` | `expression` | `FASTPyChevron` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
+| `parentComprehensionBody` | `FASTPyExpression` | `body` | `FASTPyComprehension` | |
+| `parentComprehensionClause` | `FASTPyExpression` | `clauses` | `FASTPyComprehension` | |
+| `parentComprehensionCondition` | `FASTPyExpression` | `conditions` | `FASTPyComprehension` | |
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentDefaultParameterValue` | `FASTPyExpression` | `defaultValue` | `FASTPyParameter` | |
 | `parentExceptClause` | `FASTPyExpression` | `expressions` | `FASTPyExceptClause` | |
@@ -65,8 +66,6 @@ Class {
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #value',
 		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
-		'#comprehensionBodyOwner => FMOne type: #FASTPyComprehension opposite: #body',
-		'#comprehensionClauseOwner => FMOne type: #FASTPyComprehension opposite: #clauses',
 		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
 		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
 		'#forInClauseLeftOwner => FMOne type: #FASTPyForInClause opposite: #left',
@@ -83,6 +82,9 @@ Class {
 		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentChevron => FMOne type: #FASTPyChevron opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
+		'#parentComprehensionBody => FMOne type: #FASTPyComprehension opposite: #body',
+		'#parentComprehensionClause => FMOne type: #FASTPyComprehension opposite: #clauses',
+		'#parentComprehensionCondition => FMOne type: #FASTPyComprehension opposite: #conditions',
 		'#parentDefaultParameterValue => FMOne type: #FASTPyParameter opposite: #defaultValue',
 		'#parentExceptClause => FMOne type: #FASTPyExceptClause opposite: #expressions',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
@@ -180,53 +182,6 @@ FASTPyExpression >> collectionInitializerGroup [
 	<generated>
 	<navigation: 'CollectionInitializer'>
 	^ MooseSpecializedGroup with: self collectionInitializer
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> comprehensionBodyOwner [
-	"Relation named: #comprehensionBodyOwner type: #FASTPyComprehension opposite: #body"
-
-	<generated>
-	<container>
-	<derived>
-	^ comprehensionBodyOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> comprehensionBodyOwner: anObject [
-
-	<generated>
-	comprehensionBodyOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> comprehensionBodyOwnerGroup [
-	<generated>
-	<navigation: 'ComprehensionBodyOwner'>
-	^ MooseSpecializedGroup with: self comprehensionBodyOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> comprehensionClauseOwner [
-	"Relation named: #comprehensionClauseOwner type: #FASTPyComprehension opposite: #clauses"
-
-	<generated>
-	<container>
-	^ comprehensionClauseOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> comprehensionClauseOwner: anObject [
-
-	<generated>
-	comprehensionClauseOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> comprehensionClauseOwnerGroup [
-	<generated>
-	<navigation: 'ComprehensionClauseOwner'>
-	^ MooseSpecializedGroup with: self comprehensionClauseOwner
 ]
 
 { #category : 'accessing' }
@@ -614,6 +569,76 @@ FASTPyExpression >> parentComparisonOperatorGroup [
 	<generated>
 	<navigation: 'ParentComparisonOperator'>
 	^ MooseSpecializedGroup with: self parentComparisonOperator
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComprehensionBody [
+	"Relation named: #parentComprehensionBody type: #FASTPyComprehension opposite: #body"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentComprehensionBody
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComprehensionBody: anObject [
+
+	<generated>
+	parentComprehensionBody := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentComprehensionBodyGroup [
+	<generated>
+	<navigation: 'ParentComprehensionBody'>
+	^ MooseSpecializedGroup with: self parentComprehensionBody
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComprehensionClause [
+	"Relation named: #parentComprehensionClause type: #FASTPyComprehension opposite: #clauses"
+
+	<generated>
+	<container>
+	^ parentComprehensionClause
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComprehensionClause: anObject [
+
+	<generated>
+	parentComprehensionClause := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentComprehensionClauseGroup [
+	<generated>
+	<navigation: 'ParentComprehensionClause'>
+	^ MooseSpecializedGroup with: self parentComprehensionClause
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComprehensionCondition [
+	"Relation named: #parentComprehensionCondition type: #FASTPyComprehension opposite: #conditions"
+
+	<generated>
+	<container>
+	^ parentComprehensionCondition
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentComprehensionCondition: anObject [
+
+	<generated>
+	parentComprehensionCondition := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentComprehensionConditionGroup [
+	<generated>
+	<navigation: 'ParentComprehensionCondition'>
+	^ MooseSpecializedGroup with: self parentComprehensionCondition
 ]
 
 { #category : 'accessing' }

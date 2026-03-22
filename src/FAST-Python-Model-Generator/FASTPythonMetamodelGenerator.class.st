@@ -362,7 +362,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	comprehension --|> expression.	
 	comprehension --|> tSplatExpression.
-	comprehension --|> tWithCondition.
 	
 	concatenatedString --|> expression.
 	
@@ -650,8 +649,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 		 'List of the operands of the comparison operands. For example if we have `a == b != c`, it will be a, b and c.')
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
 	
-	(comprehension property: #body) <>- (expression property: #comprehensionBodyOwner).
-	(comprehension property: #clauses) <>-* (expression property: #comprehensionClauseOwner).
+	(comprehension property: #body) <>- (expression property: #parentComprehensionBody).
+	(comprehension property: #clauses) <>-* (expression property: #parentComprehensionClause).
+	(comprehension property: #conditions) <>-* (expression property: #parentComprehensionCondition).
 
 	(concatenatedString property: #strings) <>-* (string property: #parentConcatenatedString).
 

@@ -621,7 +621,9 @@ TSFASTPythonImporter >> visitIfClause: aTSNode [
 
 	| oldField |
 	oldField := context top field.
-	self setTopFieldTo: 'condition'.
+	self setTopFieldTo: ((context top isOfFASTType: FASTPyComprehension)
+			 ifTrue: [ 'conditions' ]
+			 ifFalse: [ 'condition' ]).
 	self rawVisitChildren: aTSNode.
 	self setTopFieldTo: oldField
 ]
