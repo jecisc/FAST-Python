@@ -11,8 +11,8 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `body` | `FASTPyComprehension` | `parentComprehensionBody` | `FASTPyExpression` | |
-| `clauses` | `FASTPyComprehension` | `parentComprehensionClause` | `FASTPyExpression` | |
 | `conditions` | `FASTPyComprehension` | `parentComprehensionCondition` | `FASTPyExpression` | |
+| `forClauses` | `FASTPyComprehension` | `parentComprehensionForClause` | `FASTPyExpression` | |
 
 
 
@@ -24,8 +24,8 @@ Class {
 	#classTraits : 'FASTPyTSplatExpression classTrait',
 	#instVars : [
 		'#body => FMOne type: #FASTPyExpression opposite: #parentComprehensionBody',
-		'#clauses => FMMany type: #FASTPyExpression opposite: #parentComprehensionClause',
-		'#conditions => FMMany type: #FASTPyExpression opposite: #parentComprehensionCondition'
+		'#conditions => FMMany type: #FASTPyExpression opposite: #parentComprehensionCondition',
+		'#forClauses => FMMany type: #FASTPyExpression opposite: #parentComprehensionForClause'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -42,15 +42,15 @@ FASTPyComprehension class >> annotation [
 ]
 
 { #category : 'adding' }
-FASTPyComprehension >> addClause: anObject [
-	<generated>
-	^ self clauses add: anObject
-]
-
-{ #category : 'adding' }
 FASTPyComprehension >> addCondition: anObject [
 	<generated>
 	^ self conditions add: anObject
+]
+
+{ #category : 'adding' }
+FASTPyComprehension >> addForClause: anObject [
+	<generated>
+	^ self forClauses add: anObject
 ]
 
 { #category : 'accessing' }
@@ -76,29 +76,6 @@ FASTPyComprehension >> bodyGroup [
 ]
 
 { #category : 'accessing' }
-FASTPyComprehension >> clauses [
-	"Relation named: #clauses type: #FASTPyExpression opposite: #parentComprehensionClause"
-
-	<generated>
-	<derived>
-	^ clauses
-]
-
-{ #category : 'accessing' }
-FASTPyComprehension >> clauses: anObject [
-
-	<generated>
-	clauses value: anObject
-]
-
-{ #category : 'navigation' }
-FASTPyComprehension >> clausesGroup [
-	<generated>
-	<navigation: 'Clauses'>
-	^ MooseSpecializedGroup withAll: self clauses asSet
-]
-
-{ #category : 'accessing' }
 FASTPyComprehension >> conditions [
 	"Relation named: #conditions type: #FASTPyExpression opposite: #parentComprehensionCondition"
 
@@ -119,4 +96,27 @@ FASTPyComprehension >> conditionsGroup [
 	<generated>
 	<navigation: 'Conditions'>
 	^ MooseSpecializedGroup withAll: self conditions asSet
+]
+
+{ #category : 'accessing' }
+FASTPyComprehension >> forClauses [
+	"Relation named: #forClauses type: #FASTPyExpression opposite: #parentComprehensionForClause"
+
+	<generated>
+	<derived>
+	^ forClauses
+]
+
+{ #category : 'accessing' }
+FASTPyComprehension >> forClauses: anObject [
+
+	<generated>
+	forClauses value: anObject
+]
+
+{ #category : 'navigation' }
+FASTPyComprehension >> forClausesGroup [
+	<generated>
+	<navigation: 'ForClauses'>
+	^ MooseSpecializedGroup withAll: self forClauses asSet
 ]

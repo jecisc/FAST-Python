@@ -1936,10 +1936,10 @@ FASTPythonImporterTest >> testAssignmentToList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -2192,10 +2192,10 @@ FASTPythonImporterTest >> testAssignmentToSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -2947,10 +2947,10 @@ FASTPythonImporterTest >> testAttributeAccessOnDictionary_comprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for v in x'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -3118,10 +3118,10 @@ FASTPythonImporterTest >> testAttributeAccessOnList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -3291,10 +3291,10 @@ FASTPythonImporterTest >> testAttributeAccessOnSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -4866,10 +4866,10 @@ FASTPythonImporterTest >> testBinaryOperatorWithDictionary_comprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for v in x'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -4923,10 +4923,10 @@ FASTPythonImporterTest >> testBinaryOperatorWithDictionary_comprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for v in x'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -5180,10 +5180,10 @@ FASTPythonImporterTest >> testBinaryOperatorWithList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -5241,10 +5241,10 @@ FASTPythonImporterTest >> testBinaryOperatorWithList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -5425,10 +5425,10 @@ FASTPythonImporterTest >> testBinaryOperatorWithSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -5486,10 +5486,10 @@ FASTPythonImporterTest >> testBinaryOperatorWithSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -10048,10 +10048,10 @@ FASTPythonImporterTest >> testDictionaryComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for k,v in class_indices.items()'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -10148,10 +10148,34 @@ FASTPythonImporterTest >> testDictionaryComprehensionWithIfClause [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation conditions"
+	self assert: self topEntity conditions size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top conditions at: 1).
+		self assert: self topEntity sourceCode equals: 'v > 3'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'v'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '3'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('>').
+		stack pop.
+	
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
+	
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for k,v in class_indices.items()'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -10198,34 +10222,7 @@ FASTPythonImporterTest >> testDictionaryComprehensionWithIfClause [
 
 					stack push: self topEntity value.
 					self assert: self topEntity sourceCode equals: 'class_indices'.
-					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					stack pop.
-				stack pop.
-			stack pop.
-		stack pop.
-	
-	"Testing value of multivalued relation conditions"
-	self assert: self topEntity conditions size equals: 1.
-	
-		stack push: (stack top conditions at: 1).
-		self assert: self topEntity sourceCode equals: 'v > 3'.
-		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
-		
-		"Testing value of multivalued relation operands"
-		self assert: self topEntity operands size equals: 2.
-		
-			stack push: (stack top operands at: 1).
-			self assert: self topEntity sourceCode equals: 'v'.
-			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			stack pop.
-		
-			stack push: (stack top operands at: 2).
-			self assert: self topEntity sourceCode equals: '3'.
-			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTTLiteral).
-			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
-			stack pop.
-		self assert: self topEntity operators equals: #('>')
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - splats' }
@@ -10645,10 +10642,10 @@ FASTPythonImporterTest >> testDictionarySplatOnDictionaryComprehension [
 					stack pop.
 				stack pop.
 			
-			"Testing value of multivalued relation clauses"
-			self assert: self topEntity clauses size equals: 1.
+			"Testing value of multivalued relation forClauses"
+			self assert: self topEntity forClauses size equals: 1.
 			
-				stack push: (stack top clauses at: 1).
+				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for k, v in items'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
 				
@@ -11767,10 +11764,10 @@ FASTPythonImporterTest >> testDictionaryWithList_comprehension [
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-			"Testing value of multivalued relation clauses"
-			self assert: self topEntity clauses size equals: 1.
+			"Testing value of multivalued relation forClauses"
+			self assert: self topEntity forClauses size equals: 1.
 			
-				stack push: (stack top clauses at: 1).
+				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
 				
@@ -12012,10 +12009,10 @@ FASTPythonImporterTest >> testDictionaryWithSetComprehension [
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-			"Testing value of multivalued relation clauses"
-			self assert: self topEntity clauses size equals: 1.
+			"Testing value of multivalued relation forClauses"
+			self assert: self topEntity forClauses size equals: 1.
 			
-				stack push: (stack top clauses at: 1).
+				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
 				
@@ -13972,10 +13969,10 @@ FASTPythonImporterTest >> testGeneratorExpression [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(10)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -15795,10 +15792,10 @@ FASTPythonImporterTest >> testInterpolationWithComprehension [
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-			"Testing value of multivalued relation clauses"
-			self assert: self topEntity clauses size equals: 1.
+			"Testing value of multivalued relation forClauses"
+			self assert: self topEntity forClauses size equals: 1.
 			
-				stack push: (stack top clauses at: 1).
+				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for x in items'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
 				
@@ -16642,10 +16639,10 @@ FASTPythonImporterTest >> testListComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(5)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -16721,10 +16718,10 @@ FASTPythonImporterTest >> testListComprehensionWithAttribute [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -16799,10 +16796,10 @@ FASTPythonImporterTest >> testListComprehensionWithAwait [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -16887,10 +16884,10 @@ FASTPythonImporterTest >> testListComprehensionWithBinaryOperator [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -16975,10 +16972,10 @@ FASTPythonImporterTest >> testListComprehensionWithBooleanOperator [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17054,10 +17051,10 @@ FASTPythonImporterTest >> testListComprehensionWithCall [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17138,10 +17135,10 @@ FASTPythonImporterTest >> testListComprehensionWithComparisonOperator [
 		self assert: self topEntity operators equals: #('in').
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17210,10 +17207,10 @@ FASTPythonImporterTest >> testListComprehensionWithComplexe [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17308,10 +17305,10 @@ FASTPythonImporterTest >> testListComprehensionWithConditionalExpression [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17405,10 +17402,10 @@ FASTPythonImporterTest >> testListComprehensionWithDictionary [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17499,10 +17496,10 @@ FASTPythonImporterTest >> testListComprehensionWithDictionaryComprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for v in y'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -17524,10 +17521,10 @@ FASTPythonImporterTest >> testListComprehensionWithDictionaryComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17595,10 +17592,10 @@ FASTPythonImporterTest >> testListComprehensionWithEllipsis [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17667,10 +17664,10 @@ FASTPythonImporterTest >> testListComprehensionWithFalse [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17739,10 +17736,10 @@ FASTPythonImporterTest >> testListComprehensionWithFloat [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17808,10 +17805,10 @@ FASTPythonImporterTest >> testListComprehensionWithIdentifier [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17878,10 +17875,34 @@ FASTPythonImporterTest >> testListComprehensionWithIfClause [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation conditions"
+	self assert: self topEntity conditions size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top conditions at: 1).
+		self assert: self topEntity sourceCode equals: 'x  == 0'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '0'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('==').
+		stack pop.
+	
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
+	
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(10)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -17917,33 +17938,7 @@ FASTPythonImporterTest >> testListComprehensionWithIfClause [
 
 				stack push: self topEntity callee.
 				self assert: self topEntity sourceCode equals: 'range'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				stack pop.
-			stack pop.
-		stack pop.
-	
-	"Testing value of multivalued relation conditions"
-	self assert: self topEntity conditions size equals: 1.
-	
-		stack push: (stack top conditions at: 1).
-		self assert: self topEntity sourceCode equals: 'x  == 0'.
-		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
-		
-		"Testing value of multivalued relation operands"
-		self assert: self topEntity operands size equals: 2.
-		
-			stack push: (stack top operands at: 1).
-			self assert: self topEntity sourceCode equals: 'x'.
-			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			stack pop.
-		
-			stack push: (stack top operands at: 2).
-			self assert: self topEntity sourceCode equals: '0'.
-			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTTLiteral).
-			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
-			stack pop.
-		self assert: self topEntity operators equals: #('==')
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - comprehensions' }
@@ -17975,10 +17970,10 @@ FASTPythonImporterTest >> testListComprehensionWithInteger [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18065,10 +18060,10 @@ FASTPythonImporterTest >> testListComprehensionWithLambda [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18135,10 +18130,10 @@ FASTPythonImporterTest >> testListComprehensionWithList [
 		self assert: (self topEntity isOfType: FASTPyList).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18230,10 +18225,10 @@ FASTPythonImporterTest >> testListComprehensionWithListComprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -18275,10 +18270,10 @@ FASTPythonImporterTest >> testListComprehensionWithListComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18342,10 +18337,10 @@ FASTPythonImporterTest >> testListComprehensionWithMultipleForClauses [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 2.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 2.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for row in matrix'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18366,7 +18361,7 @@ FASTPythonImporterTest >> testListComprehensionWithMultipleForClauses [
 			stack pop.
 		stack pop.
 	
-		stack push: (stack top clauses at: 2).
+		stack push: (stack top forClauses at: 2).
 		self assert: self topEntity sourceCode equals: 'for x in row'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18413,50 +18408,6 @@ FASTPythonImporterTest >> testListComprehensionWithMultipleIfClause [
 		stack push: self topEntity body.
 		self assert: self topEntity sourceCode equals: 'x'.
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		stack pop.
-	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
-	
-		stack push: (stack top clauses at: 1).
-		self assert: self topEntity sourceCode equals: 'for x in range(100)'.
-		self assert: (self topEntity isOfType: FASTPyForInClause).
-		
-		"Testing value of monovalue relation left"
-		self assert: self topEntity left isNotNil.
-
-			stack push: self topEntity left.
-			self assert: self topEntity sourceCode equals: 'x'.
-			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			stack pop.
-		
-		"Testing value of monovalue relation right"
-		self assert: self topEntity right isNotNil.
-
-			stack push: self topEntity right.
-			self assert: self topEntity sourceCode equals: 'range(100)'.
-			self assert: (self topEntity isOfType: FASTPyCall).
-			self assert: (self topEntity isOfType: FASTTInvocation).
-			self assert: (self topEntity isOfType: FASTTWithArguments).
-			
-			"Testing value of multivalued relation arguments"
-			self assert: self topEntity arguments size equals: 1.
-			
-				stack push: (stack top arguments at: 1).
-				self assert: self topEntity sourceCode equals: '100'.
-				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTTLiteral).
-				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
-				stack pop.
-			
-			"Testing value of monovalue relation callee"
-			self assert: self topEntity callee isNotNil.
-
-				stack push: self topEntity callee.
-				self assert: self topEntity sourceCode equals: 'range'.
-				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				stack pop.
-			stack pop.
 		stack pop.
 	
 	"Testing value of multivalued relation conditions"
@@ -18541,7 +18492,49 @@ FASTPythonImporterTest >> testListComprehensionWithMultipleIfClause [
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
-		self assert: self topEntity operators equals: #('==')
+		self assert: self topEntity operators equals: #('==').
+		stack pop.
+	
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
+	
+		stack push: (stack top forClauses at: 1).
+		self assert: self topEntity sourceCode equals: 'for x in range(100)'.
+		self assert: (self topEntity isOfType: FASTPyForInClause).
+		
+		"Testing value of monovalue relation left"
+		self assert: self topEntity left isNotNil.
+
+			stack push: self topEntity left.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of monovalue relation right"
+		self assert: self topEntity right isNotNil.
+
+			stack push: self topEntity right.
+			self assert: self topEntity sourceCode equals: 'range(100)'.
+			self assert: (self topEntity isOfType: FASTPyCall).
+			self assert: (self topEntity isOfType: FASTTInvocation).
+			self assert: (self topEntity isOfType: FASTTWithArguments).
+			
+			"Testing value of multivalued relation arguments"
+			self assert: self topEntity arguments size equals: 1.
+			
+				stack push: (stack top arguments at: 1).
+				self assert: self topEntity sourceCode equals: '100'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			
+			"Testing value of monovalue relation callee"
+			self assert: self topEntity callee isNotNil.
+
+				stack push: self topEntity callee.
+				self assert: self topEntity sourceCode equals: 'range'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - comprehensions' }
@@ -18573,10 +18566,10 @@ FASTPythonImporterTest >> testListComprehensionWithNone [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18652,10 +18645,10 @@ FASTPythonImporterTest >> testListComprehensionWithNotOperator [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18776,10 +18769,10 @@ FASTPythonImporterTest >> testListComprehensionWithPatternList [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x, y in points'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18850,10 +18843,10 @@ FASTPythonImporterTest >> testListComprehensionWithSet [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -18946,10 +18939,10 @@ FASTPythonImporterTest >> testListComprehensionWithSetComprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -18991,10 +18984,10 @@ FASTPythonImporterTest >> testListComprehensionWithSetComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -19063,10 +19056,10 @@ FASTPythonImporterTest >> testListComprehensionWithString [
 		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -19151,10 +19144,10 @@ FASTPythonImporterTest >> testListComprehensionWithSubscript [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -19223,10 +19216,10 @@ FASTPythonImporterTest >> testListComprehensionWithTrue [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -19301,10 +19294,10 @@ FASTPythonImporterTest >> testListComprehensionWithTuple [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -19381,10 +19374,10 @@ FASTPythonImporterTest >> testListComprehensionWithUnaryOperator [
 		self assert: self topEntity operator equals: '-'.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -19798,10 +19791,10 @@ FASTPythonImporterTest >> testListSplatOnListComprehension [
 					stack pop.
 				stack pop.
 			
-			"Testing value of multivalued relation clauses"
-			self assert: self topEntity clauses size equals: 1.
+			"Testing value of multivalued relation forClauses"
+			self assert: self topEntity forClauses size equals: 1.
 			
-				stack push: (stack top clauses at: 1).
+				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for f in FILES'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
 				
@@ -20696,10 +20689,10 @@ FASTPythonImporterTest >> testListWithList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -20865,10 +20858,10 @@ FASTPythonImporterTest >> testListWithSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -26557,10 +26550,10 @@ FASTPythonImporterTest >> testSetComprehension [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for k1 in v.items()'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -26634,10 +26627,10 @@ FASTPythonImporterTest >> testSetComprehensionWithAttribute [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -26712,10 +26705,10 @@ FASTPythonImporterTest >> testSetComprehensionWithAwait [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -26800,10 +26793,10 @@ FASTPythonImporterTest >> testSetComprehensionWithBinaryOperator [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -26888,10 +26881,10 @@ FASTPythonImporterTest >> testSetComprehensionWithBooleanOperator [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -26967,10 +26960,10 @@ FASTPythonImporterTest >> testSetComprehensionWithCall [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27051,10 +27044,10 @@ FASTPythonImporterTest >> testSetComprehensionWithComparisonOperator [
 		self assert: self topEntity operators equals: #('in').
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27123,10 +27116,10 @@ FASTPythonImporterTest >> testSetComprehensionWithComplexe [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27221,10 +27214,10 @@ FASTPythonImporterTest >> testSetComprehensionWithConditionalExpression [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27318,10 +27311,10 @@ FASTPythonImporterTest >> testSetComprehensionWithDictionary [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27412,10 +27405,10 @@ FASTPythonImporterTest >> testSetComprehensionWithDictionaryComprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for v in y'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -27437,10 +27430,10 @@ FASTPythonImporterTest >> testSetComprehensionWithDictionaryComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27508,10 +27501,10 @@ FASTPythonImporterTest >> testSetComprehensionWithEllipsis [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27580,10 +27573,10 @@ FASTPythonImporterTest >> testSetComprehensionWithFalse [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27652,10 +27645,10 @@ FASTPythonImporterTest >> testSetComprehensionWithFloat [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27721,10 +27714,10 @@ FASTPythonImporterTest >> testSetComprehensionWithIdentifier [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27792,10 +27785,34 @@ FASTPythonImporterTest >> testSetComprehensionWithIfClause [
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation conditions"
+	self assert: self topEntity conditions size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top conditions at: 1).
+		self assert: self topEntity sourceCode equals: 'k1 > 4'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'k1'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: '4'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		self assert: self topEntity operators equals: #('>').
+		stack pop.
+	
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
+	
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for k1 in v.items()'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27829,34 +27846,7 @@ FASTPythonImporterTest >> testSetComprehensionWithIfClause [
 
 					stack push: self topEntity value.
 					self assert: self topEntity sourceCode equals: 'v'.
-					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					stack pop.
-				stack pop.
-			stack pop.
-		stack pop.
-	
-	"Testing value of multivalued relation conditions"
-	self assert: self topEntity conditions size equals: 1.
-	
-		stack push: (stack top conditions at: 1).
-		self assert: self topEntity sourceCode equals: 'k1 > 4'.
-		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
-		
-		"Testing value of multivalued relation operands"
-		self assert: self topEntity operands size equals: 2.
-		
-			stack push: (stack top operands at: 1).
-			self assert: self topEntity sourceCode equals: 'k1'.
-			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			stack pop.
-		
-			stack push: (stack top operands at: 2).
-			self assert: self topEntity sourceCode equals: '4'.
-			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTTLiteral).
-			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
-			stack pop.
-		self assert: self topEntity operators equals: #('>')
+					self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - comprehensions' }
@@ -27888,10 +27878,10 @@ FASTPythonImporterTest >> testSetComprehensionWithInteger [
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -27978,10 +27968,10 @@ FASTPythonImporterTest >> testSetComprehensionWithLambda [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28048,10 +28038,10 @@ FASTPythonImporterTest >> testSetComprehensionWithList [
 		self assert: (self topEntity isOfType: FASTPyList).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28144,10 +28134,10 @@ FASTPythonImporterTest >> testSetComprehensionWithListComprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -28189,10 +28179,10 @@ FASTPythonImporterTest >> testSetComprehensionWithListComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28260,10 +28250,10 @@ FASTPythonImporterTest >> testSetComprehensionWithNone [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28339,10 +28329,10 @@ FASTPythonImporterTest >> testSetComprehensionWithNotOperator [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28419,10 +28409,10 @@ FASTPythonImporterTest >> testSetComprehensionWithSet [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28514,10 +28504,10 @@ FASTPythonImporterTest >> testSetComprehensionWithSetComprehension [
 				stack pop.
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -28559,10 +28549,10 @@ FASTPythonImporterTest >> testSetComprehensionWithSetComprehension [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28631,10 +28621,10 @@ FASTPythonImporterTest >> testSetComprehensionWithString [
 		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28719,10 +28709,10 @@ FASTPythonImporterTest >> testSetComprehensionWithSubscript [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28791,10 +28781,10 @@ FASTPythonImporterTest >> testSetComprehensionWithTrue [
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28869,10 +28859,10 @@ FASTPythonImporterTest >> testSetComprehensionWithTuple [
 			stack pop.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -28949,10 +28939,10 @@ FASTPythonImporterTest >> testSetComprehensionWithUnaryOperator [
 		self assert: self topEntity operator equals: '-'.
 		stack pop.
 	
-	"Testing value of multivalued relation clauses"
-	self assert: self topEntity clauses size equals: 1.
+	"Testing value of multivalued relation forClauses"
+	self assert: self topEntity forClauses size equals: 1.
 	
-		stack push: (stack top clauses at: 1).
+		stack push: (stack top forClauses at: 1).
 		self assert: self topEntity sourceCode equals: 'for x in range(3)'.
 		self assert: (self topEntity isOfType: FASTPyForInClause).
 		
@@ -29591,10 +29581,10 @@ FASTPythonImporterTest >> testSetWithList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -29759,10 +29749,10 @@ FASTPythonImporterTest >> testSetWithSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -33182,10 +33172,10 @@ FASTPythonImporterTest >> testTypeListComprehension [
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
 				stack pop.
 			
-			"Testing value of multivalued relation clauses"
-			self assert: self topEntity clauses size equals: 1.
+			"Testing value of multivalued relation forClauses"
+			self assert: self topEntity forClauses size equals: 1.
 			
-				stack push: (stack top clauses at: 1).
+				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for T in T.name'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
 				
@@ -34753,10 +34743,10 @@ FASTPythonImporterTest >> testWalrusList_comprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			
@@ -34965,10 +34955,10 @@ FASTPythonImporterTest >> testWalrusSetComprehension [
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
 			stack pop.
 		
-		"Testing value of multivalued relation clauses"
-		self assert: self topEntity clauses size equals: 1.
+		"Testing value of multivalued relation forClauses"
+		self assert: self topEntity forClauses size equals: 1.
 		
-			stack push: (stack top clauses at: 1).
+			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
 			

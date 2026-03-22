@@ -293,7 +293,7 @@ TSFASTPythonImporter >> visitComplexPattern: aTSNode [
 { #category : 'visiting - alias' }
 TSFASTPythonImporter >> visitComprehension: aTSNode [
 
-	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'clauses' ].
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'forClauses' ].
 
 	^ self handleNode: aTSNode
 ]

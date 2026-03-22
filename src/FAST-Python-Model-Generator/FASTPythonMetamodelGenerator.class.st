@@ -650,7 +650,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>-* ((expression property: #parentComparisonOperator) comment: 'Parent comparison expression of which I am.').
 	
 	(comprehension property: #body) <>- (expression property: #parentComprehensionBody).
-	(comprehension property: #clauses) <>-* (expression property: #parentComprehensionClause).
+	(comprehension property: #forClauses) <>-* (expression property: #parentComprehensionForClause).
 	(comprehension property: #conditions) <>-* (expression property: #parentComprehensionCondition).
 
 	(concatenatedString property: #strings) <>-* (string property: #parentConcatenatedString).
