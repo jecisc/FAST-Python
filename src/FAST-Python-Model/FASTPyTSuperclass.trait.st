@@ -7,7 +7,7 @@ My users are expressions that can define a superclass in a class declaration.
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentClassSuperclass` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
+| `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 
 
 
@@ -15,7 +15,7 @@ My users are expressions that can define a superclass in a class declaration.
 Trait {
 	#name : 'FASTPyTSuperclass',
 	#instVars : [
-		'#parentClassSuperclass => FMOne type: #FASTPyClassDefinition opposite: #superclasses'
+		'#parentClassDefinition => FMOne type: #FASTPyClassDefinition opposite: #superclasses'
 	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
@@ -32,24 +32,24 @@ FASTPyTSuperclass classSide >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyTSuperclass >> parentClassSuperclass [
-	"Relation named: #parentClassSuperclass type: #FASTPyClassDefinition opposite: #superclasses"
+FASTPyTSuperclass >> parentClassDefinition [
+	"Relation named: #parentClassDefinition type: #FASTPyClassDefinition opposite: #superclasses"
 
 	<generated>
 	<container>
-	^ parentClassSuperclass
+	^ parentClassDefinition
 ]
 
 { #category : 'accessing' }
-FASTPyTSuperclass >> parentClassSuperclass: anObject [
+FASTPyTSuperclass >> parentClassDefinition: anObject [
 
 	<generated>
-	parentClassSuperclass := anObject
+	parentClassDefinition := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyTSuperclass >> parentClassSuperclassGroup [
+FASTPyTSuperclass >> parentClassDefinitionGroup [
 	<generated>
-	<navigation: 'ParentClassSuperclass'>
-	^ MooseSpecializedGroup with: self parentClassSuperclass
+	<navigation: 'ParentClassDefinition'>
+	^ MooseSpecializedGroup with: self parentClassDefinition
 ]

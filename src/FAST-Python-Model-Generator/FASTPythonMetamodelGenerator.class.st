@@ -644,7 +644,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(chevron property: #expression) <>- (expression property: #parentChevron).
 	
-	(classDefinition property: #superclasses) <>-* (tSuperclass property: #parentClassSuperclass).
+	(classDefinition property: #superclasses) <>-* (tSuperclass property: #parentClassDefinition).
+	(classDefinition property: #keywords) <>-* (keywordArgument property: #parentClassDefinition).
 	
 	(classPattern property: #elements) <>-* (tClassPatternElement property: #parentClassPattern).
 

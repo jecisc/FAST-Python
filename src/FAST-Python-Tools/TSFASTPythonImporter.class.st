@@ -676,6 +676,15 @@ TSFASTPythonImporter >> visitInteger: aTSNode [
 ]
 
 { #category : 'visiting' }
+TSFASTPythonImporter >> visitKeywordArgument: aTSNode [
+
+	"In class definition we want to separate keyword because they affect the metaclass while other arguments affects the superclasses."
+	(self topFastEntity isOfType: FASTPyClassDefinition) ifTrue: [ self setTopFieldTo: 'keywords' ].
+
+	^ self handleNode: aTSNode kind: FASTPyKeywordArgument
+]
+
+{ #category : 'visiting' }
 TSFASTPythonImporter >> visitKeywordPattern: aTSNode [
 
 	| fastEntity |

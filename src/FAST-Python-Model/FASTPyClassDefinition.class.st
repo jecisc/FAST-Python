@@ -11,9 +11,10 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+| `keywords` | `FASTPyClassDefinition` | `parentClassDefinition` | `FASTPyKeywordArgument` | |
 | `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 | `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
-| `superclasses` | `FASTPyClassDefinition` | `parentClassSuperclass` | `FASTPyTSuperclass` | |
+| `superclasses` | `FASTPyClassDefinition` | `parentClassDefinition` | `FASTPyTSuperclass` | |
 | `typeParameters` | `FASTPyTWithTypeParameters` | `parentWithTypeParameters` | `FASTPyType` | |
 
 
@@ -33,7 +34,8 @@ Class {
 	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters',
 	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait',
 	#instVars : [
-		'#superclasses => FMMany type: #FASTPyTSuperclass opposite: #parentClassSuperclass'
+		'#keywords => FMMany type: #FASTPyKeywordArgument opposite: #parentClassDefinition',
+		'#superclasses => FMMany type: #FASTPyTSuperclass opposite: #parentClassDefinition'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -50,6 +52,12 @@ FASTPyClassDefinition class >> annotation [
 ]
 
 { #category : 'adding' }
+FASTPyClassDefinition >> addKeyword: anObject [
+	<generated>
+	^ self keywords add: anObject
+]
+
+{ #category : 'adding' }
 FASTPyClassDefinition >> addSuperclass: anObject [
 	<generated>
 	^ self superclasses add: anObject
@@ -63,8 +71,31 @@ FASTPyClassDefinition >> isClassDefinition [
 ]
 
 { #category : 'accessing' }
+FASTPyClassDefinition >> keywords [
+	"Relation named: #keywords type: #FASTPyKeywordArgument opposite: #parentClassDefinition"
+
+	<generated>
+	<derived>
+	^ keywords
+]
+
+{ #category : 'accessing' }
+FASTPyClassDefinition >> keywords: anObject [
+
+	<generated>
+	keywords value: anObject
+]
+
+{ #category : 'navigation' }
+FASTPyClassDefinition >> keywordsGroup [
+	<generated>
+	<navigation: 'Keywords'>
+	^ MooseSpecializedGroup withAll: self keywords asSet
+]
+
+{ #category : 'accessing' }
 FASTPyClassDefinition >> superclasses [
-	"Relation named: #superclasses type: #FASTPyTSuperclass opposite: #parentClassSuperclass"
+	"Relation named: #superclasses type: #FASTPyTSuperclass opposite: #parentClassDefinition"
 
 	<generated>
 	<derived>

@@ -5,7 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentClassSuperclass` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
+| `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |

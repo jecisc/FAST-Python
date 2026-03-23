@@ -7835,6 +7835,135 @@ FASTPythonImporterTest >> testClassDefinition [
 ]
 
 { #category : 'tests - classes' }
+FASTPythonImporterTest >> testClassDefinitionWithMetaclass [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testClassDefinitionWithMetaclass 	"
+
+	self parse: 'class aClass(metaclass=MyMeta): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordArgument) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'class aClass(metaclass=MyMeta): pass'.
+	self assert: (self topEntity isOfType: FASTPyClassDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	
+	"Testing value of multivalued relation keywords"
+	self assert: self topEntity keywords size equals: 1.
+	
+		stack push: (stack top keywords at: 1).
+		self assert: self topEntity sourceCode equals: 'metaclass=MyMeta'.
+		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
+		self assert: self topEntity name equals: 'metaclass'.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'MyMeta'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity name equals: 'aClass'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - classes' }
+FASTPythonImporterTest >> testClassDefinitionWithMetaclassCustomizations [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testClassDefinitionWithMetaclassCustomizations 	"
+
+	self parse: 'class aClass(metaclass=MyMeta, custom_arg=42): pass'.
+
+	self assert: (fast allWithType: FASTPyBlock) size equals: 1.
+	self assert: (fast allWithType: FASTPyClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyKeywordArgument) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'class aClass(metaclass=MyMeta, custom_arg=42): pass'.
+	self assert: (self topEntity isOfType: FASTPyClassDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: (self topEntity isOfType: FASTTWithStatements).
+	
+	"Testing value of multivalued relation keywords"
+	self assert: self topEntity keywords size equals: 2.
+	
+		stack push: (stack top keywords at: 1).
+		self assert: self topEntity sourceCode equals: 'metaclass=MyMeta'.
+		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
+		self assert: self topEntity name equals: 'metaclass'.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'MyMeta'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+		stack push: (stack top keywords at: 2).
+		self assert: self topEntity sourceCode equals: 'custom_arg=42'.
+		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
+		self assert: self topEntity name equals: 'custom_arg'.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: '42'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		stack pop.
+	self assert: self topEntity name equals: 'aClass'.
+	
+	"Testing value of monovalue relation statementBlock"
+	self assert: self topEntity statementBlock isNotNil.
+
+		stack push: self topEntity statementBlock.
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyBlock).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - classes' }
 FASTPythonImporterTest >> testClassDefinitionWithMultipleSuperclasses [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:

@@ -9,7 +9,7 @@ Lot of relations in python points to references. And some nodes can return lot o
 |---|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
-| `parentClassSuperclass` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
+| `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentDeleteStatement` | `FASTPyTDeletable` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |

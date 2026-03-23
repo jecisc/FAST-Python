@@ -8,7 +8,7 @@ In Python a collection (list or dictionary) splat is the unpacking of a collecti
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentCaseClause` | `FASTPyTPattern` | `pattern` | `FASTPyCaseClause` | |
-| `parentClassSuperclass` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
+| `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 | `parentKeywordPatternValue` | `FASTPyTPattern` | `value` | `FASTPyKeywordPattern` | |
 | `parentUnionPattern` | `FASTPyTPattern` | `members` | `FASTPyUnionPattern` | |
 

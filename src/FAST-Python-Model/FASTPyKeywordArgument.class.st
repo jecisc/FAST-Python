@@ -6,6 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
+| `parentClassDefinition` | `FASTPyKeywordArgument` | `keywords` | `FASTPyClassDefinition` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -29,6 +30,7 @@ Class {
 	#traits : 'FASTTNamedEntity',
 	#classTraits : 'FASTTNamedEntity classTrait',
 	#instVars : [
+		'#parentClassDefinition => FMOne type: #FASTPyClassDefinition opposite: #keywords',
 		'#value => FMOne type: #FASTPyExpression opposite: #keywordArgumentOwner'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -43,6 +45,29 @@ FASTPyKeywordArgument class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FASTPyKeywordArgument >> parentClassDefinition [
+	"Relation named: #parentClassDefinition type: #FASTPyClassDefinition opposite: #keywords"
+
+	<generated>
+	<container>
+	^ parentClassDefinition
+]
+
+{ #category : 'accessing' }
+FASTPyKeywordArgument >> parentClassDefinition: anObject [
+
+	<generated>
+	parentClassDefinition := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyKeywordArgument >> parentClassDefinitionGroup [
+	<generated>
+	<navigation: 'ParentClassDefinition'>
+	^ MooseSpecializedGroup with: self parentClassDefinition
 ]
 
 { #category : 'accessing' }
