@@ -12921,6 +12921,114 @@ class MyComponent: pass'.
 ]
 
 { #category : 'tests - decorators' }
+FASTPythonImporterTest >> testDecoratorOnFunctionDefinition [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDecoratorOnFunctionDefinition 	"
+
+	self parse: '@public
+def func(): pass'.
+
+	self assert: (fast allWithType: FASTPyDecorator) size equals: 1.
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def func(): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	
+	"Testing value of multivalued relation decorators"
+	self assert: self topEntity decorators size equals: 1.
+	
+		stack push: (stack top decorators at: 1).
+		self assert: self topEntity sourceCode equals: '@public'.
+		self assert: (self topEntity isOfType: FASTPyDecorator).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'public'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity name equals: 'func'.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - decorators' }
+FASTPythonImporterTest >> testDecoratorOnMethodDefinition [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testDecoratorOnMethodDefinition 	"
+
+	self parse: 'class C():
+	@public
+	def meth(): pass'.
+
+	self assert: (fast allWithType: FASTPyClassDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyDecorator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyMethodDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'class C():
+	@public
+	def meth(): pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyClassDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: self topEntity name equals: 'C'.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'def meth(): pass'.
+		self assert: (self topEntity isOfType: FASTPyMethodDefinition).
+		self assert: (self topEntity isOfType: FASTPyTDefinition).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithParameters).
+		
+		"Testing value of multivalued relation decorators"
+		self assert: self topEntity decorators size equals: 1.
+		
+			stack push: (stack top decorators at: 1).
+			self assert: self topEntity sourceCode equals: '@public'.
+			self assert: (self topEntity isOfType: FASTPyDecorator).
+			
+			"Testing value of monovalue relation expression"
+			self assert: self topEntity expression isNotNil.
+
+				stack push: self topEntity expression.
+				self assert: self topEntity sourceCode equals: 'public'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		self assert: self topEntity name equals: 'meth'.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - decorators' }
 FASTPythonImporterTest >> testDecoratorWithAttributeAccess [
 	<generated>
 	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
