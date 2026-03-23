@@ -532,7 +532,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tAsPatternTarget --|> tAsPatternSource.
 
 	tDefinition --|> tNamedEntity.
-	tDefinition --|> tWithStatements.
+	tDefinition --|> tStatementBlock.
 	
 	tReturnReferenceable --|> tAssignable.
 	tReturnReferenceable --|> tRaised.

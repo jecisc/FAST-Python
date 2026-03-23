@@ -5,13 +5,16 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
+| `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
+| `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
-| `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
+| `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
 ## Properties
@@ -29,8 +32,8 @@ Trait {
 	#instVars : [
 		'#decorators => FMMany type: #FASTPyDecorator opposite: #definitionOwner'
 	],
-	#traits : 'FASTTNamedEntity + FASTTWithStatements',
-	#classTraits : 'FASTTNamedEntity classTrait + FASTTWithStatements classTrait',
+	#traits : 'FASTTNamedEntity + FASTTStatementBlock',
+	#classTraits : 'FASTTNamedEntity classTrait + FASTTStatementBlock classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

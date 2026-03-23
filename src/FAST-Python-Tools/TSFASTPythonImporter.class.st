@@ -191,7 +191,8 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 		 FASTPyTryStatement.
 		 FASTPyFinallyClause.
 		 FASTPyExceptClause.
-		 FASTPyCaseClause } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
+		 FASTPyCaseClause.
+		FASTTStatementBlock } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
 			self setTopFieldTo: #statements. "We manually update the field to bypass the block and"
 			^ self rawVisitChildren: aTSNode ].
 
