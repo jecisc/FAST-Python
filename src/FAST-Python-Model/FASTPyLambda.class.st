@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `caller` | `FASTPyTCallable` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 
 ### Children
@@ -19,8 +20,8 @@
 Class {
 	#name : 'FASTPyLambda',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTDecoratorExpression + FASTTWithParameters',
-	#classTraits : 'FASTPyTDecoratorExpression classTrait + FASTTWithParameters classTrait',
+	#traits : 'FASTPyTCallable + FASTPyTDecoratorExpression + FASTTWithParameters',
+	#classTraits : 'FASTPyTCallable classTrait + FASTPyTDecoratorExpression classTrait + FASTTWithParameters classTrait',
 	#instVars : [
 		'#expression => FMOne type: #FASTPyExpression opposite: #lambdaOwner'
 	],

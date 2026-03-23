@@ -7,6 +7,7 @@
 |---|
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
+| `caller` | `FASTPyTCallable` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `parentAsPatternSource` | `FASTPyTAsPatternSource` | `source` | `FASTPyAsPattern` | |
 | `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
@@ -26,7 +27,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `arguments` | `FASTTWithArguments` | `argumentOwner` | `FASTTExpression` | My arguments|
-| `callee` | `FASTPyCall` | `caller` | `FASTPyExpression` | I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...|
+| `callee` | `FASTPyCall` | `caller` | `FASTPyTCallable` | I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...|
 | `invoked` | `FASTTInvocation` | `invokedIn` | `FASTTNamedEntity` | The name of the behavioural invoked|
 
 
@@ -45,7 +46,7 @@ Class {
 	#traits : 'FASTPyTReturnReferenceable + FASTPyTWithStatementItem + FASTTInvocation',
 	#classTraits : 'FASTPyTReturnReferenceable classTrait + FASTPyTWithStatementItem classTrait + FASTTInvocation classTrait',
 	#instVars : [
-		'#callee => FMOne type: #FASTPyExpression opposite: #caller'
+		'#callee => FMOne type: #FASTPyTCallable opposite: #caller'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -63,7 +64,7 @@ FASTPyCall class >> annotation [
 
 { #category : 'accessing' }
 FASTPyCall >> callee [
-	"Relation named: #callee type: #FASTPyExpression opposite: #caller"
+	"Relation named: #callee type: #FASTPyTCallable opposite: #caller"
 
 	<generated>
 	<FMComment: 'I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...'>

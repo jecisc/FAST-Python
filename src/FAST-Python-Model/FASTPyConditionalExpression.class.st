@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `caller` | `FASTPyTCallable` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 
 ### Children
@@ -20,8 +21,8 @@
 Class {
 	#name : 'FASTPyConditionalExpression',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTPyTSuperclass + FASTTWithCondition',
-	#classTraits : 'FASTPyTSuperclass classTrait + FASTTWithCondition classTrait',
+	#traits : 'FASTPyTCallable + FASTPyTSuperclass + FASTTWithCondition',
+	#classTraits : 'FASTPyTCallable classTrait + FASTPyTSuperclass classTrait + FASTTWithCondition classTrait',
 	#instVars : [
 		'#elseExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionElseOwner',
 		'#thenExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionThenOwner'

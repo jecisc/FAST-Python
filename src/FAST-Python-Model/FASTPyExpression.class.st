@@ -8,7 +8,6 @@
 | `argumentOwner` | `FASTTExpression` | `arguments` | `FASTTWithArguments` | my owner|
 | `assignedIn` | `FASTTExpression` | `expression` | `FASTTAssignment` | Optional assignment where this expression is used|
 | `attributeObjectOwner` | `FASTPyExpression` | `value` | `FASTPyAttributeAccess` | My parent if I define the object of an attribute access (if it's the case).|
-| `caller` | `FASTPyExpression` | `callee` | `FASTPyCall` | The call entity calling me (if it's the case)|
 | `collectionInitializer` | `FASTPyExpression` | `initializers` | `FASTPyCollectionInitializer` | The owner of the expression|
 | `conditionalExpressionElseOwner` | `FASTPyExpression` | `elseExpression` | `FASTPyConditionalExpression` | |
 | `conditionalExpressionThenOwner` | `FASTPyExpression` | `thenExpression` | `FASTPyConditionalExpression` | |
@@ -64,7 +63,6 @@ Class {
 	#classTraits : 'FASTPyTTypeContent classTrait + FASTTExpression classTrait',
 	#instVars : [
 		'#attributeObjectOwner => FMOne type: #FASTPyAttributeAccess opposite: #value',
-		'#caller => FMOne type: #FASTPyCall opposite: #callee',
 		'#collectionInitializer => FMOne type: #FASTPyCollectionInitializer opposite: #initializers',
 		'#conditionalExpressionElseOwner => FMOne type: #FASTPyConditionalExpression opposite: #elseExpression',
 		'#conditionalExpressionThenOwner => FMOne type: #FASTPyConditionalExpression opposite: #thenExpression',
@@ -133,31 +131,6 @@ FASTPyExpression >> attributeObjectOwnerGroup [
 	<generated>
 	<navigation: 'AttributeObjectOwner'>
 	^ MooseSpecializedGroup with: self attributeObjectOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> caller [
-	"Relation named: #caller type: #FASTPyCall opposite: #callee"
-
-	<generated>
-	<FMComment: 'The call entity calling me (if it''s the case)'>
-	<container>
-	<derived>
-	^ caller
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> caller: anObject [
-
-	<generated>
-	caller := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> callerGroup [
-	<generated>
-	<navigation: 'Caller'>
-	^ MooseSpecializedGroup with: self caller
 ]
 
 { #category : 'accessing' }

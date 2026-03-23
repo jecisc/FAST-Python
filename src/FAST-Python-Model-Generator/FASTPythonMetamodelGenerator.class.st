@@ -151,7 +151,8 @@ Class {
 		'splat',
 		'splatParameter',
 		'comprehension',
-		'tSuperclass'
+		'tSuperclass',
+		'tCallable'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -364,6 +365,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	conditionalExpression --|> expression.
 	conditionalExpression --|> tWithCondition.
 	conditionalExpression --|> tSuperclass.
+	conditionalExpression --|> tCallable.
 	
 	continueStatement --|> statement.
 	
@@ -450,6 +452,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	lambda --|> expression.
 	lambda --|> tWithParameters.
 	lambda --|> tDecoratorExpression.
+	lambda --|> tCallable.
 	
 	list --|> collectionInitializer.
 	list --|> tAsPatternTarget.
@@ -536,6 +539,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tReturnReferenceable --|> tDecoratorExpression.
 	tReturnReferenceable --|> tDeletable.
 	tReturnReferenceable --|> tSuperclass.
+	tReturnReferenceable --|> tCallable.
 
 	thenClause --|> tStatementBlock.
 
@@ -636,7 +640,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((call property: #callee) comment:
 		 'I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...')
-	<>- ((expression property: #caller) comment: 'The call entity calling me (if it''s the case)').
+	<>- ((tCallable property: #caller) comment: 'The call entity calling me (if it''s the case)').
 	
 	(caseClause property: #pattern) <>-(tPattern property: #parentCaseClause).
 	
@@ -782,21 +786,23 @@ FASTPythonMetamodelGenerator >> defineTraits [
 
 	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
 
-	(tAssignable := builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
+	tAssignable := (builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
 	
-	(tClassPatternElement := builder newTraitNamed: #TClassPatternElement) comment: 'I represent the elements of a class pattern in python pattern matcher. The first element is the class name, the others the arguments.'.
+	tCallable := (builder newTraitNamed: #TCallable) comment: 'I represent something that can be the receiver of a call'.
+	
+	tClassPatternElement := (builder newTraitNamed: #TClassPatternElement) comment: 'I represent the elements of a class pattern in python pattern matcher. The first element is the class name, the others the arguments.'.
 
-	(tDecoratorExpression := builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
+	tDecoratorExpression := (builder newTraitNamed: #TDecoratorExpression) comment: 'I represent an entity that *can* be the expression of a decorator.'.
 
 	tDefinition := builder newTraitNamed: #TDefinition.
 
-	(tDeletable := builder newTraitNamed: #TDeletable) comment: 'I represent an expression that can be in a delete statement.'.
+	tDeletable := (builder newTraitNamed: #TDeletable) comment: 'I represent an expression that can be in a delete statement.'.
 	
-	(tPattern := builder newTraitNamed: #TPattern) comment: 'I represent an entity that can be the pattern of a case clause in a match statement..'.
+	tPattern := (builder newTraitNamed: #TPattern) comment: 'I represent an entity that can be the pattern of a case clause in a match statement..'.
 
-	(tRaised := builder newTraitNamed: #TRaised) comment: 'I represent an expression that can give an exception to raise in a raise statement.'.
+	tRaised := (builder newTraitNamed: #TRaised) comment: 'I represent an expression that can give an exception to raise in a raise statement.'.
 
-	((tReturnReferenceable := builder newTraitNamed: #TReturnReferenceable) comment: 'Lot of relations in python points to references. And some nodes can return lot of those references such as call, subscript, tuple, attribute. I am here to group those dependences.').
+	tReturnReferenceable := (builder newTraitNamed: #TReturnReferenceable) comment: 'Lot of relations in python points to references. And some nodes can return lot of those references such as call, subscript, tuple, attribute. I am here to group those dependences.'.
 
 	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
 
@@ -804,7 +810,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	
 	tSuperclass := (builder newTraitNamed: #TSuperclass) comment: 'My users are expressions that can define a superclass in a class declaration.'.
 	
-	(tTypeContent := builder newTraitNamed: #TTypeContent) comment: 'My user can be used as a type declaration'.
+	tTypeContent := (builder newTraitNamed: #TTypeContent) comment: 'My user can be used as a type declaration'.
 
 	tUnaryOperator := builder newTraitNamed: #TUnaryOperator.
 	
@@ -812,7 +818,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 
 	tWithStatementItem := (builder newTraitNamed: #TWithStatementItem) comment: 'I represent an entity that can be the item of a with_statement.'.
 
-	(tWithTypeParameters := builder newTraitNamed: #TWithTypeParameters) comment: 'I represent an entity with type parameters such as generic types, function/method definition or class definition'.
+	tWithTypeParameters := (builder newTraitNamed: #TWithTypeParameters) comment: 'I represent an entity with type parameters such as generic types, function/method definition or class definition'.
 	
 	"Remotes"
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.
