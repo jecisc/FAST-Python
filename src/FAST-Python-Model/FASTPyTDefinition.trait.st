@@ -11,7 +11,6 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
-| `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 | `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
 
 
@@ -30,8 +29,8 @@ Trait {
 	#instVars : [
 		'#decorators => FMMany type: #FASTPyDecorator opposite: #definitionOwner'
 	],
-	#traits : 'FASTTNamedBehaviouralEntity',
-	#classTraits : 'FASTTNamedBehaviouralEntity classTrait',
+	#traits : 'FASTTNamedEntity + FASTTWithStatements',
+	#classTraits : 'FASTTNamedEntity classTrait + FASTTWithStatements classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

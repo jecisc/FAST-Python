@@ -30,8 +30,8 @@
 Class {
 	#name : 'FASTPyFunctionDefinition',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters',
-	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait',
+	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters + FASTTWithParameters',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait + FASTTWithParameters classTrait',
 	#instVars : [
 		'#returnType => FMOne type: #FASTPyType opposite: #parentFunctionDefinition'
 	],

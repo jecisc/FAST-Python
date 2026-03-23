@@ -29,8 +29,8 @@
 Class {
 	#name : 'FASTPyMethodDefinition',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters',
-	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait',
+	#traits : 'FASTPyTDefinition + FASTPyTWithTypeParameters + FASTTWithParameters',
+	#classTraits : 'FASTPyTDefinition classTrait + FASTPyTWithTypeParameters classTrait + FASTTWithParameters classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'

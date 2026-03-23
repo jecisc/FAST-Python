@@ -413,6 +413,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	functionDefinition --|> statement.
 	functionDefinition --|> tDefinition.
 	functionDefinition --|> tWithTypeParameters.
+	functionDefinition --|> tWithParameters.
 	
 	generatorExpression --|> comprehension.
 	
@@ -470,6 +471,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	methodDefinition --|> statement.
 	methodDefinition --|> tDefinition.
 	methodDefinition --|> tWithTypeParameters.
+	methodDefinition --|> tWithParameters.
 
 	module --|> tStatementBlock.
 	module --|> #THasImmediateSource.
@@ -529,7 +531,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	tAsPatternTarget --|> tAsPatternSource.
 
-	tDefinition --|> tNamedBehaviouralEntity.
+	tDefinition --|> tNamedEntity.
+	tDefinition --|> tWithStatements.
 	
 	tReturnReferenceable --|> tAssignable.
 	tReturnReferenceable --|> tRaised.

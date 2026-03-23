@@ -121,13 +121,6 @@ FASTPyEntity >> hasImmediateSource [
 ]
 
 { #category : 'testing' }
-FASTPyEntity >> isBehaviouralEntity [
-
-	<generated>
-	^ false
-]
-
-{ #category : 'testing' }
 FASTPyEntity >> isBinaryExpression [
 
 	<generated>
@@ -178,13 +171,6 @@ FASTPyEntity >> isNumericalLiteral [
 
 { #category : 'testing' }
 FASTPyEntity >> isReturnStatement [
-
-	<generated>
-	^ false
-]
-
-{ #category : 'testing' }
-FASTPyEntity >> isScopableEntity [
 
 	<generated>
 	^ false

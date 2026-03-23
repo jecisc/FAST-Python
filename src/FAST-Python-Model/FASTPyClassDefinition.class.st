@@ -12,7 +12,6 @@
 |---|
 | `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
 | `keywords` | `FASTPyClassDefinition` | `parentClassDefinition` | `FASTPyKeywordArgument` | |
-| `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 | `statementBlock` | `FASTTWithStatements` | `fastBehaviouralParent` | `FASTTStatementBlock` | Statements block of the behavioural entity|
 | `superclasses` | `FASTPyClassDefinition` | `parentClassDefinition` | `FASTPyTSuperclass` | |
 | `typeParameters` | `FASTPyTWithTypeParameters` | `parentWithTypeParameters` | `FASTPyType` | |

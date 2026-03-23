@@ -7814,7 +7814,6 @@ FASTPythonImporterTest >> testClassDefinition [
 	pass' withPlatformLineEndings.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'AClass'.
 	
@@ -7853,7 +7852,6 @@ FASTPythonImporterTest >> testClassDefinitionWithMetaclass [
 	self assert: self topEntity sourceCode equals: 'class aClass(metaclass=MyMeta): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	
 	"Testing value of multivalued relation keywords"
@@ -7910,7 +7908,6 @@ FASTPythonImporterTest >> testClassDefinitionWithMetaclassCustomizations [
 	self assert: self topEntity sourceCode equals: 'class aClass(metaclass=MyMeta, custom_arg=42): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	
 	"Testing value of multivalued relation keywords"
@@ -7981,7 +7978,6 @@ FASTPythonImporterTest >> testClassDefinitionWithMultipleSuperclasses [
 	self assert: self topEntity sourceCode equals: 'class aClass(Super1, Super2, Super3): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8039,7 +8035,6 @@ FASTPythonImporterTest >> testClassDefinitionWithSuperclassAttribute [
 	self assert: self topEntity sourceCode equals: 'class aClass(module.Superclass): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8095,7 +8090,6 @@ FASTPythonImporterTest >> testClassDefinitionWithSuperclassCall [
 	self assert: self topEntity sourceCode equals: 'class aClass(factory()): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8153,7 +8147,6 @@ FASTPythonImporterTest >> testClassDefinitionWithSuperclassConditionalExpression
 	self assert: self topEntity sourceCode equals: 'class aClass(Super1 if True else Super2): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8226,7 +8219,6 @@ FASTPythonImporterTest >> testClassDefinitionWithSuperclassIdentifier [
 	self assert: self topEntity sourceCode equals: 'class aClass(SuperClass): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8274,7 +8266,6 @@ FASTPythonImporterTest >> testClassDefinitionWithSuperclassListSplat [
 	self assert: self topEntity sourceCode equals: 'class aClass(*args): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8330,7 +8321,6 @@ FASTPythonImporterTest >> testClassDefinitionWithSuperclassSubscript [
 	self assert: self topEntity sourceCode equals: 'class aClass(classes[2]): pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'aClass'.
 	
@@ -8395,7 +8385,6 @@ FASTPythonImporterTest >> testClassDefinitionWithTypeParameters [
 	self assert: self topEntity sourceCode equals: 'class Pair[K, V]: pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	self assert: self topEntity name equals: 'Pair'.
 	
@@ -9794,7 +9783,6 @@ class MyComponent: pass'.
 	self assert: self topEntity sourceCode equals: 'class MyComponent: pass'.
 	self assert: (self topEntity isOfType: FASTPyClassDefinition).
 	self assert: (self topEntity isOfType: FASTPyTDefinition).
-	self assert: (self topEntity isOfType: FASTTWithParameters).
 	self assert: (self topEntity isOfType: FASTTWithStatements).
 	
 	"Testing value of multivalued relation decorators"
