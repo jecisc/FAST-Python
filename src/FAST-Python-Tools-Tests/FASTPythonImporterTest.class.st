@@ -41138,6 +41138,642 @@ FASTPythonImporterTest >> testUnaryOperator [
 	self assert: operator operator equals: '-'
 ]
 
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithAttribute [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithAttribute 	"
+
+	self parse: '~x.y'.
+
+	self assert: (fast allWithType: FASTPyAttributeAccess) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~x.y'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'x.y'.
+		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
+		self assert: self topEntity name equals: 'y'.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithAwait [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithAwait 	"
+
+	self parse: '~await x'.
+
+	self assert: (fast allWithType: FASTPyAwait) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~await x'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'await x'.
+		self assert: (self topEntity isOfType: FASTPyAwait).
+		
+		"Testing value of monovalue relation expression"
+		self assert: self topEntity expression isNotNil.
+
+			stack push: self topEntity expression.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithBinaryOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithBinaryOperator 	"
+
+	self parse: '~-10**e'.
+
+	self assert: (fast allWithType: FASTPyBinaryOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~-10**e'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: '-10**e'.
+		self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+		
+		"Testing value of monovalue relation argument"
+		self assert: self topEntity argument isNotNil.
+
+			stack push: self topEntity argument.
+			self assert: self topEntity sourceCode equals: '10**e'.
+			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
+			self assert: (self topEntity isOfType: FASTTBinaryExpression).
+			
+			"Testing value of monovalue relation leftOperand"
+			self assert: self topEntity leftOperand isNotNil.
+
+				stack push: self topEntity leftOperand.
+				self assert: self topEntity sourceCode equals: '10'.
+				self assert: (self topEntity isOfType: FASTPyInteger).
+				self assert: (self topEntity isOfType: FASTTLiteral).
+				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+				stack pop.
+			self assert: self topEntity operator equals: '**'.
+			
+			"Testing value of monovalue relation rightOperand"
+			self assert: self topEntity rightOperand isNotNil.
+
+				stack push: self topEntity rightOperand.
+				self assert: self topEntity sourceCode equals: 'e'.
+				self assert: (self topEntity isOfType: FASTPyIdentifier).
+				stack pop.
+			stack pop.
+		self assert: self topEntity operator equals: '-'.
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithBooleanOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithBooleanOperator 	"
+
+	self parse: '~(x or y)'.
+
+	self assert: (fast allWithType: FASTPyBooleanOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~(x or y)'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'x or y'.
+		self assert: (self topEntity isOfType: FASTPyBooleanOperator).
+		self assert: (self topEntity isOfType: FASTTBinaryExpression).
+		
+		"Testing value of monovalue relation leftOperand"
+		self assert: self topEntity leftOperand isNotNil.
+
+			stack push: self topEntity leftOperand.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		self assert: self topEntity operator equals: 'or'.
+		
+		"Testing value of monovalue relation rightOperand"
+		self assert: self topEntity rightOperand isNotNil.
+
+			stack push: self topEntity rightOperand.
+			self assert: self topEntity sourceCode equals: 'y'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~('
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithCall [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithCall 	"
+
+	self parse: '~factory()'.
+
+	self assert: (fast allWithType: FASTPyCall) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~factory()'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'factory()'.
+		self assert: (self topEntity isOfType: FASTPyCall).
+		self assert: (self topEntity isOfType: FASTTInvocation).
+		self assert: (self topEntity isOfType: FASTTWithArguments).
+		
+		"Testing value of monovalue relation callee"
+		self assert: self topEntity callee isNotNil.
+
+			stack push: self topEntity callee.
+			self assert: self topEntity sourceCode equals: 'factory'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithComparisonOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithComparisonOperator 	"
+
+	self parse: '~(x > y)'.
+
+	self assert: (fast allWithType: FASTPyComparisonOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~(x > y)'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'x > y'.
+		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
+		
+		"Testing value of multivalued relation operands"
+		self assert: self topEntity operands size equals: 2.
+		
+			stack push: (stack top operands at: 1).
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+			stack push: (stack top operands at: 2).
+			self assert: self topEntity sourceCode equals: 'y'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		self assert: self topEntity operators equals: #('>').
+		stack pop.
+	self assert: self topEntity operator equals: '~('
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithComplexe [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithComplexe 	"
+
+	self parse: '~0j'.
+
+	self assert: (fast allWithType: FASTPyComplex) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~0j'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: '0j'.
+		self assert: (self topEntity isOfType: FASTPyComplex).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithConditionalExpression [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithConditionalExpression 	"
+
+	self parse: '~(x if True else y)'.
+
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyConditionalExpression) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~(x if True else y)'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'x if True else y'.
+		self assert: (self topEntity isOfType: FASTPyConditionalExpression).
+		self assert: (self topEntity isOfType: FASTTWithCondition).
+		
+		"Testing value of monovalue relation condition"
+		self assert: self topEntity condition isNotNil.
+
+			stack push: self topEntity condition.
+			self assert: self topEntity sourceCode equals: 'True'.
+			self assert: (self topEntity isOfType: FASTPyBoolean).
+			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			stack pop.
+		
+		"Testing value of monovalue relation elseExpression"
+		self assert: self topEntity elseExpression isNotNil.
+
+			stack push: self topEntity elseExpression.
+			self assert: self topEntity sourceCode equals: 'y'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		
+		"Testing value of monovalue relation thenExpression"
+		self assert: self topEntity thenExpression isNotNil.
+
+			stack push: self topEntity thenExpression.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~('
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithFalse [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithFalse 	"
+
+	self parse: '~False'.
+
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~False'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'False'.
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithFloat [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithFloat 	"
+
+	self parse: '~0.0'.
+
+	self assert: (fast allWithType: FASTPyFloat) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~0.0'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: '0.0'.
+		self assert: (self topEntity isOfType: FASTPyFloat).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithIdentifier 	"
+
+	self parse: '~x'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~x'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'x'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithInteger [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithInteger 	"
+
+	self parse: '~0'.
+
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~0'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: '0'.
+		self assert: (self topEntity isOfType: FASTPyInteger).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithNotOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithNotOperator 	"
+
+	self parse: '~(not old)'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyNotOperator) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~(not old)'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'not old'.
+		self assert: (self topEntity isOfType: FASTPyNotOperator).
+		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+		
+		"Testing value of monovalue relation argument"
+		self assert: self topEntity argument isNotNil.
+
+			stack push: self topEntity argument.
+			self assert: self topEntity sourceCode equals: 'old'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~('
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithString [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithString 	"
+
+	self parse: '~""'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~""'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: '""'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithSubscript [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithSubscript 	"
+
+	self parse: '~x[2]'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyInteger) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPySubscript) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~x[2]'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'x[2]'.
+		self assert: (self topEntity isOfType: FASTPySubscript).
+		
+		"Testing value of multivalued relation indices"
+		self assert: self topEntity indices size equals: 1.
+		
+			stack push: (stack top indices at: 1).
+			self assert: self topEntity sourceCode equals: '2'.
+			self assert: (self topEntity isOfType: FASTPyInteger).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
+			stack pop.
+		
+		"Testing value of monovalue relation value"
+		self assert: self topEntity value isNotNil.
+
+			stack push: self topEntity value.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithTrue [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithTrue 	"
+
+	self parse: '~True'.
+
+	self assert: (fast allWithType: FASTPyBoolean) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~True'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: 'True'.
+		self assert: (self topEntity isOfType: FASTPyBoolean).
+		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
+{ #category : 'tests - operators' }
+FASTPythonImporterTest >> testUnaryOperatorWithUnaryOperator [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testUnaryOperatorWithUnaryOperator 	"
+
+	self parse: '~-x'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyUnaryOperator) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: '~-x'.
+	self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+	self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+	
+	"Testing value of monovalue relation argument"
+	self assert: self topEntity argument isNotNil.
+
+		stack push: self topEntity argument.
+		self assert: self topEntity sourceCode equals: '-x'.
+		self assert: (self topEntity isOfType: FASTPyUnaryOperator).
+		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
+		
+		"Testing value of monovalue relation argument"
+		self assert: self topEntity argument isNotNil.
+
+			stack push: self topEntity argument.
+			self assert: self topEntity sourceCode equals: 'x'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		self assert: self topEntity operator equals: '-'.
+		stack pop.
+	self assert: self topEntity operator equals: '~'
+]
+
 { #category : 'tests - types' }
 FASTPythonImporterTest >> testUnionType [
 	<generated>
