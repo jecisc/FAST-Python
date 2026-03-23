@@ -27564,20 +27564,66 @@ FASTPythonImporterTest >> testMatchTuple [
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral)
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - methods' }
 FASTPythonImporterTest >> testMethodDefinition [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testMethodDefinition 	"
 
-	| method |
-	self parse: 'class AClass():
-	def method(self):
+	self parse: 'class MyClass: 
+	def myMethod(self, a):
 		pass'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyClassDefinition) size equals: 1.
 	self assert: (fast allWithType: FASTPyMethodDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyParameter) size equals: 2.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
 
-	method := (fast allWithType: FASTPyMethodDefinition) anyOne.
-	self assert: method name equals: 'method'
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'class MyClass: 
+	def myMethod(self, a):
+		pass' withPlatformLineEndings.
+	self assert: (self topEntity isOfType: FASTPyClassDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: self topEntity name equals: 'MyClass'.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'def myMethod(self, a):
+		pass' withPlatformLineEndings.
+		self assert: (self topEntity isOfType: FASTPyMethodDefinition).
+		self assert: (self topEntity isOfType: FASTPyTDefinition).
+		self assert: (self topEntity isOfType: FASTTStatementBlock).
+		self assert: (self topEntity isOfType: FASTTWithParameters).
+		self assert: self topEntity name equals: 'myMethod'.
+		
+		"Testing value of multivalued relation parameters"
+		self assert: self topEntity parameters size equals: 2.
+		
+			stack push: (stack top parameters at: 1).
+			self assert: self topEntity sourceCode equals: 'self'.
+			self assert: (self topEntity isOfType: FASTPyParameter).
+			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: self topEntity name equals: 'self'.
+			stack pop.
+		
+			stack push: (stack top parameters at: 2).
+			self assert: self topEntity sourceCode equals: 'a'.
+			self assert: (self topEntity isOfType: FASTPyParameter).
+			self assert: (self topEntity isOfType: FASTTVariableEntity).
+			self assert: self topEntity name equals: 'a'.
+			stack pop.
+		
+		"Testing value of multivalued relation statements"
+		self assert: self topEntity statements size equals: 1.
+		
+			stack push: (stack top statements at: 1).
+			self assert: self topEntity sourceCode equals: 'pass'.
+			self assert: (self topEntity isOfType: FASTPyPassStatement)
 ]
 
 { #category : 'tests' }

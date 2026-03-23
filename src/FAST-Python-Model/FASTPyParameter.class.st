@@ -71,6 +71,17 @@ FASTPyParameter >> defaultValueGroup [
 	^ MooseSpecializedGroup with: self defaultValue
 ]
 
+{ #category : 'testing' }
+FASTPyParameter >> isSelf [
+
+	<FMProperty>
+	<derived>
+	<comment: 'If true, I represent self in a method'>
+	^ self parameterOwner
+		  ifNil: [ false ]
+		  ifNotNil: [ :parent | parent parameters first = self ]
+]
+
 { #category : 'accessing' }
 FASTPyParameter >> type [
 	"Relation named: #type type: #FASTPyType opposite: #parentParameter"
