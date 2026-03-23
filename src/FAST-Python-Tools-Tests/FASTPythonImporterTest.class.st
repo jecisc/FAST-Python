@@ -17631,16 +17631,76 @@ FASTPythonImporterTest >> testFromImportWithWildcard [
 
 { #category : 'tests - function definitions' }
 FASTPythonImporterTest >> testFunctionDefinition [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFunctionDefinition 	"
 
-	| function |
-	self parse: 'def test():
-	return 1'.
+	self parse: 'def function(): pass'.
 
-	self assert: (fast allWithType: FASTPyModule) size equals: 1.
 	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
 
-	function := (fast allWithType: FASTPyFunctionDefinition) anyOne.
-	self assert: function name equals: 'test'
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def function(): pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: self topEntity name equals: 'function'.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
+]
+
+{ #category : 'tests - function definitions' }
+FASTPythonImporterTest >> testFunctionDefinitionWithReturnType [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testFunctionDefinitionWithReturnType 	"
+
+	self parse: 'def function() -> int: pass'.
+
+	self assert: (fast allWithType: FASTPyFunctionDefinition) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyPassStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyType) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'def function() -> int: pass'.
+	self assert: (self topEntity isOfType: FASTPyFunctionDefinition).
+	self assert: (self topEntity isOfType: FASTPyTDefinition).
+	self assert: (self topEntity isOfType: FASTTStatementBlock).
+	self assert: (self topEntity isOfType: FASTTWithParameters).
+	self assert: self topEntity name equals: 'function'.
+	
+	"Testing value of monovalue relation returnType"
+	self assert: self topEntity returnType isNotNil.
+
+		stack push: self topEntity returnType.
+		self assert: self topEntity sourceCode equals: 'int'.
+		self assert: (self topEntity isOfType: FASTPyType).
+		
+		"Testing value of monovalue relation content"
+		self assert: self topEntity content isNotNil.
+
+			stack push: self topEntity content.
+			self assert: self topEntity sourceCode equals: 'int'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier).
+			stack pop.
+		stack pop.
+	
+	"Testing value of multivalued relation statements"
+	self assert: self topEntity statements size equals: 1.
+	
+		stack push: (stack top statements at: 1).
+		self assert: self topEntity sourceCode equals: 'pass'.
+		self assert: (self topEntity isOfType: FASTPyPassStatement)
 ]
 
 { #category : 'tests - parameters' }
