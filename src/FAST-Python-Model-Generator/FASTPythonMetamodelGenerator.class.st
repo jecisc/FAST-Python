@@ -557,7 +557,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	unionType --|> tTypeContent.
 
-	variable --|> expression.
+	variable --|> identifier.
 	variable --|> tVariableEntity.
 	variable --|> tAssignable.
 

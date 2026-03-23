@@ -25,7 +25,7 @@
 "
 Class {
 	#name : 'FASTPyVariable',
-	#superclass : 'FASTPyExpression',
+	#superclass : 'FASTPyIdentifier',
 	#traits : 'FASTPyTAssignable + FASTTVariableEntity',
 	#classTraits : 'FASTPyTAssignable classTrait + FASTTVariableEntity classTrait',
 	#instVars : [
@@ -40,7 +40,7 @@ Class {
 { #category : 'meta' }
 FASTPyVariable class >> annotation [
 
-	<FMClass: #Variable super: #FASTPyExpression>
+	<FMClass: #Variable super: #FASTPyIdentifier>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
