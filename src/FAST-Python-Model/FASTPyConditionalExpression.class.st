@@ -2,6 +2,11 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentClassSuperclass` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -15,8 +20,8 @@
 Class {
 	#name : 'FASTPyConditionalExpression',
 	#superclass : 'FASTPyExpression',
-	#traits : 'FASTTWithCondition',
-	#classTraits : 'FASTTWithCondition classTrait',
+	#traits : 'FASTPyTSuperclass + FASTTWithCondition',
+	#classTraits : 'FASTPyTSuperclass classTrait + FASTTWithCondition classTrait',
 	#instVars : [
 		'#elseExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionElseOwner',
 		'#thenExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionThenOwner'

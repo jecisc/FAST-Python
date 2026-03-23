@@ -87,7 +87,8 @@ TSFASTPythonImporter >> visitAliasedImport: aTSNode [
 { #category : 'visiting - skip' }
 TSFASTPythonImporter >> visitArgumentList: aTSNode [
 	"We skip this node and visit the children directly."
-
+	
+	(self topFastEntity isOfType: FASTPyClassDefinition) ifTrue: [ self setTopFieldTo: 'superclasses' ].
 	self rawVisitChildren: aTSNode
 ]
 

@@ -152,7 +152,8 @@ Class {
 		'tWithTypeParameters',
 		'splat',
 		'splatParameter',
-		'comprehension'
+		'comprehension',
+		'tSuperclass'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -367,6 +368,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	conditionalExpression --|> expression.
 	conditionalExpression --|> tWithCondition.
+	conditionalExpression --|> tSuperclass.
 	
 	continueStatement --|> statement.
 	
@@ -508,6 +510,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	splat --|> expression.
 	splat --|> tPattern.
+	splat --|> tSuperclass.
 
 	splatParameter --|> parameter.
 	
@@ -534,6 +537,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tReturnReferenceable --|> tSplatExpression.
 	tReturnReferenceable --|> tDecoratorExpression.
 	tReturnReferenceable --|> tDeletable.
+	tReturnReferenceable --|> tSuperclass.
 
 	thenClause --|> tStatementBlock.
 
@@ -639,6 +643,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(caseClause property: #pattern) <>-(tPattern property: #parentCaseClause).
 	
 	(chevron property: #expression) <>- (expression property: #parentChevron).
+	
+	(classDefinition property: #superclasses) <>-* (tSuperclass property: #parentClassSuperclass).
 	
 	(classPattern property: #elements) <>-* (tClassPatternElement property: #parentClassPattern).
 
@@ -796,6 +802,8 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
 
 	tSplatParameterTarget := (builder newTraitNamed: #TSplatParameterTarget) comment: 'My users are parameter target in a splat. For example in `def f(*list): pass`, we have a list splat parameter named list.'.
+	
+	tSuperclass := (builder newTraitNamed: #TSuperclass) comment: 'My users are expressions that can define a superclass in a class declaration.'.
 	
 	(tTypeContent := builder newTraitNamed: #TTypeContent) comment: 'My user can be used as a type declaration'.
 
