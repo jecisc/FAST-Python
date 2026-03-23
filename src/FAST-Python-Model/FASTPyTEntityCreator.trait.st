@@ -70,13 +70,6 @@ FASTPyTEntityCreator >> newBinaryOperator [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newBlock [
-
-	<generated>
-	^ self add: FASTPyBlock new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newBoolean [
 
 	<generated>

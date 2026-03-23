@@ -5,6 +5,7 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
 | `ifStatementOwner` | `FASTPyElifClause` | `elifClauses` | `FASTPyIfStatement` | |
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
@@ -13,6 +14,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
+| `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
 ## Properties
@@ -26,9 +28,9 @@
 "
 Class {
 	#name : 'FASTPyElifClause',
-	#superclass : 'FASTPyBlock',
-	#traits : 'FASTTConditionalStatement',
-	#classTraits : 'FASTTConditionalStatement classTrait',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTTConditionalStatement + FASTTStatementBlock',
+	#classTraits : 'FASTTConditionalStatement classTrait + FASTTStatementBlock classTrait',
 	#instVars : [
 		'#ifStatementOwner => FMOne type: #FASTPyIfStatement opposite: #elifClauses'
 	],
@@ -40,7 +42,7 @@ Class {
 { #category : 'meta' }
 FASTPyElifClause class >> annotation [
 
-	<FMClass: #ElifClause super: #FASTPyBlock>
+	<FMClass: #ElifClause super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self

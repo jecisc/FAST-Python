@@ -12,7 +12,6 @@ Class {
 		'augmentedAssignment',
 		'await',
 		'binaryOperator',
-		'block',
 		'booleanOperator',
 		'breakStatement',
 		'call',
@@ -125,7 +124,6 @@ Class {
 		'tConditionalStatement',
 		'complex',
 		'thenClause',
-		'tLoopStatement',
 		'statement',
 		'tWithStatements',
 		'tNumericalLiteral',
@@ -189,7 +187,6 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	augmentedAssignment := builder ensureClassNamed: #AugmentedAssignment."Todo"
 	await := builder ensureClassNamed: #Await."Todo"
 	binaryOperator := builder ensureClassNamed: #BinaryOperator.
-	block := builder ensureClassNamed: #Block."To review"
 	boolean := builder ensureClassNamed: #Boolean.
 	booleanOperator := builder ensureClassNamed: #BooleanOperator.
 	breakStatement := builder ensureClassNamed: #BreakStatement.
@@ -324,8 +321,6 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	binaryOperator --|> tSplatExpression.
 	binaryOperator --|> tPattern.
 
-	block --|> tStatementBlock.
-
 	booleanOperator --|> operator.
 	booleanOperator --|> tBinaryExpression. "I am not 100% sure this is the best trait to use but it seems to work well for now"
 	booleanOperator --|> tSplatExpression.
@@ -386,7 +381,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	elseClause --|> tStatementBlock.
 
-	elifClause --|> block.
+	elifClause --|> tStatementBlock.
 	elifClause --|> tConditionalStatement.
 	
 	ellipsis --|> literal.
@@ -407,7 +402,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	forInClause --|> expression. "This is wrong! I am just here temporarily until we rework the relation to the for in clause (I need to be able to be a clause of a list comprehension)"
 
 	forStatement --|> statement.
-	forStatement --|> tLoopStatement.
+	forStatement --|> tStatementBlock.
 	forStatement --|> tWithElseClause.
 
 	functionDefinition --|> statement.
@@ -570,7 +565,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 
 	whileStatement --|> statement.
 	whileStatement --|> tConditionalStatement.
-	whileStatement --|> tLoopStatement.
+	whileStatement --|> tStatementBlock.
 	whileStatement --|> tWithElseClause.
 	
 	withStatement --|> statement.
@@ -828,7 +823,6 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.
 	tInvocation := self remoteTrait: #TInvocation withPrefix: #FAST.
 	tLiteral := self remoteTrait: #TLiteral withPrefix: #FAST.
-	tLoopStatement := self remoteTrait: #TLoopStatement withPrefix: #FAST.
 	tNamedBehaviouralEntity := self remoteTrait: #TNamedBehaviouralEntity withPrefix: #FAST.
 	tNamedEntity := self remoteTrait: #TNamedEntity withPrefix: #FAST.
 	tNumericalLiteral := self remoteTrait: #TNumericalLiteral withPrefix: #FAST.

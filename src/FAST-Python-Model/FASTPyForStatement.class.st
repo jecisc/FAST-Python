@@ -5,16 +5,17 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `body` | `FASTTLoopStatement` | `parentLoopStatement` | `FASTTStatement` | The body of the loop|
 | `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
 | `left` | `FASTPyForStatement` | `forStatementRightOwner` | `FASTPyExpression` | The identifier of the created local variable or tuple|
 | `right` | `FASTPyForStatement` | `forStatementLeftOwner` | `FASTPyExpression` | The list that the for statement iterates over|
+| `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
 ## Properties
@@ -29,8 +30,8 @@
 Class {
 	#name : 'FASTPyForStatement',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTPyTWithElseClause + FASTTLoopStatement',
-	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTLoopStatement classTrait',
+	#traits : 'FASTPyTWithElseClause + FASTTStatementBlock',
+	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTStatementBlock classTrait',
 	#instVars : [
 		'#left => FMOne type: #FASTPyExpression opposite: #forStatementRightOwner',
 		'#right => FMOne type: #FASTPyExpression opposite: #forStatementLeftOwner'

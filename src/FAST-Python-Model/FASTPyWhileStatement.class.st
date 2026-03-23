@@ -5,15 +5,16 @@
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `body` | `FASTTLoopStatement` | `parentLoopStatement` | `FASTTStatement` | The body of the loop|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
 | `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
 ## Properties
@@ -28,8 +29,8 @@
 Class {
 	#name : 'FASTPyWhileStatement',
 	#superclass : 'FASTPyStatement',
-	#traits : 'FASTPyTWithElseClause + FASTTConditionalStatement + FASTTLoopStatement',
-	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTConditionalStatement classTrait + FASTTLoopStatement classTrait',
+	#traits : 'FASTPyTWithElseClause + FASTTConditionalStatement + FASTTStatementBlock',
+	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTConditionalStatement classTrait + FASTTStatementBlock classTrait',
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
