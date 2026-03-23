@@ -16,8 +16,8 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `indices` | `FASTPySubscript` | `subscriptIndiceOwner` | `FASTPyExpression` | The elements defining the indices to select in a subscript.|
-| `value` | `FASTPySubscript` | `subscriptValueOwner` | `FASTPyExpression` | The receiver of the subscript|
+| `indices` | `FASTPySubscript` | `parentSubscriptIndice` | `FASTPyExpression` | The elements defining the indices to select in a subscript.|
+| `value` | `FASTPySubscript` | `parentSubscriptValue` | `FASTPyExpression` | The receiver of the subscript|
 
 
 
@@ -28,8 +28,8 @@ Class {
 	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable',
 	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait',
 	#instVars : [
-		'#indices => FMMany type: #FASTPyExpression opposite: #subscriptIndiceOwner',
-		'#value => FMOne type: #FASTPyExpression opposite: #subscriptValueOwner'
+		'#indices => FMMany type: #FASTPyExpression opposite: #parentSubscriptIndice',
+		'#value => FMOne type: #FASTPyExpression opposite: #parentSubscriptValue'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -53,7 +53,7 @@ FASTPySubscript >> addIndex: anObject [
 
 { #category : 'accessing' }
 FASTPySubscript >> indices [
-	"Relation named: #indices type: #FASTPyExpression opposite: #subscriptIndiceOwner"
+	"Relation named: #indices type: #FASTPyExpression opposite: #parentSubscriptIndice"
 
 	<generated>
 	<FMComment: 'The elements defining the indices to select in a subscript.'>
@@ -77,7 +77,7 @@ FASTPySubscript >> indicesGroup [
 
 { #category : 'accessing' }
 FASTPySubscript >> value [
-	"Relation named: #value type: #FASTPyExpression opposite: #subscriptValueOwner"
+	"Relation named: #value type: #FASTPyExpression opposite: #parentSubscriptValue"
 
 	<generated>
 	<FMComment: 'The receiver of the subscript'>

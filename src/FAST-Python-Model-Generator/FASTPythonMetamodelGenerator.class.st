@@ -732,10 +732,10 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(string property: #interpolations) <>-* (interpolation property: #parentString).
 
 	((subscript property: #value) comment: 'The receiver of the subscript')
-	<>- ((expression property: #subscriptValueOwner) comment: 'My parent if I define the receiver of a subscript (if it''s the case).').
+	<>- ((expression property: #parentSubscriptValue) comment: 'My parent if I define the receiver of a subscript (if it''s the case).').
 
 	((subscript property: #indices) comment: 'The elements defining the indices to select in a subscript.')
-	<>-* ((expression property: #subscriptIndiceOwner) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
+	<>-* ((expression property: #parentSubscriptIndice) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
 
 	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
 	

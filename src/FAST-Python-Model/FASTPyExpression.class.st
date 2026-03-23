@@ -38,14 +38,14 @@
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
 | `parentInterpolation` | `FASTPyExpression` | `expression` | `FASTPyInterpolation` | |
 | `parentMatchStatement` | `FASTPyExpression` | `subject` | `FASTPyMatchStatement` | |
+| `parentSubscriptIndice` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
+| `parentSubscriptValue` | `FASTPyExpression` | `value` | `FASTPySubscript` | My parent if I define the receiver of a subscript (if it's the case).|
 | `parentType` | `FASTPyTTypeContent` | `content` | `FASTPyType` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `parentWalrus` | `FASTPyExpression` | `value` | `FASTPyWalrus` | |
 | `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 | `sliceOwner` | `FASTPyExpression` | `components` | `FASTPySlice` | Slice in which I am a component (start, end or step) (If it's the case)'|
-| `subscriptIndiceOwner` | `FASTPyExpression` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
-| `subscriptValueOwner` | `FASTPyExpression` | `value` | `FASTPySubscript` | My parent if I define the receiver of a subscript (if it's the case).|
 
 
 ## Properties
@@ -89,12 +89,12 @@ Class {
 		'#parentExceptClause => FMOne type: #FASTPyExceptClause opposite: #expressions',
 		'#parentInterpolation => FMOne type: #FASTPyInterpolation opposite: #expression',
 		'#parentMatchStatement => FMOne type: #FASTPyMatchStatement opposite: #subject',
+		'#parentSubscriptIndice => FMOne type: #FASTPySubscript opposite: #indices',
+		'#parentSubscriptValue => FMOne type: #FASTPySubscript opposite: #value',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#parentWalrus => FMOne type: #FASTPyWalrus opposite: #value',
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions',
-		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components',
-		'#subscriptIndiceOwner => FMOne type: #FASTPySubscript opposite: #indices',
-		'#subscriptValueOwner => FMOne type: #FASTPySubscript opposite: #value'
+		'#sliceOwner => FMOne type: #FASTPySlice opposite: #components'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -737,6 +737,55 @@ FASTPyExpression >> parentMatchStatementGroup [
 ]
 
 { #category : 'accessing' }
+FASTPyExpression >> parentSubscriptIndice [
+	"Relation named: #parentSubscriptIndice type: #FASTPySubscript opposite: #indices"
+
+	<generated>
+	<FMComment: 'My parent if I am defining an index to select of a subscript (if it''s the case)'>
+	<container>
+	^ parentSubscriptIndice
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentSubscriptIndice: anObject [
+
+	<generated>
+	parentSubscriptIndice := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentSubscriptIndiceGroup [
+	<generated>
+	<navigation: 'ParentSubscriptIndice'>
+	^ MooseSpecializedGroup with: self parentSubscriptIndice
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentSubscriptValue [
+	"Relation named: #parentSubscriptValue type: #FASTPySubscript opposite: #value"
+
+	<generated>
+	<FMComment: 'My parent if I define the receiver of a subscript (if it''s the case).'>
+	<container>
+	<derived>
+	^ parentSubscriptValue
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentSubscriptValue: anObject [
+
+	<generated>
+	parentSubscriptValue := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentSubscriptValueGroup [
+	<generated>
+	<navigation: 'ParentSubscriptValue'>
+	^ MooseSpecializedGroup with: self parentSubscriptValue
+]
+
+{ #category : 'accessing' }
 FASTPyExpression >> parentUnaryOperator [
 	"Relation named: #parentUnaryOperator type: #FASTPyTUnaryOperator opposite: #argument"
 
@@ -830,53 +879,4 @@ FASTPyExpression >> sliceOwnerGroup [
 	<generated>
 	<navigation: 'SliceOwner'>
 	^ MooseSpecializedGroup with: self sliceOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> subscriptIndiceOwner [
-	"Relation named: #subscriptIndiceOwner type: #FASTPySubscript opposite: #indices"
-
-	<generated>
-	<FMComment: 'My parent if I am defining an index to select of a subscript (if it''s the case)'>
-	<container>
-	^ subscriptIndiceOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> subscriptIndiceOwner: anObject [
-
-	<generated>
-	subscriptIndiceOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> subscriptIndiceOwnerGroup [
-	<generated>
-	<navigation: 'SubscriptIndiceOwner'>
-	^ MooseSpecializedGroup with: self subscriptIndiceOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> subscriptValueOwner [
-	"Relation named: #subscriptValueOwner type: #FASTPySubscript opposite: #value"
-
-	<generated>
-	<FMComment: 'My parent if I define the receiver of a subscript (if it''s the case).'>
-	<container>
-	<derived>
-	^ subscriptValueOwner
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> subscriptValueOwner: anObject [
-
-	<generated>
-	subscriptValueOwner := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> subscriptValueOwnerGroup [
-	<generated>
-	<navigation: 'SubscriptValueOwner'>
-	^ MooseSpecializedGroup with: self subscriptValueOwner
 ]
