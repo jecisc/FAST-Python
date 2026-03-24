@@ -14,6 +14,7 @@ Lot of relations in python points to references. And some nodes can return lot o
 | `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentDeleteStatement` | `FASTPyTDeletable` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
+| `parentExecStatement` | `FASTPyTExecutable` | `code` | `FASTPyExecStatement` | |
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
 | `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPySplat` | |
 
@@ -22,8 +23,8 @@ Lot of relations in python points to references. And some nodes can return lot o
 "
 Trait {
 	#name : 'FASTPyTReturnReferenceable',
-	#traits : 'FASTPyTAsPatternSource + FASTPyTAssignable + FASTPyTAwaitable + FASTPyTCallable + FASTPyTDecoratorExpression + FASTPyTDeletable + FASTPyTRaised + FASTPyTSplatExpression + FASTPyTSuperclass',
-	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAssignable classTrait + FASTPyTAwaitable classTrait + FASTPyTCallable classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTDeletable classTrait + FASTPyTRaised classTrait + FASTPyTSplatExpression classTrait + FASTPyTSuperclass classTrait',
+	#traits : 'FASTPyTAsPatternSource + FASTPyTAssignable + FASTPyTAwaitable + FASTPyTCallable + FASTPyTDecoratorExpression + FASTPyTDeletable + FASTPyTExecutable + FASTPyTRaised + FASTPyTSplatExpression + FASTPyTSuperclass',
+	#classTraits : 'FASTPyTAsPatternSource classTrait + FASTPyTAssignable classTrait + FASTPyTAwaitable classTrait + FASTPyTCallable classTrait + FASTPyTDecoratorExpression classTrait + FASTPyTDeletable classTrait + FASTPyTExecutable classTrait + FASTPyTRaised classTrait + FASTPyTSplatExpression classTrait + FASTPyTSuperclass classTrait',
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
 	#tag : 'Traits'

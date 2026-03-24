@@ -115,7 +115,10 @@ FASTPythonImporterTest class >> traitsToIgnore [
 		  FASTPyTDeletable.
 		  FASTPyTTypeContent.
 		  FASTPyTWithTypeParameters.
-		  FASTPyTCallable }
+		  FASTPyTCallable.
+		  FASTPyTExecutable.
+		  FASTPyTSliceIndex.
+		  FASTPyTAwaitable }
 ]
 
 { #category : 'running' }
@@ -4209,8 +4212,6 @@ FASTPythonImporterTest >> testAwaitAttribute [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x.y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTAwaitable).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -4220,8 +4221,6 @@ FASTPythonImporterTest >> testAwaitAttribute [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x.y'.
 		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'y'.
 		
 		"Testing value of monovalue relation value"
@@ -4230,8 +4229,6 @@ FASTPythonImporterTest >> testAwaitAttribute [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTAwaitable).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -4240,9 +4237,7 @@ FASTPythonImporterTest >> testAwaitAttribute [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - await' }
@@ -4261,8 +4256,6 @@ FASTPythonImporterTest >> testAwaitAwait [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f((await x))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTAwaitable).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -4272,7 +4265,6 @@ FASTPythonImporterTest >> testAwaitAwait [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'await x'.
 		self assert: (self topEntity isOfType: FASTPyAwait).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation expression"
 		self assert: self topEntity expression isNotNil.
@@ -4280,8 +4272,6 @@ FASTPythonImporterTest >> testAwaitAwait [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTAwaitable).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -4290,9 +4280,7 @@ FASTPythonImporterTest >> testAwaitAwait [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - await' }
@@ -4310,8 +4298,6 @@ FASTPythonImporterTest >> testAwaitCall [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(factory())'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTAwaitable).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -4321,8 +4307,6 @@ FASTPythonImporterTest >> testAwaitCall [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'factory()'.
 		self assert: (self topEntity isOfType: FASTPyCall).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTInvocation).
 		self assert: (self topEntity isOfType: FASTTWithArguments).
 		
@@ -4332,8 +4316,6 @@ FASTPythonImporterTest >> testAwaitCall [
 			stack push: self topEntity callee.
 			self assert: self topEntity sourceCode equals: 'factory'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTAwaitable).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -4342,9 +4324,7 @@ FASTPythonImporterTest >> testAwaitCall [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - await' }
@@ -4364,8 +4344,6 @@ FASTPythonImporterTest >> testAwaitConditionalExpression [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f((x if True else y))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTAwaitable).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -4375,7 +4353,6 @@ FASTPythonImporterTest >> testAwaitConditionalExpression [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x if True else y'.
 		self assert: (self topEntity isOfType: FASTPyConditionalExpression).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
@@ -4384,7 +4361,6 @@ FASTPythonImporterTest >> testAwaitConditionalExpression [
 			stack push: self topEntity condition.
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
@@ -4395,8 +4371,6 @@ FASTPythonImporterTest >> testAwaitConditionalExpression [
 			stack push: self topEntity elseExpression.
 			self assert: self topEntity sourceCode equals: 'y'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTAwaitable).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		
 		"Testing value of monovalue relation thenExpression"
@@ -4405,8 +4379,6 @@ FASTPythonImporterTest >> testAwaitConditionalExpression [
 			stack push: self topEntity thenExpression.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTAwaitable).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -4415,9 +4387,7 @@ FASTPythonImporterTest >> testAwaitConditionalExpression [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - await' }
@@ -4435,8 +4405,6 @@ FASTPythonImporterTest >> testAwaitIdentifier [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTAwaitable).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -4446,8 +4414,6 @@ FASTPythonImporterTest >> testAwaitIdentifier [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x'.
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -4455,9 +4421,7 @@ FASTPythonImporterTest >> testAwaitIdentifier [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - await' }
@@ -4477,8 +4441,6 @@ FASTPythonImporterTest >> testAwaitSubscript [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x[2])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTAwaitable).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -4488,8 +4450,6 @@ FASTPythonImporterTest >> testAwaitSubscript [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x[2]'.
 		self assert: (self topEntity isOfType: FASTPySubscript).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation indices"
 		self assert: self topEntity indices size equals: 1.
@@ -4497,7 +4457,6 @@ FASTPythonImporterTest >> testAwaitSubscript [
 			stack push: (stack top indices at: 1).
 			self assert: self topEntity sourceCode equals: '2'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -4508,8 +4467,6 @@ FASTPythonImporterTest >> testAwaitSubscript [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTAwaitable).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -4518,9 +4475,7 @@ FASTPythonImporterTest >> testAwaitSubscript [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTAwaitable).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - operators' }
@@ -7311,7 +7266,6 @@ FASTPythonImporterTest >> testCalWithArgumentAttribute [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x.y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7321,7 +7275,6 @@ FASTPythonImporterTest >> testCalWithArgumentAttribute [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x.y'.
 		self assert: (self topEntity isOfType: FASTPyAttributeAccess).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'y'.
 		
 		"Testing value of monovalue relation value"
@@ -7330,7 +7283,6 @@ FASTPythonImporterTest >> testCalWithArgumentAttribute [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7339,8 +7291,7 @@ FASTPythonImporterTest >> testCalWithArgumentAttribute [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7359,7 +7310,6 @@ FASTPythonImporterTest >> testCalWithArgumentAwait [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(await x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7369,7 +7319,6 @@ FASTPythonImporterTest >> testCalWithArgumentAwait [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'await x'.
 		self assert: (self topEntity isOfType: FASTPyAwait).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation expression"
 		self assert: self topEntity expression isNotNil.
@@ -7377,7 +7326,6 @@ FASTPythonImporterTest >> testCalWithArgumentAwait [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7386,8 +7334,7 @@ FASTPythonImporterTest >> testCalWithArgumentAwait [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7407,7 +7354,6 @@ FASTPythonImporterTest >> testCalWithArgumentBinaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(1 + x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7417,7 +7363,6 @@ FASTPythonImporterTest >> testCalWithArgumentBinaryOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '1 + x'.
 		self assert: (self topEntity isOfType: FASTPyBinaryOperator).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTBinaryExpression).
 		
 		"Testing value of monovalue relation leftOperand"
@@ -7426,7 +7371,6 @@ FASTPythonImporterTest >> testCalWithArgumentBinaryOperator [
 			stack push: self topEntity leftOperand.
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -7438,7 +7382,6 @@ FASTPythonImporterTest >> testCalWithArgumentBinaryOperator [
 			stack push: self topEntity rightOperand.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7447,8 +7390,7 @@ FASTPythonImporterTest >> testCalWithArgumentBinaryOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7467,7 +7409,6 @@ FASTPythonImporterTest >> testCalWithArgumentBooleanOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x or y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7477,7 +7418,6 @@ FASTPythonImporterTest >> testCalWithArgumentBooleanOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x or y'.
 		self assert: (self topEntity isOfType: FASTPyBooleanOperator).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTBinaryExpression).
 		
 		"Testing value of monovalue relation leftOperand"
@@ -7486,7 +7426,6 @@ FASTPythonImporterTest >> testCalWithArgumentBooleanOperator [
 			stack push: self topEntity leftOperand.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		self assert: self topEntity operator equals: 'or'.
 		
@@ -7496,7 +7435,6 @@ FASTPythonImporterTest >> testCalWithArgumentBooleanOperator [
 			stack push: self topEntity rightOperand.
 			self assert: self topEntity sourceCode equals: 'y'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7505,8 +7443,7 @@ FASTPythonImporterTest >> testCalWithArgumentBooleanOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7524,7 +7461,6 @@ FASTPythonImporterTest >> testCalWithArgumentCall [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(factory())'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7534,7 +7470,6 @@ FASTPythonImporterTest >> testCalWithArgumentCall [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'factory()'.
 		self assert: (self topEntity isOfType: FASTPyCall).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTInvocation).
 		self assert: (self topEntity isOfType: FASTTWithArguments).
 		
@@ -7544,7 +7479,6 @@ FASTPythonImporterTest >> testCalWithArgumentCall [
 			stack push: self topEntity callee.
 			self assert: self topEntity sourceCode equals: 'factory'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7553,8 +7487,7 @@ FASTPythonImporterTest >> testCalWithArgumentCall [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7573,7 +7506,6 @@ FASTPythonImporterTest >> testCalWithArgumentComparisonOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x > y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7583,7 +7515,6 @@ FASTPythonImporterTest >> testCalWithArgumentComparisonOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x > y'.
 		self assert: (self topEntity isOfType: FASTPyComparisonOperator).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation operands"
 		self assert: self topEntity operands size equals: 2.
@@ -7591,13 +7522,11 @@ FASTPythonImporterTest >> testCalWithArgumentComparisonOperator [
 			stack push: (stack top operands at: 1).
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		
 			stack push: (stack top operands at: 2).
 			self assert: self topEntity sourceCode equals: 'y'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		self assert: self topEntity operators equals: #('>').
 		stack pop.
@@ -7607,8 +7536,7 @@ FASTPythonImporterTest >> testCalWithArgumentComparisonOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7627,7 +7555,6 @@ FASTPythonImporterTest >> testCalWithArgumentComplexe [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(0j)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7637,7 +7564,6 @@ FASTPythonImporterTest >> testCalWithArgumentComplexe [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '0j'.
 		self assert: (self topEntity isOfType: FASTPyComplex).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
@@ -7647,8 +7573,7 @@ FASTPythonImporterTest >> testCalWithArgumentComplexe [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7668,7 +7593,6 @@ FASTPythonImporterTest >> testCalWithArgumentConditionalExpression [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x if True else y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7678,7 +7602,6 @@ FASTPythonImporterTest >> testCalWithArgumentConditionalExpression [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x if True else y'.
 		self assert: (self topEntity isOfType: FASTPyConditionalExpression).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTWithCondition).
 		
 		"Testing value of monovalue relation condition"
@@ -7687,7 +7610,6 @@ FASTPythonImporterTest >> testCalWithArgumentConditionalExpression [
 			stack push: self topEntity condition.
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
@@ -7698,7 +7620,6 @@ FASTPythonImporterTest >> testCalWithArgumentConditionalExpression [
 			stack push: self topEntity elseExpression.
 			self assert: self topEntity sourceCode equals: 'y'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		
 		"Testing value of monovalue relation thenExpression"
@@ -7707,7 +7628,6 @@ FASTPythonImporterTest >> testCalWithArgumentConditionalExpression [
 			stack push: self topEntity thenExpression.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7716,8 +7636,7 @@ FASTPythonImporterTest >> testCalWithArgumentConditionalExpression [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7738,7 +7657,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionary [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f({ 1:x })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7748,7 +7666,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionary [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '{ 1:x }'.
 		self assert: (self topEntity isOfType: FASTPyDictionary).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation initializers"
 		self assert: self topEntity initializers size equals: 1.
@@ -7756,7 +7673,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionary [
 			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: '1:x'.
 			self assert: (self topEntity isOfType: FASTPyPair).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation key"
 			self assert: self topEntity key isNotNil.
@@ -7764,7 +7680,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionary [
 				stack push: self topEntity key.
 				self assert: self topEntity sourceCode equals: '1'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTLiteral).
 				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 				stack pop.
@@ -7775,7 +7690,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionary [
 				stack push: self topEntity value.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -7785,8 +7699,7 @@ FASTPythonImporterTest >> testCalWithArgumentDictionary [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7807,7 +7720,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f({ v:x for v in y })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7817,7 +7729,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '{ v:x for v in y }'.
 		self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation body"
 		self assert: self topEntity body isNotNil.
@@ -7825,7 +7736,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 			stack push: self topEntity body.
 			self assert: self topEntity sourceCode equals: 'v:x'.
 			self assert: (self topEntity isOfType: FASTPyPair).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation key"
 			self assert: self topEntity key isNotNil.
@@ -7833,7 +7743,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 				stack push: self topEntity key.
 				self assert: self topEntity sourceCode equals: 'v'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 			"Testing value of monovalue relation value"
@@ -7842,7 +7751,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 				stack push: self topEntity value.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		
@@ -7852,7 +7760,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for v in y'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation left"
 			self assert: self topEntity left isNotNil.
@@ -7860,7 +7767,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 				stack push: self topEntity left.
 				self assert: self topEntity sourceCode equals: 'v'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 			"Testing value of monovalue relation right"
@@ -7869,7 +7775,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 				stack push: self topEntity right.
 				self assert: self topEntity sourceCode equals: 'y'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -7879,8 +7784,7 @@ FASTPythonImporterTest >> testCalWithArgumentDictionaryComprehension [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7899,7 +7803,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionarySplat [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(**kwargs)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7909,7 +7812,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionarySplat [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '**kwargs'.
 		self assert: (self topEntity isOfType: FASTPySplat).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation expression"
 		self assert: self topEntity expression isNotNil.
@@ -7917,7 +7819,6 @@ FASTPythonImporterTest >> testCalWithArgumentDictionarySplat [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: 'kwargs'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -7926,8 +7827,7 @@ FASTPythonImporterTest >> testCalWithArgumentDictionarySplat [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7946,7 +7846,6 @@ FASTPythonImporterTest >> testCalWithArgumentEllipsis [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(...)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7956,7 +7855,6 @@ FASTPythonImporterTest >> testCalWithArgumentEllipsis [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '...'.
 		self assert: (self topEntity isOfType: FASTPyEllipsis).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
@@ -7965,8 +7863,7 @@ FASTPythonImporterTest >> testCalWithArgumentEllipsis [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -7985,7 +7882,6 @@ FASTPythonImporterTest >> testCalWithArgumentFalse [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(False)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -7995,7 +7891,6 @@ FASTPythonImporterTest >> testCalWithArgumentFalse [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'False'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
@@ -8005,8 +7900,7 @@ FASTPythonImporterTest >> testCalWithArgumentFalse [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8025,7 +7919,6 @@ FASTPythonImporterTest >> testCalWithArgumentFloat [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(0.0)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8035,7 +7928,6 @@ FASTPythonImporterTest >> testCalWithArgumentFloat [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '0.0'.
 		self assert: (self topEntity isOfType: FASTPyFloat).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
@@ -8045,8 +7937,7 @@ FASTPythonImporterTest >> testCalWithArgumentFloat [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8064,7 +7955,6 @@ FASTPythonImporterTest >> testCalWithArgumentIdentifier [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8074,7 +7964,6 @@ FASTPythonImporterTest >> testCalWithArgumentIdentifier [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x'.
 		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		stack pop.
 	
 	"Testing value of monovalue relation callee"
@@ -8082,8 +7971,7 @@ FASTPythonImporterTest >> testCalWithArgumentIdentifier [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8102,7 +7990,6 @@ FASTPythonImporterTest >> testCalWithArgumentInteger [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(0)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8112,7 +7999,6 @@ FASTPythonImporterTest >> testCalWithArgumentInteger [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '0'.
 		self assert: (self topEntity isOfType: FASTPyInteger).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 		stack pop.
@@ -8122,8 +8008,7 @@ FASTPythonImporterTest >> testCalWithArgumentInteger [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8143,7 +8028,6 @@ FASTPythonImporterTest >> testCalWithArgumentLambda [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f((lambda x:x))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8153,7 +8037,6 @@ FASTPythonImporterTest >> testCalWithArgumentLambda [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'lambda x:x'.
 		self assert: (self topEntity isOfType: FASTPyLambda).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTWithParameters).
 		
 		"Testing value of monovalue relation expression"
@@ -8162,7 +8045,6 @@ FASTPythonImporterTest >> testCalWithArgumentLambda [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		
 		"Testing value of multivalued relation parameters"
@@ -8181,8 +8063,7 @@ FASTPythonImporterTest >> testCalWithArgumentLambda [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8202,7 +8083,6 @@ FASTPythonImporterTest >> testCalWithArgumentList [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f([ 1 ])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8212,7 +8092,6 @@ FASTPythonImporterTest >> testCalWithArgumentList [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '[ 1 ]'.
 		self assert: (self topEntity isOfType: FASTPyList).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation initializers"
 		self assert: self topEntity initializers size equals: 1.
@@ -8220,7 +8099,6 @@ FASTPythonImporterTest >> testCalWithArgumentList [
 			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -8231,8 +8109,7 @@ FASTPythonImporterTest >> testCalWithArgumentList [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8254,7 +8131,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f([i + x for i in range(3)])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8264,7 +8140,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '[i + x for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyListComprehension).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation body"
 		self assert: self topEntity body isNotNil.
@@ -8272,7 +8147,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 			stack push: self topEntity body.
 			self assert: self topEntity sourceCode equals: 'i + x'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
@@ -8281,7 +8155,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 				stack push: self topEntity leftOperand.
 				self assert: self topEntity sourceCode equals: 'i'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			self assert: self topEntity operator equals: '+'.
 			
@@ -8291,7 +8164,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 				stack push: self topEntity rightOperand.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		
@@ -8301,7 +8173,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation left"
 			self assert: self topEntity left isNotNil.
@@ -8309,7 +8180,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 				stack push: self topEntity left.
 				self assert: self topEntity sourceCode equals: 'i'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 			"Testing value of monovalue relation right"
@@ -8318,7 +8188,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 				stack push: self topEntity right.
 				self assert: self topEntity sourceCode equals: 'range(3)'.
 				self assert: (self topEntity isOfType: FASTPyCall).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTInvocation).
 				self assert: (self topEntity isOfType: FASTTWithArguments).
 				
@@ -8328,7 +8197,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 					stack push: (stack top arguments at: 1).
 					self assert: self topEntity sourceCode equals: '3'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					self assert: (self topEntity isOfType: FASTTLiteral).
 					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 					stack pop.
@@ -8339,7 +8207,6 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 					stack push: self topEntity callee.
 					self assert: self topEntity sourceCode equals: 'range'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			stack pop.
@@ -8350,8 +8217,7 @@ FASTPythonImporterTest >> testCalWithArgumentListComprehension [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8370,7 +8236,6 @@ FASTPythonImporterTest >> testCalWithArgumentListSplat [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(*args)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8380,7 +8245,6 @@ FASTPythonImporterTest >> testCalWithArgumentListSplat [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '*args'.
 		self assert: (self topEntity isOfType: FASTPySplat).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation expression"
 		self assert: self topEntity expression isNotNil.
@@ -8388,7 +8252,6 @@ FASTPythonImporterTest >> testCalWithArgumentListSplat [
 			stack push: self topEntity expression.
 			self assert: self topEntity sourceCode equals: 'args'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -8397,8 +8260,7 @@ FASTPythonImporterTest >> testCalWithArgumentListSplat [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8417,7 +8279,6 @@ FASTPythonImporterTest >> testCalWithArgumentNone [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(None)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8427,7 +8288,6 @@ FASTPythonImporterTest >> testCalWithArgumentNone [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'None'.
 		self assert: (self topEntity isOfType: FASTPyNone).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
 	
@@ -8436,8 +8296,7 @@ FASTPythonImporterTest >> testCalWithArgumentNone [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8456,7 +8315,6 @@ FASTPythonImporterTest >> testCalWithArgumentNotOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f((not old))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8466,7 +8324,6 @@ FASTPythonImporterTest >> testCalWithArgumentNotOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'not old'.
 		self assert: (self topEntity isOfType: FASTPyNotOperator).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
 		
 		"Testing value of monovalue relation argument"
@@ -8475,7 +8332,6 @@ FASTPythonImporterTest >> testCalWithArgumentNotOperator [
 			stack push: self topEntity argument.
 			self assert: self topEntity sourceCode equals: 'old'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -8484,8 +8340,7 @@ FASTPythonImporterTest >> testCalWithArgumentNotOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8505,7 +8360,6 @@ FASTPythonImporterTest >> testCalWithArgumentSet [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f({ 1 })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8515,7 +8369,6 @@ FASTPythonImporterTest >> testCalWithArgumentSet [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '{ 1 }'.
 		self assert: (self topEntity isOfType: FASTPySet).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation initializers"
 		self assert: self topEntity initializers size equals: 1.
@@ -8523,7 +8376,6 @@ FASTPythonImporterTest >> testCalWithArgumentSet [
 			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: '1'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -8534,8 +8386,7 @@ FASTPythonImporterTest >> testCalWithArgumentSet [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8557,7 +8408,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f({i + x for i in range(3) })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8567,7 +8417,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '{i + x for i in range(3) }'.
 		self assert: (self topEntity isOfType: FASTPySetComprehension).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of monovalue relation body"
 		self assert: self topEntity body isNotNil.
@@ -8575,7 +8424,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 			stack push: self topEntity body.
 			self assert: self topEntity sourceCode equals: 'i + x'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
@@ -8584,7 +8432,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 				stack push: self topEntity leftOperand.
 				self assert: self topEntity sourceCode equals: 'i'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			self assert: self topEntity operator equals: '+'.
 			
@@ -8594,7 +8441,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 				stack push: self topEntity rightOperand.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		
@@ -8604,7 +8450,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 			stack push: (stack top forClauses at: 1).
 			self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 			self assert: (self topEntity isOfType: FASTPyForInClause).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation left"
 			self assert: self topEntity left isNotNil.
@@ -8612,7 +8457,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 				stack push: self topEntity left.
 				self assert: self topEntity sourceCode equals: 'i'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 			"Testing value of monovalue relation right"
@@ -8621,7 +8465,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 				stack push: self topEntity right.
 				self assert: self topEntity sourceCode equals: 'range(3)'.
 				self assert: (self topEntity isOfType: FASTPyCall).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTInvocation).
 				self assert: (self topEntity isOfType: FASTTWithArguments).
 				
@@ -8631,7 +8474,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 					stack push: (stack top arguments at: 1).
 					self assert: self topEntity sourceCode equals: '3'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					self assert: (self topEntity isOfType: FASTTLiteral).
 					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 					stack pop.
@@ -8642,7 +8484,6 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 					stack push: self topEntity callee.
 					self assert: self topEntity sourceCode equals: 'range'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			stack pop.
@@ -8653,8 +8494,7 @@ FASTPythonImporterTest >> testCalWithArgumentSetComprehension [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8673,7 +8513,6 @@ FASTPythonImporterTest >> testCalWithArgumentString [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f("Hello")'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8683,7 +8522,6 @@ FASTPythonImporterTest >> testCalWithArgumentString [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '"Hello"'.
 		self assert: (self topEntity isOfType: FASTPyString).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
@@ -8693,8 +8531,7 @@ FASTPythonImporterTest >> testCalWithArgumentString [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8714,7 +8551,6 @@ FASTPythonImporterTest >> testCalWithArgumentSubscript [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(x[2])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8724,7 +8560,6 @@ FASTPythonImporterTest >> testCalWithArgumentSubscript [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'x[2]'.
 		self assert: (self topEntity isOfType: FASTPySubscript).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation indices"
 		self assert: self topEntity indices size equals: 1.
@@ -8732,7 +8567,6 @@ FASTPythonImporterTest >> testCalWithArgumentSubscript [
 			stack push: (stack top indices at: 1).
 			self assert: self topEntity sourceCode equals: '2'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -8743,7 +8577,6 @@ FASTPythonImporterTest >> testCalWithArgumentSubscript [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -8752,8 +8585,7 @@ FASTPythonImporterTest >> testCalWithArgumentSubscript [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8772,7 +8604,6 @@ FASTPythonImporterTest >> testCalWithArgumentTrue [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(True)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8782,7 +8613,6 @@ FASTPythonImporterTest >> testCalWithArgumentTrue [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'True'.
 		self assert: (self topEntity isOfType: FASTPyBoolean).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 		self assert: (self topEntity isOfType: FASTTLiteral).
 		stack pop.
@@ -8792,8 +8622,7 @@ FASTPythonImporterTest >> testCalWithArgumentTrue [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8812,7 +8641,6 @@ FASTPythonImporterTest >> testCalWithArgumentTuple [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f((x, y))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8822,7 +8650,6 @@ FASTPythonImporterTest >> testCalWithArgumentTuple [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '(x, y)'.
 		self assert: (self topEntity isOfType: FASTPyTuple).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		
 		"Testing value of multivalued relation initializers"
 		self assert: self topEntity initializers size equals: 2.
@@ -8830,13 +8657,11 @@ FASTPythonImporterTest >> testCalWithArgumentTuple [
 			stack push: (stack top initializers at: 1).
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		
 			stack push: (stack top initializers at: 2).
 			self assert: self topEntity sourceCode equals: 'y'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -8845,8 +8670,7 @@ FASTPythonImporterTest >> testCalWithArgumentTuple [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -8865,7 +8689,6 @@ FASTPythonImporterTest >> testCalWithArgumentUnaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(-x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -8875,7 +8698,6 @@ FASTPythonImporterTest >> testCalWithArgumentUnaryOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: '-x'.
 		self assert: (self topEntity isOfType: FASTPyUnaryOperator).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
 		
 		"Testing value of monovalue relation argument"
@@ -8884,7 +8706,6 @@ FASTPythonImporterTest >> testCalWithArgumentUnaryOperator [
 			stack push: self topEntity argument.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		self assert: self topEntity operator equals: '-'.
 		stack pop.
@@ -8894,8 +8715,7 @@ FASTPythonImporterTest >> testCalWithArgumentUnaryOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -22511,6 +22331,120 @@ except Exception as e: pass' withPlatformLineEndings.
 		self assert: (self topEntity isOfType: FASTPyPassStatement)
 ]
 
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testExecStatementOfIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testExecStatementOfIdentifier 	"
+
+	self parse: 'exec x'.
+
+	self assert: (fast allWithType: FASTPyExecStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'exec x'.
+	self assert: (self topEntity isOfType: FASTPyExecStatement).
+	
+	"Testing value of monovalue relation code"
+	self assert: self topEntity code isNotNil.
+
+		stack push: self topEntity code.
+		self assert: self topEntity sourceCode equals: 'x'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testExecStatementOfString [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testExecStatementOfString 	"
+
+	self parse: 'exec "print "Hello""'.
+
+	self assert: (fast allWithType: FASTPyERROR) size equals: 1.
+	self assert: (fast allWithType: FASTPyExecStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 2.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'exec "print "Hello""'.
+	self assert: (self topEntity isOfType: FASTPyExecStatement).
+	
+	"Testing value of monovalue relation code"
+	self assert: self topEntity code isNotNil.
+
+		stack push: self topEntity code.
+		self assert: self topEntity sourceCode equals: '""'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
+		stack pop.
+	
+	"Testing value of multivalued relation genericChildren"
+	self assert: self topEntity genericChildren size equals: 1.
+	
+		stack push: (stack top genericChildren at: 1).
+		self assert: self topEntity sourceCode equals: '"print "Hello'.
+		self assert: (self topEntity isOfType: FASTPyERROR).
+		
+		"Testing value of multivalued relation genericChildren"
+		self assert: self topEntity genericChildren size equals: 2.
+		
+			stack push: (stack top genericChildren at: 1).
+			self assert: self topEntity sourceCode equals: '"print "'.
+			self assert: (self topEntity isOfType: FASTPyString).
+			self assert: (self topEntity isOfType: FASTTLiteral).
+			self assert: (self topEntity isOfType: FASTTStringLiteral).
+			stack pop.
+		
+			stack push: (stack top genericChildren at: 2).
+			self assert: self topEntity sourceCode equals: 'Hello'.
+			self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests - statements' }
+FASTPythonImporterTest >> testExecStatementWithScopes [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testExecStatementWithScopes 	"
+
+	self parse: 'exec "print ''Hello''" in globals_dict, locals_dict'.
+
+	self assert: (fast allWithType: FASTPyExecStatement) size equals: 1.
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 2.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyString) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'exec "print ''Hello''" in globals_dict, locals_dict'.
+	self assert: (self topEntity isOfType: FASTPyExecStatement).
+	
+	"Testing value of monovalue relation code"
+	self assert: self topEntity code isNotNil.
+
+		stack push: self topEntity code.
+		self assert: self topEntity sourceCode equals: '"print ''Hello''"'.
+		self assert: (self topEntity isOfType: FASTPyString).
+		self assert: (self topEntity isOfType: FASTTLiteral).
+		self assert: (self topEntity isOfType: FASTTStringLiteral).
+		stack pop.
+	
+	"Testing value of multivalued relation scopes"
+	self assert: self topEntity scopes size equals: 2.
+	
+		stack push: (stack top scopes at: 1).
+		self assert: self topEntity sourceCode equals: 'globals_dict'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier).
+		stack pop.
+	
+		stack push: (stack top scopes at: 2).
+		self assert: self topEntity sourceCode equals: 'locals_dict'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'tests - literals' }
 FASTPythonImporterTest >> testFalse [
 	<generated>
@@ -28370,7 +28304,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAttribute [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = x.y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28380,7 +28313,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAttribute [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = x.y'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28389,7 +28321,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAttribute [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x.y'.
 			self assert: (self topEntity isOfType: FASTPyAttributeAccess).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: self topEntity name equals: 'y'.
 			
 			"Testing value of monovalue relation value"
@@ -28398,7 +28329,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAttribute [
 				stack push: self topEntity value.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -28408,8 +28338,7 @@ FASTPythonImporterTest >> testKeywordArgumentToAttribute [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28429,7 +28358,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAwait [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = await x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28439,7 +28367,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAwait [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = await x'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28448,7 +28375,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAwait [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'await x'.
 			self assert: (self topEntity isOfType: FASTPyAwait).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
@@ -28456,7 +28382,6 @@ FASTPythonImporterTest >> testKeywordArgumentToAwait [
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -28466,8 +28391,7 @@ FASTPythonImporterTest >> testKeywordArgumentToAwait [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28488,7 +28412,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBinaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = 1 + x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28498,7 +28421,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBinaryOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = 1 + x'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28507,7 +28429,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBinaryOperator [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '1 + x'.
 			self assert: (self topEntity isOfType: FASTPyBinaryOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
@@ -28516,7 +28437,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBinaryOperator [
 				stack push: self topEntity leftOperand.
 				self assert: self topEntity sourceCode equals: '1'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTLiteral).
 				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 				stack pop.
@@ -28528,7 +28448,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBinaryOperator [
 				stack push: self topEntity rightOperand.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -28538,8 +28457,7 @@ FASTPythonImporterTest >> testKeywordArgumentToBinaryOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28559,7 +28477,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBooleanOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = x or y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28569,7 +28486,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBooleanOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = x or y'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28578,7 +28494,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBooleanOperator [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x or y'.
 			self assert: (self topEntity isOfType: FASTPyBooleanOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBinaryExpression).
 			
 			"Testing value of monovalue relation leftOperand"
@@ -28587,7 +28502,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBooleanOperator [
 				stack push: self topEntity leftOperand.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			self assert: self topEntity operator equals: 'or'.
 			
@@ -28597,7 +28511,6 @@ FASTPythonImporterTest >> testKeywordArgumentToBooleanOperator [
 				stack push: self topEntity rightOperand.
 				self assert: self topEntity sourceCode equals: 'y'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -28607,8 +28520,7 @@ FASTPythonImporterTest >> testKeywordArgumentToBooleanOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28627,7 +28539,6 @@ FASTPythonImporterTest >> testKeywordArgumentToCall [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = factory())'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28637,7 +28548,6 @@ FASTPythonImporterTest >> testKeywordArgumentToCall [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = factory()'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28646,7 +28556,6 @@ FASTPythonImporterTest >> testKeywordArgumentToCall [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'factory()'.
 			self assert: (self topEntity isOfType: FASTPyCall).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTInvocation).
 			self assert: (self topEntity isOfType: FASTTWithArguments).
 			
@@ -28656,7 +28565,6 @@ FASTPythonImporterTest >> testKeywordArgumentToCall [
 				stack push: self topEntity callee.
 				self assert: self topEntity sourceCode equals: 'factory'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -28666,8 +28574,7 @@ FASTPythonImporterTest >> testKeywordArgumentToCall [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28687,7 +28594,6 @@ FASTPythonImporterTest >> testKeywordArgumentToComparisonOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = x > y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28697,7 +28603,6 @@ FASTPythonImporterTest >> testKeywordArgumentToComparisonOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = x > y'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28706,7 +28611,6 @@ FASTPythonImporterTest >> testKeywordArgumentToComparisonOperator [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x > y'.
 			self assert: (self topEntity isOfType: FASTPyComparisonOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of multivalued relation operands"
 			self assert: self topEntity operands size equals: 2.
@@ -28714,13 +28618,11 @@ FASTPythonImporterTest >> testKeywordArgumentToComparisonOperator [
 				stack push: (stack top operands at: 1).
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 				stack push: (stack top operands at: 2).
 				self assert: self topEntity sourceCode equals: 'y'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			self assert: self topEntity operators equals: #('>').
 			stack pop.
@@ -28731,8 +28633,7 @@ FASTPythonImporterTest >> testKeywordArgumentToComparisonOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28752,7 +28653,6 @@ FASTPythonImporterTest >> testKeywordArgumentToComplexe [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = 0j)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28762,7 +28662,6 @@ FASTPythonImporterTest >> testKeywordArgumentToComplexe [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = 0j'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28771,7 +28670,6 @@ FASTPythonImporterTest >> testKeywordArgumentToComplexe [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '0j'.
 			self assert: (self topEntity isOfType: FASTPyComplex).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -28782,8 +28680,7 @@ FASTPythonImporterTest >> testKeywordArgumentToComplexe [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28804,7 +28701,6 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = x if True else y)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28814,7 +28710,6 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = x if True else y'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28823,7 +28718,6 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x if True else y'.
 			self assert: (self topEntity isOfType: FASTPyConditionalExpression).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTWithCondition).
 			
 			"Testing value of monovalue relation condition"
@@ -28832,7 +28726,6 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 				stack push: self topEntity condition.
 				self assert: self topEntity sourceCode equals: 'True'.
 				self assert: (self topEntity isOfType: FASTPyBoolean).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 				self assert: (self topEntity isOfType: FASTTLiteral).
 				stack pop.
@@ -28843,7 +28736,6 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 				stack push: self topEntity elseExpression.
 				self assert: self topEntity sourceCode equals: 'y'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 			"Testing value of monovalue relation thenExpression"
@@ -28852,7 +28744,6 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 				stack push: self topEntity thenExpression.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -28862,8 +28753,7 @@ FASTPythonImporterTest >> testKeywordArgumentToConditionalExpression [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28885,7 +28775,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = { 1:x })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28895,7 +28784,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = { 1:x }'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28904,7 +28792,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '{ 1:x }'.
 			self assert: (self topEntity isOfType: FASTPyDictionary).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of multivalued relation initializers"
 			self assert: self topEntity initializers size equals: 1.
@@ -28912,7 +28799,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: '1:x'.
 				self assert: (self topEntity isOfType: FASTPyPair).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				
 				"Testing value of monovalue relation key"
 				self assert: self topEntity key isNotNil.
@@ -28920,7 +28806,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 					stack push: self topEntity key.
 					self assert: self topEntity sourceCode equals: '1'.
 					self assert: (self topEntity isOfType: FASTPyInteger).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					self assert: (self topEntity isOfType: FASTTLiteral).
 					self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 					stack pop.
@@ -28931,7 +28816,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 					stack push: self topEntity value.
 					self assert: self topEntity sourceCode equals: 'x'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			stack pop.
@@ -28942,8 +28826,7 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionary [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -28965,7 +28848,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = { v:x for v in y })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -28975,7 +28857,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = { v:x for v in y }'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -28984,7 +28865,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '{ v:x for v in y }'.
 			self assert: (self topEntity isOfType: FASTPyDictionaryComprehension).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.
@@ -28992,7 +28872,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 				stack push: self topEntity body.
 				self assert: self topEntity sourceCode equals: 'v:x'.
 				self assert: (self topEntity isOfType: FASTPyPair).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				
 				"Testing value of monovalue relation key"
 				self assert: self topEntity key isNotNil.
@@ -29000,7 +28879,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 					stack push: self topEntity key.
 					self assert: self topEntity sourceCode equals: 'v'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				
 				"Testing value of monovalue relation value"
@@ -29009,7 +28887,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 					stack push: self topEntity value.
 					self assert: self topEntity sourceCode equals: 'x'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			
@@ -29019,7 +28896,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for v in y'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				
 				"Testing value of monovalue relation left"
 				self assert: self topEntity left isNotNil.
@@ -29027,7 +28903,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 					stack push: self topEntity left.
 					self assert: self topEntity sourceCode equals: 'v'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				
 				"Testing value of monovalue relation right"
@@ -29036,7 +28911,6 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 					stack push: self topEntity right.
 					self assert: self topEntity sourceCode equals: 'y'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			stack pop.
@@ -29047,8 +28921,7 @@ FASTPythonImporterTest >> testKeywordArgumentToDictionaryComprehension [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29068,7 +28941,6 @@ FASTPythonImporterTest >> testKeywordArgumentToEllipsis [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = ...)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29078,7 +28950,6 @@ FASTPythonImporterTest >> testKeywordArgumentToEllipsis [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = ...'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29087,7 +28958,6 @@ FASTPythonImporterTest >> testKeywordArgumentToEllipsis [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '...'.
 			self assert: (self topEntity isOfType: FASTPyEllipsis).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
@@ -29097,8 +28967,7 @@ FASTPythonImporterTest >> testKeywordArgumentToEllipsis [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29118,7 +28987,6 @@ FASTPythonImporterTest >> testKeywordArgumentToFalse [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = False)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29128,7 +28996,6 @@ FASTPythonImporterTest >> testKeywordArgumentToFalse [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = False'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29137,7 +29004,6 @@ FASTPythonImporterTest >> testKeywordArgumentToFalse [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'False'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
@@ -29148,8 +29014,7 @@ FASTPythonImporterTest >> testKeywordArgumentToFalse [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29169,7 +29034,6 @@ FASTPythonImporterTest >> testKeywordArgumentToFloat [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = 0.0)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29179,7 +29043,6 @@ FASTPythonImporterTest >> testKeywordArgumentToFloat [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = 0.0'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29188,7 +29051,6 @@ FASTPythonImporterTest >> testKeywordArgumentToFloat [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '0.0'.
 			self assert: (self topEntity isOfType: FASTPyFloat).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -29199,8 +29061,7 @@ FASTPythonImporterTest >> testKeywordArgumentToFloat [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29219,7 +29080,6 @@ FASTPythonImporterTest >> testKeywordArgumentToIdentifier [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29229,7 +29089,6 @@ FASTPythonImporterTest >> testKeywordArgumentToIdentifier [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = x'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29238,7 +29097,6 @@ FASTPythonImporterTest >> testKeywordArgumentToIdentifier [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x'.
 			self assert: (self topEntity isOfType: FASTPyIdentifier).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			stack pop.
 		stack pop.
 	
@@ -29247,8 +29105,7 @@ FASTPythonImporterTest >> testKeywordArgumentToIdentifier [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29268,7 +29125,6 @@ FASTPythonImporterTest >> testKeywordArgumentToInteger [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = 0)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29278,7 +29134,6 @@ FASTPythonImporterTest >> testKeywordArgumentToInteger [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = 0'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29287,7 +29142,6 @@ FASTPythonImporterTest >> testKeywordArgumentToInteger [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '0'.
 			self assert: (self topEntity isOfType: FASTPyInteger).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 			stack pop.
@@ -29298,8 +29152,7 @@ FASTPythonImporterTest >> testKeywordArgumentToInteger [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29320,7 +29173,6 @@ FASTPythonImporterTest >> testKeywordArgumentToLambda [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = (lambda x:x))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29330,7 +29182,6 @@ FASTPythonImporterTest >> testKeywordArgumentToLambda [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = (lambda x:x)'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29339,7 +29190,6 @@ FASTPythonImporterTest >> testKeywordArgumentToLambda [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'lambda x:x'.
 			self assert: (self topEntity isOfType: FASTPyLambda).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTWithParameters).
 			
 			"Testing value of monovalue relation expression"
@@ -29348,7 +29198,6 @@ FASTPythonImporterTest >> testKeywordArgumentToLambda [
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 			"Testing value of multivalued relation parameters"
@@ -29368,8 +29217,7 @@ FASTPythonImporterTest >> testKeywordArgumentToLambda [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29390,7 +29238,6 @@ FASTPythonImporterTest >> testKeywordArgumentToList [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = [ 1 ])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29400,7 +29247,6 @@ FASTPythonImporterTest >> testKeywordArgumentToList [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = [ 1 ]'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29409,7 +29255,6 @@ FASTPythonImporterTest >> testKeywordArgumentToList [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '[ 1 ]'.
 			self assert: (self topEntity isOfType: FASTPyList).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of multivalued relation initializers"
 			self assert: self topEntity initializers size equals: 1.
@@ -29417,7 +29262,6 @@ FASTPythonImporterTest >> testKeywordArgumentToList [
 				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: '1'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTLiteral).
 				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 				stack pop.
@@ -29429,8 +29273,7 @@ FASTPythonImporterTest >> testKeywordArgumentToList [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29453,7 +29296,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = [i + x for i in range(3)])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29463,7 +29305,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = [i + x for i in range(3)]'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29472,7 +29313,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '[i + x for i in range(3)]'.
 			self assert: (self topEntity isOfType: FASTPyListComprehension).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.
@@ -29480,7 +29320,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 				stack push: self topEntity body.
 				self assert: self topEntity sourceCode equals: 'i + x'.
 				self assert: (self topEntity isOfType: FASTPyBinaryOperator).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTBinaryExpression).
 				
 				"Testing value of monovalue relation leftOperand"
@@ -29489,7 +29328,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 					stack push: self topEntity leftOperand.
 					self assert: self topEntity sourceCode equals: 'i'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				self assert: self topEntity operator equals: '+'.
 				
@@ -29499,7 +29337,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 					stack push: self topEntity rightOperand.
 					self assert: self topEntity sourceCode equals: 'x'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			
@@ -29509,7 +29346,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				
 				"Testing value of monovalue relation left"
 				self assert: self topEntity left isNotNil.
@@ -29517,7 +29353,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 					stack push: self topEntity left.
 					self assert: self topEntity sourceCode equals: 'i'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				
 				"Testing value of monovalue relation right"
@@ -29526,7 +29361,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 					stack push: self topEntity right.
 					self assert: self topEntity sourceCode equals: 'range(3)'.
 					self assert: (self topEntity isOfType: FASTPyCall).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					self assert: (self topEntity isOfType: FASTTInvocation).
 					self assert: (self topEntity isOfType: FASTTWithArguments).
 					
@@ -29536,7 +29370,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 						stack push: (stack top arguments at: 1).
 						self assert: self topEntity sourceCode equals: '3'.
 						self assert: (self topEntity isOfType: FASTPyInteger).
-						self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 						self assert: (self topEntity isOfType: FASTTLiteral).
 						self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 						stack pop.
@@ -29547,7 +29380,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 						stack push: self topEntity callee.
 						self assert: self topEntity sourceCode equals: 'range'.
 						self assert: (self topEntity isOfType: FASTPyIdentifier).
-						self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 						stack pop.
 					stack pop.
 				stack pop.
@@ -29559,8 +29391,7 @@ FASTPythonImporterTest >> testKeywordArgumentToListComprehension [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29580,7 +29411,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListSplat [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = *args)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29590,7 +29420,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListSplat [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = *args'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29599,7 +29428,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListSplat [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '*args'.
 			self assert: (self topEntity isOfType: FASTPySplat).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation expression"
 			self assert: self topEntity expression isNotNil.
@@ -29607,7 +29435,6 @@ FASTPythonImporterTest >> testKeywordArgumentToListSplat [
 				stack push: self topEntity expression.
 				self assert: self topEntity sourceCode equals: 'args'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -29617,8 +29444,7 @@ FASTPythonImporterTest >> testKeywordArgumentToListSplat [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29638,7 +29464,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNone [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = None)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29648,7 +29473,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNone [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = None'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29657,7 +29481,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNone [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'None'.
 			self assert: (self topEntity isOfType: FASTPyNone).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
 		stack pop.
@@ -29667,8 +29490,7 @@ FASTPythonImporterTest >> testKeywordArgumentToNone [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29688,7 +29510,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNotOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = (not old))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29698,7 +29519,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNotOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = (not old)'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29707,7 +29527,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNotOperator [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'not old'.
 			self assert: (self topEntity isOfType: FASTPyNotOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
 			
 			"Testing value of monovalue relation argument"
@@ -29716,7 +29535,6 @@ FASTPythonImporterTest >> testKeywordArgumentToNotOperator [
 				stack push: self topEntity argument.
 				self assert: self topEntity sourceCode equals: 'old'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -29726,8 +29544,7 @@ FASTPythonImporterTest >> testKeywordArgumentToNotOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29748,7 +29565,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSet [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = { 1 })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29758,7 +29574,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSet [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = { 1 }'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29767,7 +29582,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSet [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '{ 1 }'.
 			self assert: (self topEntity isOfType: FASTPySet).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of multivalued relation initializers"
 			self assert: self topEntity initializers size equals: 1.
@@ -29775,7 +29589,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSet [
 				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: '1'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTLiteral).
 				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 				stack pop.
@@ -29787,8 +29600,7 @@ FASTPythonImporterTest >> testKeywordArgumentToSet [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29811,7 +29623,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = {i + x for i in range(3) })'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29821,7 +29632,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = {i + x for i in range(3) }'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29830,7 +29640,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '{i + x for i in range(3) }'.
 			self assert: (self topEntity isOfType: FASTPySetComprehension).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of monovalue relation body"
 			self assert: self topEntity body isNotNil.
@@ -29838,7 +29647,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 				stack push: self topEntity body.
 				self assert: self topEntity sourceCode equals: 'i + x'.
 				self assert: (self topEntity isOfType: FASTPyBinaryOperator).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTBinaryExpression).
 				
 				"Testing value of monovalue relation leftOperand"
@@ -29847,7 +29655,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 					stack push: self topEntity leftOperand.
 					self assert: self topEntity sourceCode equals: 'i'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				self assert: self topEntity operator equals: '+'.
 				
@@ -29857,7 +29664,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 					stack push: self topEntity rightOperand.
 					self assert: self topEntity sourceCode equals: 'x'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				stack pop.
 			
@@ -29867,7 +29673,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 				stack push: (stack top forClauses at: 1).
 				self assert: self topEntity sourceCode equals: 'for i in range(3)'.
 				self assert: (self topEntity isOfType: FASTPyForInClause).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				
 				"Testing value of monovalue relation left"
 				self assert: self topEntity left isNotNil.
@@ -29875,7 +29680,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 					stack push: self topEntity left.
 					self assert: self topEntity sourceCode equals: 'i'.
 					self assert: (self topEntity isOfType: FASTPyIdentifier).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					stack pop.
 				
 				"Testing value of monovalue relation right"
@@ -29884,7 +29688,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 					stack push: self topEntity right.
 					self assert: self topEntity sourceCode equals: 'range(3)'.
 					self assert: (self topEntity isOfType: FASTPyCall).
-					self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 					self assert: (self topEntity isOfType: FASTTInvocation).
 					self assert: (self topEntity isOfType: FASTTWithArguments).
 					
@@ -29894,7 +29697,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 						stack push: (stack top arguments at: 1).
 						self assert: self topEntity sourceCode equals: '3'.
 						self assert: (self topEntity isOfType: FASTPyInteger).
-						self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 						self assert: (self topEntity isOfType: FASTTLiteral).
 						self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 						stack pop.
@@ -29905,7 +29707,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 						stack push: self topEntity callee.
 						self assert: self topEntity sourceCode equals: 'range'.
 						self assert: (self topEntity isOfType: FASTPyIdentifier).
-						self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 						stack pop.
 					stack pop.
 				stack pop.
@@ -29917,8 +29718,7 @@ FASTPythonImporterTest >> testKeywordArgumentToSetComprehension [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29938,7 +29738,6 @@ FASTPythonImporterTest >> testKeywordArgumentToString [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = "Hello")'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -29948,7 +29747,6 @@ FASTPythonImporterTest >> testKeywordArgumentToString [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = "Hello"'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -29957,7 +29755,6 @@ FASTPythonImporterTest >> testKeywordArgumentToString [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '"Hello"'.
 			self assert: (self topEntity isOfType: FASTPyString).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			self assert: (self topEntity isOfType: FASTTStringLiteral).
 			stack pop.
@@ -29968,8 +29765,7 @@ FASTPythonImporterTest >> testKeywordArgumentToString [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -29990,7 +29786,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSubscript [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = x[2])'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -30000,7 +29795,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSubscript [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = x[2]'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -30009,7 +29803,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSubscript [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'x[2]'.
 			self assert: (self topEntity isOfType: FASTPySubscript).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of multivalued relation indices"
 			self assert: self topEntity indices size equals: 1.
@@ -30017,7 +29810,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSubscript [
 				stack push: (stack top indices at: 1).
 				self assert: self topEntity sourceCode equals: '2'.
 				self assert: (self topEntity isOfType: FASTPyInteger).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				self assert: (self topEntity isOfType: FASTTLiteral).
 				self assert: (self topEntity isOfType: FASTTNumericalLiteral).
 				stack pop.
@@ -30028,7 +29820,6 @@ FASTPythonImporterTest >> testKeywordArgumentToSubscript [
 				stack push: self topEntity value.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -30038,8 +29829,7 @@ FASTPythonImporterTest >> testKeywordArgumentToSubscript [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -30059,7 +29849,6 @@ FASTPythonImporterTest >> testKeywordArgumentToTrue [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = True)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -30069,7 +29858,6 @@ FASTPythonImporterTest >> testKeywordArgumentToTrue [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = True'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -30078,7 +29866,6 @@ FASTPythonImporterTest >> testKeywordArgumentToTrue [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: 'True'.
 			self assert: (self topEntity isOfType: FASTPyBoolean).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTTBooleanLiteral).
 			self assert: (self topEntity isOfType: FASTTLiteral).
 			stack pop.
@@ -30089,8 +29876,7 @@ FASTPythonImporterTest >> testKeywordArgumentToTrue [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -30110,7 +29896,6 @@ FASTPythonImporterTest >> testKeywordArgumentToTuple [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = (x, y))'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -30120,7 +29905,6 @@ FASTPythonImporterTest >> testKeywordArgumentToTuple [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = (x, y)'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -30129,7 +29913,6 @@ FASTPythonImporterTest >> testKeywordArgumentToTuple [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '(x, y)'.
 			self assert: (self topEntity isOfType: FASTPyTuple).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			
 			"Testing value of multivalued relation initializers"
 			self assert: self topEntity initializers size equals: 2.
@@ -30137,13 +29920,11 @@ FASTPythonImporterTest >> testKeywordArgumentToTuple [
 				stack push: (stack top initializers at: 1).
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			
 				stack push: (stack top initializers at: 2).
 				self assert: self topEntity sourceCode equals: 'y'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			stack pop.
 		stack pop.
@@ -30153,8 +29934,7 @@ FASTPythonImporterTest >> testKeywordArgumentToTuple [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - calls' }
@@ -30174,7 +29954,6 @@ FASTPythonImporterTest >> testKeywordArgumentToUnaryOperator [
 	stack push: fast rootEntities anyOne containedEntities first.
 	self assert: self topEntity sourceCode equals: 'f(var = -x)'.
 	self assert: (self topEntity isOfType: FASTPyCall).
-	self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 	self assert: (self topEntity isOfType: FASTTInvocation).
 	self assert: (self topEntity isOfType: FASTTWithArguments).
 	
@@ -30184,7 +29963,6 @@ FASTPythonImporterTest >> testKeywordArgumentToUnaryOperator [
 		stack push: (stack top arguments at: 1).
 		self assert: self topEntity sourceCode equals: 'var = -x'.
 		self assert: (self topEntity isOfType: FASTPyKeywordArgument).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 		self assert: self topEntity name equals: 'var'.
 		
 		"Testing value of monovalue relation value"
@@ -30193,7 +29971,6 @@ FASTPythonImporterTest >> testKeywordArgumentToUnaryOperator [
 			stack push: self topEntity value.
 			self assert: self topEntity sourceCode equals: '-x'.
 			self assert: (self topEntity isOfType: FASTPyUnaryOperator).
-			self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 			self assert: (self topEntity isOfType: FASTPyTUnaryOperator).
 			
 			"Testing value of monovalue relation argument"
@@ -30202,7 +29979,6 @@ FASTPythonImporterTest >> testKeywordArgumentToUnaryOperator [
 				stack push: self topEntity argument.
 				self assert: self topEntity sourceCode equals: 'x'.
 				self assert: (self topEntity isOfType: FASTPyIdentifier).
-				self assert: (self topEntity isOfType: FASTPyTSliceIndex).
 				stack pop.
 			self assert: self topEntity operator equals: '-'.
 			stack pop.
@@ -30213,8 +29989,7 @@ FASTPythonImporterTest >> testKeywordArgumentToUnaryOperator [
 
 		stack push: self topEntity callee.
 		self assert: self topEntity sourceCode equals: 'f'.
-		self assert: (self topEntity isOfType: FASTPyIdentifier).
-		self assert: (self topEntity isOfType: FASTPyTSliceIndex)
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
 ]
 
 { #category : 'tests - function definitions' }

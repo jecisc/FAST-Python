@@ -25,6 +25,7 @@
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
 | `parentDefaultParameterValue` | `FASTPyExpression` | `defaultValue` | `FASTPyParameter` | |
 | `parentExceptClause` | `FASTPyExpression` | `expressions` | `FASTPyExceptClause` | |
+| `parentExecStatementScopes` | `FASTPyExpression` | `scopes` | `FASTPyExecStatement` | |
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
@@ -77,6 +78,7 @@ Class {
 		'#parentComprehensionForClause => FMOne type: #FASTPyComprehension opposite: #forClauses',
 		'#parentDefaultParameterValue => FMOne type: #FASTPyParameter opposite: #defaultValue',
 		'#parentExceptClause => FMOne type: #FASTPyExceptClause opposite: #expressions',
+		'#parentExecStatementScopes => FMOne type: #FASTPyExecStatement opposite: #scopes',
 		'#parentForStatementLeft => FMOne type: #FASTPyForStatement opposite: #right',
 		'#parentForStatementRight => FMOne type: #FASTPyForStatement opposite: #left',
 		'#parentIfClause => FMOne type: #FASTPyIfClause opposite: #expression',
@@ -486,6 +488,29 @@ FASTPyExpression >> parentExceptClauseGroup [
 	<generated>
 	<navigation: 'ParentExceptClause'>
 	^ MooseSpecializedGroup with: self parentExceptClause
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentExecStatementScopes [
+	"Relation named: #parentExecStatementScopes type: #FASTPyExecStatement opposite: #scopes"
+
+	<generated>
+	<container>
+	^ parentExecStatementScopes
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentExecStatementScopes: anObject [
+
+	<generated>
+	parentExecStatementScopes := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentExecStatementScopesGroup [
+	<generated>
+	<navigation: 'ParentExecStatementScopes'>
+	^ MooseSpecializedGroup with: self parentExecStatementScopes
 ]
 
 { #category : 'accessing' }

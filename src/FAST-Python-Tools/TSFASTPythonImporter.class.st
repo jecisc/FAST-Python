@@ -509,6 +509,14 @@ TSFASTPythonImporter >> visitExceptClause: aTSNode [
 	^ self handleNode: aTSNode kind: FASTPyExceptClause parentBlock: [ :entity | self topFastEntity addExcept: entity ]
 ]
 
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitExecStatement: aNode [
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #scopes ].
+
+	^ self handleNode: aNode kind: FASTPyExecStatement
+]
+
 { #category : 'visiting - redirect' }
 TSFASTPythonImporter >> visitExpressionList: aTSNode [
 	"We considere expression lists are tuples."

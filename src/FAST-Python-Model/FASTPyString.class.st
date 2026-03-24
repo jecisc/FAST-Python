@@ -10,6 +10,7 @@
 | `expressionStatementOwner` | `FASTTExpression` | `expression` | `FASTTExpressionStatement` | The expression statement that own me (if it's the case|
 | `parentConcatenatedString` | `FASTPyString` | `strings` | `FASTPyConcatenatedString` | |
 | `parentConditional` | `FASTTExpression` | `condition` | `FASTTWithCondition` | Optional condition statement/expression where this expression is used|
+| `parentExecStatement` | `FASTPyTExecutable` | `code` | `FASTPyExecStatement` | |
 | `parentExpression` | `FASTTExpression` | `expression` | `FASTTUnaryExpression` | Parent (unary) expression|
 | `parentExpressionLeft` | `FASTTExpression` | `leftOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am left side|
 | `parentExpressionRight` | `FASTTExpression` | `rightOperand` | `FASTTBinaryExpression` | Parent (binary) expression of which I am right side|
@@ -35,8 +36,8 @@
 Class {
 	#name : 'FASTPyString',
 	#superclass : 'FASTPyLiteral',
-	#traits : 'FASTPyTSplatExpression + FASTTStringLiteral',
-	#classTraits : 'FASTPyTSplatExpression classTrait + FASTTStringLiteral classTrait',
+	#traits : 'FASTPyTExecutable + FASTPyTSplatExpression + FASTTStringLiteral',
+	#classTraits : 'FASTPyTExecutable classTrait + FASTPyTSplatExpression classTrait + FASTTStringLiteral classTrait',
 	#instVars : [
 		'#interpolations => FMMany type: #FASTPyInterpolation opposite: #parentString',
 		'#parentConcatenatedString => FMOne type: #FASTPyConcatenatedString opposite: #strings'

@@ -13,6 +13,7 @@
 | `parentClassDefinition` | `FASTPyTSuperclass` | `superclasses` | `FASTPyClassDefinition` | |
 | `parentDeclarator` | `FASTPyTDecoratorExpression` | `expression` | `FASTPyDecorator` | |
 | `parentDeleteStatement` | `FASTPyTDeletable` | `expression` | `FASTPyDeleteStatement` | The delete statement that own the expression (if it's the case)|
+| `parentExecStatement` | `FASTPyTExecutable` | `code` | `FASTPyExecStatement` | |
 | `parentRaiseStatement` | `FASTPyTRaised` | `exception` | `FASTPyRaiseStatement` | |
 | `parentSplat` | `FASTPyTSplatExpression` | `expression` | `FASTPySplat` | |
 

@@ -154,7 +154,8 @@ Class {
 		'tSuperclass',
 		'tCallable',
 		'tSliceIndex',
-		'tAwaitable'
+		'tAwaitable',
+		'tExecutable'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -370,6 +371,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	conditionalExpression --|> tWithCondition.
 	conditionalExpression --|> tSuperclass.
 	conditionalExpression --|> tCallable.
+	conditionalExpression --|> tExecutable.
 	
 	continueStatement --|> statement.
 	
@@ -526,6 +528,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	string --|> literal.
 	string --|> tStringLiteral.
 	string --|> tSplatExpression.
+	string --|> tExecutable.
 	
 	subscript --|> expression.
 	subscript --|> tReturnReferenceable.
@@ -545,6 +548,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tReturnReferenceable --|> tSuperclass.
 	tReturnReferenceable --|> tCallable.
 	tReturnReferenceable --|> tAwaitable.
+	tReturnReferenceable --|> tExecutable.
 
 	thenClause --|> tStatementBlock.
 
@@ -681,6 +685,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	<>- ((tDeletable property: #parentDeleteStatement) comment: 'The delete statement that own the expression (if it''s the case)').
 	
 	(exceptClause property: #expressions) <>-* (expression property: #parentExceptClause). "We could point less things than expression, but in reality in Python any expression can be provided. It will just end up in runtime error."
+	
+	(execStatement property: #code) <>- (tExecutable property: #parentExecStatement).
+	(execStatement property: #scopes) <>-* (expression property: #parentExecStatementScopes).
 
 	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
 	(forInClause property: #right) <>- (expression property: #forInClauseRightOwner).
@@ -803,6 +810,8 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tDefinition := builder newTraitNamed: #TDefinition.
 
 	tDeletable := (builder newTraitNamed: #TDeletable) comment: 'I represent an expression that can be in a delete statement.'.
+	
+	tExecutable := (builder newTraitNamed: #TExecutable) comment: 'I represent something that can be executed by an exec statement'.
 	
 	tPattern := (builder newTraitNamed: #TPattern) comment: 'I represent an entity that can be the pattern of a case clause in a match statement..'.
 
