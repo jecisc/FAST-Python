@@ -174,10 +174,7 @@ TSFASTPythonImporter >> visitBinaryOperator: aTSNode [
 { #category : 'visiting' }
 TSFASTPythonImporter >> visitBlock: aTSNode [
 	"I should be simplified a little bit when the importer will be stable."
-
-	(context top isOfFASTType: FASTPyMatchStatement) ifTrue: [
-		^ self rawVisitChildren: aTSNode "In case of a match, we only have case_clause inside and nothing else so we skip the block node." ].
-
+	
 	self onNextContextDo: [ :contextEntry | contextEntry aliasUnnamedFieldAs: 'statements' ].
 
 	aTSNode parent type = #else_clause ifTrue: [
@@ -185,18 +182,8 @@ TSFASTPythonImporter >> visitBlock: aTSNode [
 
 	((context top isOfFASTType: FASTPyIfStatement) and: [ context top field = #consequence ]) ifTrue: [ ^ self handleNode: aTSNode kind: FASTPyThenClause ].
 
-	({
-		 FASTPyElifClause.
-		 FASTPyWithStatement.
-		 FASTPyTryStatement.
-		 FASTPyFinallyClause.
-		 FASTPyExceptClause.
-		 FASTPyCaseClause.
-		FASTTStatementBlock } anySatisfy: [ :type | context top isOfFASTType: type ]) ifTrue: [
-			self setTopFieldTo: #statements. "We manually update the field to bypass the block and"
-			^ self rawVisitChildren: aTSNode ].
-
-	^ self handleNode: aTSNode kind: FASTPyBlock
+	self setTopFieldTo: #statements. "We manually update the field to bypass the block"
+	^ self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }
