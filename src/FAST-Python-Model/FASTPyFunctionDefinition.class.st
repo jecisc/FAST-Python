@@ -52,6 +52,15 @@ FASTPyFunctionDefinition class >> annotation [
 	^ self
 ]
 
+{ #category : 'testing' }
+FASTPyFunctionDefinition >> isAsync [
+
+	<FMProperty>
+	<comment: 'If true, I am an async function definition'>
+	<derived>
+	^ self cacheAt: #isAsync ifAbsentPut: [ self sourceCode beginsWith: 'async' ]
+]
+
 { #category : 'accessing' }
 FASTPyFunctionDefinition >> returnType [
 	"Relation named: #returnType type: #FASTPyType opposite: #parentFunctionDefinition"
