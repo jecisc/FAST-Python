@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `variables` | `FASTPyGlobalStatement` | `globalOwner` | `FASTPyVariable` | The variables scoped|
+| `variables` | `FASTPyGlobalStatement` | `parentGlobal` | `FASTPyVariable` | The variables scoped|
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyGlobalStatement',
 	#superclass : 'FASTPyStatement',
 	#instVars : [
-		'#variables => FMMany type: #FASTPyVariable opposite: #globalOwner'
+		'#variables => FMMany type: #FASTPyVariable opposite: #parentGlobal'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -38,7 +38,7 @@ FASTPyGlobalStatement >> addVariable: anObject [
 
 { #category : 'accessing' }
 FASTPyGlobalStatement >> variables [
-	"Relation named: #variables type: #FASTPyVariable opposite: #globalOwner"
+	"Relation named: #variables type: #FASTPyVariable opposite: #parentGlobal"
 
 	<generated>
 	<FMComment: 'The variables scoped'>

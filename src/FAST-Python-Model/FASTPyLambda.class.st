@@ -11,7 +11,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyLambda` | `lambdaOwner` | `FASTPyExpression` | |
+| `expression` | `FASTPyLambda` | `parentLambda` | `FASTPyExpression` | |
 | `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 
 
@@ -23,7 +23,7 @@ Class {
 	#traits : 'FASTPyTCallable + FASTPyTDecoratorExpression + FASTTWithParameters',
 	#classTraits : 'FASTPyTCallable classTrait + FASTPyTDecoratorExpression classTrait + FASTTWithParameters classTrait',
 	#instVars : [
-		'#expression => FMOne type: #FASTPyExpression opposite: #lambdaOwner'
+		'#expression => FMOne type: #FASTPyExpression opposite: #parentLambda'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -41,7 +41,7 @@ FASTPyLambda class >> annotation [
 
 { #category : 'accessing' }
 FASTPyLambda >> expression [
-	"Relation named: #expression type: #FASTPyExpression opposite: #lambdaOwner"
+	"Relation named: #expression type: #FASTPyExpression opposite: #parentLambda"
 
 	<generated>
 	^ expression

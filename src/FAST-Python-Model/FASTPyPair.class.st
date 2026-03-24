@@ -5,8 +5,8 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `key` | `FASTPyPair` | `pairKeyOwner` | `FASTPyExpression` | |
-| `value` | `FASTPyPair` | `pairValueOwner` | `FASTPyExpression` | |
+| `key` | `FASTPyPair` | `parentPairKey` | `FASTPyExpression` | |
+| `value` | `FASTPyPair` | `parentPairValuer` | `FASTPyExpression` | |
 
 
 
@@ -15,8 +15,8 @@ Class {
 	#name : 'FASTPyPair',
 	#superclass : 'FASTPyExpression',
 	#instVars : [
-		'#key => FMOne type: #FASTPyExpression opposite: #pairKeyOwner',
-		'#value => FMOne type: #FASTPyExpression opposite: #pairValueOwner'
+		'#key => FMOne type: #FASTPyExpression opposite: #parentPairKey',
+		'#value => FMOne type: #FASTPyExpression opposite: #parentPairValuer'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -34,7 +34,7 @@ FASTPyPair class >> annotation [
 
 { #category : 'accessing' }
 FASTPyPair >> key [
-	"Relation named: #key type: #FASTPyExpression opposite: #pairKeyOwner"
+	"Relation named: #key type: #FASTPyExpression opposite: #parentPairKey"
 
 	<generated>
 	^ key
@@ -56,7 +56,7 @@ FASTPyPair >> keyGroup [
 
 { #category : 'accessing' }
 FASTPyPair >> value [
-	"Relation named: #value type: #FASTPyExpression opposite: #pairValueOwner"
+	"Relation named: #value type: #FASTPyExpression opposite: #parentPairValuer"
 
 	<generated>
 	^ value

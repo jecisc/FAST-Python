@@ -13,8 +13,8 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
-| `left` | `FASTPyForStatement` | `forStatementRightOwner` | `FASTPyExpression` | The identifier of the created local variable or tuple|
-| `right` | `FASTPyForStatement` | `forStatementLeftOwner` | `FASTPyExpression` | The list that the for statement iterates over|
+| `left` | `FASTPyForStatement` | `parentForStatementRight` | `FASTPyExpression` | The identifier of the created local variable or tuple|
+| `right` | `FASTPyForStatement` | `parentForStatementLeft` | `FASTPyExpression` | The list that the for statement iterates over|
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
@@ -33,8 +33,8 @@ Class {
 	#traits : 'FASTPyTWithElseClause + FASTTStatementBlock',
 	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTStatementBlock classTrait',
 	#instVars : [
-		'#left => FMOne type: #FASTPyExpression opposite: #forStatementRightOwner',
-		'#right => FMOne type: #FASTPyExpression opposite: #forStatementLeftOwner'
+		'#left => FMOne type: #FASTPyExpression opposite: #parentForStatementRight',
+		'#right => FMOne type: #FASTPyExpression opposite: #parentForStatementLeft'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -52,7 +52,7 @@ FASTPyForStatement class >> annotation [
 
 { #category : 'accessing' }
 FASTPyForStatement >> left [
-	"Relation named: #left type: #FASTPyExpression opposite: #forStatementRightOwner"
+	"Relation named: #left type: #FASTPyExpression opposite: #parentForStatementRight"
 
 	<generated>
 	<FMComment: 'The identifier of the created local variable or tuple'>
@@ -75,7 +75,7 @@ FASTPyForStatement >> leftGroup [
 
 { #category : 'accessing' }
 FASTPyForStatement >> right [
-	"Relation named: #right type: #FASTPyExpression opposite: #forStatementLeftOwner"
+	"Relation named: #right type: #FASTPyExpression opposite: #parentForStatementLeft"
 
 	<generated>
 	<FMComment: 'The list that the for statement iterates over'>

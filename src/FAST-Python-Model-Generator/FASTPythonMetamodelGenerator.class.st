@@ -681,18 +681,18 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(forInClause property: #right) <>- (expression property: #forInClauseRightOwner).
 
 	((forStatement property: #right) comment: 'The list that the for statement iterates over')
-	<>- ((expression property: #forStatementLeftOwner) comment: 'The for statement owner (if possible)').
+	<>- ((expression property: #parentForStatementLeft) comment: 'The for statement owner (if possible)').
 	((forStatement property: #left) comment: 'The identifier of the created local variable or tuple')
-	<>- ((expression property: #forStatementRightOwner) comment: 'The for statement owner (if possible)').
+	<>- ((expression property: #parentForStatementRight) comment: 'The for statement owner (if possible)').
 	
 	(functionDefinition property: #returnType) <>- (type property: #parentFunctionDefinition).
 
 	(genericType property: #arguments) <>-* (type property: #parentGenericTypeArgument).
 	
 	((globalStatement property: #variables) comment: 'The variables scoped')
-	<>-* ((variable property: #globalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	<>-* ((variable property: #parentGlobal) comment: 'The global statement defining my scope (if it''s the case)').
 
-	(ifClause property: #expression) <>- (expression property: #ifClauseOwner).
+	(ifClause property: #expression) <>- (expression property: #parentIfClause).
 
 	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
 	(ifStatement property: #elifClauses) <>-* (elifClause property: #ifStatementOwner).
@@ -711,7 +711,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(keywordPattern property: #value) <>- (tPattern property: #parentKeywordPatternValue).
 
-	(lambda property: #expression) <>- (expression property: #lambdaOwner).
+	(lambda property: #expression) <>- (expression property: #parentLambda).
 	
 	(matchStatement property: #subject) <>- (expression property: #parentMatchStatement).
 	(matchStatement property: #cases) <>-* (caseClause property: #parentMatchStatement).
@@ -721,12 +721,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
 	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
 
-	(pair property: #key) <>- (expression property: #pairKeyOwner). "It should be anything hashable. Maybe we could refine the target but not sure."
+	(pair property: #key) <>- (expression property: #parentPairKey).
 
-	(pair property: #value) <>- (expression property: #pairValueOwner).
+	(pair property: #value) <>- (expression property: #parentPairValuer).
 	
 	(parameter property: #type) <>- (type property: #parentParameter).
-	(parameter property: #defaultValue) <>- (expression property: #parentDefaultParameterValue). "I need to refine the relation with a new trait."
+	(parameter property: #defaultValue) <>- (expression property: #parentDefaultParameterValue).
 
 	(printStatement property: #expressions) <>-* (expression property: #prarentPrintStatement).
 	(printStatement property: #redirection) <>- (chevron property: #parentPrintStatement). 
