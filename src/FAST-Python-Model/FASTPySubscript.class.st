@@ -18,7 +18,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `indices` | `FASTPySubscript` | `parentSubscriptIndice` | `FASTPyExpression` | The elements defining the indices to select in a subscript.|
+| `indices` | `FASTPySubscript` | `parentSubscriptIndex` | `FASTPyTSliceIndex` | The elements defining the indices to select in a subscript.|
 | `value` | `FASTPySubscript` | `parentSubscriptValue` | `FASTPyExpression` | The receiver of the subscript|
 
 
@@ -30,7 +30,7 @@ Class {
 	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable',
 	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait',
 	#instVars : [
-		'#indices => FMMany type: #FASTPyExpression opposite: #parentSubscriptIndice',
+		'#indices => FMMany type: #FASTPyTSliceIndex opposite: #parentSubscriptIndex',
 		'#value => FMOne type: #FASTPyExpression opposite: #parentSubscriptValue'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -55,7 +55,7 @@ FASTPySubscript >> addIndex: anObject [
 
 { #category : 'accessing' }
 FASTPySubscript >> indices [
-	"Relation named: #indices type: #FASTPyExpression opposite: #parentSubscriptIndice"
+	"Relation named: #indices type: #FASTPyTSliceIndex opposite: #parentSubscriptIndex"
 
 	<generated>
 	<FMComment: 'The elements defining the indices to select in a subscript.'>

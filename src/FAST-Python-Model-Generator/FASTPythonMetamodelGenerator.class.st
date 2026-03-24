@@ -152,7 +152,8 @@ Class {
 		'splatParameter',
 		'comprehension',
 		'tSuperclass',
-		'tCallable'
+		'tCallable',
+		'tSliceIndex'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -299,6 +300,8 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	"Adding a bunch of traits in errors to not interupt the parsing much if we have an error."
 	_ERROR --|> expression.
+	
+	expression --|> tSliceIndex.
 
 	asPattern --|> tWithStatementItem.
 
@@ -506,7 +509,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	
 	setComprehension --|> comprehension.
 	
-	slice --|> expression.
+	slice --|> tSliceIndex.
 	
 	splat --|> expression.
 	splat --|> tPattern.
@@ -736,15 +739,14 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(splat property: #expression) <>- (tSplatExpression property: #parentSplat).
 
 	((slice property: #components) comment: 'The components are the expressions between the `:` of a slice.')
-	<>-* ((expression property: #sliceOwner) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''). "Originally, I created a trait for Slice content because the python syntax does not allow all expressions. But multiple libraries are changing the syntax to accept other objects such as float, list or even string. So now I point FASTPyExpression to not fail on all those cases."
+	<>-* ((expression property: #parentSlice) comment: 'Slice in which I am a component (start, end or step) (If it''s the case)'''). "Originally, I created a trait for Slice content because the python syntax does not allow all expressions. But multiple libraries are changing the syntax to accept other objects such as float, list or even string. So now I point FASTPyExpression to not fail on all those cases."
 
 	(string property: #interpolations) <>-* (interpolation property: #parentString).
 
 	((subscript property: #value) comment: 'The receiver of the subscript')
 	<>- ((expression property: #parentSubscriptValue) comment: 'My parent if I define the receiver of a subscript (if it''s the case).').
-
 	((subscript property: #indices) comment: 'The elements defining the indices to select in a subscript.')
-	<>-* ((expression property: #parentSubscriptIndice) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
+	<>-* ((tSliceIndex property: #parentSubscriptIndex) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
 
 	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
 	
@@ -803,6 +805,8 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tRaised := (builder newTraitNamed: #TRaised) comment: 'I represent an expression that can give an exception to raise in a raise statement.'.
 
 	tReturnReferenceable := (builder newTraitNamed: #TReturnReferenceable) comment: 'Lot of relations in python points to references. And some nodes can return lot of those references such as call, subscript, tuple, attribute. I am here to group those dependences.'.
+	
+	tSliceIndex := (builder newTraitNamed: #TSliceIndex) comment: 'I represent an entity that can be in the brackets of a subscript.'.
 
 	tSplatExpression := (builder newTraitNamed: #TSplatExpression) comment: 'My users are expressions that can be in a collection splat. For example in `[ *getList(), 3 ]`, we have a list splat on the call `getList()`. Get list, is the expression of the splat.'.
 

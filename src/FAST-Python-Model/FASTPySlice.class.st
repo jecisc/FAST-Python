@@ -2,19 +2,26 @@
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentSubscriptIndex` | `FASTPyTSliceIndex` | `indices` | `FASTPySubscript` | My parent if I am defining an index to select of a subscript (if it's the case)|
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `components` | `FASTPySlice` | `sliceOwner` | `FASTPyExpression` | The components are the expressions between the `:` of a slice.|
+| `components` | `FASTPySlice` | `parentSlice` | `FASTPyExpression` | The components are the expressions between the `:` of a slice.|
 
 
 
 "
 Class {
 	#name : 'FASTPySlice',
-	#superclass : 'FASTPyExpression',
+	#superclass : 'FASTPyEntity',
+	#traits : 'FASTPyTSliceIndex',
+	#classTraits : 'FASTPyTSliceIndex classTrait',
 	#instVars : [
-		'#components => FMMany type: #FASTPyExpression opposite: #sliceOwner'
+		'#components => FMMany type: #FASTPyExpression opposite: #parentSlice'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -24,7 +31,7 @@ Class {
 { #category : 'meta' }
 FASTPySlice class >> annotation [
 
-	<FMClass: #Slice super: #FASTPyExpression>
+	<FMClass: #Slice super: #FASTPyEntity>
 	<package: #'FAST-Python-Model'>
 	<generated>
 	^ self
@@ -38,7 +45,7 @@ FASTPySlice >> addComponent: anObject [
 
 { #category : 'accessing' }
 FASTPySlice >> components [
-	"Relation named: #components type: #FASTPyExpression opposite: #sliceOwner"
+	"Relation named: #components type: #FASTPyExpression opposite: #parentSlice"
 
 	<generated>
 	<FMComment: 'The components are the expressions between the `:` of a slice.'>
