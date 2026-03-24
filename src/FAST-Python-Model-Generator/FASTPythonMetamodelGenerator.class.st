@@ -153,7 +153,8 @@ Class {
 		'comprehension',
 		'tSuperclass',
 		'tCallable',
-		'tSliceIndex'
+		'tSliceIndex',
+		'tAwaitable'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -543,6 +544,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	tReturnReferenceable --|> tDeletable.
 	tReturnReferenceable --|> tSuperclass.
 	tReturnReferenceable --|> tCallable.
+	tReturnReferenceable --|> tAwaitable.
 
 	thenClause --|> tStatementBlock.
 
@@ -639,7 +641,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 		 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...')
 	<>- ((expression property: #attributeObjectOwner) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
 
-	(await property: #expression) <>- (expression property: #parentAwait).
+	(await property: #expression) <>- (tAwaitable property: #parentAwait).
 
 	((call property: #callee) comment:
 		 'I represent what is called. Can be a class for an instantiation. A function invocation. A method invocation. The call of the return of a call. The call of something invoked from an array access...')
@@ -789,6 +791,8 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tAsPatternSource := (builder newTraitNamed: #TAsPatternSource) comment: 'I represent an entity that could be aliased in an as pattern.'.
 
 	tAssignable := (builder newTraitNamed: #TAssignable) comment: 'I represent something that can be assigned in an assignment'.
+	
+	tAwaitable := (builder newTraitNamed: #TAwaitable) comment: 'I represent an entity that is awaitable and can be in an await statement'.
 	
 	tCallable := (builder newTraitNamed: #TCallable) comment: 'I represent something that can be the receiver of a call'.
 	

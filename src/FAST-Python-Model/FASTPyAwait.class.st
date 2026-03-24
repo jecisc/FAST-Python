@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `expression` | `FASTPyAwait` | `parentAwait` | `FASTPyExpression` | |
+| `expression` | `FASTPyAwait` | `parentAwait` | `FASTPyTAwaitable` | |
 
 
 
@@ -14,7 +14,7 @@ Class {
 	#name : 'FASTPyAwait',
 	#superclass : 'FASTPyExpression',
 	#instVars : [
-		'#expression => FMOne type: #FASTPyExpression opposite: #parentAwait'
+		'#expression => FMOne type: #FASTPyTAwaitable opposite: #parentAwait'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -32,7 +32,7 @@ FASTPyAwait class >> annotation [
 
 { #category : 'accessing' }
 FASTPyAwait >> expression [
-	"Relation named: #expression type: #FASTPyExpression opposite: #parentAwait"
+	"Relation named: #expression type: #FASTPyTAwaitable opposite: #parentAwait"
 
 	<generated>
 	^ expression

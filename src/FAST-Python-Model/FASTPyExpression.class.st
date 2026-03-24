@@ -17,7 +17,6 @@
 | `keywordArgumentOwner` | `FASTPyExpression` | `value` | `FASTPyKeywordArgument` | Keyword argument from which I am the value (if it's the case)|
 | `parentAssertStatement` | `FASTPyExpression` | `expressions` | `FASTPyAssertStatement` | The assert statement that own the expression (if it's the case)|
 | `parentAssignmentRight` | `FASTPyExpression` | `right` | `FASTPyAssignment` | |
-| `parentAwait` | `FASTPyExpression` | `expression` | `FASTPyAwait` | |
 | `parentChevron` | `FASTPyExpression` | `expression` | `FASTPyChevron` | |
 | `parentComparisonOperator` | `FASTPyExpression` | `operands` | `FASTPyComparisonOperator` | Parent comparison expression of which I am.|
 | `parentComprehensionBody` | `FASTPyExpression` | `body` | `FASTPyComprehension` | |
@@ -71,7 +70,6 @@ Class {
 		'#keywordArgumentOwner => FMOne type: #FASTPyKeywordArgument opposite: #value',
 		'#parentAssertStatement => FMOne type: #FASTPyAssertStatement opposite: #expressions',
 		'#parentAssignmentRight => FMOne type: #FASTPyAssignment opposite: #right',
-		'#parentAwait => FMOne type: #FASTPyAwait opposite: #expression',
 		'#parentChevron => FMOne type: #FASTPyChevron opposite: #expression',
 		'#parentComparisonOperator => FMOne type: #FASTPyComparisonOperator opposite: #operands',
 		'#parentComprehensionBody => FMOne type: #FASTPyComprehension opposite: #body',
@@ -323,30 +321,6 @@ FASTPyExpression >> parentAssignmentRightGroup [
 	<generated>
 	<navigation: 'ParentAssignmentRight'>
 	^ MooseSpecializedGroup with: self parentAssignmentRight
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> parentAwait [
-	"Relation named: #parentAwait type: #FASTPyAwait opposite: #expression"
-
-	<generated>
-	<container>
-	<derived>
-	^ parentAwait
-]
-
-{ #category : 'accessing' }
-FASTPyExpression >> parentAwait: anObject [
-
-	<generated>
-	parentAwait := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentAwaitGroup [
-	<generated>
-	<navigation: 'ParentAwait'>
-	^ MooseSpecializedGroup with: self parentAwait
 ]
 
 { #category : 'accessing' }
