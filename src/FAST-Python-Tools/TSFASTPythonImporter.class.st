@@ -1065,3 +1065,11 @@ TSFASTPythonImporter >> visitWithStatement: aTSNode [
 
 	^ self handleNode: aTSNode kind: FASTPyWithStatement
 ]
+
+{ #category : 'visiting - alias' }
+TSFASTPythonImporter >> visitYield: aNode [
+
+	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
+
+	^ self handleNode: aNode kind: FASTPyYield
+]

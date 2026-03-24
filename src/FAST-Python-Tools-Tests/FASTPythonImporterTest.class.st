@@ -51857,6 +51857,70 @@ FASTPythonImporterTest >> testWithStatementWithMultipleAsPattern [
 		self assert: (self topEntity isOfType: FASTPyPassStatement)
 ]
 
+{ #category : 'tests' }
+FASTPythonImporterTest >> testYield [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testYield 	"
+
+	self parse: 'yield'.
+
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyYield) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'yield'.
+	self assert: (self topEntity isOfType: FASTPyYield)
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testYieldFrom [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testYieldFrom 	"
+
+	self parse: 'yield from x'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyYield) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'yield from x'.
+	self assert: (self topEntity isOfType: FASTPyYield).
+	
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: 'x'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
+{ #category : 'tests' }
+FASTPythonImporterTest >> testYieldWithIdentifier [
+	<generated>
+	"Generated as regression test by FASTPyImporterTestGenerator>>#generateTestNamed:fromCode:protocol:
+	Regenerate executing: 	self regenerateTest: #testYieldWithIdentifier 	"
+
+	self parse: 'yield x'.
+
+	self assert: (fast allWithType: FASTPyIdentifier) size equals: 1.
+	self assert: (fast allWithType: FASTPyModule) size equals: 1.
+	self assert: (fast allWithType: FASTPyYield) size equals: 1.
+
+	stack push: fast rootEntities anyOne containedEntities first.
+	self assert: self topEntity sourceCode equals: 'yield x'.
+	self assert: (self topEntity isOfType: FASTPyYield).
+	
+	"Testing value of monovalue relation expression"
+	self assert: self topEntity expression isNotNil.
+
+		stack push: self topEntity expression.
+		self assert: self topEntity sourceCode equals: 'x'.
+		self assert: (self topEntity isOfType: FASTPyIdentifier)
+]
+
 { #category : 'running' }
 FASTPythonImporterTest >> topEntity [
 

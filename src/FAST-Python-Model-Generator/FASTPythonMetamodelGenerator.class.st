@@ -582,7 +582,9 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	whileStatement --|> tWithElseClause.
 	
 	withStatement --|> statement.
-	withStatement --|> tStatementBlock
+	withStatement --|> tStatementBlock.
+	
+	yield --|> expression
 ]
 
 { #category : 'definition' }
@@ -781,7 +783,9 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(unionType property: #types) <>-* (type property: #parentUnionType).
 
-	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithStatementItem)
+	(withStatement property: #items) <>-* (tWithStatementItem property: #parentWithStatementItem).
+	
+	(yield property: #expression) <>- (expression property: #parentYield)
 ]
 
 { #category : 'definition' }

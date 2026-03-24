@@ -43,6 +43,7 @@
 | `parentType` | `FASTPyTTypeContent` | `content` | `FASTPyType` | |
 | `parentUnaryOperator` | `FASTPyExpression` | `argument` | `FASTPyTUnaryOperator` | Parent unary operator in which I am.|
 | `parentWalrus` | `FASTPyExpression` | `value` | `FASTPyWalrus` | |
+| `parentYield` | `FASTPyExpression` | `expression` | `FASTPyYield` | |
 | `prarentPrintStatement` | `FASTPyExpression` | `expressions` | `FASTPyPrintStatement` | |
 | `returnOwner` | `FASTTExpression` | `expression` | `FASTTReturnStatement` | The return statement that own the expression (if it's the case)|
 
@@ -91,6 +92,7 @@ Class {
 		'#parentSubscriptValue => FMOne type: #FASTPySubscript opposite: #value',
 		'#parentUnaryOperator => FMOne type: #FASTPyTUnaryOperator opposite: #argument',
 		'#parentWalrus => FMOne type: #FASTPyWalrus opposite: #value',
+		'#parentYield => FMOne type: #FASTPyYield opposite: #expression',
 		'#prarentPrintStatement => FMOne type: #FASTPyPrintStatement opposite: #expressions'
 	],
 	#category : 'FAST-Python-Model-Entities',
@@ -803,6 +805,30 @@ FASTPyExpression >> parentWalrusGroup [
 	<generated>
 	<navigation: 'ParentWalrus'>
 	^ MooseSpecializedGroup with: self parentWalrus
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentYield [
+	"Relation named: #parentYield type: #FASTPyYield opposite: #expression"
+
+	<generated>
+	<container>
+	<derived>
+	^ parentYield
+]
+
+{ #category : 'accessing' }
+FASTPyExpression >> parentYield: anObject [
+
+	<generated>
+	parentYield := anObject
+]
+
+{ #category : 'navigation' }
+FASTPyExpression >> parentYieldGroup [
+	<generated>
+	<navigation: 'ParentYield'>
+	^ MooseSpecializedGroup with: self parentYield
 ]
 
 { #category : 'accessing' }
