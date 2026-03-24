@@ -22383,10 +22383,10 @@ FASTPythonImporterTest >> testExecStatementOfString [
 		self assert: (self topEntity isOfType: FASTTStringLiteral).
 		stack pop.
 	
-	"Testing value of multivalued relation genericChildren"
-	self assert: self topEntity genericChildren size equals: 1.
+	"Testing value of multivalued relation scopes"
+	self assert: self topEntity scopes size equals: 1.
 	
-		stack push: (stack top genericChildren at: 1).
+		stack push: (stack top scopes at: 1).
 		self assert: self topEntity sourceCode equals: '"print "Hello'.
 		self assert: (self topEntity isOfType: FASTPyERROR).
 		
