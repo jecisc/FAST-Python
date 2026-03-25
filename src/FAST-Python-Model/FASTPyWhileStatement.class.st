@@ -13,7 +13,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
-| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `elseClause` | `FASTPyTWithElseClause` | `parentIfStatement` | `FASTPyElseClause` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 

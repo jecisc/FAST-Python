@@ -13,7 +13,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+| `decorators` | `FASTPyTDefinition` | `parentDefinition` | `FASTPyDecorator` | |
 | `parameters` | `FASTTWithParameters` | `parameterOwner` | `FASTTVariableEntity` | My parameters|
 | `returnType` | `FASTPyFunctionDefinition` | `parentFunctionDefinition` | `FASTPyType` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|

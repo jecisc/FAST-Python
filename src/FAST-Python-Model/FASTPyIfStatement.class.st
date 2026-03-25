@@ -12,9 +12,9 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
-| `elifClauses` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyElifClause` | |
-| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
-| `thenClause` | `FASTPyIfStatement` | `ifStatementOwner` | `FASTPyThenClause` | |
+| `elifClauses` | `FASTPyIfStatement` | `parentIfStatement` | `FASTPyElifClause` | |
+| `elseClause` | `FASTPyTWithElseClause` | `parentIfStatement` | `FASTPyElseClause` | |
+| `thenClause` | `FASTPyIfStatement` | `parentIfStatement` | `FASTPyThenClause` | |
 
 
 ## Properties
@@ -32,8 +32,8 @@ Class {
 	#traits : 'FASTPyTWithElseClause + FASTTConditionalStatement',
 	#classTraits : 'FASTPyTWithElseClause classTrait + FASTTConditionalStatement classTrait',
 	#instVars : [
-		'#elifClauses => FMMany type: #FASTPyElifClause opposite: #ifStatementOwner',
-		'#thenClause => FMOne type: #FASTPyThenClause opposite: #ifStatementOwner'
+		'#elifClauses => FMMany type: #FASTPyElifClause opposite: #parentIfStatement',
+		'#thenClause => FMOne type: #FASTPyThenClause opposite: #parentIfStatement'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -57,7 +57,7 @@ FASTPyIfStatement >> addElifClause: anObject [
 
 { #category : 'accessing' }
 FASTPyIfStatement >> elifClauses [
-	"Relation named: #elifClauses type: #FASTPyElifClause opposite: #ifStatementOwner"
+	"Relation named: #elifClauses type: #FASTPyElifClause opposite: #parentIfStatement"
 
 	<generated>
 	<derived>
@@ -80,7 +80,7 @@ FASTPyIfStatement >> elifClausesGroup [
 
 { #category : 'accessing' }
 FASTPyIfStatement >> thenClause [
-	"Relation named: #thenClause type: #FASTPyThenClause opposite: #ifStatementOwner"
+	"Relation named: #thenClause type: #FASTPyThenClause opposite: #parentIfStatement"
 
 	<generated>
 	^ thenClause

@@ -6,7 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
-| `ifStatementOwner` | `FASTPyElifClause` | `elifClauses` | `FASTPyIfStatement` | |
+| `parentIfStatement` | `FASTPyElifClause` | `elifClauses` | `FASTPyIfStatement` | |
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
@@ -32,7 +32,7 @@ Class {
 	#traits : 'FASTTConditionalStatement + FASTTStatementBlock',
 	#classTraits : 'FASTTConditionalStatement classTrait + FASTTStatementBlock classTrait',
 	#instVars : [
-		'#ifStatementOwner => FMOne type: #FASTPyIfStatement opposite: #elifClauses'
+		'#parentIfStatement => FMOne type: #FASTPyIfStatement opposite: #elifClauses'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -49,24 +49,24 @@ FASTPyElifClause class >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyElifClause >> ifStatementOwner [
-	"Relation named: #ifStatementOwner type: #FASTPyIfStatement opposite: #elifClauses"
+FASTPyElifClause >> parentIfStatement [
+	"Relation named: #parentIfStatement type: #FASTPyIfStatement opposite: #elifClauses"
 
 	<generated>
 	<container>
-	^ ifStatementOwner
+	^ parentIfStatement
 ]
 
 { #category : 'accessing' }
-FASTPyElifClause >> ifStatementOwner: anObject [
+FASTPyElifClause >> parentIfStatement: anObject [
 
 	<generated>
-	ifStatementOwner := anObject
+	parentIfStatement := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyElifClause >> ifStatementOwnerGroup [
+FASTPyElifClause >> parentIfStatementGroup [
 	<generated>
-	<navigation: 'IfStatementOwner'>
-	^ MooseSpecializedGroup with: self ifStatementOwner
+	<navigation: 'ParentIfStatement'>
+	^ MooseSpecializedGroup with: self parentIfStatement
 ]

@@ -13,8 +13,8 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `condition` | `FASTTWithCondition` | `parentConditional` | `FASTTExpression` | The boolean condition tested|
-| `elseExpression` | `FASTPyConditionalExpression` | `conditionalExpressionElseOwner` | `FASTPyExpression` | |
-| `thenExpression` | `FASTPyConditionalExpression` | `conditionalExpressionThenOwner` | `FASTPyExpression` | |
+| `elseExpression` | `FASTPyConditionalExpression` | `parentConditionalExpressionElse` | `FASTPyExpression` | |
+| `thenExpression` | `FASTPyConditionalExpression` | `parentConditionalExpressionThen` | `FASTPyExpression` | |
 
 
 
@@ -25,8 +25,8 @@ Class {
 	#traits : 'FASTPyTCallable + FASTPyTExecutable + FASTPyTSuperclass + FASTTWithCondition',
 	#classTraits : 'FASTPyTCallable classTrait + FASTPyTExecutable classTrait + FASTPyTSuperclass classTrait + FASTTWithCondition classTrait',
 	#instVars : [
-		'#elseExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionElseOwner',
-		'#thenExpression => FMOne type: #FASTPyExpression opposite: #conditionalExpressionThenOwner'
+		'#elseExpression => FMOne type: #FASTPyExpression opposite: #parentConditionalExpressionElse',
+		'#thenExpression => FMOne type: #FASTPyExpression opposite: #parentConditionalExpressionThen'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -44,7 +44,7 @@ FASTPyConditionalExpression class >> annotation [
 
 { #category : 'accessing' }
 FASTPyConditionalExpression >> elseExpression [
-	"Relation named: #elseExpression type: #FASTPyExpression opposite: #conditionalExpressionElseOwner"
+	"Relation named: #elseExpression type: #FASTPyExpression opposite: #parentConditionalExpressionElse"
 
 	<generated>
 	^ elseExpression
@@ -66,7 +66,7 @@ FASTPyConditionalExpression >> elseExpressionGroup [
 
 { #category : 'accessing' }
 FASTPyConditionalExpression >> thenExpression [
-	"Relation named: #thenExpression type: #FASTPyExpression opposite: #conditionalExpressionThenOwner"
+	"Relation named: #thenExpression type: #FASTPyExpression opposite: #parentConditionalExpressionThen"
 
 	<generated>
 	^ thenExpression

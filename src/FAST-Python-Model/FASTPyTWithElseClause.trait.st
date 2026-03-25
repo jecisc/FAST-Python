@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `elseClause` | `FASTPyTWithElseClause` | `parentIfStatement` | `FASTPyElseClause` | |
 
 
 
@@ -13,7 +13,7 @@
 Trait {
 	#name : 'FASTPyTWithElseClause',
 	#instVars : [
-		'#elseClause => FMOne type: #FASTPyElseClause opposite: #ifStatementOwner'
+		'#elseClause => FMOne type: #FASTPyElseClause opposite: #parentIfStatement'
 	],
 	#category : 'FAST-Python-Model-Traits',
 	#package : 'FAST-Python-Model',
@@ -31,7 +31,7 @@ FASTPyTWithElseClause classSide >> annotation [
 
 { #category : 'accessing' }
 FASTPyTWithElseClause >> elseClause [
-	"Relation named: #elseClause type: #FASTPyElseClause opposite: #ifStatementOwner"
+	"Relation named: #elseClause type: #FASTPyElseClause opposite: #parentIfStatement"
 
 	<generated>
 	^ elseClause

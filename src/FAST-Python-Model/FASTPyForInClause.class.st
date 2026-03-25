@@ -5,8 +5,8 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `left` | `FASTPyForInClause` | `forInClauseLeftOwner` | `FASTPyExpression` | |
-| `right` | `FASTPyForInClause` | `forInClauseRightOwner` | `FASTPyExpression` | |
+| `left` | `FASTPyForInClause` | `parentForInClauseLeft` | `FASTPyExpression` | |
+| `right` | `FASTPyForInClause` | `parentForInClauseRight` | `FASTPyExpression` | |
 
 
 
@@ -15,8 +15,8 @@ Class {
 	#name : 'FASTPyForInClause',
 	#superclass : 'FASTPyExpression',
 	#instVars : [
-		'#left => FMOne type: #FASTPyExpression opposite: #forInClauseLeftOwner',
-		'#right => FMOne type: #FASTPyExpression opposite: #forInClauseRightOwner'
+		'#left => FMOne type: #FASTPyExpression opposite: #parentForInClauseLeft',
+		'#right => FMOne type: #FASTPyExpression opposite: #parentForInClauseRight'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -34,7 +34,7 @@ FASTPyForInClause class >> annotation [
 
 { #category : 'accessing' }
 FASTPyForInClause >> left [
-	"Relation named: #left type: #FASTPyExpression opposite: #forInClauseLeftOwner"
+	"Relation named: #left type: #FASTPyExpression opposite: #parentForInClauseLeft"
 
 	<generated>
 	^ left
@@ -56,7 +56,7 @@ FASTPyForInClause >> leftGroup [
 
 { #category : 'accessing' }
 FASTPyForInClause >> right [
-	"Relation named: #right type: #FASTPyExpression opposite: #forInClauseRightOwner"
+	"Relation named: #right type: #FASTPyExpression opposite: #parentForInClauseRight"
 
 	<generated>
 	^ right

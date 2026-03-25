@@ -6,7 +6,7 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `fastBehaviouralParent` | `FASTTStatementBlock` | `statementBlock` | `FASTTWithStatements` | Behavioural entity containing the statement block.|
-| `ifStatementOwner` | `FASTPyElseClause` | `elseClause` | `FASTPyTWithElseClause` | |
+| `parentIfStatement` | `FASTPyElseClause` | `elseClause` | `FASTPyTWithElseClause` | |
 | `parentLoopStatement` | `FASTTStatement` | `body` | `FASTTLoopStatement` | Optional loop of which this statement is the body|
 | `statementContainer` | `FASTTStatement` | `statements` | `FASTTStatementBlock` | Block containing this statement.|
 
@@ -31,7 +31,7 @@ Class {
 	#traits : 'FASTTStatementBlock',
 	#classTraits : 'FASTTStatementBlock classTrait',
 	#instVars : [
-		'#ifStatementOwner => FMOne type: #FASTPyTWithElseClause opposite: #elseClause'
+		'#parentIfStatement => FMOne type: #FASTPyTWithElseClause opposite: #elseClause'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -48,25 +48,25 @@ FASTPyElseClause class >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyElseClause >> ifStatementOwner [
-	"Relation named: #ifStatementOwner type: #FASTPyTWithElseClause opposite: #elseClause"
+FASTPyElseClause >> parentIfStatement [
+	"Relation named: #parentIfStatement type: #FASTPyTWithElseClause opposite: #elseClause"
 
 	<generated>
 	<container>
 	<derived>
-	^ ifStatementOwner
+	^ parentIfStatement
 ]
 
 { #category : 'accessing' }
-FASTPyElseClause >> ifStatementOwner: anObject [
+FASTPyElseClause >> parentIfStatement: anObject [
 
 	<generated>
-	ifStatementOwner := anObject
+	parentIfStatement := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyElseClause >> ifStatementOwnerGroup [
+FASTPyElseClause >> parentIfStatementGroup [
 	<generated>
-	<navigation: 'IfStatementOwner'>
-	^ MooseSpecializedGroup with: self ifStatementOwner
+	<navigation: 'ParentIfStatement'>
+	^ MooseSpecializedGroup with: self parentIfStatement
 ]

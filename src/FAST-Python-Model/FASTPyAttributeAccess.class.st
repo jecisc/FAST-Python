@@ -22,7 +22,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `value` | `FASTPyAttributeAccess` | `attributeObjectOwner` | `FASTPyExpression` | I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...|
+| `value` | `FASTPyAttributeAccess` | `parentAttributeObject` | `FASTPyExpression` | I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...|
 
 
 ## Properties
@@ -41,7 +41,7 @@ Class {
 	#traits : 'FASTPyTAsPatternTarget + FASTPyTReturnReferenceable + FASTPyTSplatParameterTarget + FASTTNamedEntity',
 	#classTraits : 'FASTPyTAsPatternTarget classTrait + FASTPyTReturnReferenceable classTrait + FASTPyTSplatParameterTarget classTrait + FASTTNamedEntity classTrait',
 	#instVars : [
-		'#value => FMOne type: #FASTPyExpression opposite: #attributeObjectOwner'
+		'#value => FMOne type: #FASTPyExpression opposite: #parentAttributeObject'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -59,7 +59,7 @@ FASTPyAttributeAccess class >> annotation [
 
 { #category : 'accessing' }
 FASTPyAttributeAccess >> value [
-	"Relation named: #value type: #FASTPyExpression opposite: #attributeObjectOwner"
+	"Relation named: #value type: #FASTPyExpression opposite: #parentAttributeObject"
 
 	<generated>
 	<FMComment: 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...'>

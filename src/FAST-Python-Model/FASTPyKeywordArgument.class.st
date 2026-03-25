@@ -11,7 +11,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `value` | `FASTPyKeywordArgument` | `keywordArgumentOwner` | `FASTPyExpression` | The value of the keyword argument.|
+| `value` | `FASTPyKeywordArgument` | `parentKeywordArgument` | `FASTPyExpression` | The value of the keyword argument.|
 
 
 ## Properties
@@ -31,7 +31,7 @@ Class {
 	#classTraits : 'FASTTNamedEntity classTrait',
 	#instVars : [
 		'#parentClassDefinition => FMOne type: #FASTPyClassDefinition opposite: #keywords',
-		'#value => FMOne type: #FASTPyExpression opposite: #keywordArgumentOwner'
+		'#value => FMOne type: #FASTPyExpression opposite: #parentKeywordArgument'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -72,7 +72,7 @@ FASTPyKeywordArgument >> parentClassDefinitionGroup [
 
 { #category : 'accessing' }
 FASTPyKeywordArgument >> value [
-	"Relation named: #value type: #FASTPyExpression opposite: #keywordArgumentOwner"
+	"Relation named: #value type: #FASTPyExpression opposite: #parentKeywordArgument"
 
 	<generated>
 	<FMComment: 'The value of the keyword argument.'>

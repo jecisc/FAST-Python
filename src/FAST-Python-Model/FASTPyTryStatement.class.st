@@ -12,7 +12,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `elseClause` | `FASTPyTWithElseClause` | `parentIfStatement` | `FASTPyElseClause` | |
 | `excepts` | `FASTPyTryStatement` | `parentTryStatement` | `FASTPyExceptClause` | |
 | `finally` | `FASTPyTryStatement` | `parentTryStatement` | `FASTPyFinallyClause` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|

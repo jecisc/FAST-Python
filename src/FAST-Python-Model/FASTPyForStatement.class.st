@@ -12,7 +12,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `elseClause` | `FASTPyTWithElseClause` | `ifStatementOwner` | `FASTPyElseClause` | |
+| `elseClause` | `FASTPyTWithElseClause` | `parentIfStatement` | `FASTPyElseClause` | |
 | `left` | `FASTPyForStatement` | `parentForStatementRight` | `FASTPyExpression` | The identifier of the created local variable or tuple|
 | `right` | `FASTPyForStatement` | `parentForStatementLeft` | `FASTPyExpression` | The list that the for statement iterates over|
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|

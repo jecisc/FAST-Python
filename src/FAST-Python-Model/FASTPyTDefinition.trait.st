@@ -13,7 +13,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+| `decorators` | `FASTPyTDefinition` | `parentDefinition` | `FASTPyDecorator` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 
 
@@ -30,7 +30,7 @@
 Trait {
 	#name : 'FASTPyTDefinition',
 	#instVars : [
-		'#decorators => FMMany type: #FASTPyDecorator opposite: #definitionOwner'
+		'#decorators => FMMany type: #FASTPyDecorator opposite: #parentDefinition'
 	],
 	#traits : 'FASTTNamedEntity + FASTTStatementBlock',
 	#classTraits : 'FASTTNamedEntity classTrait + FASTTStatementBlock classTrait',
@@ -56,7 +56,7 @@ FASTPyTDefinition >> addDecorator: anObject [
 
 { #category : 'accessing' }
 FASTPyTDefinition >> decorators [
-	"Relation named: #decorators type: #FASTPyDecorator opposite: #definitionOwner"
+	"Relation named: #decorators type: #FASTPyDecorator opposite: #parentDefinition"
 
 	<generated>
 	<derived>

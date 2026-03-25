@@ -13,7 +13,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `decorators` | `FASTPyTDefinition` | `definitionOwner` | `FASTPyDecorator` | |
+| `decorators` | `FASTPyTDefinition` | `parentDefinition` | `FASTPyDecorator` | |
 | `keywords` | `FASTPyClassDefinition` | `parentClassDefinition` | `FASTPyKeywordArgument` | |
 | `statements` | `FASTTStatementBlock` | `statementContainer` | `FASTTStatement` | Statements enclosed in this block|
 | `superclasses` | `FASTPyClassDefinition` | `parentClassDefinition` | `FASTPyTSuperclass` | |

@@ -645,7 +645,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	((attribute property: #value) comment:
 		 'I am the receiver of the attribute. I can be multiple things such as a variable, a call, another attribute access, a primitive type, a subscript...')
-	<>- ((expression property: #attributeObjectOwner) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
+	<>- ((expression property: #parentAttributeObject) comment: 'My parent if I define the object of an attribute access (if it''s the case).').
 
 	(await property: #expression) <>- (tAwaitable property: #parentAwait).
 
@@ -675,8 +675,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 
 	(concatenatedString property: #strings) <>-* (string property: #parentConcatenatedString).
 
-	(conditionalExpression property: #thenExpression) <>- (expression property: #conditionalExpressionThenOwner).
-	(conditionalExpression property: #elseExpression) <>- (expression property: #conditionalExpressionElseOwner).
+	(conditionalExpression property: #thenExpression) <>- (expression property: #parentConditionalExpressionThen).
+	(conditionalExpression property: #elseExpression) <>- (expression property: #parentConditionalExpressionElse).
 	
 	(constrainedType property: #type) <>- (type property: #parentContrainedType).
 	(constrainedType property: #bound) <>- (type property: #parentContrainedTypeBound).
@@ -691,8 +691,8 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(execStatement property: #code) <>- (tExecutable property: #parentExecStatement).
 	(execStatement property: #scopes) <>-* (expression property: #parentExecStatementScopes).
 
-	(forInClause property: #left) <>- (expression property: #forInClauseLeftOwner).
-	(forInClause property: #right) <>- (expression property: #forInClauseRightOwner).
+	(forInClause property: #left) <>- (expression property: #parentForInClauseLeft).
+	(forInClause property: #right) <>- (expression property: #parentForInClauseRight).
 
 	((forStatement property: #right) comment: 'The list that the for statement iterates over')
 	<>- ((expression property: #parentForStatementLeft) comment: 'The for statement owner (if possible)').
@@ -704,12 +704,12 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(genericType property: #arguments) <>-* (type property: #parentGenericTypeArgument).
 	
 	((globalStatement property: #variables) comment: 'The variables scoped')
-	<>-* ((variable property: #parentGlobal) comment: 'The global statement defining my scope (if it''s the case)').
+	<>-* ((variable property: #parentGlobalStatement) comment: 'The global statement defining my scope (if it''s the case)').
 
 	(ifClause property: #expression) <>- (expression property: #parentIfClause).
 
-	(ifStatement property: #thenClause) <>- (thenClause property: #ifStatementOwner).
-	(ifStatement property: #elifClauses) <>-* (elifClause property: #ifStatementOwner).
+	(ifStatement property: #thenClause) <>- (thenClause property: #parentIfStatement).
+	(ifStatement property: #elifClauses) <>-* (elifClause property: #parentIfStatement).
 
 	((import property: #importedEntities) comment: 'List of the imported entities.')
 	<>-* ((importedEntity property: #import) comment: 'Import declaring me as imported entity.').
@@ -721,7 +721,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(interpolation property: #expression) <>- (expression property: #parentInterpolation).
 
 	((keywordArgument property: #value) comment: 'The value of the keyword argument.')
-	<>- ((expression property: #keywordArgumentOwner) comment: 'Keyword argument from which I am the value (if it''s the case)').
+	<>- ((expression property: #parentKeywordArgument) comment: 'Keyword argument from which I am the value (if it''s the case)').
 	
 	(keywordPattern property: #value) <>- (tPattern property: #parentKeywordPatternValue).
 
@@ -733,7 +733,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	(namedExpression property: #value) <>- (expression property: #parentWalrus).
 	
 	((nonlocalStatement property: #variables) comment: 'The variables scoped')
-	<>-* ((variable property: #nonlocalOwner) comment: 'The global statement defining my scope (if it''s the case)').
+	<>-* ((variable property: #parentNonlocalStatement) comment: 'The global statement defining my scope (if it''s the case)').
 
 	(pair property: #key) <>- (expression property: #parentPairKey).
 
@@ -759,7 +759,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	((subscript property: #indices) comment: 'The elements defining the indices to select in a subscript.')
 	<>-* ((tSliceIndex property: #parentSubscriptIndex) comment: 'My parent if I am defining an index to select of a subscript (if it''s the case)').
 
-	(tDefinition property: #decorators) <>-* (decorator property: #definitionOwner).
+	(tDefinition property: #decorators) <>-* (decorator property: #parentDefinition).
 	
 	(tryStatement property: #excepts) <>-* (exceptClause property: #parentTryStatement).
 
@@ -775,7 +775,7 @@ FASTPythonMetamodelGenerator >> defineRelations [
 	
 	(tryStatement property: #finally) <>- (finallyClause property: #parentTryStatement).
 
-	(tWithElseClause property: #elseClause) <>- (elseClause property: #ifStatementOwner).
+	(tWithElseClause property: #elseClause) <>- (elseClause property: #parentIfStatement).
 	
 	(tWithTypeParameters property: #typeParameters) <>-* (type property: #parentWithTypeParameters).
 	

@@ -6,11 +6,11 @@
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `invokedIn` | `FASTTNamedEntity` | `invoked` | `FASTTInvocation` | Optional invocation where this name is used|
-| `nonlocalOwner` | `FASTPyVariable` | `variables` | `FASTPyNonlocalStatement` | The global statement defining my scope (if it's the case)|
 | `parameterOwner` | `FASTTVariableEntity` | `parameters` | `FASTTWithParameters` | parameterOwner|
 | `parentAssignmentExpression` | `FASTTVariableEntity` | `variable` | `FASTTAssignment` | Optional assignment to the variable|
 | `parentAssignmentLeft` | `FASTPyTAssignable` | `left` | `FASTPyAssignment` | |
-| `parentGlobal` | `FASTPyVariable` | `variables` | `FASTPyGlobalStatement` | The global statement defining my scope (if it's the case)|
+| `parentGlobalStatement` | `FASTPyVariable` | `variables` | `FASTPyGlobalStatement` | The global statement defining my scope (if it's the case)|
+| `parentNonlocalStatement` | `FASTPyVariable` | `variables` | `FASTPyNonlocalStatement` | The global statement defining my scope (if it's the case)|
 
 
 ## Properties
@@ -29,8 +29,8 @@ Class {
 	#traits : 'FASTPyTAssignable + FASTTVariableEntity',
 	#classTraits : 'FASTPyTAssignable classTrait + FASTTVariableEntity classTrait',
 	#instVars : [
-		'#nonlocalOwner => FMOne type: #FASTPyNonlocalStatement opposite: #variables',
-		'#parentGlobal => FMOne type: #FASTPyGlobalStatement opposite: #variables'
+		'#parentGlobalStatement => FMOne type: #FASTPyGlobalStatement opposite: #variables',
+		'#parentNonlocalStatement => FMOne type: #FASTPyNonlocalStatement opposite: #variables'
 	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
@@ -47,49 +47,49 @@ FASTPyVariable class >> annotation [
 ]
 
 { #category : 'accessing' }
-FASTPyVariable >> nonlocalOwner [
-	"Relation named: #nonlocalOwner type: #FASTPyNonlocalStatement opposite: #variables"
+FASTPyVariable >> parentGlobalStatement [
+	"Relation named: #parentGlobalStatement type: #FASTPyGlobalStatement opposite: #variables"
 
 	<generated>
 	<FMComment: 'The global statement defining my scope (if it''s the case)'>
 	<container>
-	^ nonlocalOwner
+	^ parentGlobalStatement
 ]
 
 { #category : 'accessing' }
-FASTPyVariable >> nonlocalOwner: anObject [
+FASTPyVariable >> parentGlobalStatement: anObject [
 
 	<generated>
-	nonlocalOwner := anObject
+	parentGlobalStatement := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyVariable >> nonlocalOwnerGroup [
+FASTPyVariable >> parentGlobalStatementGroup [
 	<generated>
-	<navigation: 'NonlocalOwner'>
-	^ MooseSpecializedGroup with: self nonlocalOwner
+	<navigation: 'ParentGlobalStatement'>
+	^ MooseSpecializedGroup with: self parentGlobalStatement
 ]
 
 { #category : 'accessing' }
-FASTPyVariable >> parentGlobal [
-	"Relation named: #parentGlobal type: #FASTPyGlobalStatement opposite: #variables"
+FASTPyVariable >> parentNonlocalStatement [
+	"Relation named: #parentNonlocalStatement type: #FASTPyNonlocalStatement opposite: #variables"
 
 	<generated>
 	<FMComment: 'The global statement defining my scope (if it''s the case)'>
 	<container>
-	^ parentGlobal
+	^ parentNonlocalStatement
 ]
 
 { #category : 'accessing' }
-FASTPyVariable >> parentGlobal: anObject [
+FASTPyVariable >> parentNonlocalStatement: anObject [
 
 	<generated>
-	parentGlobal := anObject
+	parentNonlocalStatement := anObject
 ]
 
 { #category : 'navigation' }
-FASTPyVariable >> parentGlobalGroup [
+FASTPyVariable >> parentNonlocalStatementGroup [
 	<generated>
-	<navigation: 'ParentGlobal'>
-	^ MooseSpecializedGroup with: self parentGlobal
+	<navigation: 'ParentNonlocalStatement'>
+	^ MooseSpecializedGroup with: self parentNonlocalStatement
 ]
