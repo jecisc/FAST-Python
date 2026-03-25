@@ -1,10 +1,11 @@
+"
+I am a FAST Python importer. 
+
+I mostly declare the TS language to use and redirect the visit to `FASTPythonVisitor`.
+"
 Class {
 	#name : 'FASTPythonImporter',
-	#superclass : 'Object',
-	#instVars : [
-		'tsParser',
-		'errorReportBlock'
-	],
+	#superclass : 'TSFASTAbstractImporter',
 	#category : 'FAST-Python-Tools',
 	#package : 'FAST-Python-Tools'
 }
@@ -103,48 +104,14 @@ FASTPythonImporter class >> parseFile: aFileReference [
 	^ self parse: aFileReference asFileReference contents
 ]
 
-{ #category : 'parsing' }
-FASTPythonImporter >> deleteTreeSitterParser [
+{ #category : 'accessing' }
+FASTPythonImporter >> tsLanguage [
 
-	self tsParser delete
+	^ TSLanguage python
 ]
 
 { #category : 'accessing' }
-FASTPythonImporter >> errorReportBlock: aBlock [
+FASTPythonImporter >> visitorClass [
 
-	errorReportBlock := aBlock
-]
-
-{ #category : 'as yet unclassified' }
-FASTPythonImporter >> initialiseTreeSitterParser [ 
-
-	self tsParser: TSParser new.
-	self tsParser language: TSLanguage python
-]
-
-{ #category : 'parsing' }
-FASTPythonImporter >> parse: aString [
-
-	| tsTree fastTree |
-	self initialiseTreeSitterParser.
-
-	tsTree := self tsParser parseString: aString.
-	fastTree := TSFASTPythonVisitor new
-		            originString: aString;
-		            in: [ :importer | errorReportBlock ifNotNil: [ importer errorReportBlock: errorReportBlock ] ];
-		            import: tsTree rootNode.
-
-	self deleteTreeSitterParser.
-
-	^ fastTree
-]
-
-{ #category : 'accessing' }
-FASTPythonImporter >> tsParser [
-	^ tsParser
-]
-
-{ #category : 'accessing' }
-FASTPythonImporter >> tsParser: anObject [
-	tsParser := anObject
+	^ FASTPythonVisitor
 ]

@@ -1,19 +1,19 @@
 Class {
-	#name : 'TSFASTPythonVisitor',
+	#name : 'FASTPythonVisitor',
 	#superclass : 'TSFASTCustomizableVisitor',
 	#category : 'FAST-Python-Tools',
 	#package : 'FAST-Python-Tools'
 }
 
 { #category : 'class initialization' }
-TSFASTPythonVisitor class >> initialize [
+FASTPythonVisitor class >> initialize [
 	"For now we use the bleeding edge"
 
 	TSLibrariesPython gitBranchToUse: 'master'
 ]
 
 { #category : 'private' }
-TSFASTPythonVisitor >> handleBinaryOperator: aTSNode ofKind: aClass [
+FASTPythonVisitor >> handleBinaryOperator: aTSNode ofKind: aClass [
 
 	| fastEntity |
 	self onNextContextDo: [ :contextEntry |
@@ -31,7 +31,7 @@ TSFASTPythonVisitor >> handleBinaryOperator: aTSNode ofKind: aClass [
 ]
 
 { #category : 'private' }
-TSFASTPythonVisitor >> handleCollectionNode: aTSNode kind: aFASTClass [
+FASTPythonVisitor >> handleCollectionNode: aTSNode kind: aFASTClass [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #initializers ].
 
@@ -39,7 +39,7 @@ TSFASTPythonVisitor >> handleCollectionNode: aTSNode kind: aFASTClass [
 ]
 
 { #category : 'private' }
-TSFASTPythonVisitor >> handleParameterNode: aTSNode name: aString [
+FASTPythonVisitor >> handleParameterNode: aTSNode name: aString [
 
 	| parameter |
 	parameter := self handleNode: aTSNode kind: FASTPyParameter parentBlock: [ :entity | self topFastEntity addParameter: entity ].
@@ -48,14 +48,14 @@ TSFASTPythonVisitor >> handleParameterNode: aTSNode name: aString [
 ]
 
 { #category : 'initialization' }
-TSFASTPythonVisitor >> initialize [
+FASTPythonVisitor >> initialize [
 
 	super initialize.
 	self languageName: 'Py'
 ]
 
 { #category : 'testing' }
-TSFASTPythonVisitor >> isInParameter: aNode [
+FASTPythonVisitor >> isInParameter: aNode [
 
 	| parent type |
 	parent := aNode parent.
@@ -68,7 +68,7 @@ TSFASTPythonVisitor >> isInParameter: aNode [
 ]
 
 { #category : 'testing' }
-TSFASTPythonVisitor >> shouldIdentifierSetNameProperty [
+FASTPythonVisitor >> shouldIdentifierSetNameProperty [
 
 	({ FASTPyGenericType.  FASTPySplatType } anySatisfy: [ :class | context top isOfFASTType: class ]) ifTrue: [ ^ true ].
 	
@@ -78,14 +78,14 @@ TSFASTPythonVisitor >> shouldIdentifierSetNameProperty [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitAliasedImport: aTSNode [
+FASTPythonVisitor >> visitAliasedImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitArgumentList: aTSNode [
+FASTPythonVisitor >> visitArgumentList: aTSNode [
 	"We skip this node and visit the children directly."
 	
 	(self topFastEntity isOfType: FASTPyClassDefinition) ifTrue: [ self setTopFieldTo: 'superclasses' ].
@@ -93,7 +93,7 @@ TSFASTPythonVisitor >> visitArgumentList: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitAsPattern: aTSNode [
+FASTPythonVisitor >> visitAsPattern: aTSNode [
 
 	aTSNode parent type = #case_pattern ifTrue: [
 			"We are the alias of a case clause."
@@ -121,14 +121,14 @@ TSFASTPythonVisitor >> visitAsPattern: aTSNode [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitAsPatternTarget: aTSNode [
+FASTPythonVisitor >> visitAsPatternTarget: aTSNode [
 	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitAssertStatement: aTSNode [
+FASTPythonVisitor >> visitAssertStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expressions ].
 
@@ -136,7 +136,7 @@ TSFASTPythonVisitor >> visitAssertStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitAttribute: aTSNode [
+FASTPythonVisitor >> visitAttribute: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'value' asAliasOfField: 'object' ].
 
@@ -144,7 +144,7 @@ TSFASTPythonVisitor >> visitAttribute: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitAugmentedAssignment: aTSNode [
+FASTPythonVisitor >> visitAugmentedAssignment: aTSNode [
 
 	| fastEntity |
 
@@ -158,7 +158,7 @@ TSFASTPythonVisitor >> visitAugmentedAssignment: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitAwait: aTSNode [
+FASTPythonVisitor >> visitAwait: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
@@ -166,13 +166,13 @@ TSFASTPythonVisitor >> visitAwait: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitBinaryOperator: aTSNode [
+FASTPythonVisitor >> visitBinaryOperator: aTSNode [
 
 	^ self handleBinaryOperator: aTSNode ofKind: FASTPyBinaryOperator
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitBlock: aTSNode [
+FASTPythonVisitor >> visitBlock: aTSNode [
 	"I should be simplified a little bit when the importer will be stable."
 	
 	self onNextContextDo: [ :contextEntry | contextEntry aliasUnnamedFieldAs: 'statements' ].
@@ -187,13 +187,13 @@ TSFASTPythonVisitor >> visitBlock: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitBooleanOperator: aTSNode [
+FASTPythonVisitor >> visitBooleanOperator: aTSNode [
 
 	^ self handleBinaryOperator: aTSNode ofKind: FASTPyBooleanOperator
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitCall: aTSNode [
+FASTPythonVisitor >> visitCall: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'callee' asAliasOfField: 'function' ].
 
@@ -201,7 +201,7 @@ TSFASTPythonVisitor >> visitCall: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitCaseClause: aTSNode [
+FASTPythonVisitor >> visitCaseClause: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'pattern' ].
 
@@ -209,14 +209,14 @@ TSFASTPythonVisitor >> visitCaseClause: aTSNode [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitCasePattern: aTSNode [
+FASTPythonVisitor >> visitCasePattern: aTSNode [
 	"We skip this node to put the content in the case_clause."
 
 	^ self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitChevron: aTSNode [
+FASTPythonVisitor >> visitChevron: aTSNode [
 	
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
@@ -224,7 +224,7 @@ TSFASTPythonVisitor >> visitChevron: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitClassDefinition: aNode [
+FASTPythonVisitor >> visitClassDefinition: aNode [
 
 	self onNextContextDo: [ :entry | entry add: 'statementBlock' asAliasOfField: 'body' ].
 
@@ -232,7 +232,7 @@ TSFASTPythonVisitor >> visitClassDefinition: aNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitClassPattern: aNode [
+FASTPythonVisitor >> visitClassPattern: aNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #elements ].
 
@@ -240,13 +240,13 @@ TSFASTPythonVisitor >> visitClassPattern: aNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitComment: aTSNode [
+FASTPythonVisitor >> visitComment: aTSNode [
 
 	^ self handleNode: aTSNode parentBlock: [ :entity | self topFastEntity addComment: entity ]
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitComparisonOperator: aTSNode [
+FASTPythonVisitor >> visitComparisonOperator: aTSNode [
 
 	| fastEntity |
 	self onNextContextDo: [ :contextEntry | contextEntry aliasUnnamedFieldAs: 'operands' ].
@@ -260,7 +260,7 @@ TSFASTPythonVisitor >> visitComparisonOperator: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitComplexPattern: aTSNode [
+FASTPythonVisitor >> visitComplexPattern: aTSNode [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: FASTPyBinaryOperator from: aTSNode.
@@ -280,7 +280,7 @@ TSFASTPythonVisitor >> visitComplexPattern: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitComprehension: aTSNode [
+FASTPythonVisitor >> visitComprehension: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'forClauses' ].
 
@@ -288,7 +288,7 @@ TSFASTPythonVisitor >> visitComprehension: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitConcatenatedString: aTSNode [
+FASTPythonVisitor >> visitConcatenatedString: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #strings ].
 
@@ -296,7 +296,7 @@ TSFASTPythonVisitor >> visitConcatenatedString: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitConditionalExpression: aTSNode [
+FASTPythonVisitor >> visitConditionalExpression: aTSNode [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: FASTPyConditionalExpression from: aTSNode.
@@ -318,7 +318,7 @@ TSFASTPythonVisitor >> visitConditionalExpression: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitConstrainedType: aTSNode [
+FASTPythonVisitor >> visitConstrainedType: aTSNode [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: FASTPyConstrainedType from: aTSNode.
@@ -336,7 +336,7 @@ TSFASTPythonVisitor >> visitConstrainedType: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitDecoratedDefinition: aTSNode [
+FASTPythonVisitor >> visitDecoratedDefinition: aTSNode [
 	"We do not wish to create a node for a decorated_definition. The node will always have an unnamed field containing the decorators and a definition field with the definition."
 
 	| fastEntity definitionNode |
@@ -351,7 +351,7 @@ TSFASTPythonVisitor >> visitDecoratedDefinition: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitDecorator: aTSNode [
+FASTPythonVisitor >> visitDecorator: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
@@ -359,7 +359,7 @@ TSFASTPythonVisitor >> visitDecorator: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitDefaultParameter: aTSNode [
+FASTPythonVisitor >> visitDefaultParameter: aTSNode [
 
 	| children parameter |
 	children := aTSNode collectNamedChild.
@@ -377,7 +377,7 @@ TSFASTPythonVisitor >> visitDefaultParameter: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitDeleteStatement: aTSNode [
+FASTPythonVisitor >> visitDeleteStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
@@ -385,7 +385,7 @@ TSFASTPythonVisitor >> visitDeleteStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitDictPattern: aTSNode [
+FASTPythonVisitor >> visitDictPattern: aTSNode [
 	"We do not want something specific for dict pattern, we just want to create a dictionary."
 
 	| fastEntity |
@@ -414,33 +414,33 @@ TSFASTPythonVisitor >> visitDictPattern: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitDictionary: aTSNode [
+FASTPythonVisitor >> visitDictionary: aTSNode [
 
 	^ self handleCollectionNode: aTSNode kind: FASTPyDictionary
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitDictionaryComprehension: aTSNode [
+FASTPythonVisitor >> visitDictionaryComprehension: aTSNode [
 
 	^ self visitComprehension: aTSNode
 ]
 
 { #category : 'visiting - redirect' }
-TSFASTPythonVisitor >> visitDictionarySplat: aTSNode [
+FASTPythonVisitor >> visitDictionarySplat: aTSNode [
 	"Treat both splat the same way."
 
 	^ self visitListSplat: aTSNode
 ]
 
 { #category : 'visiting - redirect' }
-TSFASTPythonVisitor >> visitDictionarySplatPattern: aTSNode [
+FASTPythonVisitor >> visitDictionarySplatPattern: aTSNode [
 	"Handle both nodes the same."
 
 	^ self visitListSplatPattern: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitDottedName: aTSNode [
+FASTPythonVisitor >> visitDottedName: aTSNode [
 
 	| fastEntity |
 
@@ -478,31 +478,31 @@ TSFASTPythonVisitor >> visitDottedName: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitElifClause: aTSNode [
+FASTPythonVisitor >> visitElifClause: aTSNode [
 
 	^ self handleNode: aTSNode kind: FASTPyElifClause parentBlock: [ :entity | self topFastEntity addElifClause: entity ]
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitElseClause: aTSNode [
+FASTPythonVisitor >> visitElseClause: aTSNode [
 
 	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - error' }
-TSFASTPythonVisitor >> visitEscapedInterpolation: aTSNode [
+FASTPythonVisitor >> visitEscapedInterpolation: aTSNode [
 
 	self error: 'We sould never finish here because we took the decision of not representing them and the node visit should be skipped in #visitStringContent:.'
 ]
 
 { #category : 'visiting - error' }
-TSFASTPythonVisitor >> visitEscapedSequence: aTSNode [
+FASTPythonVisitor >> visitEscapedSequence: aTSNode [
 
 	self error: 'We sould never finish here because we took the decision of not representing them and the node visit should be skipped in #visitStringContent:.'
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitExceptClause: aTSNode [
+FASTPythonVisitor >> visitExceptClause: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'expressions' asAliasOfField: 'value' ].
 
@@ -510,7 +510,7 @@ TSFASTPythonVisitor >> visitExceptClause: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitExecStatement: aNode [
+FASTPythonVisitor >> visitExecStatement: aNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #scopes ].
 
@@ -518,32 +518,32 @@ TSFASTPythonVisitor >> visitExecStatement: aNode [
 ]
 
 { #category : 'visiting - redirect' }
-TSFASTPythonVisitor >> visitExpressionList: aTSNode [
+FASTPythonVisitor >> visitExpressionList: aTSNode [
 	"We considere expression lists are tuples."
 
 	^ self visitTuple: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitFalse: aNode [
+FASTPythonVisitor >> visitFalse: aNode [
 
 	^ self handleNode: aNode kind: FASTPyBoolean
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitFinallyClause: aTSNode [
+FASTPythonVisitor >> visitFinallyClause: aTSNode [
 
 	^ self handleNode: aTSNode kind: FASTPyFinallyClause parentBlock: [ :entity | self topFastEntity finally: entity ]
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitFormatSpecifier: aTSNode [
+FASTPythonVisitor >> visitFormatSpecifier: aTSNode [
 
 	^ self topFastEntity formatSpecifier: (self sourceCodeOf: aTSNode) allButFirst "We skip the $: character"
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitFunctionDefinition: aNode [
+FASTPythonVisitor >> visitFunctionDefinition: aNode [
 	"TreeSitter has the same nodes for method and function definitions but in FAST we want to disambiguate."
 
 	self onNextContextDo: [ :contextEntry |
@@ -557,7 +557,7 @@ TSFASTPythonVisitor >> visitFunctionDefinition: aNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitFutureImportStatement: aTSNode [
+FASTPythonVisitor >> visitFutureImportStatement: aTSNode [
 	"We treat future import as an import from statement"
 
 	| fastEntity |
@@ -571,13 +571,13 @@ TSFASTPythonVisitor >> visitFutureImportStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitGeneratorExpression: aTSNode [
+FASTPythonVisitor >> visitGeneratorExpression: aTSNode [
 
 	^ self visitComprehension: aTSNode
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitGenericType: aTSNode [
+FASTPythonVisitor >> visitGenericType: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #typeConstructor ].
 
@@ -585,7 +585,7 @@ TSFASTPythonVisitor >> visitGenericType: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitGlobalStatement: aTSNode [
+FASTPythonVisitor >> visitGlobalStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'variables' ].
 
@@ -593,7 +593,7 @@ TSFASTPythonVisitor >> visitGlobalStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitIdentifier: aNode [
+FASTPythonVisitor >> visitIdentifier: aNode [
 
 	(self isInParameter: aNode) ifTrue: [ ^ self handleParameterNode: aNode name: (self sourceCodeOf: aNode) ].
 	
@@ -613,7 +613,7 @@ TSFASTPythonVisitor >> visitIdentifier: aNode [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitIfClause: aTSNode [
+FASTPythonVisitor >> visitIfClause: aTSNode [
 	"The condition always goes in the condition property."
 
 	| oldField |
@@ -626,7 +626,7 @@ TSFASTPythonVisitor >> visitIfClause: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitIfStatement: aTSNode [
+FASTPythonVisitor >> visitIfStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'thenClause' asAliasOfField: 'consequence' ].
 
@@ -634,7 +634,7 @@ TSFASTPythonVisitor >> visitIfStatement: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitImportFromStatement: aTSNode [
+FASTPythonVisitor >> visitImportFromStatement: aTSNode [
 
 	self onNextContextDo: [ :entry |
 			entry
@@ -645,7 +645,7 @@ TSFASTPythonVisitor >> visitImportFromStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitImportPrefix: aTSNode [
+FASTPythonVisitor >> visitImportPrefix: aTSNode [
 
 	| fastEntity |
 	fastEntity := self handleNode: aTSNode kind: FASTPyFromModule.
@@ -654,7 +654,7 @@ TSFASTPythonVisitor >> visitImportPrefix: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitImportStatement: aTSNode [
+FASTPythonVisitor >> visitImportStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'importedEntities' asAliasOfField: 'name' ].
 
@@ -662,7 +662,7 @@ TSFASTPythonVisitor >> visitImportStatement: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitInteger: aTSNode [
+FASTPythonVisitor >> visitInteger: aTSNode [
 	"In python we have integers and complex numbers.
 	A Complex ends with a j"
 
@@ -672,7 +672,7 @@ TSFASTPythonVisitor >> visitInteger: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitKeywordArgument: aTSNode [
+FASTPythonVisitor >> visitKeywordArgument: aTSNode [
 
 	"In class definition we want to separate keyword because they affect the metaclass while other arguments affects the superclasses."
 	(self topFastEntity isOfType: FASTPyClassDefinition) ifTrue: [ self setTopFieldTo: 'keywords' ].
@@ -681,7 +681,7 @@ TSFASTPythonVisitor >> visitKeywordArgument: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitKeywordPattern: aTSNode [
+FASTPythonVisitor >> visitKeywordPattern: aTSNode [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: FASTPyKeywordPattern from: aTSNode.
@@ -699,7 +699,7 @@ TSFASTPythonVisitor >> visitKeywordPattern: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitLambda: aTSNode [
+FASTPythonVisitor >> visitLambda: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: 'expression' asAliasOfField: 'body' ].
 
@@ -707,38 +707,38 @@ TSFASTPythonVisitor >> visitLambda: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitLambdaParameters: aNode [
+FASTPythonVisitor >> visitLambdaParameters: aNode [
 
 	^ self visitParameters: aNode
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitLineContinuation: aTSNode [
+FASTPythonVisitor >> visitLineContinuation: aTSNode [
 	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
 
 	^ self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitList: aTSNode [
+FASTPythonVisitor >> visitList: aTSNode [
 
 	^ self handleCollectionNode: aTSNode kind: FASTPyList
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitListComprehension: aTSNode [
+FASTPythonVisitor >> visitListComprehension: aTSNode [
 
 	^ self visitComprehension: aTSNode
 ]
 
 { #category : 'visiting - redirect' }
-TSFASTPythonVisitor >> visitListPattern: aTSNode [
+FASTPythonVisitor >> visitListPattern: aTSNode [
 
 	^ self visitList: aTSNode
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitListSplat: aTSNode [
+FASTPythonVisitor >> visitListSplat: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'expression' ].
 
@@ -746,7 +746,7 @@ TSFASTPythonVisitor >> visitListSplat: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitListSplatPattern: aTSNode [
+FASTPythonVisitor >> visitListSplatPattern: aTSNode [
 	"In case we are a parameter we skip the children because it always is an identifier"
 
 	(self isInParameter: aTSNode) ifTrue: [
@@ -760,13 +760,13 @@ TSFASTPythonVisitor >> visitListSplatPattern: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitMemberType: aTSNode [
+FASTPythonVisitor >> visitMemberType: aTSNode [
 
 	self error: 'Cyril: I have no idea how we can have this node? If you end up here, please open an issue with your file or a snippet to parse to end up here!'
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitModule: aTSNode [
+FASTPythonVisitor >> visitModule: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'statements' ].
 
@@ -774,13 +774,13 @@ TSFASTPythonVisitor >> visitModule: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitNamedExpression: aTSNode [
+FASTPythonVisitor >> visitNamedExpression: aTSNode [
 
 	^ self handleNode: aTSNode kind: FASTPyWalrus
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitNonlocalStatement: aTSNode [
+FASTPythonVisitor >> visitNonlocalStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'variables' ].
 
@@ -788,27 +788,27 @@ TSFASTPythonVisitor >> visitNonlocalStatement: aTSNode [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitParameters: aNode [
+FASTPythonVisitor >> visitParameters: aNode [
 	"For parameters we want one by parameter. Not one node for multiple ones."
 
 	^ self rawVisitChildren: aNode
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitParenthesizedExpression: aTSNode [
+FASTPythonVisitor >> visitParenthesizedExpression: aTSNode [
 	"We do not represent that in FAST, at least for the moment. So I skip this node and act as if the children were in my parent."
 
 	^ self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitParenthesizedListSplat: aTSNode [
+FASTPythonVisitor >> visitParenthesizedListSplat: aTSNode [
 
 	self error: 'Cyril: I have no idea how we can have this node? If you end up here, please open an issue with your file or a snippet to parse to end up here!'
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitPatternList: aTSNode [
+FASTPythonVisitor >> visitPatternList: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'initializers' ].
 
@@ -816,7 +816,7 @@ TSFASTPythonVisitor >> visitPatternList: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitPrintStatement: aTSNode [
+FASTPythonVisitor >> visitPrintStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #expressions asAliasOfField: 'argument' ].
 
@@ -824,7 +824,7 @@ TSFASTPythonVisitor >> visitPrintStatement: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitRaiseStatement: aTSNode [
+FASTPythonVisitor >> visitRaiseStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #exception ].
 
@@ -832,32 +832,32 @@ TSFASTPythonVisitor >> visitRaiseStatement: aTSNode [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitRelativeImport: aTSNode [
+FASTPythonVisitor >> visitRelativeImport: aTSNode [
 	"Nothing to do. The visit of my children will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitReturnStatement: aTSNode [
+FASTPythonVisitor >> visitReturnStatement: aTSNode [
 
 	^ self visitStatement: aTSNode
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitSet: aTSNode [
+FASTPythonVisitor >> visitSet: aTSNode [
 
 	^ self handleCollectionNode: aTSNode kind: FASTPySet
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitSetComprehension: aTSNode [
+FASTPythonVisitor >> visitSetComprehension: aTSNode [
 
 	^ self visitComprehension: aTSNode
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitSlice: aTSNode [
+FASTPythonVisitor >> visitSlice: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'components' ].
 
@@ -865,7 +865,7 @@ TSFASTPythonVisitor >> visitSlice: aTSNode [
 ]
 
 { #category : 'visiting - redirect' }
-TSFASTPythonVisitor >> visitSplatPattern: aTSNode [
+FASTPythonVisitor >> visitSplatPattern: aTSNode [
 
 	^ ((self sourceCodeOf: aTSNode) beginsWith: '**')
 		  ifTrue: [ self visitDictionarySplat: aTSNode ]
@@ -873,7 +873,7 @@ TSFASTPythonVisitor >> visitSplatPattern: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitStatement: aTSNode [
+FASTPythonVisitor >> visitStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
@@ -881,7 +881,7 @@ TSFASTPythonVisitor >> visitStatement: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitString: aTSNode [
+FASTPythonVisitor >> visitString: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #interpolations ].
 
@@ -889,28 +889,28 @@ TSFASTPythonVisitor >> visitString: aTSNode [
 ]
 
 { #category : 'visiting - noop' }
-TSFASTPythonVisitor >> visitStringContent: aNode [
+FASTPythonVisitor >> visitStringContent: aNode [
 	"We only want one node for the string, my parent."
 
 	
 ]
 
 { #category : 'visiting - noop' }
-TSFASTPythonVisitor >> visitStringEnd: aNode [
+FASTPythonVisitor >> visitStringEnd: aNode [
 	"We only want one node for the string, my parent."
 
 	
 ]
 
 { #category : 'visiting - noop' }
-TSFASTPythonVisitor >> visitStringStart: aNode [
+FASTPythonVisitor >> visitStringStart: aNode [
 	"We only want one node for the string, my parent."
 
 	
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitSubscript: aTSNode [
+FASTPythonVisitor >> visitSubscript: aTSNode [
 
 	self onNextContextDo: [ :entry | entry add: #indices asAliasOfField: 'subscript' ].
 
@@ -918,19 +918,19 @@ TSFASTPythonVisitor >> visitSubscript: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitTrue: aNode [
+FASTPythonVisitor >> visitTrue: aNode [
 
 	^ self handleNode: aNode kind: FASTPyBoolean
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitTuple: aTSNode [
+FASTPythonVisitor >> visitTuple: aTSNode [
 
 	^ self handleCollectionNode: aTSNode kind: FASTPyTuple
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitTupleExpression: aTSNode [
+FASTPythonVisitor >> visitTupleExpression: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #initializers ].
 
@@ -938,13 +938,13 @@ TSFASTPythonVisitor >> visitTupleExpression: aTSNode [
 ]
 
 { #category : 'visiting - redirect' }
-TSFASTPythonVisitor >> visitTuplePattern: aTSNode [
+FASTPythonVisitor >> visitTuplePattern: aTSNode [
 
 	^ self visitTuple: aTSNode
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitType: aTSNode [
+FASTPythonVisitor >> visitType: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #content ].
 
@@ -952,13 +952,13 @@ TSFASTPythonVisitor >> visitType: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitTypeConversion: aTSNode [
+FASTPythonVisitor >> visitTypeConversion: aTSNode [
 
 	^ self topFastEntity typeConversion: (self sourceCodeOf: aTSNode) allButFirst "We skip the $! character"
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitTypeParameter: aTSNode [
+FASTPythonVisitor >> visitTypeParameter: aTSNode [
 	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self setTopFieldTo: 'typeParameters'.
@@ -966,7 +966,7 @@ TSFASTPythonVisitor >> visitTypeParameter: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitTypedDefaultParameter: aTSNode [
+FASTPythonVisitor >> visitTypedDefaultParameter: aTSNode [
 
 	| children parameter |
 	children := aTSNode collectNamedChild.
@@ -986,7 +986,7 @@ TSFASTPythonVisitor >> visitTypedDefaultParameter: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitTypedParameter: aTSNode [
+FASTPythonVisitor >> visitTypedParameter: aTSNode [
 
 	| children parameter |
 	children := aTSNode collectNamedChild.
@@ -1004,7 +1004,7 @@ TSFASTPythonVisitor >> visitTypedParameter: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitUnaryOperator: aTSNode [
+FASTPythonVisitor >> visitUnaryOperator: aTSNode [
 
 	| fastEntity |
 	fastEntity := self handleNode: aTSNode.
@@ -1016,7 +1016,7 @@ TSFASTPythonVisitor >> visitUnaryOperator: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitUnionPattern: aTSNode [
+FASTPythonVisitor >> visitUnionPattern: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #members ].
 
@@ -1024,7 +1024,7 @@ TSFASTPythonVisitor >> visitUnionPattern: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitUnionType: aTSNode [
+FASTPythonVisitor >> visitUnionType: aTSNode [
 
 	"If we have union types in union types, we want to flatten them in only one node. But the implementation might need to change depending on this issue: https://github.com/tree-sitter/tree-sitter-python/issues/334"
 	(self topFastEntity isOfType: FASTPyUnionType) ifTrue: [ ^ self rawVisitChildren: aTSNode ].
@@ -1035,7 +1035,7 @@ TSFASTPythonVisitor >> visitUnionType: aTSNode [
 ]
 
 { #category : 'visiting' }
-TSFASTPythonVisitor >> visitWildcardImport: aTSNode [
+FASTPythonVisitor >> visitWildcardImport: aTSNode [
 
 	| fastEntity |
 	fastEntity := self instantiateFastEntity: FASTPyImportedEntity from: aTSNode.
@@ -1045,21 +1045,21 @@ TSFASTPythonVisitor >> visitWildcardImport: aTSNode [
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitWithClause: aTSNode [
+FASTPythonVisitor >> visitWithClause: aTSNode [
 	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - skip' }
-TSFASTPythonVisitor >> visitWithItem: aTSNode [
+FASTPythonVisitor >> visitWithItem: aTSNode [
 	"Nothing to do. The visit of my child will take care of things. I use the #raw version since it is what should be used to skip a context level."
 
 	self rawVisitChildren: aTSNode
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitWithStatement: aTSNode [
+FASTPythonVisitor >> visitWithStatement: aTSNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: 'items' ].
 
@@ -1067,7 +1067,7 @@ TSFASTPythonVisitor >> visitWithStatement: aTSNode [
 ]
 
 { #category : 'visiting - alias' }
-TSFASTPythonVisitor >> visitYield: aNode [
+FASTPythonVisitor >> visitYield: aNode [
 
 	self onNextContextDo: [ :entry | entry aliasUnnamedFieldAs: #expression ].
 
