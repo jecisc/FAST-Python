@@ -35,7 +35,7 @@ FASTPythonImporter class >> devFASTPythonMenu: aBuilder [
 					icon: (self iconNamed: #smallNew);
 					action: [ self devParseFiles: ('/Users/cyril/marius/10batches' asFileReference allFiles select: [ :f | f extension = 'py' ]) ].
 				(aBuilder item: #'Toggle FAST Importer Debug mode')
-					action: [ TSFASTImporter isInDebugMode: TSFASTImporter isInDebugMode not ];
+					action: [ TSFASTVisitor isInDebugMode: TSFASTVisitor isInDebugMode not ];
 					order: 99999;
 					withSeparatorAfter;
 					help: 'If this is enabled, errors will not be caught in the FAST importing but passed.';
@@ -129,7 +129,7 @@ FASTPythonImporter >> parse: aString [
 	self initialiseTreeSitterParser.
 
 	tsTree := self tsParser parseString: aString.
-	fastTree := TSFASTPythonImporter new
+	fastTree := TSFASTPythonVisitor new
 		            originString: aString;
 		            in: [ :importer | errorReportBlock ifNotNil: [ importer errorReportBlock: errorReportBlock ] ];
 		            import: tsTree rootNode.
