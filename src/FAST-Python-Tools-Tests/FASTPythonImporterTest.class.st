@@ -36,27 +36,10 @@ Dictionary new
 "
 Class {
 	#name : 'FASTPythonImporterTest',
-	#superclass : 'TestCase',
-	#instVars : [
-		'importer',
-		'fast',
-		'stack'
-	],
+	#superclass : 'TSFASTAbstractImporterTest',
 	#category : 'FAST-Python-Tools-Tests',
 	#package : 'FAST-Python-Tools-Tests'
 }
-
-{ #category : 'test generation' }
-FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code [
-
-	^ self generateTestNamed: aString fromCode: code protocol: 'tests'
-]
-
-{ #category : 'test generation' }
-FASTPythonImporterTest class >> generateTestNamed: aString fromCode: code protocol: protocol [
-
-	(FASTPyImporterTestGenerator testCase: self) generateTestNamed: aString fromCode: code protocol: protocol
-]
 
 { #category : 'class initialization' }
 FASTPythonImporterTest class >> initialize [
@@ -66,100 +49,36 @@ FASTPythonImporterTest class >> initialize [
 ]
 
 { #category : 'test generation' }
-FASTPythonImporterTest class >> propertiesToExclude [
-
-	^ #( startPos endPos )
-]
-
-{ #category : 'test generation' }
 FASTPythonImporterTest class >> regenerateAllTests [
 
 	<script>
-	self methods
-		select: [ :method | method hasPragmaNamed: #generated ]
-		thenDo: [ :method | self regenerateTest: method selector ]
+	super regenerateAllTests
 ]
 
 { #category : 'test generation' }
-FASTPythonImporterTest class >> regenerateTest: aSymbol [
-
-	(FASTPyImporterTestGenerator testCase: self) regenerateTest: self >> aSymbol
-]
-
-{ #category : 'test generation' }
-FASTPythonImporterTest class >> traitsToIgnore [
-	"Return a collection of traits to ignore in generated tests."
+FASTPythonImporterTest class >> traitsToTest [
+	"Return a collection of traits to test in generated tests."
 
 	^ {
-		  FASTTEntity. "Too global."
-		  FASTTScopableEntity. "Not used for now?"
-		  FASTTBehaviouralEntity. "To Review"
-		  FASTTNamedBehaviouralEntity. "To Review"
-		  FASTTNamedEntity. "Only brings a property that is already tested."
-		  FASTTStatement. "I need to enable this one later but for now I'm not sure how to manage expression statements"
-		  TEntityMetaLevelDependency. "Too general"
-		  FASTTExpression. "I need to enable this one later but I'm still unsure of how to manage expression statements"
-		  FASTPyTDecoratorExpression. "Adds too much noise in tests"
-		  FASTTWithComments. "Everything has that"
-		  FASTPyTSplatExpression. "Too many elements with it."
-		  FASTPyTAsPatternTarget.
-		  FASTPyTAsPatternSource.
-		  FASTPyTWithStatementItem.
-		  FASTPyTRaised.
-		  FASTPyTReturnReferenceable.
-		  FASTPyTAssignable.
-		  FASTPyTSuperclass.
-		  FASTPyTSplatParameterTarget.
-		  FASTPyTPattern.
-		  FASTPyTClassPatternElement.
-		  FASTPyTDeletable.
-		  FASTPyTTypeContent.
-		  FASTPyTWithTypeParameters.
-		  FASTPyTCallable.
-		  FASTPyTExecutable.
-		  FASTPyTSliceIndex.
-		  FASTPyTAwaitable }
-]
-
-{ #category : 'running' }
-FASTPythonImporterTest >> importer [
-
-	^ importer ifNil: [ importer := self importerClass new ]
-]
-
-{ #category : 'running' }
-FASTPythonImporterTest >> importerClass [
-
-	^ self class environment at: (self class name withoutSuffix: 'Test') asSymbol
-]
-
-{ #category : 'running' }
-FASTPythonImporterTest >> parse: aString [
-
-	^ fast := self importer
-		          errorReportBlock: [ :i | i errors ifNotEmpty: [ self fail: 'Errors happened during parsing. Errors: ' , i errors printString ] ];
-		          parse: aString withPlatformLineEndings
-]
-
-{ #category : 'private' }
-FASTPythonImporterTest >> performTest [
-	"If an error happens, dump the AST in the message text so that we can have an idea of what is the problem in the logs."
-
-	"[ super performTest ]
-		on: Error
-		do: [ :failure |
-				fast ifNotNil: [ failure messageText: failure messageText , ' FASTDump: ' , (RBParser parseExpression: fast rootEntities anyOne dump) formattedCode ].
-				failure pass ]"
-
-	super performTest
-]
-
-{ #category : 'running' }
-FASTPythonImporterTest >> setUp [
-
-	super setUp.
-
-	stack := Stack new
+		  FASTTStatementBlock.
+		  FASTTInvocation.
+		  FASTTWithArguments.
+		  FASTTLiteral.
+		  FASTTNumericalLiteral.
+		  FASTPyTDefinition.
+		  FASTTWithParameters.
+		  FASTTVariableEntity.
+		  FASTTStringLiteral.
+		  FASTTBinaryExpression.
+		  FASTTWithCondition.
+		  FASTTBooleanLiteral.
+		  FASTPyTUnaryOperator.
+		  FASTPyTWithElseClause.
+		  FASTTConditionalStatement.
+		  FASTTComment.
+		  FASTTReturnStatement.
+		  FamixTHasImmediateSource.
+		  FamixTSourceAnchor }
 ]
 
 { #category : 'tests - with statements' }
