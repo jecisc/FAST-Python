@@ -629,8 +629,6 @@ FASTPythonMetamodelGenerator >> defineProperties [
 FASTPythonMetamodelGenerator >> defineRelations [
 
 	super defineRelations.
-
-	(entity property: #genericChildren) <>-* (entity property: #genericParent).
 	
 	(assignment property: #left) <>- (tAssignable property: #parentAssignmentLeft).
 	(assignment property: #right) <>- (expression property: #parentAssignmentRight).

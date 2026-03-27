@@ -2,16 +2,10 @@
 ## Relations
 ======================
 
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `genericParent` | `FASTPyEntity` | `genericChildren` | `FASTPyEntity` | |
-
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `comments` | `FASTTWithComments` | `container` | `FASTTComment` | list of comments defined in the entity|
-| `genericChildren` | `FASTPyEntity` | `genericParent` | `FASTPyEntity` | |
 
 
 ## Properties
@@ -28,10 +22,6 @@ Class {
 	#superclass : 'MooseEntity',
 	#traits : 'FASTTEntity + FASTTWithComments',
 	#classTraits : 'FASTTEntity classTrait + FASTTWithComments classTrait',
-	#instVars : [
-		'#genericChildren => FMMany type: #FASTPyEntity opposite: #genericParent',
-		'#genericParent => FMOne type: #FASTPyEntity opposite: #genericChildren'
-	],
 	#category : 'FAST-Python-Model-Entities',
 	#package : 'FAST-Python-Model',
 	#tag : 'Entities'
@@ -59,58 +49,6 @@ FASTPyEntity class >> metamodel [
 
 	<generated>
 	^ FASTPyModel metamodel
-]
-
-{ #category : 'adding' }
-FASTPyEntity >> addGenericChild: anObject [
-	<generated>
-	^ self genericChildren add: anObject
-]
-
-{ #category : 'accessing' }
-FASTPyEntity >> genericChildren [
-	"Relation named: #genericChildren type: #FASTPyEntity opposite: #genericParent"
-
-	<generated>
-	<derived>
-	^ genericChildren
-]
-
-{ #category : 'accessing' }
-FASTPyEntity >> genericChildren: anObject [
-
-	<generated>
-	genericChildren value: anObject
-]
-
-{ #category : 'navigation' }
-FASTPyEntity >> genericChildrenGroup [
-	<generated>
-	<navigation: 'GenericChildren'>
-	^ MooseSpecializedGroup withAll: self genericChildren asSet
-]
-
-{ #category : 'accessing' }
-FASTPyEntity >> genericParent [
-	"Relation named: #genericParent type: #FASTPyEntity opposite: #genericChildren"
-
-	<generated>
-	<container>
-	^ genericParent
-]
-
-{ #category : 'accessing' }
-FASTPyEntity >> genericParent: anObject [
-
-	<generated>
-	genericParent := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyEntity >> genericParentGroup [
-	<generated>
-	<navigation: 'GenericParent'>
-	^ MooseSpecializedGroup with: self genericParent
 ]
 
 { #category : 'testing' }
