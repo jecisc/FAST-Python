@@ -1,4 +1,6 @@
 "
+I am an abstract class to represent collection initializers in Python. I should be transformed into a trait to put in FAST directly.
+
 ## Relations
 ======================
 

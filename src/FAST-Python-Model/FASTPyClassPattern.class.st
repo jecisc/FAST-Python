@@ -1,4 +1,6 @@
 "
+A class pattern is used in a case clause to match classes.
+
 ## Relations
 ======================
 

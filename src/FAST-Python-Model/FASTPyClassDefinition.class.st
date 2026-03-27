@@ -1,4 +1,6 @@
 "
+I represent a class definition. I have a name, a list of expressions to declare my superclasses, a list of keywords to customize the metaclass and a block of code.
+
 ## Relations
 ======================
 

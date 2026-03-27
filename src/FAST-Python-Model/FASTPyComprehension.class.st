@@ -1,4 +1,6 @@
 "
+I am an abstract class for comprehensions. Comprehensions are a structure in python to generate some collections or a generator.
+
 ## Relations
 ======================
 

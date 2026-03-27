@@ -181,39 +181,85 @@ FASTPythonMetamodelGenerator class >> submetamodels [
 
 { #category : 'definition' }
 FASTPythonMetamodelGenerator >> defineClasses [
+
 	super defineClasses.
 	entity := builder newClassNamed: #Entity.
+
 	_ERROR := builder newClassNamed: #ERROR.
-	asPattern := builder newClassNamed: #AsPattern.
-	assertStatement := builder newClassNamed: #AssertStatement.
-	assignment := builder newClassNamed: #Assignment.
-	attribute := builder newClassNamed: #AttributeAccess.
-	augmentedAssignment := builder newClassNamed: #AugmentedAssignment.
-	await := builder newClassNamed: #Await.
+
+	(asPattern := builder newClassNamed: #AsPattern) comment:
+		'I represent the aliasing of an expression in Python. When the expression can only be an identifier, I store it as a property named "alias" instead of instantiating an AsPattern node.'.
+
+	(assertStatement := builder newClassNamed: #AssertStatement) comment:
+		'I represent an assert statement node in python. It hold a collection of expressions to assert.'.
+
+	(assignment := builder newClassNamed: #Assignment) comment:
+		'I represent an assignment in Python (not to confuse with an augmented assignment or a wlrus assignment). My left value is the expression used to get the variable to assign. It can be typed optionally. My right side if the expression to store. It can be optional because I also represent a typed variable declaration.'.
+
+	(attribute := builder newClassNamed: #AttributeAccess) comment: 'I represent an access to an attribute such as `module.globalVariable`.'.
+
+	(augmentedAssignment := builder newClassNamed: #AugmentedAssignment) comment:
+		'An augmented assignment is an assignment done using operands such as `+=` or `-=`. It is a specialization of normal assignments.'.
+
+	(await := builder newClassNamed: #Await) comment: 'I represent the usage of an await keyword in an asynchronous function definition'.
+
 	binaryOperator := builder newClassNamed: #BinaryOperator.
+
 	boolean := builder newClassNamed: #Boolean.
+
 	booleanOperator := builder newClassNamed: #BooleanOperator.
-	breakStatement := builder newClassNamed: #BreakStatement.
-	call := builder newClassNamed: #Call.
-	caseClause := builder newClassNamed: #CaseClause.
-	chevron := builder newClassNamed: #Chevron.
-	classDefinition := builder newClassNamed: #ClassDefinition.
+
+	(breakStatement := builder newClassNamed: #BreakStatement) comment: 'I represent a break statement used to break loops.'.
+
+	(call := builder newClassNamed: #Call) comment: 'I represent a call in python. The call can represent multiple things such as:
+- a function invocation such as `flush(var)`
+- a method invocation such as `self.increment()`
+- a class instantiation such as Stack()'.
+
+	(caseClause := builder newClassNamed: #CaseClause) comment: 'I represent a case clause in a match statement in Python.'.
+
+	(chevron := builder newClassNamed: #Chevron) comment:
+		'I am a node representing the `>>` part of a print statement. Print statement is only available in Python 2, not Python 3'.
+
+	(classDefinition := builder newClassNamed: #ClassDefinition) comment:
+		'I represent a class definition. I have a name, a list of expressions to declare my superclasses, a list of keywords to customize the metaclass and a block of code.'.
 	classDefinition withTesting.
-	classPattern := builder newClassNamed: #ClassPattern.
-	collectionInitializer := builder newClassNamed: #CollectionInitializer.
+
+	(classPattern := builder newClassNamed: #ClassPattern) comment: 'A class pattern is used in a case clause to match classes.'.
+
+	(collectionInitializer := builder newClassNamed: #CollectionInitializer) comment:
+		'I am an abstract class to represent collection initializers in Python. I should be transformed into a trait to put in FAST directly.'.
+
 	comment := builder newClassNamed: #Comment.
+
 	comparisonOperator := builder newClassNamed: #ComparisonOperator.
-	comprehension := builder newClassNamed: #Comprehension.
-	complex := builder newClassNamed: #Complex.
+
+	(comprehension := builder newClassNamed: #Comprehension) comment:
+		'I am an abstract class for comprehensions. Comprehensions are a structure in python to generate some collections or a generator.'.
+
+	(complex := builder newClassNamed: #Complex) comment: 'I represent a complex number such as `2j`'.
+
 	concatenatedString := builder newClassNamed: #ConcatenatedString.
-	conditionalExpression := builder newClassNamed: #ConditionalExpression.
-	constrainedType := builder newClassNamed: #ConstrainedType.
-	continueStatement := builder newClassNamed: #ContinueStatement.
-	decorator := builder newClassNamed: #Decorator.
-	deleteStatement := builder newClassNamed: #DeleteStatement.
-	dictionary := builder newClassNamed: #Dictionary.
+
+	(conditionalExpression := builder newClassNamed: #ConditionalExpression) comment: 'I represent a conditional expression such as `x if x > 2 else y`'.
+
+	(constrainedType := builder newClassNamed: #ConstrainedType) comment:
+		'I represent the concretization of a generic type in a given context. For example: `def f[T: int](): pass`, we are here constraining `T` to be an `int` or a subclass of `int`'.
+
+	(continueStatement := builder newClassNamed: #ContinueStatement) comment: 'I represent a continue statement to use in loops.'.
+
+	(decorator := builder newClassNamed: #Decorator) comment:
+		'I represent a decorator in Python. I can be applied to class, function or method definition using the `@` symbol.'.
+
+	(deleteStatement := builder newClassNamed: #DeleteStatement) comment: 'I represent a delete statement in Python.'.
+
+	(dictionary := builder newClassNamed: #Dictionary) comment:
+		'I represent the initialization of a new dictionnary in Python. Each of my children should be instances of Pair.'.
+
 	dictionaryComprehension := builder newClassNamed: #DictionaryComprehension.
-	dottedName := builder newClassNamed: #DottedName.
+
+	(dottedName := builder newClassNamed: #DottedName) comment: 'I have a syntax close to attribute accesses but I am used only in match statements.'.
+
 	elifClause := builder newClassNamed: #ElifClause.
 	ellipsis := builder newClassNamed: #Ellipsis.
 	elseClause := builder newClassNamed: #ElseClause.
@@ -269,7 +315,8 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	set := builder newClassNamed: #Set.
 	setComprehension := builder newClassNamed: #SetComprehension.
 	slice := builder newClassNamed: #Slice.
-	(splat := builder newClassNamed: #Splat) comment: 'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
+	(splat := builder newClassNamed: #Splat) comment:
+		'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
 	splatParameter := builder newClassNamed: #SplatParameter.
 	splatType := builder newClassNamed: #SplatType.
 	statement := builder newClassNamed: #Statement.

@@ -1,4 +1,6 @@
 "
+I represent a delete statement in Python.
+
 ## Relations
 ======================
 

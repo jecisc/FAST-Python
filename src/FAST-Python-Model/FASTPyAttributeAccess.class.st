@@ -1,4 +1,6 @@
 "
+I represent an access to an attribute such as `module.globalVariable`.
+
 ## Relations
 ======================
 

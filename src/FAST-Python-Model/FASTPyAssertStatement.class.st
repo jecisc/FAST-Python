@@ -1,4 +1,6 @@
 "
+I represent an assert statement node in python. It hold a collection of expressions to assert.
+
 ## Relations
 ======================
 

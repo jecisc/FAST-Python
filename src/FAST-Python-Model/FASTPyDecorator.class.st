@@ -1,4 +1,6 @@
 "
+I represent a decorator in Python. I can be applied to class, function or method definition using the `@` symbol.
+
 ## Relations
 ======================
 

@@ -1,4 +1,6 @@
 "
+I represent a conditional expression such as `x if x > 2 else y`
+
 ## Relations
 ======================
 

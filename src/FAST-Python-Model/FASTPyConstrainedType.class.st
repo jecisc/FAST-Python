@@ -1,4 +1,6 @@
 "
+I represent the concretization of a generic type in a given context. For example: `def f[T: int](): pass`, we are here constraining `T` to be an `int` or a subclass of `int`
+
 ## Relations
 ======================
 

@@ -1,4 +1,6 @@
 "
+I represent a case clause in a match statement in Python.
+
 ## Relations
 ======================
 

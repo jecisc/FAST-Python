@@ -1,4 +1,6 @@
 "
+An augmented assignment is an assignment done using operands such as `+=` or `-=`. It is a specialization of normal assignments.
+
 ## Properties
 ======================
 

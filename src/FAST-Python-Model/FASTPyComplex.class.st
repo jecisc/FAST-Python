@@ -1,4 +1,6 @@
 "
+I represent a complex number such as `2j`
+
 ## Relations
 ======================
 

@@ -1,12 +1,5 @@
 "
-## Relations
-======================
-
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `parentSplat` | `FASTPyTCanBeSplatExpression` | `expression` | `FASTPyCollectionSplat` | |
-
+I represent the initialization of a new dictionnary in Python. Each of my children should be instances of Pair.
 
 
 "

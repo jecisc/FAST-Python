@@ -1,4 +1,6 @@
 "
+I represent the aliasing of an expression in Python. When the expression can only be an identifier, I store it as a property named ""alias"" instead of instantiating an AsPattern node.
+
 ## Relations
 ======================
 

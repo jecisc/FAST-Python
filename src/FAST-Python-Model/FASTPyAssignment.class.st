@@ -1,4 +1,6 @@
 "
+I represent an assignment in Python (not to confuse with an augmented assignment or a wlrus assignment). My left value is the expression used to get the variable to assign. It can be typed optionally. My right side if the expression to store. It can be optional because I also represent a typed variable declaration.
+
 ## Relations
 ======================
 

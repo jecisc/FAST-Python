@@ -1,4 +1,9 @@
 "
+I represent a call in python. The call can represent multiple things such as:
+- a function invocation such as `flush(var)`
+- a method invocation such as `self.increment()`
+- a class instantiation such as Stack()
+
 ## Relations
 ======================
 

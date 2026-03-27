@@ -1,4 +1,6 @@
 "
+I have a syntax close to attribute accesses but I am used only in match statements.
+
 ## Relations
 ======================
 

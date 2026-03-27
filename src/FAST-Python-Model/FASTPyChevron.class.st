@@ -1,4 +1,6 @@
 "
+I am a node representing the `>>` part of a print statement. Print statement is only available in Python 2, not Python 3
+
 ## Relations
 ======================
 
