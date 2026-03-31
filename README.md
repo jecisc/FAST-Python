@@ -43,15 +43,18 @@ Or
     FASTPythonImporter parseFile: myFile
 ```
 
+> [!NOTE]
+> TreeSitter python changed after the version 0.25 to remove expression statement for the produced tree. The parser do not work in 100% of the case for version <= 0.25. So if you have tests that are not passing, first check the version of tree-sitter-python you are using.
+
 # Documentation
 
-Incoming
+The best documentation to read about this project is located in Pharo Tree Sitter's repository here: [https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/fast_importer.md](https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/fast_importer.md) and here: [https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/ts_utilities.md](https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/ts_utilities.md)
 
 ## Moose versions compatibility
 
 | Version 	| Compatible Moose versions    |
 |-------------	|------------------------------|
-| main       	| Moose 13 |
+| v1.x.x       	| Moose 13 |
 
 ## Contact
 
