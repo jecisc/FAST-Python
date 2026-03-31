@@ -43,9 +43,6 @@ Or
     FASTPythonImporter parseFile: myFile
 ```
 
-> [!NOTE]
-> TreeSitter python changed after the version 0.25 to remove expression statement for the produced tree. The parser do not work in 100% of the case for version <= 0.25. So if you have tests that are not passing, first check the version of tree-sitter-python you are using.
-
 # Documentation
 
 The best documentation to read about this project is located in Pharo Tree Sitter's repository here: [https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/fast_importer.md](https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/fast_importer.md) and here: [https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/ts_utilities.md](https://github.com/Evref-BL/Pharo-Tree-Sitter/blob/main/resources/doc/ts_utilities.md)
@@ -55,6 +52,17 @@ The best documentation to read about this project is located in Pharo Tree Sitte
 | Version 	| Compatible Moose versions    |
 |-------------	|------------------------------|
 | v1.x.x       	| Moose 13 |
+
+
+## TreeSitter python version compatibility
+
+TreeSitter python changed after the version 0.25 to remove expression statement for the produced tree. The parser do not work in 100% of the case for version <= 0.25. So if you have tests that are not passing, first check the version of tree-sitter-python you are using.
+
+## Python version compatibility
+
+This importer should work for Python 2 and 3 (but Python 2 code has less test coverage).
+
+Latest tested python version is 3.13.3. Features added after this release might not be taken into account.
 
 ## Contact
 
