@@ -524,6 +524,17 @@ FASTPythonVisitor >> visitExpressionList: aTSNode [
 	^ self visitTuple: aTSNode
 ]
 
+{ #category : 'visiting - skip' }
+FASTPythonVisitor >> visitExpressionStatement: aTSNode [
+	"HERE FOR COMPATIBILITY!
+	
+	Tree Sitter python changed its tree in this commit: https://github.com/tree-sitter/tree-sitter-python/commit/26855eabccb19c6abf499fbc5b8dc7cc9ab8bc64
+	
+	I am here for compatibility with versions of TS python before this commit. I can be dropped in the future once nobody will use this older TS python version."
+
+	self rawVisitChildren: aTSNode
+]
+
 { #category : 'visiting' }
 FASTPythonVisitor >> visitFalse: aNode [
 
