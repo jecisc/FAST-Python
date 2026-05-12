@@ -54,10 +54,3 @@ FASTPyAssertStatement >> expressions: anObject [
 	<generated>
 	expressions value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyAssertStatement >> expressionsGroup [
-	<generated>
-	<navigation: 'Expressions'>
-	^ MooseSpecializedGroup withAll: self expressions asSet
-]

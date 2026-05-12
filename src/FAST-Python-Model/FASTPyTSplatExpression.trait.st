@@ -47,10 +47,3 @@ FASTPyTSplatExpression >> parentSplat: anObject [
 	<generated>
 	parentSplat := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTSplatExpression >> parentSplatGroup [
-	<generated>
-	<navigation: 'ParentSplat'>
-	^ MooseSpecializedGroup with: self parentSplat
-]

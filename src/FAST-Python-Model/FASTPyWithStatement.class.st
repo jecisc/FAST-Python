@@ -68,10 +68,3 @@ FASTPyWithStatement >> items: anObject [
 	<generated>
 	items value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyWithStatement >> itemsGroup [
-	<generated>
-	<navigation: 'Items'>
-	^ MooseSpecializedGroup withAll: self items asSet
-]

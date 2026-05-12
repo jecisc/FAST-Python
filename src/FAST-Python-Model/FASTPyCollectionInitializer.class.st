@@ -64,10 +64,3 @@ FASTPyCollectionInitializer >> initializers: anObject [
 	<generated>
 	initializers value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyCollectionInitializer >> initializersGroup [
-	<generated>
-	<navigation: 'Initializers'>
-	^ MooseSpecializedGroup withAll: self initializers asSet
-]

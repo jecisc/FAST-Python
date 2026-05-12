@@ -44,10 +44,3 @@ FASTPyYield >> expression: anObject [
 	<generated>
 	expression := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyYield >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]

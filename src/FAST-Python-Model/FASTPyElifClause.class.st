@@ -63,10 +63,3 @@ FASTPyElifClause >> parentIfStatement: anObject [
 	<generated>
 	parentIfStatement := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyElifClause >> parentIfStatementGroup [
-	<generated>
-	<navigation: 'ParentIfStatement'>
-	^ MooseSpecializedGroup with: self parentIfStatement
-]

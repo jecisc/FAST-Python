@@ -61,13 +61,6 @@ FASTPyFromModule >> import: anObject [
 	import := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyFromModule >> importGroup [
-	<generated>
-	<navigation: 'Import'>
-	^ MooseSpecializedGroup with: self import
-]
-
 { #category : 'accessing' }
 FASTPyFromModule >> segments [
 

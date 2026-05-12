@@ -47,10 +47,3 @@ FASTPyTSplatParameterTarget >> parentSplatParameter: anObject [
 	<generated>
 	parentSplatParameter := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTSplatParameterTarget >> parentSplatParameterGroup [
-	<generated>
-	<navigation: 'ParentSplatParameter'>
-	^ MooseSpecializedGroup with: self parentSplatParameter
-]

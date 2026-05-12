@@ -63,10 +63,3 @@ FASTPyFinallyClause >> parentTryStatement: anObject [
 	<generated>
 	parentTryStatement := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyFinallyClause >> parentTryStatementGroup [
-	<generated>
-	<navigation: 'ParentTryStatement'>
-	^ MooseSpecializedGroup with: self parentTryStatement
-]

@@ -46,10 +46,3 @@ FASTPyAwait >> expression: anObject [
 	<generated>
 	expression := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyAwait >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]

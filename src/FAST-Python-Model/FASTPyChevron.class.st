@@ -53,13 +53,6 @@ FASTPyChevron >> expression: anObject [
 	expression := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyChevron >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]
-
 { #category : 'accessing' }
 FASTPyChevron >> parentPrintStatement [
 	"Relation named: #parentPrintStatement type: #FASTPyPrintStatement opposite: #redirection"
@@ -75,11 +68,4 @@ FASTPyChevron >> parentPrintStatement: anObject [
 
 	<generated>
 	parentPrintStatement := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyChevron >> parentPrintStatementGroup [
-	<generated>
-	<navigation: 'ParentPrintStatement'>
-	^ MooseSpecializedGroup with: self parentPrintStatement
 ]

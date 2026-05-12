@@ -44,10 +44,3 @@ FASTPyIfClause >> expression: anObject [
 	<generated>
 	expression := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyIfClause >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]

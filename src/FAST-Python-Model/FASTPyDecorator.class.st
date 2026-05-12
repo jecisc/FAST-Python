@@ -53,13 +53,6 @@ FASTPyDecorator >> expression: anObject [
 	expression := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyDecorator >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]
-
 { #category : 'accessing' }
 FASTPyDecorator >> parentDefinition [
 	"Relation named: #parentDefinition type: #FASTPyTDefinition opposite: #decorators"
@@ -74,11 +67,4 @@ FASTPyDecorator >> parentDefinition: anObject [
 
 	<generated>
 	parentDefinition := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyDecorator >> parentDefinitionGroup [
-	<generated>
-	<navigation: 'ParentDefinition'>
-	^ MooseSpecializedGroup with: self parentDefinition
 ]

@@ -58,10 +58,3 @@ FASTPyUnionType >> types: anObject [
 	<generated>
 	types value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyUnionType >> typesGroup [
-	<generated>
-	<navigation: 'Types'>
-	^ MooseSpecializedGroup withAll: self types asSet
-]

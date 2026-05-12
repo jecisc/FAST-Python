@@ -45,10 +45,3 @@ FASTPyImportFromStatement >> fromModule: anObject [
 	<generated>
 	fromModule := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyImportFromStatement >> fromModuleGroup [
-	<generated>
-	<navigation: 'FromModule'>
-	^ MooseSpecializedGroup with: self fromModule
-]

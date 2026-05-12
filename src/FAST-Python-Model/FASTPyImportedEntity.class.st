@@ -71,13 +71,6 @@ FASTPyImportedEntity >> import: anObject [
 	import := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyImportedEntity >> importGroup [
-	<generated>
-	<navigation: 'Import'>
-	^ MooseSpecializedGroup with: self import
-]
-
 { #category : 'accessing' }
 FASTPyImportedEntity >> segments [
 

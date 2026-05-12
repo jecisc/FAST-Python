@@ -52,10 +52,3 @@ FASTPyNonlocalStatement >> variables: anObject [
 	<generated>
 	variables value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyNonlocalStatement >> variablesGroup [
-	<generated>
-	<navigation: 'Variables'>
-	^ MooseSpecializedGroup withAll: self variables asSet
-]

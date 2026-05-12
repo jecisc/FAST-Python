@@ -51,10 +51,3 @@ FASTPyConcatenatedString >> strings: anObject [
 	<generated>
 	strings value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyConcatenatedString >> stringsGroup [
-	<generated>
-	<navigation: 'Strings'>
-	^ MooseSpecializedGroup withAll: self strings asSet
-]

@@ -63,13 +63,6 @@ FASTPyKeywordArgument >> parentClassDefinition: anObject [
 	parentClassDefinition := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyKeywordArgument >> parentClassDefinitionGroup [
-	<generated>
-	<navigation: 'ParentClassDefinition'>
-	^ MooseSpecializedGroup with: self parentClassDefinition
-]
-
 { #category : 'accessing' }
 FASTPyKeywordArgument >> value [
 	"Relation named: #value type: #FASTPyExpression opposite: #parentKeywordArgument"
@@ -84,11 +77,4 @@ FASTPyKeywordArgument >> value: anObject [
 
 	<generated>
 	value := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyKeywordArgument >> valueGroup [
-	<generated>
-	<navigation: 'Value'>
-	^ MooseSpecializedGroup with: self value
 ]

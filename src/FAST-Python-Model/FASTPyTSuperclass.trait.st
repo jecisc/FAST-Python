@@ -46,10 +46,3 @@ FASTPyTSuperclass >> parentClassDefinition: anObject [
 	<generated>
 	parentClassDefinition := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTSuperclass >> parentClassDefinitionGroup [
-	<generated>
-	<navigation: 'ParentClassDefinition'>
-	^ MooseSpecializedGroup with: self parentClassDefinition
-]

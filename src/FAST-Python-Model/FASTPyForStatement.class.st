@@ -66,13 +66,6 @@ FASTPyForStatement >> left: anObject [
 	left := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyForStatement >> leftGroup [
-	<generated>
-	<navigation: 'Left'>
-	^ MooseSpecializedGroup with: self left
-]
-
 { #category : 'accessing' }
 FASTPyForStatement >> right [
 	"Relation named: #right type: #FASTPyExpression opposite: #parentForStatementLeft"
@@ -87,11 +80,4 @@ FASTPyForStatement >> right: anObject [
 
 	<generated>
 	right := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyForStatement >> rightGroup [
-	<generated>
-	<navigation: 'Right'>
-	^ MooseSpecializedGroup with: self right
 ]

@@ -47,13 +47,6 @@ FASTPyTypeAliasStatement >> left: anObject [
 	left := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyTypeAliasStatement >> leftGroup [
-	<generated>
-	<navigation: 'Left'>
-	^ MooseSpecializedGroup with: self left
-]
-
 { #category : 'accessing' }
 FASTPyTypeAliasStatement >> right [
 	"Relation named: #right type: #FASTPyType opposite: #parentyTypeAliasStatementType"
@@ -67,11 +60,4 @@ FASTPyTypeAliasStatement >> right: anObject [
 
 	<generated>
 	right := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyTypeAliasStatement >> rightGroup [
-	<generated>
-	<navigation: 'Right'>
-	^ MooseSpecializedGroup with: self right
 ]

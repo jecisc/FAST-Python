@@ -74,10 +74,3 @@ FASTPyAttributeAccess >> value: anObject [
 	<generated>
 	value := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyAttributeAccess >> valueGroup [
-	<generated>
-	<navigation: 'Value'>
-	^ MooseSpecializedGroup with: self value
-]

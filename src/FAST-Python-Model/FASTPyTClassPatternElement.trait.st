@@ -46,10 +46,3 @@ FASTPyTClassPatternElement >> parentClassPattern: anObject [
 	<generated>
 	parentClassPattern := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTClassPatternElement >> parentClassPatternGroup [
-	<generated>
-	<navigation: 'ParentClassPattern'>
-	^ MooseSpecializedGroup with: self parentClassPattern
-]

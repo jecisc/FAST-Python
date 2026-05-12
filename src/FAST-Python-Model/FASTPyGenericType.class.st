@@ -68,10 +68,3 @@ FASTPyGenericType >> arguments: anObject [
 	<generated>
 	arguments value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyGenericType >> argumentsGroup [
-	<generated>
-	<navigation: 'Arguments'>
-	^ MooseSpecializedGroup withAll: self arguments asSet
-]
