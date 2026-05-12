@@ -12,25 +12,25 @@ Class {
 BaselineOfFASTPython >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [
-			"Dependencies"
+	spec for: #common do: [ "Dependencies"
 			self
 				fast: spec;
 				treeSitter: spec.
-			
+
 			"Packages"
 			spec
 				package: 'FAST-Python-Model' with: [ spec requires: #( 'FAST' 'TreeSitter' ) ];
 				package: 'FAST-Python-Model-Generator';
 				package: 'FAST-Python-Model-Tests' with: [ spec requires: #( 'FAST-Python-Model' ) ];
-				package: 'FAST-Python-Tools' with: [ spec requires: #( 'FAST-Python-Model' ) ];
-				package: 'FAST-Python-Tools-Tests' with: [ spec requires: #( 'FAST-Python-Tools' ) ].
+				package: 'FAST-Python-Tools' with: [ spec requires: #( 'FAST-Python-Model' 'FAST-Python-Visitor' ) ];
+				package: 'FAST-Python-Tools-Tests' with: [ spec requires: #( 'FAST-Python-Tools' ) ];
+				package: 'FAST-Python-Visitor' with: [ spec requires: #( 'FAST-Python-Model' ) ].
 
 			"Groups"
 			spec
-				group: 'Core' with: #( 'FAST-Python-Model' 'FAST-Python-Tools' );
+				group: 'Core' with: #( 'FAST-Python-Model' 'FAST-Python-Tools' 'FAST-Python-Visitor' );
 				group: 'Generator' with: #( 'FAST-Python-Model-Generator' );
-				group: 'Tests' with: #( 'FAST-Python-Model-Tests' 'FAST-Python-Tools-Tests') ]
+				group: 'Tests' with: #( 'FAST-Python-Model-Tests' 'FAST-Python-Tools-Tests' ) ]
 ]
 
 { #category : 'dependencies' }
