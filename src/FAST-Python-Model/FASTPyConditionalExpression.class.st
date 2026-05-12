@@ -59,13 +59,6 @@ FASTPyConditionalExpression >> elseExpression: anObject [
 	elseExpression := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyConditionalExpression >> elseExpressionGroup [
-	<generated>
-	<navigation: 'ElseExpression'>
-	^ MooseSpecializedGroup with: self elseExpression
-]
-
 { #category : 'accessing' }
 FASTPyConditionalExpression >> thenExpression [
 	"Relation named: #thenExpression type: #FASTPyExpression opposite: #parentConditionalExpressionThen"
@@ -79,11 +72,4 @@ FASTPyConditionalExpression >> thenExpression: anObject [
 
 	<generated>
 	thenExpression := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyConditionalExpression >> thenExpressionGroup [
-	<generated>
-	<navigation: 'ThenExpression'>
-	^ MooseSpecializedGroup with: self thenExpression
 ]

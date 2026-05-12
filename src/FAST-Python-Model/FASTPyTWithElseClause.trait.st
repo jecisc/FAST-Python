@@ -43,10 +43,3 @@ FASTPyTWithElseClause >> elseClause: anObject [
 	<generated>
 	elseClause := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTWithElseClause >> elseClauseGroup [
-	<generated>
-	<navigation: 'ElseClause'>
-	^ MooseSpecializedGroup with: self elseClause
-]

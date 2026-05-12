@@ -60,13 +60,6 @@ FASTPyComparisonOperator >> operands: anObject [
 	operands value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyComparisonOperator >> operandsGroup [
-	<generated>
-	<navigation: 'Operands'>
-	^ MooseSpecializedGroup withAll: self operands asSet
-]
-
 { #category : 'accessing' }
 FASTPyComparisonOperator >> operators [
 

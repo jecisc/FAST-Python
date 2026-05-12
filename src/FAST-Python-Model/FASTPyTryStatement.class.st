@@ -72,13 +72,6 @@ FASTPyTryStatement >> excepts: anObject [
 	excepts value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyTryStatement >> exceptsGroup [
-	<generated>
-	<navigation: 'Excepts'>
-	^ MooseSpecializedGroup withAll: self excepts asSet
-]
-
 { #category : 'accessing' }
 FASTPyTryStatement >> finally [
 	"Relation named: #finally type: #FASTPyFinallyClause opposite: #parentTryStatement"
@@ -92,11 +85,4 @@ FASTPyTryStatement >> finally: anObject [
 
 	<generated>
 	finally := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyTryStatement >> finallyGroup [
-	<generated>
-	<navigation: 'Finally'>
-	^ MooseSpecializedGroup with: self finally
 ]

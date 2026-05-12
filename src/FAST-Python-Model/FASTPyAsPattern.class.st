@@ -56,13 +56,6 @@ FASTPyAsPattern >> source: anObject [
 	source := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyAsPattern >> sourceGroup [
-	<generated>
-	<navigation: 'Source'>
-	^ MooseSpecializedGroup with: self source
-]
-
 { #category : 'accessing' }
 FASTPyAsPattern >> target [
 	"Relation named: #target type: #FASTPyTAsPatternTarget opposite: #parentAsPatternTarget"
@@ -76,11 +69,4 @@ FASTPyAsPattern >> target: anObject [
 
 	<generated>
 	target := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyAsPattern >> targetGroup [
-	<generated>
-	<navigation: 'Target'>
-	^ MooseSpecializedGroup with: self target
 ]

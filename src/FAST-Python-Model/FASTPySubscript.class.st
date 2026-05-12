@@ -72,13 +72,6 @@ FASTPySubscript >> indices: anObject [
 	indices value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPySubscript >> indicesGroup [
-	<generated>
-	<navigation: 'Indices'>
-	^ MooseSpecializedGroup withAll: self indices asSet
-]
-
 { #category : 'accessing' }
 FASTPySubscript >> value [
 	"Relation named: #value type: #FASTPyExpression opposite: #parentSubscriptValue"
@@ -93,11 +86,4 @@ FASTPySubscript >> value: anObject [
 
 	<generated>
 	value := anObject
-]
-
-{ #category : 'navigation' }
-FASTPySubscript >> valueGroup [
-	<generated>
-	<navigation: 'Value'>
-	^ MooseSpecializedGroup with: self value
 ]

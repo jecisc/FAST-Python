@@ -63,10 +63,3 @@ FASTPyThenClause >> parentIfStatement: anObject [
 	<generated>
 	parentIfStatement := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyThenClause >> parentIfStatementGroup [
-	<generated>
-	<navigation: 'ParentIfStatement'>
-	^ MooseSpecializedGroup with: self parentIfStatement
-]

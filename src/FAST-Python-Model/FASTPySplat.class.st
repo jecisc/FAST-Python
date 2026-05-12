@@ -57,13 +57,6 @@ FASTPySplat >> expression: anObject [
 	expression := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPySplat >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]
-
 { #category : 'testing' }
 FASTPySplat >> isDictionarySplat [
 

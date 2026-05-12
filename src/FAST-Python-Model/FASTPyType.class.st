@@ -69,13 +69,6 @@ FASTPyType >> content: anObject [
 	content := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyType >> contentGroup [
-	<generated>
-	<navigation: 'Content'>
-	^ MooseSpecializedGroup with: self content
-]
-
 { #category : 'accessing' }
 FASTPyType >> parentAssignment [
 	"Relation named: #parentAssignment type: #FASTPyAssignment opposite: #type"
@@ -91,13 +84,6 @@ FASTPyType >> parentAssignment: anObject [
 
 	<generated>
 	parentAssignment := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyType >> parentAssignmentGroup [
-	<generated>
-	<navigation: 'ParentAssignment'>
-	^ MooseSpecializedGroup with: self parentAssignment
 ]
 
 { #category : 'accessing' }
@@ -134,20 +120,6 @@ FASTPyType >> parentContrainedTypeBound: anObject [
 	parentContrainedTypeBound := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyType >> parentContrainedTypeBoundGroup [
-	<generated>
-	<navigation: 'ParentContrainedTypeBound'>
-	^ MooseSpecializedGroup with: self parentContrainedTypeBound
-]
-
-{ #category : 'navigation' }
-FASTPyType >> parentContrainedTypeGroup [
-	<generated>
-	<navigation: 'ParentContrainedType'>
-	^ MooseSpecializedGroup with: self parentContrainedType
-]
-
 { #category : 'accessing' }
 FASTPyType >> parentFunctionDefinition [
 	"Relation named: #parentFunctionDefinition type: #FASTPyFunctionDefinition opposite: #returnType"
@@ -165,13 +137,6 @@ FASTPyType >> parentFunctionDefinition: anObject [
 	parentFunctionDefinition := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyType >> parentFunctionDefinitionGroup [
-	<generated>
-	<navigation: 'ParentFunctionDefinition'>
-	^ MooseSpecializedGroup with: self parentFunctionDefinition
-]
-
 { #category : 'accessing' }
 FASTPyType >> parentGenericTypeArgument [
 	"Relation named: #parentGenericTypeArgument type: #FASTPyGenericType opposite: #arguments"
@@ -186,13 +151,6 @@ FASTPyType >> parentGenericTypeArgument: anObject [
 
 	<generated>
 	parentGenericTypeArgument := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyType >> parentGenericTypeArgumentGroup [
-	<generated>
-	<navigation: 'ParentGenericTypeArgument'>
-	^ MooseSpecializedGroup with: self parentGenericTypeArgument
 ]
 
 { #category : 'accessing' }
@@ -212,13 +170,6 @@ FASTPyType >> parentParameter: anObject [
 	parentParameter := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyType >> parentParameterGroup [
-	<generated>
-	<navigation: 'ParentParameter'>
-	^ MooseSpecializedGroup with: self parentParameter
-]
-
 { #category : 'accessing' }
 FASTPyType >> parentUnionType [
 	"Relation named: #parentUnionType type: #FASTPyUnionType opposite: #types"
@@ -235,13 +186,6 @@ FASTPyType >> parentUnionType: anObject [
 	parentUnionType := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyType >> parentUnionTypeGroup [
-	<generated>
-	<navigation: 'ParentUnionType'>
-	^ MooseSpecializedGroup with: self parentUnionType
-]
-
 { #category : 'accessing' }
 FASTPyType >> parentWithTypeParameters [
 	"Relation named: #parentWithTypeParameters type: #FASTPyTWithTypeParameters opposite: #typeParameters"
@@ -256,13 +200,6 @@ FASTPyType >> parentWithTypeParameters: anObject [
 
 	<generated>
 	parentWithTypeParameters := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyType >> parentWithTypeParametersGroup [
-	<generated>
-	<navigation: 'ParentWithTypeParameters'>
-	^ MooseSpecializedGroup with: self parentWithTypeParameters
 ]
 
 { #category : 'accessing' }
@@ -282,13 +219,6 @@ FASTPyType >> parentyTypeAliasStatementAlias: anObject [
 	parentyTypeAliasStatementAlias := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyType >> parentyTypeAliasStatementAliasGroup [
-	<generated>
-	<navigation: 'ParentyTypeAliasStatementAlias'>
-	^ MooseSpecializedGroup with: self parentyTypeAliasStatementAlias
-]
-
 { #category : 'accessing' }
 FASTPyType >> parentyTypeAliasStatementType [
 	"Relation named: #parentyTypeAliasStatementType type: #FASTPyTypeAliasStatement opposite: #right"
@@ -304,11 +234,4 @@ FASTPyType >> parentyTypeAliasStatementType: anObject [
 
 	<generated>
 	parentyTypeAliasStatementType := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyType >> parentyTypeAliasStatementTypeGroup [
-	<generated>
-	<navigation: 'ParentyTypeAliasStatementType'>
-	^ MooseSpecializedGroup with: self parentyTypeAliasStatementType
 ]

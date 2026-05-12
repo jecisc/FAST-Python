@@ -64,13 +64,6 @@ FASTPyParameter >> defaultValue: anObject [
 	defaultValue := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyParameter >> defaultValueGroup [
-	<generated>
-	<navigation: 'DefaultValue'>
-	^ MooseSpecializedGroup with: self defaultValue
-]
-
 { #category : 'testing' }
 FASTPyParameter >> isSelf [
 
@@ -95,11 +88,4 @@ FASTPyParameter >> type: anObject [
 
 	<generated>
 	type := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyParameter >> typeGroup [
-	<generated>
-	<navigation: 'Type'>
-	^ MooseSpecializedGroup with: self type
 ]

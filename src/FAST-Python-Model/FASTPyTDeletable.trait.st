@@ -48,10 +48,3 @@ FASTPyTDeletable >> parentDeleteStatement: anObject [
 	<generated>
 	parentDeleteStatement := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTDeletable >> parentDeleteStatementGroup [
-	<generated>
-	<navigation: 'ParentDeleteStatement'>
-	^ MooseSpecializedGroup with: self parentDeleteStatement
-]

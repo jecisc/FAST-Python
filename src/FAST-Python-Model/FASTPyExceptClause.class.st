@@ -88,13 +88,6 @@ FASTPyExceptClause >> expressions: anObject [
 	expressions value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExceptClause >> expressionsGroup [
-	<generated>
-	<navigation: 'Expressions'>
-	^ MooseSpecializedGroup withAll: self expressions asSet
-]
-
 { #category : 'accessing' }
 FASTPyExceptClause >> parentTryStatement [
 	"Relation named: #parentTryStatement type: #FASTPyTryStatement opposite: #excepts"
@@ -109,11 +102,4 @@ FASTPyExceptClause >> parentTryStatement: anObject [
 
 	<generated>
 	parentTryStatement := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExceptClause >> parentTryStatementGroup [
-	<generated>
-	<navigation: 'ParentTryStatement'>
-	^ MooseSpecializedGroup with: self parentTryStatement
 ]

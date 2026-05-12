@@ -69,10 +69,3 @@ FASTPyTDefinition >> decorators: anObject [
 	<generated>
 	decorators value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTDefinition >> decoratorsGroup [
-	<generated>
-	<navigation: 'Decorators'>
-	^ MooseSpecializedGroup withAll: self decorators asSet
-]

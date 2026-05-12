@@ -85,13 +85,6 @@ FASTPyCaseClause >> parentMatchStatement: anObject [
 	parentMatchStatement := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyCaseClause >> parentMatchStatementGroup [
-	<generated>
-	<navigation: 'ParentMatchStatement'>
-	^ MooseSpecializedGroup with: self parentMatchStatement
-]
-
 { #category : 'accessing' }
 FASTPyCaseClause >> pattern [
 	"Relation named: #pattern type: #FASTPyTPattern opposite: #parentCaseClause"
@@ -105,11 +98,4 @@ FASTPyCaseClause >> pattern: anObject [
 
 	<generated>
 	pattern := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyCaseClause >> patternGroup [
-	<generated>
-	<navigation: 'Pattern'>
-	^ MooseSpecializedGroup with: self pattern
 ]

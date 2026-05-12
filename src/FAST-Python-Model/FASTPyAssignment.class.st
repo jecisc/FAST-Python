@@ -67,13 +67,6 @@ FASTPyAssignment >> left: anObject [
 	left := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyAssignment >> leftGroup [
-	<generated>
-	<navigation: 'Left'>
-	^ MooseSpecializedGroup with: self left
-]
-
 { #category : 'accessing' }
 FASTPyAssignment >> right [
 	"Relation named: #right type: #FASTPyExpression opposite: #parentAssignmentRight"
@@ -89,13 +82,6 @@ FASTPyAssignment >> right: anObject [
 	right := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyAssignment >> rightGroup [
-	<generated>
-	<navigation: 'Right'>
-	^ MooseSpecializedGroup with: self right
-]
-
 { #category : 'accessing' }
 FASTPyAssignment >> type [
 	"Relation named: #type type: #FASTPyType opposite: #parentAssignment"
@@ -109,11 +95,4 @@ FASTPyAssignment >> type: anObject [
 
 	<generated>
 	type := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyAssignment >> typeGroup [
-	<generated>
-	<navigation: 'Type'>
-	^ MooseSpecializedGroup with: self type
 ]

@@ -47,10 +47,3 @@ FASTPyDeleteStatement >> expression: anObject [
 	<generated>
 	expression := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyDeleteStatement >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]

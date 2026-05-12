@@ -47,10 +47,3 @@ FASTPyTDecoratorExpression >> parentDeclarator: anObject [
 	<generated>
 	parentDeclarator := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTDecoratorExpression >> parentDeclaratorGroup [
-	<generated>
-	<navigation: 'ParentDeclarator'>
-	^ MooseSpecializedGroup with: self parentDeclarator
-]

@@ -60,13 +60,6 @@ FASTPyInterpolation >> expression: anObject [
 	expression := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyInterpolation >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]
-
 { #category : 'accessing' }
 FASTPyInterpolation >> formatSpecifier [
 
@@ -96,13 +89,6 @@ FASTPyInterpolation >> parentString: anObject [
 
 	<generated>
 	parentString := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyInterpolation >> parentStringGroup [
-	<generated>
-	<navigation: 'ParentString'>
-	^ MooseSpecializedGroup with: self parentString
 ]
 
 { #category : 'accessing' }

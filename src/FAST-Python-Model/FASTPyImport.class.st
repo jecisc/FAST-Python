@@ -52,10 +52,3 @@ FASTPyImport >> importedEntities: anObject [
 	<generated>
 	importedEntities value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyImport >> importedEntitiesGroup [
-	<generated>
-	<navigation: 'ImportedEntities'>
-	^ MooseSpecializedGroup withAll: self importedEntities asSet
-]

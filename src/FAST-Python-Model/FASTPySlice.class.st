@@ -59,10 +59,3 @@ FASTPySlice >> components: anObject [
 	<generated>
 	components value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPySlice >> componentsGroup [
-	<generated>
-	<navigation: 'Components'>
-	^ MooseSpecializedGroup withAll: self components asSet
-]

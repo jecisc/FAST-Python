@@ -54,13 +54,6 @@ FASTPyPrintStatement >> expressions: anObject [
 	expressions value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyPrintStatement >> expressionsGroup [
-	<generated>
-	<navigation: 'Expressions'>
-	^ MooseSpecializedGroup withAll: self expressions asSet
-]
-
 { #category : 'accessing' }
 FASTPyPrintStatement >> redirection [
 	"Relation named: #redirection type: #FASTPyChevron opposite: #parentPrintStatement"
@@ -74,11 +67,4 @@ FASTPyPrintStatement >> redirection: anObject [
 
 	<generated>
 	redirection := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyPrintStatement >> redirectionGroup [
-	<generated>
-	<navigation: 'Redirection'>
-	^ MooseSpecializedGroup with: self redirection
 ]

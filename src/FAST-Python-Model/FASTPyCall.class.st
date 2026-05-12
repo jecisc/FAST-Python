@@ -84,10 +84,3 @@ FASTPyCall >> callee: anObject [
 	<generated>
 	callee := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyCall >> calleeGroup [
-	<generated>
-	<navigation: 'Callee'>
-	^ MooseSpecializedGroup with: self callee
-]

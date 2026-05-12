@@ -44,10 +44,3 @@ FASTPySplatParameter >> target: anObject [
 	<generated>
 	target := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPySplatParameter >> targetGroup [
-	<generated>
-	<navigation: 'Target'>
-	^ MooseSpecializedGroup with: self target
-]

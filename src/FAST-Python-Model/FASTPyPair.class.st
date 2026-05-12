@@ -47,13 +47,6 @@ FASTPyPair >> key: anObject [
 	key := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyPair >> keyGroup [
-	<generated>
-	<navigation: 'Key'>
-	^ MooseSpecializedGroup with: self key
-]
-
 { #category : 'accessing' }
 FASTPyPair >> value [
 	"Relation named: #value type: #FASTPyExpression opposite: #parentPairValuer"
@@ -67,11 +60,4 @@ FASTPyPair >> value: anObject [
 
 	<generated>
 	value := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyPair >> valueGroup [
-	<generated>
-	<navigation: 'Value'>
-	^ MooseSpecializedGroup with: self value
 ]

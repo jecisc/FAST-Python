@@ -75,10 +75,3 @@ FASTPyFunctionDefinition >> returnType: anObject [
 	<generated>
 	returnType := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyFunctionDefinition >> returnTypeGroup [
-	<generated>
-	<navigation: 'ReturnType'>
-	^ MooseSpecializedGroup with: self returnType
-]

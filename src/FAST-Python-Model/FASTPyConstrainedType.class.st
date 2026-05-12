@@ -56,13 +56,6 @@ FASTPyConstrainedType >> bound: anObject [
 	bound := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyConstrainedType >> boundGroup [
-	<generated>
-	<navigation: 'Bound'>
-	^ MooseSpecializedGroup with: self bound
-]
-
 { #category : 'accessing' }
 FASTPyConstrainedType >> type [
 	"Relation named: #type type: #FASTPyType opposite: #parentContrainedType"
@@ -76,11 +69,4 @@ FASTPyConstrainedType >> type: anObject [
 
 	<generated>
 	type := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyConstrainedType >> typeGroup [
-	<generated>
-	<navigation: 'Type'>
-	^ MooseSpecializedGroup with: self type
 ]

@@ -63,13 +63,6 @@ FASTPyVariable >> parentGlobalStatement: anObject [
 	parentGlobalStatement := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyVariable >> parentGlobalStatementGroup [
-	<generated>
-	<navigation: 'ParentGlobalStatement'>
-	^ MooseSpecializedGroup with: self parentGlobalStatement
-]
-
 { #category : 'accessing' }
 FASTPyVariable >> parentNonlocalStatement [
 	"Relation named: #parentNonlocalStatement type: #FASTPyNonlocalStatement opposite: #variables"
@@ -85,11 +78,4 @@ FASTPyVariable >> parentNonlocalStatement: anObject [
 
 	<generated>
 	parentNonlocalStatement := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyVariable >> parentNonlocalStatementGroup [
-	<generated>
-	<navigation: 'ParentNonlocalStatement'>
-	^ MooseSpecializedGroup with: self parentNonlocalStatement
 ]

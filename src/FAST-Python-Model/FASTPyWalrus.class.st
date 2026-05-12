@@ -59,10 +59,3 @@ FASTPyWalrus >> value: anObject [
 	<generated>
 	value := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyWalrus >> valueGroup [
-	<generated>
-	<navigation: 'Value'>
-	^ MooseSpecializedGroup with: self value
-]

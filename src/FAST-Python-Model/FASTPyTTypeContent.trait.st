@@ -47,10 +47,3 @@ FASTPyTTypeContent >> parentType: anObject [
 	<generated>
 	parentType := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTTypeContent >> parentTypeGroup [
-	<generated>
-	<navigation: 'ParentType'>
-	^ MooseSpecializedGroup with: self parentType
-]
