@@ -1,8 +1,9 @@
 Class {
 	#name : 'FASTPythonVisitor',
 	#superclass : 'TSFASTCustomizableVisitor',
-	#category : 'FAST-Python-Tools',
-	#package : 'FAST-Python-Tools'
+	#category : 'FAST-Python-Tools-Importing',
+	#package : 'FAST-Python-Tools',
+	#tag : 'Importing'
 }
 
 { #category : 'class initialization' }
