@@ -60,10 +60,3 @@ FASTPyUnionPattern >> members: anObject [
 	<generated>
 	members value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyUnionPattern >> membersGroup [
-	<generated>
-	<navigation: 'Members'>
-	^ MooseSpecializedGroup withAll: self members asSet
-]

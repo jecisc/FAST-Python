@@ -62,10 +62,3 @@ FASTPyClassPattern >> elements: anObject [
 	<generated>
 	elements value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyClassPattern >> elementsGroup [
-	<generated>
-	<navigation: 'Elements'>
-	^ MooseSpecializedGroup withAll: self elements asSet
-]

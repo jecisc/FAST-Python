@@ -54,13 +54,6 @@ FASTPyMatchStatement >> cases: anObject [
 	cases value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyMatchStatement >> casesGroup [
-	<generated>
-	<navigation: 'Cases'>
-	^ MooseSpecializedGroup withAll: self cases asSet
-]
-
 { #category : 'accessing' }
 FASTPyMatchStatement >> subject [
 	"Relation named: #subject type: #FASTPyExpression opposite: #parentMatchStatement"
@@ -74,11 +67,4 @@ FASTPyMatchStatement >> subject: anObject [
 
 	<generated>
 	subject := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyMatchStatement >> subjectGroup [
-	<generated>
-	<navigation: 'Subject'>
-	^ MooseSpecializedGroup with: self subject
 ]

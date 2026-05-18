@@ -47,10 +47,3 @@ FASTPyTAsPatternSource >> parentAsPatternSource: anObject [
 	<generated>
 	parentAsPatternSource := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTAsPatternSource >> parentAsPatternSourceGroup [
-	<generated>
-	<navigation: 'ParentAsPatternSource'>
-	^ MooseSpecializedGroup with: self parentAsPatternSource
-]

@@ -48,10 +48,3 @@ FASTPyTCallable >> caller: anObject [
 	<generated>
 	caller := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTCallable >> callerGroup [
-	<generated>
-	<navigation: 'Caller'>
-	^ MooseSpecializedGroup with: self caller
-]

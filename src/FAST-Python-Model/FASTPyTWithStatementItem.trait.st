@@ -46,10 +46,3 @@ FASTPyTWithStatementItem >> parentWithStatementItem: anObject [
 	<generated>
 	parentWithStatementItem := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTWithStatementItem >> parentWithStatementItemGroup [
-	<generated>
-	<navigation: 'ParentWithStatementItem'>
-	^ MooseSpecializedGroup with: self parentWithStatementItem
-]

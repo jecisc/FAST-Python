@@ -53,10 +53,3 @@ FASTPyLambda >> expression: anObject [
 	<generated>
 	expression := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyLambda >> expressionGroup [
-	<generated>
-	<navigation: 'Expression'>
-	^ MooseSpecializedGroup with: self expression
-]

@@ -70,13 +70,6 @@ FASTPyComprehension >> body: anObject [
 	body := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyComprehension >> bodyGroup [
-	<generated>
-	<navigation: 'Body'>
-	^ MooseSpecializedGroup with: self body
-]
-
 { #category : 'accessing' }
 FASTPyComprehension >> conditions [
 	"Relation named: #conditions type: #FASTPyExpression opposite: #parentComprehensionCondition"
@@ -93,13 +86,6 @@ FASTPyComprehension >> conditions: anObject [
 	conditions value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyComprehension >> conditionsGroup [
-	<generated>
-	<navigation: 'Conditions'>
-	^ MooseSpecializedGroup withAll: self conditions asSet
-]
-
 { #category : 'accessing' }
 FASTPyComprehension >> forClauses [
 	"Relation named: #forClauses type: #FASTPyExpression opposite: #parentComprehensionForClause"
@@ -114,11 +100,4 @@ FASTPyComprehension >> forClauses: anObject [
 
 	<generated>
 	forClauses value: anObject
-]
-
-{ #category : 'navigation' }
-FASTPyComprehension >> forClausesGroup [
-	<generated>
-	<navigation: 'ForClauses'>
-	^ MooseSpecializedGroup withAll: self forClauses asSet
 ]

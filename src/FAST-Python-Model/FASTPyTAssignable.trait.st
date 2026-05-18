@@ -47,10 +47,3 @@ FASTPyTAssignable >> parentAssignmentLeft: anObject [
 	<generated>
 	parentAssignmentLeft := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTAssignable >> parentAssignmentLeftGroup [
-	<generated>
-	<navigation: 'ParentAssignmentLeft'>
-	^ MooseSpecializedGroup with: self parentAssignmentLeft
-]

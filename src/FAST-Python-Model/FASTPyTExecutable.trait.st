@@ -47,10 +47,3 @@ FASTPyTExecutable >> parentExecStatement: anObject [
 	<generated>
 	parentExecStatement := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTExecutable >> parentExecStatementGroup [
-	<generated>
-	<navigation: 'ParentExecStatement'>
-	^ MooseSpecializedGroup with: self parentExecStatement
-]

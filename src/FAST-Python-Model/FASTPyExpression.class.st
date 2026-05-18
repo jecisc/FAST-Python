@@ -126,13 +126,6 @@ FASTPyExpression >> collectionInitializer: anObject [
 	collectionInitializer := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> collectionInitializerGroup [
-	<generated>
-	<navigation: 'CollectionInitializer'>
-	^ MooseSpecializedGroup with: self collectionInitializer
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentAssertStatement [
 	"Relation named: #parentAssertStatement type: #FASTPyAssertStatement opposite: #expressions"
@@ -150,13 +143,6 @@ FASTPyExpression >> parentAssertStatement: anObject [
 	parentAssertStatement := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentAssertStatementGroup [
-	<generated>
-	<navigation: 'ParentAssertStatement'>
-	^ MooseSpecializedGroup with: self parentAssertStatement
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentAssignmentRight [
 	"Relation named: #parentAssignmentRight type: #FASTPyAssignment opposite: #right"
@@ -172,13 +158,6 @@ FASTPyExpression >> parentAssignmentRight: anObject [
 
 	<generated>
 	parentAssignmentRight := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentAssignmentRightGroup [
-	<generated>
-	<navigation: 'ParentAssignmentRight'>
-	^ MooseSpecializedGroup with: self parentAssignmentRight
 ]
 
 { #category : 'accessing' }
@@ -199,13 +178,6 @@ FASTPyExpression >> parentAttributeObject: anObject [
 	parentAttributeObject := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentAttributeObjectGroup [
-	<generated>
-	<navigation: 'ParentAttributeObject'>
-	^ MooseSpecializedGroup with: self parentAttributeObject
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentChevron [
 	"Relation named: #parentChevron type: #FASTPyChevron opposite: #expression"
@@ -221,13 +193,6 @@ FASTPyExpression >> parentChevron: anObject [
 
 	<generated>
 	parentChevron := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentChevronGroup [
-	<generated>
-	<navigation: 'ParentChevron'>
-	^ MooseSpecializedGroup with: self parentChevron
 ]
 
 { #category : 'accessing' }
@@ -247,13 +212,6 @@ FASTPyExpression >> parentComparisonOperator: anObject [
 	parentComparisonOperator := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentComparisonOperatorGroup [
-	<generated>
-	<navigation: 'ParentComparisonOperator'>
-	^ MooseSpecializedGroup with: self parentComparisonOperator
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentComprehensionBody [
 	"Relation named: #parentComprehensionBody type: #FASTPyComprehension opposite: #body"
@@ -269,13 +227,6 @@ FASTPyExpression >> parentComprehensionBody: anObject [
 
 	<generated>
 	parentComprehensionBody := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentComprehensionBodyGroup [
-	<generated>
-	<navigation: 'ParentComprehensionBody'>
-	^ MooseSpecializedGroup with: self parentComprehensionBody
 ]
 
 { #category : 'accessing' }
@@ -294,13 +245,6 @@ FASTPyExpression >> parentComprehensionCondition: anObject [
 	parentComprehensionCondition := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentComprehensionConditionGroup [
-	<generated>
-	<navigation: 'ParentComprehensionCondition'>
-	^ MooseSpecializedGroup with: self parentComprehensionCondition
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentComprehensionForClause [
 	"Relation named: #parentComprehensionForClause type: #FASTPyComprehension opposite: #forClauses"
@@ -315,13 +259,6 @@ FASTPyExpression >> parentComprehensionForClause: anObject [
 
 	<generated>
 	parentComprehensionForClause := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentComprehensionForClauseGroup [
-	<generated>
-	<navigation: 'ParentComprehensionForClause'>
-	^ MooseSpecializedGroup with: self parentComprehensionForClause
 ]
 
 { #category : 'accessing' }
@@ -341,13 +278,6 @@ FASTPyExpression >> parentConditionalExpressionElse: anObject [
 	parentConditionalExpressionElse := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentConditionalExpressionElseGroup [
-	<generated>
-	<navigation: 'ParentConditionalExpressionElse'>
-	^ MooseSpecializedGroup with: self parentConditionalExpressionElse
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentConditionalExpressionThen [
 	"Relation named: #parentConditionalExpressionThen type: #FASTPyConditionalExpression opposite: #thenExpression"
@@ -363,13 +293,6 @@ FASTPyExpression >> parentConditionalExpressionThen: anObject [
 
 	<generated>
 	parentConditionalExpressionThen := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentConditionalExpressionThenGroup [
-	<generated>
-	<navigation: 'ParentConditionalExpressionThen'>
-	^ MooseSpecializedGroup with: self parentConditionalExpressionThen
 ]
 
 { #category : 'accessing' }
@@ -389,13 +312,6 @@ FASTPyExpression >> parentDefaultParameterValue: anObject [
 	parentDefaultParameterValue := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentDefaultParameterValueGroup [
-	<generated>
-	<navigation: 'ParentDefaultParameterValue'>
-	^ MooseSpecializedGroup with: self parentDefaultParameterValue
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentExceptClause [
 	"Relation named: #parentExceptClause type: #FASTPyExceptClause opposite: #expressions"
@@ -412,13 +328,6 @@ FASTPyExpression >> parentExceptClause: anObject [
 	parentExceptClause := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentExceptClauseGroup [
-	<generated>
-	<navigation: 'ParentExceptClause'>
-	^ MooseSpecializedGroup with: self parentExceptClause
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentExecStatementScopes [
 	"Relation named: #parentExecStatementScopes type: #FASTPyExecStatement opposite: #scopes"
@@ -433,13 +342,6 @@ FASTPyExpression >> parentExecStatementScopes: anObject [
 
 	<generated>
 	parentExecStatementScopes := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentExecStatementScopesGroup [
-	<generated>
-	<navigation: 'ParentExecStatementScopes'>
-	^ MooseSpecializedGroup with: self parentExecStatementScopes
 ]
 
 { #category : 'accessing' }
@@ -459,13 +361,6 @@ FASTPyExpression >> parentForInClauseLeft: anObject [
 	parentForInClauseLeft := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentForInClauseLeftGroup [
-	<generated>
-	<navigation: 'ParentForInClauseLeft'>
-	^ MooseSpecializedGroup with: self parentForInClauseLeft
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentForInClauseRight [
 	"Relation named: #parentForInClauseRight type: #FASTPyForInClause opposite: #right"
@@ -481,13 +376,6 @@ FASTPyExpression >> parentForInClauseRight: anObject [
 
 	<generated>
 	parentForInClauseRight := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentForInClauseRightGroup [
-	<generated>
-	<navigation: 'ParentForInClauseRight'>
-	^ MooseSpecializedGroup with: self parentForInClauseRight
 ]
 
 { #category : 'accessing' }
@@ -508,13 +396,6 @@ FASTPyExpression >> parentForStatementLeft: anObject [
 	parentForStatementLeft := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentForStatementLeftGroup [
-	<generated>
-	<navigation: 'ParentForStatementLeft'>
-	^ MooseSpecializedGroup with: self parentForStatementLeft
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentForStatementRight [
 	"Relation named: #parentForStatementRight type: #FASTPyForStatement opposite: #left"
@@ -531,13 +412,6 @@ FASTPyExpression >> parentForStatementRight: anObject [
 
 	<generated>
 	parentForStatementRight := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentForStatementRightGroup [
-	<generated>
-	<navigation: 'ParentForStatementRight'>
-	^ MooseSpecializedGroup with: self parentForStatementRight
 ]
 
 { #category : 'accessing' }
@@ -557,13 +431,6 @@ FASTPyExpression >> parentIfClause: anObject [
 	parentIfClause := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentIfClauseGroup [
-	<generated>
-	<navigation: 'ParentIfClause'>
-	^ MooseSpecializedGroup with: self parentIfClause
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentInterpolation [
 	"Relation named: #parentInterpolation type: #FASTPyInterpolation opposite: #expression"
@@ -579,13 +446,6 @@ FASTPyExpression >> parentInterpolation: anObject [
 
 	<generated>
 	parentInterpolation := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentInterpolationGroup [
-	<generated>
-	<navigation: 'ParentInterpolation'>
-	^ MooseSpecializedGroup with: self parentInterpolation
 ]
 
 { #category : 'accessing' }
@@ -606,13 +466,6 @@ FASTPyExpression >> parentKeywordArgument: anObject [
 	parentKeywordArgument := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentKeywordArgumentGroup [
-	<generated>
-	<navigation: 'ParentKeywordArgument'>
-	^ MooseSpecializedGroup with: self parentKeywordArgument
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentLambda [
 	"Relation named: #parentLambda type: #FASTPyLambda opposite: #expression"
@@ -628,13 +481,6 @@ FASTPyExpression >> parentLambda: anObject [
 
 	<generated>
 	parentLambda := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentLambdaGroup [
-	<generated>
-	<navigation: 'ParentLambda'>
-	^ MooseSpecializedGroup with: self parentLambda
 ]
 
 { #category : 'accessing' }
@@ -654,13 +500,6 @@ FASTPyExpression >> parentMatchStatement: anObject [
 	parentMatchStatement := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentMatchStatementGroup [
-	<generated>
-	<navigation: 'ParentMatchStatement'>
-	^ MooseSpecializedGroup with: self parentMatchStatement
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentPairKey [
 	"Relation named: #parentPairKey type: #FASTPyPair opposite: #key"
@@ -676,13 +515,6 @@ FASTPyExpression >> parentPairKey: anObject [
 
 	<generated>
 	parentPairKey := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentPairKeyGroup [
-	<generated>
-	<navigation: 'ParentPairKey'>
-	^ MooseSpecializedGroup with: self parentPairKey
 ]
 
 { #category : 'accessing' }
@@ -702,13 +534,6 @@ FASTPyExpression >> parentPairValuer: anObject [
 	parentPairValuer := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentPairValuerGroup [
-	<generated>
-	<navigation: 'ParentPairValuer'>
-	^ MooseSpecializedGroup with: self parentPairValuer
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentSlice [
 	"Relation named: #parentSlice type: #FASTPySlice opposite: #components"
@@ -724,13 +549,6 @@ FASTPyExpression >> parentSlice: anObject [
 
 	<generated>
 	parentSlice := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentSliceGroup [
-	<generated>
-	<navigation: 'ParentSlice'>
-	^ MooseSpecializedGroup with: self parentSlice
 ]
 
 { #category : 'accessing' }
@@ -751,13 +569,6 @@ FASTPyExpression >> parentSubscriptValue: anObject [
 	parentSubscriptValue := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentSubscriptValueGroup [
-	<generated>
-	<navigation: 'ParentSubscriptValue'>
-	^ MooseSpecializedGroup with: self parentSubscriptValue
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentUnaryOperator [
 	"Relation named: #parentUnaryOperator type: #FASTPyTUnaryOperator opposite: #argument"
@@ -774,13 +585,6 @@ FASTPyExpression >> parentUnaryOperator: anObject [
 
 	<generated>
 	parentUnaryOperator := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> parentUnaryOperatorGroup [
-	<generated>
-	<navigation: 'ParentUnaryOperator'>
-	^ MooseSpecializedGroup with: self parentUnaryOperator
 ]
 
 { #category : 'accessing' }
@@ -800,13 +604,6 @@ FASTPyExpression >> parentWalrus: anObject [
 	parentWalrus := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentWalrusGroup [
-	<generated>
-	<navigation: 'ParentWalrus'>
-	^ MooseSpecializedGroup with: self parentWalrus
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> parentYield [
 	"Relation named: #parentYield type: #FASTPyYield opposite: #expression"
@@ -824,13 +621,6 @@ FASTPyExpression >> parentYield: anObject [
 	parentYield := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExpression >> parentYieldGroup [
-	<generated>
-	<navigation: 'ParentYield'>
-	^ MooseSpecializedGroup with: self parentYield
-]
-
 { #category : 'accessing' }
 FASTPyExpression >> prarentPrintStatement [
 	"Relation named: #prarentPrintStatement type: #FASTPyPrintStatement opposite: #expressions"
@@ -845,11 +635,4 @@ FASTPyExpression >> prarentPrintStatement: anObject [
 
 	<generated>
 	prarentPrintStatement := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExpression >> prarentPrintStatementGroup [
-	<generated>
-	<navigation: 'PrarentPrintStatement'>
-	^ MooseSpecializedGroup with: self prarentPrintStatement
 ]

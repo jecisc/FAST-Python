@@ -44,10 +44,3 @@ FASTPyTUnaryOperator >> argument: anObject [
 	<generated>
 	argument := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTUnaryOperator >> argumentGroup [
-	<generated>
-	<navigation: 'Argument'>
-	^ MooseSpecializedGroup with: self argument
-]

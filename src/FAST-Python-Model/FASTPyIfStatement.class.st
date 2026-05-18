@@ -71,13 +71,6 @@ FASTPyIfStatement >> elifClauses: anObject [
 	elifClauses value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyIfStatement >> elifClausesGroup [
-	<generated>
-	<navigation: 'ElifClauses'>
-	^ MooseSpecializedGroup withAll: self elifClauses asSet
-]
-
 { #category : 'accessing' }
 FASTPyIfStatement >> thenClause [
 	"Relation named: #thenClause type: #FASTPyThenClause opposite: #parentIfStatement"
@@ -91,11 +84,4 @@ FASTPyIfStatement >> thenClause: anObject [
 
 	<generated>
 	thenClause := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyIfStatement >> thenClauseGroup [
-	<generated>
-	<navigation: 'ThenClause'>
-	^ MooseSpecializedGroup with: self thenClause
 ]

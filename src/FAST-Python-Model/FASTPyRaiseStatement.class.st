@@ -44,10 +44,3 @@ FASTPyRaiseStatement >> exception: anObject [
 	<generated>
 	exception := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyRaiseStatement >> exceptionGroup [
-	<generated>
-	<navigation: 'Exception'>
-	^ MooseSpecializedGroup with: self exception
-]

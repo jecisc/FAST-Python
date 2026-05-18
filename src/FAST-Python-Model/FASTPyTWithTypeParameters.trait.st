@@ -52,10 +52,3 @@ FASTPyTWithTypeParameters >> typeParameters: anObject [
 	<generated>
 	typeParameters value: anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTWithTypeParameters >> typeParametersGroup [
-	<generated>
-	<navigation: 'TypeParameters'>
-	^ MooseSpecializedGroup withAll: self typeParameters asSet
-]

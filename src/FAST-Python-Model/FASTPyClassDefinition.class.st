@@ -90,13 +90,6 @@ FASTPyClassDefinition >> keywords: anObject [
 	keywords value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyClassDefinition >> keywordsGroup [
-	<generated>
-	<navigation: 'Keywords'>
-	^ MooseSpecializedGroup withAll: self keywords asSet
-]
-
 { #category : 'accessing' }
 FASTPyClassDefinition >> superclasses [
 	"Relation named: #superclasses type: #FASTPyTSuperclass opposite: #parentClassDefinition"
@@ -111,11 +104,4 @@ FASTPyClassDefinition >> superclasses: anObject [
 
 	<generated>
 	superclasses value: anObject
-]
-
-{ #category : 'navigation' }
-FASTPyClassDefinition >> superclassesGroup [
-	<generated>
-	<navigation: 'Superclasses'>
-	^ MooseSpecializedGroup withAll: self superclasses asSet
 ]

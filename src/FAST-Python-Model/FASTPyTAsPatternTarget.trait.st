@@ -50,10 +50,3 @@ FASTPyTAsPatternTarget >> parentAsPatternTarget: anObject [
 	<generated>
 	parentAsPatternTarget := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTAsPatternTarget >> parentAsPatternTargetGroup [
-	<generated>
-	<navigation: 'ParentAsPatternTarget'>
-	^ MooseSpecializedGroup with: self parentAsPatternTarget
-]

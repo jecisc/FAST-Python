@@ -47,10 +47,3 @@ FASTPyTRaised >> parentRaiseStatement: anObject [
 	<generated>
 	parentRaiseStatement := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTRaised >> parentRaiseStatementGroup [
-	<generated>
-	<navigation: 'ParentRaiseStatement'>
-	^ MooseSpecializedGroup with: self parentRaiseStatement
-]

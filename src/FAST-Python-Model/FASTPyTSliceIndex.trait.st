@@ -47,10 +47,3 @@ FASTPyTSliceIndex >> parentSubscriptIndex: anObject [
 	<generated>
 	parentSubscriptIndex := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTSliceIndex >> parentSubscriptIndexGroup [
-	<generated>
-	<navigation: 'ParentSubscriptIndex'>
-	^ MooseSpecializedGroup with: self parentSubscriptIndex
-]

@@ -78,13 +78,6 @@ FASTPyString >> interpolations: anObject [
 	interpolations value: anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyString >> interpolationsGroup [
-	<generated>
-	<navigation: 'Interpolations'>
-	^ MooseSpecializedGroup withAll: self interpolations asSet
-]
-
 { #category : 'accessing' }
 FASTPyString >> parentConcatenatedString [
 	"Relation named: #parentConcatenatedString type: #FASTPyConcatenatedString opposite: #strings"
@@ -99,11 +92,4 @@ FASTPyString >> parentConcatenatedString: anObject [
 
 	<generated>
 	parentConcatenatedString := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyString >> parentConcatenatedStringGroup [
-	<generated>
-	<navigation: 'ParentConcatenatedString'>
-	^ MooseSpecializedGroup with: self parentConcatenatedString
 ]

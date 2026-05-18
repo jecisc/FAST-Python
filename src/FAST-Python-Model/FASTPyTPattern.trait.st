@@ -52,13 +52,6 @@ FASTPyTPattern >> parentCaseClause: anObject [
 	parentCaseClause := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyTPattern >> parentCaseClauseGroup [
-	<generated>
-	<navigation: 'ParentCaseClause'>
-	^ MooseSpecializedGroup with: self parentCaseClause
-]
-
 { #category : 'accessing' }
 FASTPyTPattern >> parentKeywordPatternValue [
 	"Relation named: #parentKeywordPatternValue type: #FASTPyKeywordPattern opposite: #value"
@@ -76,13 +69,6 @@ FASTPyTPattern >> parentKeywordPatternValue: anObject [
 	parentKeywordPatternValue := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyTPattern >> parentKeywordPatternValueGroup [
-	<generated>
-	<navigation: 'ParentKeywordPatternValue'>
-	^ MooseSpecializedGroup with: self parentKeywordPatternValue
-]
-
 { #category : 'accessing' }
 FASTPyTPattern >> parentUnionPattern [
 	"Relation named: #parentUnionPattern type: #FASTPyUnionPattern opposite: #members"
@@ -97,11 +83,4 @@ FASTPyTPattern >> parentUnionPattern: anObject [
 
 	<generated>
 	parentUnionPattern := anObject
-]
-
-{ #category : 'navigation' }
-FASTPyTPattern >> parentUnionPatternGroup [
-	<generated>
-	<navigation: 'ParentUnionPattern'>
-	^ MooseSpecializedGroup with: self parentUnionPattern
 ]

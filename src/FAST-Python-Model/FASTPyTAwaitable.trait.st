@@ -47,10 +47,3 @@ FASTPyTAwaitable >> parentAwait: anObject [
 	<generated>
 	parentAwait := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyTAwaitable >> parentAwaitGroup [
-	<generated>
-	<navigation: 'ParentAwait'>
-	^ MooseSpecializedGroup with: self parentAwait
-]

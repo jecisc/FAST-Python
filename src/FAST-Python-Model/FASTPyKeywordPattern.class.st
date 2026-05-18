@@ -63,10 +63,3 @@ FASTPyKeywordPattern >> value: anObject [
 	<generated>
 	value := anObject
 ]
-
-{ #category : 'navigation' }
-FASTPyKeywordPattern >> valueGroup [
-	<generated>
-	<navigation: 'Value'>
-	^ MooseSpecializedGroup with: self value
-]

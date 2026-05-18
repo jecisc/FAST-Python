@@ -53,13 +53,6 @@ FASTPyExecStatement >> code: anObject [
 	code := anObject
 ]
 
-{ #category : 'navigation' }
-FASTPyExecStatement >> codeGroup [
-	<generated>
-	<navigation: 'Code'>
-	^ MooseSpecializedGroup with: self code
-]
-
 { #category : 'accessing' }
 FASTPyExecStatement >> scopes [
 	"Relation named: #scopes type: #FASTPyExpression opposite: #parentExecStatementScopes"
@@ -74,11 +67,4 @@ FASTPyExecStatement >> scopes: anObject [
 
 	<generated>
 	scopes value: anObject
-]
-
-{ #category : 'navigation' }
-FASTPyExecStatement >> scopesGroup [
-	<generated>
-	<navigation: 'Scopes'>
-	^ MooseSpecializedGroup withAll: self scopes asSet
 ]
