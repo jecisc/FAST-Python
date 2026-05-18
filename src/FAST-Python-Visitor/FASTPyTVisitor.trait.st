@@ -134,16 +134,14 @@ FASTPyTVisitor >> visitFASTPyCaseClause: aFASTPyCaseClause [
 	self visitFASTTStatementBlock: aFASTPyCaseClause.
 	self visitFASTTWithCondition: aFASTPyCaseClause.
 
-	self visitEntity: aFASTPyCaseClause pattern.
-	self visitEntity: aFASTPyCaseClause parentMatchStatement
+	self visitEntity: aFASTPyCaseClause pattern
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyChevron: aFASTPyChevron [
 
 	<generated>
-	self visitEntity: aFASTPyChevron expression.
-	self visitEntity: aFASTPyChevron parentPrintStatement
+	self visitEntity: aFASTPyChevron expression
 ]
 
 { #category : 'visiting' }
@@ -258,8 +256,7 @@ FASTPyTVisitor >> visitFASTPyContinueStatement: aFASTPyContinueStatement [
 FASTPyTVisitor >> visitFASTPyDecorator: aFASTPyDecorator [
 
 	<generated>
-	self visitEntity: aFASTPyDecorator expression.
-	self visitEntity: aFASTPyDecorator parentDefinition
+	self visitEntity: aFASTPyDecorator expression
 ]
 
 { #category : 'visiting' }
@@ -308,7 +305,7 @@ FASTPyTVisitor >> visitFASTPyElifClause: aFASTPyElifClause [
 	self visitFASTTConditionalStatement: aFASTPyElifClause.
 	self visitFASTTStatementBlock: aFASTPyElifClause.
 
-	self visitEntity: aFASTPyElifClause parentIfStatement
+
 ]
 
 { #category : 'visiting' }
@@ -324,7 +321,7 @@ FASTPyTVisitor >> visitFASTPyElseClause: aFASTPyElseClause [
 	<generated>
 	self visitFASTTStatementBlock: aFASTPyElseClause.
 
-	self visitEntity: aFASTPyElseClause parentIfStatement
+
 ]
 
 { #category : 'visiting' }
@@ -355,8 +352,7 @@ FASTPyTVisitor >> visitFASTPyExceptClause: aFASTPyExceptClause [
 	<generated>
 	self visitFASTTStatementBlock: aFASTPyExceptClause.
 
-	self visitCollection: aFASTPyExceptClause expressions.
-	self visitEntity: aFASTPyExceptClause parentTryStatement
+	self visitCollection: aFASTPyExceptClause expressions
 ]
 
 { #category : 'visiting' }
@@ -378,37 +374,7 @@ FASTPyTVisitor >> visitFASTPyExpression: aFASTPyExpression [
 	self visitFASTTExpression: aFASTPyExpression.
 	self visitFASTPyStatement: aFASTPyExpression.
 
-	self visitEntity: aFASTPyExpression parentAssignmentRight.
-	self visitEntity: aFASTPyExpression parentAssertStatement.
-	self visitEntity: aFASTPyExpression parentAttributeObject.
-	self visitEntity: aFASTPyExpression parentChevron.
-	self visitEntity: aFASTPyExpression collectionInitializer.
-	self visitEntity: aFASTPyExpression parentComparisonOperator.
-	self visitEntity: aFASTPyExpression parentComprehensionBody.
-	self visitEntity: aFASTPyExpression parentComprehensionForClause.
-	self visitEntity: aFASTPyExpression parentComprehensionCondition.
-	self visitEntity: aFASTPyExpression parentConditionalExpressionThen.
-	self visitEntity: aFASTPyExpression parentConditionalExpressionElse.
-	self visitEntity: aFASTPyExpression parentExceptClause.
-	self visitEntity: aFASTPyExpression parentExecStatementScopes.
-	self visitEntity: aFASTPyExpression parentForInClauseLeft.
-	self visitEntity: aFASTPyExpression parentForInClauseRight.
-	self visitEntity: aFASTPyExpression parentForStatementLeft.
-	self visitEntity: aFASTPyExpression parentForStatementRight.
-	self visitEntity: aFASTPyExpression parentIfClause.
-	self visitEntity: aFASTPyExpression parentInterpolation.
-	self visitEntity: aFASTPyExpression parentKeywordArgument.
-	self visitEntity: aFASTPyExpression parentLambda.
-	self visitEntity: aFASTPyExpression parentMatchStatement.
-	self visitEntity: aFASTPyExpression parentWalrus.
-	self visitEntity: aFASTPyExpression parentPairKey.
-	self visitEntity: aFASTPyExpression parentPairValuer.
-	self visitEntity: aFASTPyExpression parentDefaultParameterValue.
-	self visitEntity: aFASTPyExpression prarentPrintStatement.
-	self visitEntity: aFASTPyExpression parentSlice.
-	self visitEntity: aFASTPyExpression parentSubscriptValue.
-	self visitEntity: aFASTPyExpression parentUnaryOperator.
-	self visitEntity: aFASTPyExpression parentYield
+
 ]
 
 { #category : 'visiting' }
@@ -417,7 +383,7 @@ FASTPyTVisitor >> visitFASTPyFinallyClause: aFASTPyFinallyClause [
 	<generated>
 	self visitFASTTStatementBlock: aFASTPyFinallyClause.
 
-	self visitEntity: aFASTPyFinallyClause parentTryStatement
+
 ]
 
 { #category : 'visiting' }
@@ -461,7 +427,7 @@ FASTPyTVisitor >> visitFASTPyFormatExpression: aFASTPyFormatExpression [
 FASTPyTVisitor >> visitFASTPyFromModule: aFASTPyFromModule [
 
 	<generated>
-	self visitEntity: aFASTPyFromModule import
+
 ]
 
 { #category : 'visiting' }
@@ -563,7 +529,7 @@ FASTPyTVisitor >> visitFASTPyImportStatement: aFASTPyImportStatement [
 FASTPyTVisitor >> visitFASTPyImportedEntity: aFASTPyImportedEntity [
 
 	<generated>
-	self visitEntity: aFASTPyImportedEntity import
+
 ]
 
 { #category : 'visiting' }
@@ -578,8 +544,7 @@ FASTPyTVisitor >> visitFASTPyInteger: aFASTPyInteger [
 FASTPyTVisitor >> visitFASTPyInterpolation: aFASTPyInterpolation [
 
 	<generated>
-	self visitEntity: aFASTPyInterpolation expression.
-	self visitEntity: aFASTPyInterpolation parentString
+	self visitEntity: aFASTPyInterpolation expression
 ]
 
 { #category : 'visiting' }
@@ -589,7 +554,6 @@ FASTPyTVisitor >> visitFASTPyKeywordArgument: aFASTPyKeywordArgument [
 	self visitFASTTNamedEntity: aFASTPyKeywordArgument.
 	self visitFASTPyExpression: aFASTPyKeywordArgument.
 
-	self visitEntity: aFASTPyKeywordArgument parentClassDefinition.
 	self visitEntity: aFASTPyKeywordArgument value
 ]
 
@@ -856,7 +820,6 @@ FASTPyTVisitor >> visitFASTPyString: aFASTPyString [
 	self visitFASTTStringLiteral: aFASTPyString.
 	self visitFASTPyLiteral: aFASTPyString.
 
-	self visitEntity: aFASTPyString parentConcatenatedString.
 	self visitCollection: aFASTPyString interpolations
 ]
 
@@ -876,7 +839,7 @@ FASTPyTVisitor >> visitFASTPySubscript: aFASTPySubscript [
 FASTPyTVisitor >> visitFASTPyTAsPatternSource: aFASTPyTAsPatternSource [
 
 	<generated>
-	self visitEntity: aFASTPyTAsPatternSource parentAsPatternSource
+
 ]
 
 { #category : 'visiting' }
@@ -885,42 +848,42 @@ FASTPyTVisitor >> visitFASTPyTAsPatternTarget: aFASTPyTAsPatternTarget [
 	<generated>
 	self visitFASTPyTAsPatternSource: aFASTPyTAsPatternTarget.
 
-	self visitEntity: aFASTPyTAsPatternTarget parentAsPatternTarget
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTAssignable: aFASTPyTAssignable [
 
 	<generated>
-	self visitEntity: aFASTPyTAssignable parentAssignmentLeft
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTAwaitable: aFASTPyTAwaitable [
 
 	<generated>
-	self visitEntity: aFASTPyTAwaitable parentAwait
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTCallable: aFASTPyTCallable [
 
 	<generated>
-	self visitEntity: aFASTPyTCallable caller
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTClassPatternElement: aFASTPyTClassPatternElement [
 
 	<generated>
-	self visitEntity: aFASTPyTClassPatternElement parentClassPattern
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTDecoratorExpression: aFASTPyTDecoratorExpression [
 
 	<generated>
-	self visitEntity: aFASTPyTDecoratorExpression parentDeclarator
+
 ]
 
 { #category : 'visiting' }
@@ -937,30 +900,28 @@ FASTPyTVisitor >> visitFASTPyTDefinition: aFASTPyTDefinition [
 FASTPyTVisitor >> visitFASTPyTDeletable: aFASTPyTDeletable [
 
 	<generated>
-	self visitEntity: aFASTPyTDeletable parentDeleteStatement
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTExecutable: aFASTPyTExecutable [
 
 	<generated>
-	self visitEntity: aFASTPyTExecutable parentExecStatement
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTPattern: aFASTPyTPattern [
 
 	<generated>
-	self visitEntity: aFASTPyTPattern parentCaseClause.
-	self visitEntity: aFASTPyTPattern parentKeywordPatternValue.
-	self visitEntity: aFASTPyTPattern parentUnionPattern
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTRaised: aFASTPyTRaised [
 
 	<generated>
-	self visitEntity: aFASTPyTRaised parentRaiseStatement
+
 ]
 
 { #category : 'visiting' }
@@ -983,35 +944,35 @@ FASTPyTVisitor >> visitFASTPyTReturnReferenceable: aFASTPyTReturnReferenceable [
 FASTPyTVisitor >> visitFASTPyTSliceIndex: aFASTPyTSliceIndex [
 
 	<generated>
-	self visitEntity: aFASTPyTSliceIndex parentSubscriptIndex
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTSplatExpression: aFASTPyTSplatExpression [
 
 	<generated>
-	self visitEntity: aFASTPyTSplatExpression parentSplat
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTSplatParameterTarget: aFASTPyTSplatParameterTarget [
 
 	<generated>
-	self visitEntity: aFASTPyTSplatParameterTarget parentSplatParameter
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTSuperclass: aFASTPyTSuperclass [
 
 	<generated>
-	self visitEntity: aFASTPyTSuperclass parentClassDefinition
+
 ]
 
 { #category : 'visiting' }
 FASTPyTVisitor >> visitFASTPyTTypeContent: aFASTPyTTypeContent [
 
 	<generated>
-	self visitEntity: aFASTPyTTypeContent parentType
+
 ]
 
 { #category : 'visiting' }
@@ -1032,7 +993,7 @@ FASTPyTVisitor >> visitFASTPyTWithElseClause: aFASTPyTWithElseClause [
 FASTPyTVisitor >> visitFASTPyTWithStatementItem: aFASTPyTWithStatementItem [
 
 	<generated>
-	self visitEntity: aFASTPyTWithStatementItem parentWithStatementItem
+
 ]
 
 { #category : 'visiting' }
@@ -1048,7 +1009,7 @@ FASTPyTVisitor >> visitFASTPyThenClause: aFASTPyThenClause [
 	<generated>
 	self visitFASTTStatementBlock: aFASTPyThenClause.
 
-	self visitEntity: aFASTPyThenClause parentIfStatement
+
 ]
 
 { #category : 'visiting' }
@@ -1077,17 +1038,7 @@ FASTPyTVisitor >> visitFASTPyTuple: aFASTPyTuple [
 FASTPyTVisitor >> visitFASTPyType: aFASTPyType [
 
 	<generated>
-	self visitEntity: aFASTPyType parentAssignment.
-	self visitEntity: aFASTPyType parentContrainedType.
-	self visitEntity: aFASTPyType parentContrainedTypeBound.
-	self visitEntity: aFASTPyType parentFunctionDefinition.
-	self visitEntity: aFASTPyType parentGenericTypeArgument.
-	self visitEntity: aFASTPyType parentParameter.
-	self visitEntity: aFASTPyType content.
-	self visitEntity: aFASTPyType parentyTypeAliasStatementAlias.
-	self visitEntity: aFASTPyType parentyTypeAliasStatementType.
-	self visitEntity: aFASTPyType parentWithTypeParameters.
-	self visitEntity: aFASTPyType parentUnionType
+	self visitEntity: aFASTPyType content
 ]
 
 { #category : 'visiting' }
@@ -1148,8 +1099,7 @@ FASTPyTVisitor >> visitFASTPyVariable: aFASTPyVariable [
 	self visitFASTTVariableEntity: aFASTPyVariable.
 	self visitFASTPyIdentifier: aFASTPyVariable.
 
-	self visitEntity: aFASTPyVariable parentGlobalStatement.
-	self visitEntity: aFASTPyVariable parentNonlocalStatement
+
 ]
 
 { #category : 'visiting' }
