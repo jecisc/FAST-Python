@@ -99,5 +99,5 @@ FASTPythonImporter >> tsLanguage [
 { #category : 'accessing' }
 FASTPythonImporter >> visitorClass [
 
-	^ FASTPythonVisitor
+	^ FASTPythonTreeSitterVisitor
 ]
