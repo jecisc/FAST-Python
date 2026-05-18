@@ -8,3 +8,10 @@ Class {
 	#package : 'FAST-Python-Tools',
 	#tag : 'CFG/DataFlow'
 }
+
+{ #category : 'initialization' }
+FASTPythonCFGBuilder >> initialize [
+
+	super initialize.
+	cfgVisitor := FASTPythonCFGVisitor new
+]
