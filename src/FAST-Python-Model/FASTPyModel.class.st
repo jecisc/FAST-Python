@@ -20,3 +20,9 @@ FASTPyModel class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 ]
+
+{ #category : 'as yet unclassified' }
+FASTPyModel >> allFunctionDefinitions [
+
+	^ self allWithType: FASTPyFunctionDefinition
+]

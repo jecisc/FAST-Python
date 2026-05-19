@@ -12,7 +12,8 @@ Class {
 { #category : 'running' }
 FASTPythonCFGTest >> buildCFGFor: aString [
 
-	startBlock := builder buildCFGForModel: (self parse: aString) rootEntities anyOne
+	self flag: #todo. "What should be the entry point?"
+	startBlock := builder buildCFGForModel: (self parse: aString) allFunctionDefinitions first
 ]
 
 { #category : 'running' }
@@ -31,10 +32,19 @@ FASTPythonCFGTest >> setUp [
 ]
 
 { #category : 'tests' }
+FASTPythonCFGTest >> testFunctionWithIf [
+
+	self buildCFGFor: 'def funct():
+	print("Hello")'.
+	self skip.
+	self halt
+]
+
+{ #category : 'tests' }
 FASTPythonCFGTest >> testFunctionWithOneStatement [
 
 	self buildCFGFor: 'def funct():
-	return 3'.
+	print("Hello")'.
 
 	self halt
 ]

@@ -126,6 +126,14 @@ FASTPyExpression >> collectionInitializer: anObject [
 	collectionInitializer := anObject
 ]
 
+{ #category : 'testing' }
+FASTPyExpression >> isExpressionStatement [
+
+	self containersDo: [ :container | (container isOfType: FASTTStatementBlock) ifTrue: [ ^ true ] ].
+
+	^ false
+]
+
 { #category : 'accessing' }
 FASTPyExpression >> parentAssertStatement [
 	"Relation named: #parentAssertStatement type: #FASTPyAssertStatement opposite: #expressions"

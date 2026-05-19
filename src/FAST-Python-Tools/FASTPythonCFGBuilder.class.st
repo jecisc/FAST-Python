@@ -13,5 +13,5 @@ Class {
 FASTPythonCFGBuilder >> initialize [
 
 	super initialize.
-	cfgVisitor := FASTPythonCFGVisitor new
+	self cfgVisitor: FASTPythonCFGVisitor new
 ]
