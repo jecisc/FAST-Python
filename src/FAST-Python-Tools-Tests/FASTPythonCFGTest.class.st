@@ -32,19 +32,12 @@ FASTPythonCFGTest >> setUp [
 ]
 
 { #category : 'tests' }
-FASTPythonCFGTest >> testFunctionWithIf [
-
-	self buildCFGFor: 'def funct():
-	print("Hello")'.
-	self skip.
-	self halt
-]
-
-{ #category : 'tests' }
 FASTPythonCFGTest >> testFunctionWithOneStatement [
 
 	self buildCFGFor: 'def funct():
 	print("Hello")'.
 
-	self halt
+	self assert: startBlock isStart.
+	self assert: startBlock nextBlock isNullBlock.
+	self assert: startBlock statements size equals: 1
 ]

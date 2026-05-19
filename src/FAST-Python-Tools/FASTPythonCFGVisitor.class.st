@@ -17,8 +17,8 @@ FASTPythonCFGVisitor >> visitFASTPyExpression: aFASTPyExpression [
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
-
-	super visitFASTPyFunctionDefinition: aFunction.
+	"We do not manage the function in itself only its content"
+	(aFunction containedEntities sorted: #endPos ascending) do: [ :child | child accept: self ].
 
 	cfgBuilder basicBlocks first isStart: true.
 
@@ -30,7 +30,10 @@ FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
 
 	| currentBlock |
-	cfgBuilder currentBlock ifNil: [ cfgBuilder newBasicBlock: FASTBasicBlock ].
+	cfgBuilder currentBlock ifNil: [
+			| newBlock |
+			newBlock := cfgBuilder newBasicBlock: FASTBasicBlock.
+			cfgBuilder addPendingNextBlockAction: [ :nextBlock | newBlock nextBlock: nextBlock ] ].
 
 	currentBlock := cfgBuilder currentBlock.
 
