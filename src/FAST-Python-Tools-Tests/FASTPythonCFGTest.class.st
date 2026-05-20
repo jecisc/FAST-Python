@@ -41,3 +41,30 @@ FASTPythonCFGTest >> testFunctionWithOneStatement [
 	self assert: startBlock nextBlock isNullBlock.
 	self assert: startBlock statements size equals: 1
 ]
+
+{ #category : 'tests' }
+FASTPythonCFGTest >> testFunctionWithSimpleReturn [
+
+	self buildCFGFor: 'def funct():
+	i = 0
+	i += 4
+	print(i)
+	return i'.
+
+	self assert: startBlock isStart.
+	self assert: startBlock nextBlock isNullBlock.
+	self assert: startBlock statements size equals: 4
+]
+
+{ #category : 'tests' }
+FASTPythonCFGTest >> testFunctionWithSimpleStatements [
+
+	self buildCFGFor: 'def funct():
+	i = 0
+	i += 4
+	print(i)'.
+
+	self assert: startBlock isStart.
+	self assert: startBlock nextBlock isNullBlock.
+	self assert: startBlock statements size equals: 3
+]

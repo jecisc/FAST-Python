@@ -1140,3 +1140,10 @@ FASTPyTVisitor >> visitFASTPyYield: aFASTPyYield [
 
 	self visitEntity: aFASTPyYield expression
 ]
+
+{ #category : 'visiting' }
+FASTPyTVisitor >> visitFASTTReturnStatement: aFASTTReturnStatement [
+	"We skip #visitFASTTStatement: because in Python this is already managed in the superclass."
+
+	self visitEntity: aFASTTReturnStatement expression
+]

@@ -27,6 +27,15 @@ FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyReturnStatement: aReturn [
+
+	super visitFASTPyReturnStatement: aReturn.
+
+	"We know that a return mark the end of a graph branch"
+	cfgBuilder currentBlock nextBlock: FASTNullBlock new
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
 
 	| currentBlock |
