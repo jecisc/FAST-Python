@@ -246,7 +246,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 
 	comparisonOperator := builder newClassNamed: #ComparisonOperator.
 
-	(comprehension := builder newClassNamed: #Comprehension) comment:
+	(comprehension := builder newAbstractClassNamed: #Comprehension) comment:
 		'I am an abstract class for comprehensions. Comprehensions are a structure in python to generate some collections or a generator.'.
 
 	(complex := builder newClassNamed: #Complex) comment: 'I represent a complex number such as `2j`'.
@@ -279,7 +279,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	escapeSequence := builder newClassNamed: #EscapeSequence.
 	exceptClause := builder newClassNamed: #ExceptClause.
 	execStatement := builder newClassNamed: #ExecStatement.
-	expression := builder newClassNamed: #Expression.
+	expression := builder newAbstractClassNamed: #Expression.
 	finallyClause := builder newClassNamed: #FinallyClause.
 	float := builder newClassNamed: #Float.
 	forInClause := builder newClassNamed: #ForInClause.
@@ -306,7 +306,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 	lambdaParameters := builder newClassNamed: #LambdaParameters.
 	list := builder newClassNamed: #List.
 	listComprehension := builder newClassNamed: #ListComprehension.
-	literal := builder newClassNamed: #Literal.
+	literal := builder newAbstractClassNamed: #Literal.
 	matchStatement := builder newClassNamed: #MatchStatement.
 	memberType := builder newClassNamed: #MemberType.
 	methodDefinition := builder newClassNamed: #MethodDefinition.
@@ -331,7 +331,7 @@ FASTPythonMetamodelGenerator >> defineClasses [
 		'In Python a collection (list or dictionary) splat is the unpacking of a collection in a call or in the definition of another definition like `[ *list , 4 ]` or `func(*list)`'.
 	splatParameter := builder newClassNamed: #SplatParameter.
 	splatType := builder newClassNamed: #SplatType.
-	statement := builder newClassNamed: #Statement.
+	statement := builder newAbstractClassNamed: #Statement.
 	string := builder newClassNamed: #String.
 	subscript := builder newClassNamed: #Subscript.
 	thenClause := builder newClassNamed: #ThenClause.

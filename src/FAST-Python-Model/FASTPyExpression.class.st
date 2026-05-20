@@ -106,7 +106,15 @@ FASTPyExpression class >> annotation [
 	<FMClass: #Expression super: #FASTPyStatement>
 	<package: #'FAST-Python-Model'>
 	<generated>
+	<abstract>
 	^ self
+]
+
+{ #category : 'testing' }
+FASTPyExpression class >> isAbstract [
+
+	<generated>
+	^ self == FASTPyExpression
 ]
 
 { #category : 'accessing' }

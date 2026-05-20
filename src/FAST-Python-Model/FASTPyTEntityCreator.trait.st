@@ -154,13 +154,6 @@ FASTPyTEntityCreator >> newComplex [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newComprehension [
-
-	<generated>
-	^ self add: FASTPyComprehension new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newConcatenatedString [
 
 	<generated>
@@ -277,13 +270,6 @@ FASTPyTEntityCreator >> newExecStatement [
 
 	<generated>
 	^ self add: FASTPyExecStatement new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newExpression [
-
-	<generated>
-	^ self add: FASTPyExpression new
 ]
 
 { #category : 'entity creation' }
@@ -469,13 +455,6 @@ FASTPyTEntityCreator >> newListComprehension [
 ]
 
 { #category : 'entity creation' }
-FASTPyTEntityCreator >> newLiteral [
-
-	<generated>
-	^ self add: FASTPyLiteral new
-]
-
-{ #category : 'entity creation' }
 FASTPyTEntityCreator >> newMatchStatement [
 
 	<generated>
@@ -627,13 +606,6 @@ FASTPyTEntityCreator >> newSplatType [
 
 	<generated>
 	^ self add: FASTPySplatType new
-]
-
-{ #category : 'entity creation' }
-FASTPyTEntityCreator >> newStatement [
-
-	<generated>
-	^ self add: FASTPyStatement new
 ]
 
 { #category : 'entity creation' }

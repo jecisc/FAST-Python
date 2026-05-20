@@ -40,7 +40,15 @@ FASTPyComprehension class >> annotation [
 	<FMClass: #Comprehension super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
+	<abstract>
 	^ self
+]
+
+{ #category : 'testing' }
+FASTPyComprehension class >> isAbstract [
+
+	<generated>
+	^ self == FASTPyComprehension
 ]
 
 { #category : 'adding' }

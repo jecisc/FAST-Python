@@ -44,5 +44,13 @@ FASTPyLiteral class >> annotation [
 	<FMClass: #Literal super: #FASTPyExpression>
 	<package: #'FAST-Python-Model'>
 	<generated>
+	<abstract>
 	^ self
+]
+
+{ #category : 'testing' }
+FASTPyLiteral class >> isAbstract [
+
+	<generated>
+	^ self == FASTPyLiteral
 ]
