@@ -107,7 +107,6 @@ FASTPyExpression class >> annotation [
 	<package: #'FAST-Python-Model'>
 	<generated>
 	<abstract>
-	^ self
 ]
 
 { #category : 'testing' }

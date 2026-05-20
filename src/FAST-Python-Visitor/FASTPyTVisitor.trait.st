@@ -1,6 +1,8 @@
 "
 I am a visitor for FASTPyEntities. 
 I am generated with the metamodel.
+
+
 "
 Trait {
 	#name : 'FASTPyTVisitor',
@@ -15,9 +17,8 @@ Trait {
 FASTPyTVisitor classSide >> annotation [
 
 	<FMClass: #TVisitor super: #Object>
-	<package: #'FAST-Python-Model'>
+	<package: #'FAST-Python-Visitor'>
 	<generated>
-	^ self
 ]
 
 { #category : 'visiting' }
