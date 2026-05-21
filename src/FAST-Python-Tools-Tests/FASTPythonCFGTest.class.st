@@ -32,6 +32,29 @@ FASTPythonCFGTest >> setUp [
 ]
 
 { #category : 'tests' }
+FASTPythonCFGTest >> testFunctionWithIf [
+
+	| nextBlock |
+	self skip.
+	self flag: #todo. "Finish"
+	self buildCFGFor: 'def f(i):
+    if i > 3:
+        print(i)'.
+
+	self assert: startBlock isConditional.
+	self assert: startBlock isFinal. "If the condition is false then the block is indeed final"
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assert: (startBlock nextBlock select: #isNullBlock) size equals: 1.
+
+	nextBlock := startBlock nextBlockForValue: true.
+	self assert: nextBlock isConditional not.
+	self assert: nextBlock isFinal.
+	self assertEmpty: nextBlock statements
+]
+
+{ #category : 'tests' }
 FASTPythonCFGTest >> testFunctionWithOneStatement [
 
 	self buildCFGFor: 'def funct():

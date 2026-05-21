@@ -36,6 +36,14 @@ FASTPythonCFGVisitor >> visitFASTPyReturnStatement: aReturn [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTTConditionalStatement: aStatement [
+
+	cfgBuilder newConditionalBlock: aStatement.
+
+	super visitFASTTConditionalStatement: aStatement
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
 
 	| currentBlock |
