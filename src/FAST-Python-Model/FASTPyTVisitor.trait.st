@@ -6,10 +6,8 @@ I am generated with the metamodel.
 "
 Trait {
 	#name : 'FASTPyTVisitor',
-	#traits : 'FASTTVisitor',
-	#classTraits : 'FASTTVisitor classTrait',
-	#category : 'FAST-Python-Visitor-Visitor',
-	#package : 'FAST-Python-Visitor',
+	#category : 'FAST-Python-Model-Visitor',
+	#package : 'FAST-Python-Model',
 	#tag : 'Visitor'
 }
 
@@ -17,8 +15,22 @@ Trait {
 FASTPyTVisitor classSide >> annotation [
 
 	<FMClass: #TVisitor super: #Object>
-	<package: #'FAST-Python-Visitor'>
+	<package: #'FAST-Python-Model'>
 	<generated>
+]
+
+{ #category : 'visiting' }
+FASTPyTVisitor >> visitCollection: aCollection [
+
+	<generated>
+	^ aCollection collect: [ :each | each accept: self ]
+]
+
+{ #category : 'visiting' }
+FASTPyTVisitor >> visitEntity: aFamixEntity [
+
+	<generated>
+	^ aFamixEntity ifNotNil: [ aFamixEntity accept: self ]
 ]
 
 { #category : 'visiting' }
@@ -1268,6 +1280,13 @@ FASTPyTVisitor >> visitFASTTVariableEntity: aTVariableEntity [
 	self visitFASTTNamedEntity: aTVariableEntity.
 
 
+]
+
+{ #category : 'visiting' }
+FASTPyTVisitor >> visitFASTTWithArguments: aTWithArguments [
+
+	<generated>
+	self visitCollection: aTWithArguments arguments
 ]
 
 { #category : 'visiting' }

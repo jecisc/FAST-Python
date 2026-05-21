@@ -6,6 +6,7 @@ Class {
 	#superclass : 'Object',
 	#traits : 'FASTPyTVisitor',
 	#classTraits : 'FASTPyTVisitor classTrait',
-	#category : 'FAST-Python-Visitor',
-	#package : 'FAST-Python-Visitor'
+	#category : 'FAST-Python-Model-Visitor',
+	#package : 'FAST-Python-Model',
+	#tag : 'Visitor'
 }

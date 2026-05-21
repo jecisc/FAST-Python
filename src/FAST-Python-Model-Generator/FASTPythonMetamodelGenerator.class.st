@@ -174,12 +174,6 @@ FASTPythonMetamodelGenerator class >> packageName [
 ]
 
 { #category : 'accessing' }
-FASTPythonMetamodelGenerator class >> packageNameForVisitor [
-
-	^ #'FAST-Python-Visitor'
-]
-
-{ #category : 'accessing' }
 FASTPythonMetamodelGenerator class >> prefix [
 
 	^ #FASTPy
