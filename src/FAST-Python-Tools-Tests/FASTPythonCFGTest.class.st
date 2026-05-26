@@ -34,24 +34,28 @@ FASTPythonCFGTest >> setUp [
 { #category : 'tests' }
 FASTPythonCFGTest >> testFunctionWithIf [
 
-	| nextBlock |
-	self skip.
-	self flag: #todo. "Finish"
+	| thenBlock nullBlock |
 	self buildCFGFor: 'def f(i):
     if i > 3:
         print(i)'.
 
 	self assert: startBlock isConditional.
-	self assert: startBlock isFinal. "If the condition is false then the block is indeed final"
+	self deny: startBlock isExit.
 	self assert: startBlock statements size equals: 1.
-	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
+	self assert: (startBlock firstStatement class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
-	self assert: (startBlock nextBlock select: #isNullBlock) size equals: 1.
+	self assert: (startBlock nextBlocks select: #isNullBlock) size equals: 1.
 
-	nextBlock := startBlock nextBlockForValue: true.
-	self assert: nextBlock isConditional not.
-	self assert: nextBlock isFinal.
-	self assertEmpty: nextBlock statements
+	thenBlock := startBlock nextTrueBlock.
+	self assert: thenBlock isConditional not.
+	self deny: thenBlock isExit.
+	self assert: thenBlock statements size equals: 1.
+	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+
+	nullBlock := startBlock nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: nullBlock identicalTo: thenBlock nextBlock.
+	self assert: nullBlock isExit
 ]
 
 { #category : 'tests' }
@@ -61,8 +65,9 @@ FASTPythonCFGTest >> testFunctionWithOneStatement [
 	print("Hello")'.
 
 	self assert: startBlock isStart.
-	self assert: startBlock nextBlock isNullBlock.
-	self assert: startBlock statements size equals: 1
+	self assert: startBlock isFinal.
+	self assert: startBlock statements size equals: 1.
+	self assertEmpty: startBlock nextBlocks
 ]
 
 { #category : 'tests' }
@@ -75,8 +80,9 @@ FASTPythonCFGTest >> testFunctionWithSimpleReturn [
 	return i'.
 
 	self assert: startBlock isStart.
-	self assert: startBlock nextBlock isNullBlock.
-	self assert: startBlock statements size equals: 4
+	self assert: startBlock isFinal.
+	self assert: startBlock statements size equals: 4.
+	self assertEmpty: startBlock nextBlocks
 ]
 
 { #category : 'tests' }
@@ -88,6 +94,7 @@ FASTPythonCFGTest >> testFunctionWithSimpleStatements [
 	print(i)'.
 
 	self assert: startBlock isStart.
-	self assert: startBlock nextBlock isNullBlock.
-	self assert: startBlock statements size equals: 3
+	self assert: startBlock isFinal.
+	self assert: startBlock statements size equals: 3.
+	self assertEmpty: startBlock nextBlocks
 ]

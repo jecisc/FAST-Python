@@ -33,15 +33,10 @@ FASTCFGVisualizationBuilder >> basicBlockShape: aBasicBlock [
 
 	| shape |
 	shape := aBasicBlock isStart
-		         ifTrue: [
-				         aBasicBlock isFinal
-					         ifTrue: [ self startAndFinalBlockShape ]
-					         ifFalse: [ self startBlockShape ] ]
-		         ifFalse: [
-				         aBasicBlock isFinal
-					         ifTrue: [ self finalBlockShape ]
-					         ifFalse: [ self normalBlockShape ] ].
+		         ifTrue: [ aBasicBlock nextBlocks ifEmpty: [ self startAndFinalBlockShape ] ifNotEmpty: [ self startBlockShape ] ]
+		         ifFalse: [ aBasicBlock nextBlocks ifEmpty: [ self finalBlockShape ] ifNotEmpty: [ self normalBlockShape ] ].
 	aBasicBlock isConditional ifTrue: [ shape color: self conditionalBlockColor ].
+	aBasicBlock isNullBlock ifTrue: [ shape color: self nullBlockColor ].
 	^ shape
 ]
 
@@ -58,6 +53,7 @@ FASTCFGVisualizationBuilder >> buildLegend [
 	legend text: 'start & final block' withShape: self startAndFinalBlockShape.
 	legend text: 'Normal block' withShape: self normalBlockShape.
 	legend text: 'Conditional block' withShape: (self normalBlockShape color: self conditionalBlockColor).
+	legend text: 'Null block' withShape: (self normalBlockShape color: self nullBlockColor).
 	legend build
 ]
 
@@ -108,6 +104,12 @@ FASTCFGVisualizationBuilder >> normalBlockShape [
 	^ RSBox new
 		  size: 20;
 		  yourself
+]
+
+{ #category : 'hooks' }
+FASTCFGVisualizationBuilder >> nullBlockColor [
+
+	^ Color green
 ]
 
 { #category : 'instance creation' }

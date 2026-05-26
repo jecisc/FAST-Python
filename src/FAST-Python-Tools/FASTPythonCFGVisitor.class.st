@@ -18,29 +18,44 @@ FASTPythonCFGVisitor >> visitFASTPyExpression: aFASTPyExpression [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 	"We do not manage the function in itself only its content"
+
 	(aFunction containedEntities sorted: #endPos ascending) do: [ :child | child accept: self ].
 
 	cfgBuilder basicBlocks first isStart: true.
 
-	"case where method has no return instruction (void signature)"
-	cfgBuilder currentBlock ifNotNil: [ cfgBuilder chainPendingBlocksTo: FASTNullBlock new ]
+	"If an if ends without having an else part and without having further statements, we add a null block."
+	cfgBuilder basicBlocks
+		detect: [ :block | block isConditional and: [ block nextFalseBlock isNil ] ]
+		ifFound: [ cfgBuilder newBasicBlock: FASTNullBlock ]
 ]
 
 { #category : 'visiting' }
-FASTPythonCFGVisitor >> visitFASTPyReturnStatement: aReturn [
+FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
+	"We do not want to apply the visit statement in the case of the if"
 
-	super visitFASTPyReturnStatement: aReturn.
+	| conditionalBlock |
+	self visitFASTTConditionalStatement: anIfStatement.
+	conditionalBlock := cfgBuilder currentBlock.
 
-	"We know that a return mark the end of a graph branch"
-	cfgBuilder currentBlock nextBlock: FASTNullBlock new
+	self visitEntity: anIfStatement thenClause.
+
+	"adding a new pending action, either for the new else block or following code if no elsePart"
+	cfgBuilder addPendingNextBlockAction: [ :elseOrNextBlock | conditionalBlock nextBlock: elseOrNextBlock onValue: false ].
+
+	self visitCollection: anIfStatement elifClauses.
+
+	self visitFASTPyTWithElseClause: anIfStatement
 ]
 
 { #category : 'visiting' }
-FASTPythonCFGVisitor >> visitFASTTConditionalStatement: aStatement [
+FASTPythonCFGVisitor >> visitFASTPyThenClause: aThenClause [
 
-	cfgBuilder newConditionalBlock: aStatement.
+	| conditionalBlock |
+	conditionalBlock := cfgBuilder currentBlock.
+	cfgBuilder addPendingNextBlockAction: [ :thenBlock | conditionalBlock nextBlock: thenBlock onValue: true ].
+	cfgBuilder closeCurrentBlock.
 
-	super visitFASTTConditionalStatement: aStatement
+	super visitFASTPyThenClause: aThenClause
 ]
 
 { #category : 'visiting' }
@@ -65,4 +80,12 @@ FASTPythonCFGVisitor >> visitFASTTStatementBlock: aFASTTStatementBlock [
 	"We do not consider the block as a statemert."
 
 	self visitCollection: aFASTTStatementBlock statements
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTTWithCondition: aStatement [
+
+	cfgBuilder newConditionalBlock: aStatement condition.
+
+	super visitFASTTWithCondition: aStatement
 ]
