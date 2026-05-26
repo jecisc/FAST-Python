@@ -32,7 +32,7 @@ FASTPythonCFGTest >> setUp [
 ]
 
 { #category : 'tests' }
-FASTPythonCFGTest >> testFunctionWithIf [
+FASTPythonCFGTest >> testFunctionWithFinalIfThen [
 
 	| thenBlock nullBlock |
 	self buildCFGFor: 'def f(i):
@@ -56,6 +56,36 @@ FASTPythonCFGTest >> testFunctionWithIf [
 	self assert: nullBlock isNullBlock.
 	self assert: nullBlock identicalTo: thenBlock nextBlock.
 	self assert: nullBlock isExit
+]
+
+{ #category : 'tests' }
+FASTPythonCFGTest >> testFunctionWithIfThen [
+
+	| thenBlock returnBlock |
+	self buildCFGFor: 'def f(i):
+    if i > 3:
+        print(i)
+    return True'.
+
+	self assert: startBlock isConditional.
+	self deny: startBlock isExit.
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock firstStatement class isOfType: FASTPyComparisonOperator).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
+
+	thenBlock := startBlock nextTrueBlock.
+	self assert: thenBlock isConditional not.
+	self deny: thenBlock isExit.
+	self assert: thenBlock statements size equals: 1.
+	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+
+	returnBlock := startBlock nextFalseBlock.
+	self deny: returnBlock isNullBlock.
+	self assert: returnBlock identicalTo: thenBlock nextBlock.
+	self assert: returnBlock isExit.
+	self assert: returnBlock statements size equals: 1.
+	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
 ]
 
 { #category : 'tests' }

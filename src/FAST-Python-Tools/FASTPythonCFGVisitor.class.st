@@ -55,7 +55,10 @@ FASTPythonCFGVisitor >> visitFASTPyThenClause: aThenClause [
 	cfgBuilder addPendingNextBlockAction: [ :thenBlock | conditionalBlock nextBlock: thenBlock onValue: true ].
 	cfgBuilder closeCurrentBlock.
 
-	super visitFASTPyThenClause: aThenClause
+	super visitFASTPyThenClause: aThenClause.
+
+	"We close the then block."
+	cfgBuilder closeCurrentBlock
 ]
 
 { #category : 'visiting' }
