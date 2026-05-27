@@ -33,8 +33,14 @@ FASTCFGVisualizationBuilder >> basicBlockShape: aBasicBlock [
 
 	| shape |
 	shape := aBasicBlock isStart
-		         ifTrue: [ aBasicBlock nextBlocks ifEmpty: [ self startAndFinalBlockShape ] ifNotEmpty: [ self startBlockShape ] ]
-		         ifFalse: [ aBasicBlock nextBlocks ifEmpty: [ self finalBlockShape ] ifNotEmpty: [ self normalBlockShape ] ].
+		         ifTrue: [
+				         aBasicBlock isFinal
+					         ifTrue: [ self startAndFinalBlockShape ]
+					         ifFalse: [ self startBlockShape ] ]
+		         ifFalse: [
+				         aBasicBlock isFinal
+					         ifTrue: [ self finalBlockShape ]
+					         ifFalse: [ self normalBlockShape ] ].
 	aBasicBlock isConditional ifTrue: [ shape color: self conditionalBlockColor ].
 	aBasicBlock isNullBlock ifTrue: [ shape color: self nullBlockColor ].
 	^ shape
