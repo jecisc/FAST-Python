@@ -128,7 +128,12 @@ FASTCFGVisualizationBuilder >> openOn: aCFGNode [
 	self buildLines: shapes.
 
 	canvas addAll: shapes.
-	[ RSTreeLayout on: shapes ] valueWithin: 5 seconds onTimeout: [ self inform: 'Tree layout computation takes too long. Aborted' ].
+	[
+		RSTreeLayout new
+			horizontalGap: 100;
+			verticalGap: 50;
+			isLayered: true;
+			applyOn: shapes ] valueWithin: 5 seconds onTimeout: [ self inform: 'Tree layout computation takes too long. Aborted' ].
 
 	self buildLegend.
 

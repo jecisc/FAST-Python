@@ -47,18 +47,30 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 			self visitFASTTConditionalStatement: anIfStatement.
 
 			self visitEntity: anIfStatement thenClause.
-			self buildBlockIfNeeded.
 
 			self flag: #todo. "Elif not managed yet"
 			self visitCollection: anIfStatement elifClauses.
 
-			self visitFASTPyTWithElseClause: anIfStatement.
-			self buildBlockIfNeeded ]
+			self visitFASTPyTWithElseClause: anIfStatement ]
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyTWithElseClause: anElseClause [
+
+	super visitFASTPyTWithElseClause: anElseClause.
+	self buildBlockIfNeeded
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyThenClause: aThenClause [
+
+	super visitFASTPyThenClause: aThenClause.
+	self buildBlockIfNeeded
 ]
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
-	"Register the statement in the list of statements to create the current block"
+	"Register the statement in the list of statements to create the current block once we find a conditional or the end of a block"
 
 	self addStatement: aStatement.
 
