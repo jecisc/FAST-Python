@@ -1,24 +1,12 @@
 Class {
 	#name : 'FASTPythonCFGVisitor',
 	#superclass : 'FASTPythonVisitor',
-	#traits : 'FASTTCFGUtility',
-	#classTraits : 'FASTTCFGUtility classTrait',
+	#traits : 'FASTTCFGVisitor',
+	#classTraits : 'FASTTCFGVisitor classTrait',
 	#category : 'FAST-Python-Tools-CFG/DataFlow',
 	#package : 'FAST-Python-Tools',
 	#tag : 'CFG/DataFlow'
 }
-
-{ #category : 'accessing' }
-FASTPythonCFGVisitor >> currentStatements [
-	^ currentStatements
-]
-
-{ #category : 'initialization' }
-FASTPythonCFGVisitor >> initialize [
-
-	super initialize.
-	self initializeCFG
-]
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyExpression: aFASTPyExpression [
@@ -33,36 +21,61 @@ FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 
 	(aFunction containedEntities sorted: #endPos ascending) do: [ :child | child accept: self ].
 
-	self buildBlockIfNeeded
+	cfgBuilder basicBlocks first isStart: true.
+
+	"If an if ends without having an else part and without having further statements, we add a null block."
+	cfgBuilder basicBlocks
+		detect: [ :block | block isConditional and: [ block nextFalseBlock isNil ] ]
+		ifFound: [ cfgBuilder newBasicBlock: FASTNullBlock ]
 ]
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
+	"We do not want to apply the visit statement in the case of the if"
 
-	self addStatement: anIfStatement condition.
+	| conditionalBlock |
+	self visitFASTTConditionalStatement: anIfStatement.
+	conditionalBlock := cfgBuilder currentBlock.
 
-	self buildAndUseConditionalBlockDuring: [
-			"The condition could be a conditional expression"
-			self flag: #todo. "Add a test on this case"
-			self visitFASTTConditionalStatement: anIfStatement.
+	self visitEntity: anIfStatement thenClause.
 
-			self visitEntity: anIfStatement thenClause.
-			self buildBlockIfNeeded.
+	"adding a new pending action, either for the new else block or following code if no elsePart"
+	cfgBuilder addPendingNextBlockAction: [ :elseOrNextBlock | conditionalBlock nextBlock: elseOrNextBlock onValue: false ].
 
-			self flag: #todo. "Elif not managed yet"
-			self visitCollection: anIfStatement elifClauses.
+	self visitCollection: anIfStatement elifClauses.
 
-			self visitFASTPyTWithElseClause: anIfStatement.
-			self buildBlockIfNeeded ]
+	self visitFASTPyTWithElseClause: anIfStatement
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyThenClause: aThenClause [
+
+	| conditionalBlock |
+	conditionalBlock := cfgBuilder currentBlock.
+	cfgBuilder addPendingNextBlockAction: [ :thenBlock | conditionalBlock nextBlock: thenBlock onValue: true ].
+	cfgBuilder closeCurrentBlock.
+
+	super visitFASTPyThenClause: aThenClause.
+
+	"We close the then block."
+	cfgBuilder closeCurrentBlock
 ]
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
-	"Register the statement in the list of statements to create the current block"
 
-	self addStatement: aStatement.
+	| currentBlock |
+	cfgBuilder currentBlock ifNil: [
+			| newBlock |
+			newBlock := cfgBuilder newBasicBlock: FASTBasicBlock.
+			cfgBuilder addPendingNextBlockAction: [ :nextBlock | newBlock nextBlock: nextBlock ] ].
 
-	super visitFASTTStatement: aStatement
+	currentBlock := cfgBuilder currentBlock.
+
+	super visitFASTTStatement: aStatement.
+
+	"only adding statement if no expression made changes to the CFG"
+	currentBlock = cfgBuilder currentBlock ifTrue: [ cfgBuilder currentBlock addStatement: aStatement ]
 ]
 
 { #category : 'visiting' }
@@ -70,4 +83,12 @@ FASTPythonCFGVisitor >> visitFASTTStatementBlock: aFASTTStatementBlock [
 	"We do not consider the block as a statemert."
 
 	self visitCollection: aFASTTStatementBlock statements
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTTWithCondition: aStatement [
+
+	cfgBuilder newConditionalBlock: aStatement condition.
+
+	super visitFASTTWithCondition: aStatement
 ]
