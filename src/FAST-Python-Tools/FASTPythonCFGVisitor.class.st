@@ -21,6 +21,19 @@ FASTPythonCFGVisitor >> initialize [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyElifClause: anElifClause [
+
+	self addStatement: anElifClause condition.
+
+	self buildAndUseConditionalBlockDuring: [
+			"The condition could be a conditional expression"
+			self flag: #todo. "Add a test on this case"
+
+			self visitFASTTStatementBlock: anElifClause.
+			self buildBlockIfNeeded ]
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyExpression: aFASTPyExpression [
 	"We ignore expressions that are not in a statement block"
 
@@ -44,7 +57,6 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 	self buildAndUseConditionalBlockDuring: [
 			"The condition could be a conditional expression"
 			self flag: #todo. "Add a test on this case"
-			self visitFASTTConditionalStatement: anIfStatement.
 
 			self visitEntity: anIfStatement thenClause.
 
