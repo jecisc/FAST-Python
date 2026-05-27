@@ -24,7 +24,35 @@ FASTPythonCFGTest >> parse: aString [
 		  parse: aString withPlatformLineEndings
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - for' }
+FASTPythonCFGTest >> testFunctionWithFor [
+
+	| forBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    for x in i:
+        print(x)'.
+
+	self assert: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 2.
+	self assert: (startBlock statements first class isOfType: FASTPyIdentifier).
+	self assert: (startBlock statements second class isOfType: FASTPyIdentifier).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assert: (startBlock nextBlocks select: #isNullBlock) size equals: 1.
+
+	forBlock := startBlock nextTrueBlock.
+	self deny: forBlock isConditional.
+	self deny: forBlock isFinal.
+	self assert: forBlock statements size equals: 1.
+	self assert: (forBlock statements first isOfType: FASTPyCall).
+	
+	nullBlock := startBlock nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: nullBlock identicalTo: forBlock nextBlock.
+	self assert: nullBlock isFinal
+]
+
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThen [
 
 	| thenBlock nextBlock |
@@ -54,7 +82,7 @@ FASTPythonCFGTest >> testFunctionWithIfThen [
 	self assert: nextBlock isFinal
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenAtEnd [
 
 	| thenBlock nullBlock |
@@ -83,7 +111,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenAtEnd [
 	self assert: nullBlock isFinal
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenAtStart [
 
 	| thenBlock returnBlock |
@@ -113,7 +141,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenAtStart [
 	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenElif [
 
 	| thenBlock elifConditionBlock elifBlock nullBlock |
@@ -156,7 +184,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElif [
 	self assert: nullBlock isFinal
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenElse [
 
 	| thenBlock elseBlock returnBlock |
@@ -196,7 +224,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElse [
 	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenElseAtEnd [
 
 	| thenBlock elseBlock nullBlock |
@@ -233,7 +261,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseAtEnd [
 	self assert: nullBlock isFinal
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenElseAtStart [
 
 	| thenBlock elseBlock returnBlock |
@@ -271,7 +299,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseAtStart [
 	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenElseInIfThen [
 
 	| thenBlock thenBlock2 elseBlock nullBlock |
@@ -315,7 +343,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseInIfThen [
 	self assert: nullBlock isFinal
 ]
 
-{ #category : 'tests - ifs' }
+{ #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThenInIfThen [
 
 	| thenBlock thenBlock2 nullBlock |

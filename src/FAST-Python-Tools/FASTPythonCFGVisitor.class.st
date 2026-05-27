@@ -41,6 +41,23 @@ FASTPythonCFGVisitor >> visitFASTPyExpression: aFASTPyExpression [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyForStatement: aForStatement [
+
+	self addStatement: aForStatement left.
+	self addStatement: aForStatement right.
+
+	self buildAndUseConditionalBlockDuring: [
+			"The condition could be a conditional expression"
+			self flag: #todo. "Add a test on this case"
+
+			self visitFASTTStatementBlock: aForStatement.
+			self buildBlockIfNeeded.
+
+			self flag: #todo. "Manage and test else clause"
+			self visitFASTPyTWithElseClause: aForStatement ]
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 	"We do not manage the function in itself only its content"
 
