@@ -391,3 +391,32 @@ FASTPythonCFGTest >> testFunctionWithSimpleStatements [
 	self assert: startBlock statements size equals: 3.
 	self assertEmpty: startBlock nextBlocks
 ]
+
+{ #category : 'tests - while' }
+FASTPythonCFGTest >> testFunctionWithWhile [
+
+	| whileBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    while i < 4:
+        i += 1
+        print(i)'.
+
+	self assert: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assert: (startBlock nextBlocks select: #isNullBlock) size equals: 1.
+
+	whileBlock := startBlock nextTrueBlock.
+	self deny: whileBlock isConditional.
+	self deny: whileBlock isFinal.
+	self assert: whileBlock statements size equals: 2.
+	self assert: (whileBlock statements first isOfType: FASTPyAugmentedAssignment).
+	self assert: (whileBlock statements second isOfType: FASTPyCall).
+	
+	nullBlock := startBlock nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: nullBlock identicalTo: whileBlock nextBlock.
+	self assert: nullBlock isFinal
+]

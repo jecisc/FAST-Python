@@ -81,12 +81,26 @@ FASTPythonCFGVisitor >> visitFASTPyThenClause: aThenClause [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
+
+	self addStatement: aWhileStatement condition.
+
+	self buildAndUseConditionalBlockDuring: [
+			"The condition could be a conditional expression"
+			self flag: #todo. "Add a test on this case"
+
+			self visitFASTTStatementBlock: aWhileStatement.
+			self buildBlockIfNeeded.
+
+			self flag: #todo. "Manage and test else clause"
+			self visitFASTPyTWithElseClause: aWhileStatement ]
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
 	"Register the statement in the list of statements to create the current block once we find a conditional or the end of a block"
 
-	self addStatement: aStatement.
-
-	super visitFASTTStatement: aStatement
+	self addStatement: aStatement
 ]
 
 { #category : 'visiting' }
