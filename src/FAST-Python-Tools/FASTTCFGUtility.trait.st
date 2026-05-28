@@ -72,6 +72,11 @@ FASTTCFGUtility >> buildCFGForModel: aFASTModel [
 	^ self basicBlocks detect: [ :block | block isStart ]
 ]
 
+{ #category : 'accessing' }
+FASTTCFGUtility >> currentStatements [
+	^ currentStatements
+]
+
 { #category : 'initialization' }
 FASTTCFGUtility >> initializeCFG [
 

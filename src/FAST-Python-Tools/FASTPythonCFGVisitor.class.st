@@ -8,11 +8,6 @@ Class {
 	#tag : 'CFG/DataFlow'
 }
 
-{ #category : 'accessing' }
-FASTPythonCFGVisitor >> currentStatements [
-	^ currentStatements
-]
-
 { #category : 'initialization' }
 FASTPythonCFGVisitor >> initialize [
 
@@ -23,14 +18,9 @@ FASTPythonCFGVisitor >> initialize [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyElifClause: anElifClause [
 
-	self addStatement: anElifClause condition.
+	self visitFASTTConditionalStatement: anElifClause condition.
 
-	self buildAndUseConditionalBlockDuring: [
-			"The condition could be a conditional expression"
-			self flag: #todo. "Add a test on this case"
-
-			self visitFASTTStatementBlock: anElifClause.
-			self buildBlockIfNeeded ]
+	self buildAndUseConditionalBlockDuring: [ self visitFASTTStatementBlock: anElifClause ]
 ]
 
 { #category : 'visiting' }
@@ -43,15 +33,14 @@ FASTPythonCFGVisitor >> visitFASTPyExpression: aFASTPyExpression [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyForStatement: aForStatement [
 
+	self buildBlockIfNeeded.
+
+	self flag: #todo. "The condition could be a conditional expression. Add a test on this case"
 	self addStatement: aForStatement left.
 	self addStatement: aForStatement right.
 
 	self buildAndUseConditionalBlockDuring: [
-			"The condition could be a conditional expression"
-			self flag: #todo. "Add a test on this case"
-
 			self visitFASTTStatementBlock: aForStatement.
-			self buildBlockIfNeeded.
 
 			self flag: #todo. "Manage and test else clause"
 			self visitFASTPyTWithElseClause: aForStatement ]
@@ -69,45 +58,21 @@ FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 
-	self addStatement: anIfStatement condition.
+	self visitFASTTConditionalStatement: anIfStatement condition.
 
 	self buildAndUseConditionalBlockDuring: [
-			"The condition could be a conditional expression"
-			self flag: #todo. "Add a test on this case"
-
 			self visitEntity: anIfStatement thenClause.
-
-			self flag: #todo. "Elif not managed yet"
 			self visitCollection: anIfStatement elifClauses.
-
 			self visitFASTPyTWithElseClause: anIfStatement ]
-]
-
-{ #category : 'visiting' }
-FASTPythonCFGVisitor >> visitFASTPyTWithElseClause: anElseClause [
-
-	super visitFASTPyTWithElseClause: anElseClause.
-	self buildBlockIfNeeded
-]
-
-{ #category : 'visiting' }
-FASTPythonCFGVisitor >> visitFASTPyThenClause: aThenClause [
-
-	super visitFASTPyThenClause: aThenClause.
-	self buildBlockIfNeeded
 ]
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
 
-	self addStatement: aWhileStatement condition.
+	self visitFASTTConditionalStatement: aWhileStatement condition.
 
 	self buildAndUseConditionalBlockDuring: [
-			"The condition could be a conditional expression"
-			self flag: #todo. "Add a test on this case"
-
 			self visitFASTTStatementBlock: aWhileStatement.
-			self buildBlockIfNeeded.
 
 			self flag: #todo. "Manage and test else clause"
 			self visitFASTPyTWithElseClause: aWhileStatement ]
@@ -122,7 +87,9 @@ FASTPythonCFGVisitor >> visitFASTTStatement: aStatement [
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTTStatementBlock: aFASTTStatementBlock [
-	"We do not consider the block as a statemert."
+	"We do not consider the block as a statemert.
+	Also, once we are done with a block, if we encountered statements we produce a new normal block with them."
 
-	self visitCollection: aFASTTStatementBlock statements
+	self visitCollection: aFASTTStatementBlock statements.
+	self buildBlockIfNeeded
 ]
