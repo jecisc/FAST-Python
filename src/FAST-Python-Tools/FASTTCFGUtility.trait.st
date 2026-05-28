@@ -31,31 +31,6 @@ FASTTCFGUtility >> allBlocks [
 ]
 
 { #category : 'running' }
-FASTTCFGUtility >> buildAndUseConditionalBlockDuring: aBlock [
-
-	^ self buildAndUseConditionalOfKind: FASTCFGConditionalBlock during: aBlock
-]
-
-{ #category : 'running' }
-FASTTCFGUtility >> buildAndUseConditionalOfKind: aClass during: aBlock [
-
-	| conditional |
-	[
-		conditional := self buildBlockOfType: aClass.
-		currentConditionals push: conditional.
-
-		aBlock value ] ensure: [
-			self assert: conditional == currentConditionals top description: 'The top conditional does not match the one produced before the execution of the block'.
-			currentConditionals pop ]
-]
-
-{ #category : 'running' }
-FASTTCFGUtility >> buildAndUseLoopConditionalBlockDuring: aBlock [
-
-	^ self buildAndUseConditionalOfKind: FASTCFGLoopConditionalBlock during: aBlock
-]
-
-{ #category : 'running' }
 FASTTCFGUtility >> buildBlockIfNeeded [
 	"If we have statements stocked, we create a new block with them. Else we do nothing."
 
@@ -87,6 +62,19 @@ FASTTCFGUtility >> buildCFGForModel: aFASTModel [
 	self shouldBuildNullBlock ifTrue: [ self buildBlockOfType: FASTCFGNullBlock ].
 
 	^ startBlock
+]
+
+{ #category : 'running' }
+FASTTCFGUtility >> buildConditional: aClass wrapping: aBlock [
+
+	| conditional |
+	[
+		conditional := self buildBlockOfType: aClass.
+		currentConditionals push: conditional.
+
+		aBlock value ] ensure: [
+			self assert: conditional == currentConditionals top description: 'The top conditional does not match the one produced before the execution of the block'.
+			currentConditionals pop ]
 ]
 
 { #category : 'accessing' }

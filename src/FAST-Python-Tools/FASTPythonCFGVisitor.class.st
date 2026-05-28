@@ -20,7 +20,7 @@ FASTPythonCFGVisitor >> visitFASTPyElifClause: anElifClause [
 
 	self visitFASTTConditionalStatement: anElifClause.
 
-	self buildAndUseConditionalBlockDuring: [ self visitFASTTStatementBlock: anElifClause ]
+	self buildConditional: FASTCFGConditionalBlock wrapping: [ self visitFASTTStatementBlock: anElifClause ]
 ]
 
 { #category : 'visiting' }
@@ -39,7 +39,7 @@ FASTPythonCFGVisitor >> visitFASTPyForStatement: aForStatement [
 	self addStatement: aForStatement left.
 	self addStatement: aForStatement right.
 
-	self buildAndUseLoopConditionalBlockDuring: [
+	self buildConditional: FASTCFGLoopConditionalBlock wrapping: [
 			self visitFASTTStatementBlock: aForStatement.
 
 			self flag: #todo. "Manage and test else clause"
@@ -60,7 +60,7 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 
 	self visitFASTTConditionalStatement: anIfStatement.
 
-	self buildAndUseConditionalBlockDuring: [
+	self buildConditional: FASTCFGConditionalBlock wrapping: [
 			self visitEntity: anIfStatement thenClause.
 			self visitCollection: anIfStatement elifClauses.
 			self visitFASTPyTWithElseClause: anIfStatement ]
@@ -71,7 +71,7 @@ FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
 
 	self visitFASTTConditionalStatement: aWhileStatement.
 
-	self buildAndUseLoopConditionalBlockDuring: [
+	self buildConditional: FASTCFGLoopConditionalBlock wrapping: [
 			self visitFASTTStatementBlock: aWhileStatement.
 
 			self flag: #todo. "Manage and test else clause"
