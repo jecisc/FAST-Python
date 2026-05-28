@@ -33,14 +33,26 @@ FASTTCFGUtility >> allBlocks [
 { #category : 'running' }
 FASTTCFGUtility >> buildAndUseConditionalBlockDuring: aBlock [
 
+	^ self buildAndUseConditionalOfKind: FASTCFGConditionalBlock during: aBlock
+]
+
+{ #category : 'running' }
+FASTTCFGUtility >> buildAndUseConditionalOfKind: aClass during: aBlock [
+
 	| conditional |
 	[
-		conditional := self buildBlockOfType: FASTCFGConditionalBlock.
+		conditional := self buildBlockOfType: aClass.
 		currentConditionals push: conditional.
 
 		aBlock value ] ensure: [
 			self assert: conditional == currentConditionals top description: 'The top conditional does not match the one produced before the execution of the block'.
 			currentConditionals pop ]
+]
+
+{ #category : 'running' }
+FASTTCFGUtility >> buildAndUseLoopConditionalBlockDuring: aBlock [
+
+	^ self buildAndUseConditionalOfKind: FASTCFGLoopConditionalBlock during: aBlock
 ]
 
 { #category : 'running' }
@@ -61,7 +73,9 @@ FASTTCFGUtility >> buildBlockOfType: aBlockClass [
 
 	self managePreviousBlocksOf: newBlock.
 
-	startBlock ifNil: [ startBlock := newBlock ].
+	startBlock ifNil: [
+			startBlock := newBlock.
+			newBlock isStart: true ].
 
 	^ newBlock
 ]

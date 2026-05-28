@@ -2,6 +2,7 @@ Class {
 	#name : 'FASTCFGAbstractBlock',
 	#superclass : 'Object',
 	#instVars : [
+		'isStart',
 		'statements',
 		'previousBlocks'
 	],
@@ -26,7 +27,8 @@ FASTCFGAbstractBlock >> addPreviousBlock: aBlock [
 FASTCFGAbstractBlock >> initialize [
 
 	super initialize.
-	previousBlocks := OrderedCollection new
+	previousBlocks := OrderedCollection new.
+	isStart := false
 ]
 
 { #category : 'inspector' }
@@ -62,10 +64,14 @@ FASTCFGAbstractBlock >> isNullBlock [
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : 'accessing' }
 FASTCFGAbstractBlock >> isStart [
+	^ isStart
+]
 
-	^ self previousBlocks isEmpty
+{ #category : 'accessing' }
+FASTCFGAbstractBlock >> isStart: anObject [
+	isStart := anObject
 ]
 
 { #category : 'accessing' }

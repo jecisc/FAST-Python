@@ -45,10 +45,10 @@ FASTPythonCFGTest >> testFunctionWithFor [
 	self deny: forBlock isFinal.
 	self assert: forBlock statements size equals: 1.
 	self assert: (forBlock statements first isOfType: FASTPyCall).
+	self assert: forBlock nextBlock equals: startBlock.
 	
 	nullBlock := startBlock nextFalseBlock.
 	self assert: nullBlock isNullBlock.
-	self assert: nullBlock identicalTo: forBlock nextBlock.
 	self assert: nullBlock isFinal
 ]
 
@@ -442,9 +442,9 @@ FASTPythonCFGTest >> testFunctionWithWhile [
 	self assert: whileBlock statements size equals: 2.
 	self assert: (whileBlock statements first isOfType: FASTPyAugmentedAssignment).
 	self assert: (whileBlock statements second isOfType: FASTPyCall).
-	
+	self assert: whileBlock nextBlock equals: startBlock.
+
 	nullBlock := startBlock nextFalseBlock.
 	self assert: nullBlock isNullBlock.
-	self assert: nullBlock identicalTo: whileBlock nextBlock.
 	self assert: nullBlock isFinal
 ]

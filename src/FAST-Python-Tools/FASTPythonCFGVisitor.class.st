@@ -39,7 +39,7 @@ FASTPythonCFGVisitor >> visitFASTPyForStatement: aForStatement [
 	self addStatement: aForStatement left.
 	self addStatement: aForStatement right.
 
-	self buildAndUseConditionalBlockDuring: [
+	self buildAndUseLoopConditionalBlockDuring: [
 			self visitFASTTStatementBlock: aForStatement.
 
 			self flag: #todo. "Manage and test else clause"
@@ -71,7 +71,7 @@ FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
 
 	self visitFASTTConditionalStatement: aWhileStatement.
 
-	self buildAndUseConditionalBlockDuring: [
+	self buildAndUseLoopConditionalBlockDuring: [
 			self visitFASTTStatementBlock: aWhileStatement.
 
 			self flag: #todo. "Manage and test else clause"
