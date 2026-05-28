@@ -555,3 +555,33 @@ FASTPythonCFGTest >> testFunctionWithWhileDoesNotMixWithPreviousStatements [
 	self assert: nullBlock isNullBlock.
 	self assert: nullBlock isFinal
 ]
+
+{ #category : 'tests - while' }
+FASTPythonCFGTest >> testFunctionWithWhileWithBreak [
+
+	| whileBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    while i < 4:
+      y()
+      break
+      x()'.
+
+	self assert: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assert: (startBlock nextBlocks select: #isNullBlock) size equals: 1.
+
+	whileBlock := startBlock nextTrueBlock.
+	self deny: whileBlock isConditional.
+	self deny: whileBlock isFinal.
+	self assert: whileBlock statements size equals: 2.
+	self assert: (whileBlock statements first isOfType: FASTPyCall).
+	self assert: (whileBlock statements second isOfType: FASTPyBreakStatement).
+
+	nullBlock := startBlock nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: whileBlock nextBlock equals: nullBlock.
+	self assert: nullBlock isFinal
+]

@@ -16,6 +16,13 @@ FASTPythonCFGVisitor >> initialize [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyBreakStatement: aBreakStatement [
+
+	super visitFASTPyBreakStatement: aBreakStatement.
+	FASTCFGBreakEncountered signal
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyConditionalExpression: aConditionalExpression [
 
 	self visitFASTTConditionalStatement: aConditionalExpression.
@@ -110,6 +117,9 @@ FASTPythonCFGVisitor >> visitFASTTStatementBlock: aFASTTStatementBlock [
 	"We do not consider the block as a statemert.
 	Also, once we are done with a block, if we encountered statements we produce a new normal block with them."
 
-	self visitCollection: aFASTTStatementBlock statements.
-	self buildBlockIfNeeded
+	[
+		self visitCollection: aFASTTStatementBlock statements.
+		self buildBlockIfNeeded ]
+		on: FASTCFGBreakEncountered
+		do: [ self buildBlockIfNeeded nextBlock: nil ]
 ]

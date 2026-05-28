@@ -35,7 +35,7 @@ FASTTCFGUtility >> buildBlockIfNeeded [
 	"If we have statements stocked, we create a new block with them. Else we do nothing."
 
 	self currentStatements ifEmpty: [ ^ self ].
-	self buildBlockOfType: FASTCFGBlock
+	^ self buildBlockOfType: FASTCFGBlock
 ]
 
 { #category : 'running' }
