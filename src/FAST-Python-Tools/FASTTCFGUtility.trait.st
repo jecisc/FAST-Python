@@ -1,7 +1,7 @@
 Trait {
 	#name : 'FASTTCFGUtility',
 	#instVars : [
-		'basicBlocks',
+		'startBlock',
 		'currentStatements',
 		'currentConditionals'
 	],
@@ -23,8 +23,11 @@ FASTTCFGUtility >> addStatement: aStatement [
 ]
 
 { #category : 'accessing' }
-FASTTCFGUtility >> basicBlocks [
-	^ basicBlocks
+FASTTCFGUtility >> allBlocks [
+
+	startBlock ifNil: [ ^ Array empty ].
+
+	^ startBlock withAllFollowingBlocks
 ]
 
 { #category : 'running' }
@@ -58,7 +61,7 @@ FASTTCFGUtility >> buildBlockOfType: aBlockClass [
 
 	self managePreviousBlocksOf: newBlock.
 
-	basicBlocks add: newBlock.
+	startBlock ifNil: [ startBlock := newBlock ].
 
 	^ newBlock
 ]
@@ -69,7 +72,7 @@ FASTTCFGUtility >> buildCFGForModel: aFASTModel [
 	aFASTModel accept: self.
 	self shouldBuildNullBlock ifTrue: [ self buildBlockOfType: FASTCFGNullBlock ].
 
-	^ self basicBlocks detect: [ :block | block isStart ]
+	^ startBlock
 ]
 
 { #category : 'accessing' }
@@ -81,7 +84,6 @@ FASTTCFGUtility >> currentStatements [
 FASTTCFGUtility >> initializeCFG [
 
 	currentConditionals := Stack new.
-	basicBlocks := OrderedCollection new.
 	currentStatements := OrderedCollection new
 ]
 
@@ -91,7 +93,7 @@ FASTTCFGUtility >> managePreviousBlocksOf: newBlock [
 
 	currentConditionals
 		ifEmpty: [
-				self basicBlocks
+				self allBlocks
 					reject: #isFull
 					thenDo: [ :block | block addNextBlock: newBlock ] ]
 		ifNotEmpty: [ currentConditionals top addNextBlock: newBlock ]
@@ -101,7 +103,7 @@ FASTTCFGUtility >> managePreviousBlocksOf: newBlock [
 FASTTCFGUtility >> shouldBuildNullBlock [
 	"We build a null block if we have an unfinished conditional or more than one final block."
 
-	(self basicBlocks select: [ :block | block isConditional and: [ block isFull not ] ]) ifNotEmpty: [ ^ true ].
+	(self allBlocks select: [ :block | block isConditional and: [ block isFull not ] ]) ifNotEmpty: [ ^ true ].
 
-	^ (self basicBlocks reject: #isFinal) size = 1
+	^ (self allBlocks reject: #isFinal) size = 1
 ]
