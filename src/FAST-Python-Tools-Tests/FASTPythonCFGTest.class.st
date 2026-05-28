@@ -65,7 +65,7 @@ FASTPythonCFGTest >> testFunctionWithIfThen [
 	self assert: startBlock isConditional.
 	self deny: startBlock isFinal.
 	self assert: startBlock statements size equals: 2.
-	self assert: (startBlock firstStatement class isOfType: FASTPyCall).
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
 	self assert: (startBlock statements second class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
 	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
@@ -74,7 +74,7 @@ FASTPythonCFGTest >> testFunctionWithIfThen [
 	self assert: thenBlock isConditional not.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
 
 	nextBlock := startBlock nextFalseBlock.
 	self deny: nextBlock isNullBlock.
@@ -94,7 +94,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenAtEnd [
 	self assert: startBlock isConditional.
 	self deny: startBlock isFinal.
 	self assert: startBlock statements size equals: 2.
-	self assert: (startBlock firstStatement class isOfType: FASTPyCall).
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
 	self assert: (startBlock statements second class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
 	self assert: (startBlock nextBlocks select: #isNullBlock) size equals: 1.
@@ -103,7 +103,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenAtEnd [
 	self assert: thenBlock isConditional not.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
 
 	nullBlock := startBlock nextFalseBlock.
 	self assert: nullBlock isNullBlock.
@@ -123,7 +123,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenAtStart [
 	self assert: startBlock isConditional.
 	self deny: startBlock isFinal.
 	self assert: startBlock statements size equals: 1.
-	self assert: (startBlock firstStatement class isOfType: FASTPyComparisonOperator).
+	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
 	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
 
@@ -131,14 +131,14 @@ FASTPythonCFGTest >> testFunctionWithIfThenAtStart [
 	self assert: thenBlock isConditional not.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
 
 	returnBlock := startBlock nextFalseBlock.
 	self deny: returnBlock isNullBlock.
 	self assert: returnBlock identicalTo: thenBlock nextBlock.
 	self assert: returnBlock isFinal.
 	self assert: returnBlock statements size equals: 1.
-	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
+	self assert: (returnBlock statements first isOfType: FASTPyReturnStatement)
 ]
 
 { #category : 'tests - if' }
@@ -162,20 +162,20 @@ FASTPythonCFGTest >> testFunctionWithIfThenElif [
 	self deny: thenBlock isConditional.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
-	
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
+
 	elifConditionBlock := startBlock nextFalseBlock.
 	self assert: elifConditionBlock isConditional.
 	self deny: elifConditionBlock isFinal.
 	self assert: elifConditionBlock statements size equals: 1.
-	self assert: (elifConditionBlock firstStatement isOfType: FASTPyComparisonOperator).
-	
+	self assert: (elifConditionBlock statements first isOfType: FASTPyComparisonOperator).
+
 	elifBlock := elifConditionBlock nextTrueBlock.
 	self deny: elifBlock isConditional.
 	self deny: elifBlock isFinal.
 	self assert: elifBlock statements size equals: 1.
-	self assert: (elifBlock firstStatement isOfType: FASTPyPassStatement).
-	
+	self assert: (elifBlock statements first isOfType: FASTPyPassStatement).
+
 	nullBlock := elifBlock nextBlock.
 	self assert: nullBlock isNullBlock.
 	self assert: nullBlock identicalTo: thenBlock nextBlock.
@@ -199,7 +199,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElse [
 	self assert: startBlock isConditional.
 	self deny: startBlock isFinal.
 	self assert: startBlock statements size equals: 2.
-	self assert: (startBlock firstStatement class isOfType: FASTPyCall).
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
 	self assert: (startBlock statements second class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
 	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
@@ -208,20 +208,20 @@ FASTPythonCFGTest >> testFunctionWithIfThenElse [
 	self assert: thenBlock isConditional not.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
 
 	elseBlock := startBlock nextFalseBlock.
 	self deny: elseBlock isNullBlock.
 	self deny: elseBlock isFinal.
 	self assert: elseBlock statements size equals: 1.
-	self assert: (elseBlock firstStatement isOfType: FASTPyPassStatement).
+	self assert: (elseBlock statements first isOfType: FASTPyPassStatement).
 
 	returnBlock := thenBlock nextBlock.
 	self deny: returnBlock isNullBlock.
 	self assert: returnBlock identicalTo: elseBlock nextBlock.
 	self assert: returnBlock isFinal.
 	self assert: returnBlock statements size equals: 1.
-	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
+	self assert: (returnBlock statements first isOfType: FASTPyReturnStatement)
 ]
 
 { #category : 'tests - if' }
@@ -238,7 +238,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseAtEnd [
 	self assert: startBlock isConditional.
 	self deny: startBlock isFinal.
 	self assert: startBlock statements size equals: 2.
-	self assert: (startBlock firstStatement class isOfType: FASTPyCall).
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
 	self assert: (startBlock statements second class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
 	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
@@ -247,13 +247,13 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseAtEnd [
 	self assert: thenBlock isConditional not.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
 
 	elseBlock := startBlock nextFalseBlock.
 	self deny: elseBlock isNullBlock.
 	self deny: elseBlock isFinal.
 	self assert: elseBlock statements size equals: 1.
-	self assert: (elseBlock firstStatement isOfType: FASTPyPassStatement).
+	self assert: (elseBlock statements first isOfType: FASTPyPassStatement).
 
 	nullBlock := thenBlock nextBlock.
 	self assert: nullBlock isNullBlock.
@@ -275,7 +275,7 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseAtStart [
 	self assert: startBlock isConditional.
 	self deny: startBlock isFinal.
 	self assert: startBlock statements size equals: 1.
-	self assert: (startBlock firstStatement class isOfType: FASTPyComparisonOperator).
+	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
 	self assert: startBlock nextBlocks size equals: 2.
 	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
 
@@ -283,20 +283,20 @@ FASTPythonCFGTest >> testFunctionWithIfThenElseAtStart [
 	self assert: thenBlock isConditional not.
 	self deny: thenBlock isFinal.
 	self assert: thenBlock statements size equals: 1.
-	self assert: (thenBlock firstStatement isOfType: FASTPyCall).
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
 
 	elseBlock := startBlock nextFalseBlock.
 	self deny: elseBlock isNullBlock.
 	self deny: elseBlock isFinal.
 	self assert: elseBlock statements size equals: 1.
-	self assert: (elseBlock firstStatement isOfType: FASTPyPassStatement).
+	self assert: (elseBlock statements first isOfType: FASTPyPassStatement).
 
 	returnBlock := thenBlock nextBlock.
 	self deny: returnBlock isNullBlock.
 	self assert: returnBlock identicalTo: elseBlock nextBlock.
 	self assert: returnBlock isFinal.
 	self assert: returnBlock statements size equals: 1.
-	self assert: (returnBlock firstStatement isOfType: FASTPyReturnStatement)
+	self assert: (returnBlock statements first isOfType: FASTPyReturnStatement)
 ]
 
 { #category : 'tests - if' }

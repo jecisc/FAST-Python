@@ -22,12 +22,6 @@ FASTCFGAbstractBlock >> addPreviousBlock: aBlock [
 	(self previousBlocks includes: aBlock) ifFalse: [ self previousBlocks add: aBlock ]
 ]
 
-{ #category : 'accessing' }
-FASTCFGAbstractBlock >> firstStatement [
-
-	^ self statements first
-]
-
 { #category : 'initialization' }
 FASTCFGAbstractBlock >> initialize [
 
@@ -75,12 +69,6 @@ FASTCFGAbstractBlock >> isStart [
 ]
 
 { #category : 'accessing' }
-FASTCFGAbstractBlock >> lastStatement [
-
-	^ self statements last
-]
-
-{ #category : 'accessing' }
 FASTCFGAbstractBlock >> nextBlocks [
 
 	^ self subclassResponsibility
@@ -89,6 +77,14 @@ FASTCFGAbstractBlock >> nextBlocks [
 { #category : 'accessing' }
 FASTCFGAbstractBlock >> previousBlocks [
 	^ previousBlocks
+]
+
+{ #category : 'accessing' }
+FASTCFGAbstractBlock >> sourceCode [
+
+	self statements isEmptyOrNil ifTrue: [ ^ '' ].
+
+	^ self statements first sourceText copyFrom: self statements first startPos to: self statements last endPos
 ]
 
 { #category : 'accessing' }

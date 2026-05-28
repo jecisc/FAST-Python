@@ -18,7 +18,7 @@ FASTPythonCFGVisitor >> initialize [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyElifClause: anElifClause [
 
-	self visitFASTTConditionalStatement: anElifClause condition.
+	self visitFASTTConditionalStatement: anElifClause.
 
 	self buildAndUseConditionalBlockDuring: [ self visitFASTTStatementBlock: anElifClause ]
 ]
@@ -58,7 +58,7 @@ FASTPythonCFGVisitor >> visitFASTPyFunctionDefinition: aFunction [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 
-	self visitFASTTConditionalStatement: anIfStatement condition.
+	self visitFASTTConditionalStatement: anIfStatement.
 
 	self buildAndUseConditionalBlockDuring: [
 			self visitEntity: anIfStatement thenClause.
@@ -69,13 +69,19 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
 
-	self visitFASTTConditionalStatement: aWhileStatement condition.
+	self visitFASTTConditionalStatement: aWhileStatement.
 
 	self buildAndUseConditionalBlockDuring: [
 			self visitFASTTStatementBlock: aWhileStatement.
 
 			self flag: #todo. "Manage and test else clause"
 			self visitFASTPyTWithElseClause: aWhileStatement ]
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTTConditionalStatement: aStatement [
+
+	self addStatement: aStatement condition
 ]
 
 { #category : 'visiting' }
