@@ -16,6 +16,18 @@ FASTPythonCFGVisitor >> initialize [
 ]
 
 { #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTPyConditionalExpression: aConditionalExpression [
+
+	self visitFASTTConditionalStatement: aConditionalExpression.
+
+	self buildConditional: FASTCFGConditionalBlock wrapping: [
+			self addStatement: aConditionalExpression thenExpression.
+			self buildBlockIfNeeded.
+			self addStatement: aConditionalExpression elseExpression.
+			self buildBlockIfNeeded ]
+]
+
+{ #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyElifClause: anElifClause [
 
 	self visitFASTTConditionalStatement: anElifClause.

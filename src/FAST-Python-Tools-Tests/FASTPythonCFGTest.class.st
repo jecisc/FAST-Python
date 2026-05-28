@@ -24,6 +24,40 @@ FASTPythonCFGTest >> parse: aString [
 		  parse: aString withPlatformLineEndings
 ]
 
+{ #category : 'tests - conditional expressions' }
+FASTPythonCFGTest >> testFunctionWithConditionalExpression [
+
+	| thenBlock elseBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    y()
+    x() if i % 2 == 0 else y()'.
+
+	self assert: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 2.
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
+	self assert: (startBlock statements second class isOfType: FASTPyComparisonOperator).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assertEmpty: (startBlock nextBlocks select: #isNullBlock).
+
+	thenBlock := startBlock nextTrueBlock.
+	self assert: thenBlock isConditional not.
+	self deny: thenBlock isFinal.
+	self assert: thenBlock statements size equals: 1.
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
+
+	elseBlock := startBlock nextFalseBlock.
+	self deny: elseBlock isNullBlock.
+	self deny: elseBlock isFinal.
+	self assert: elseBlock statements size equals: 1.
+	self assert: (elseBlock statements first isOfType: FASTPyCall).
+
+	nullBlock := thenBlock nextBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: nullBlock identicalTo: elseBlock nextBlock.
+	self assert: nullBlock isFinal
+]
+
 { #category : 'tests - for' }
 FASTPythonCFGTest >> testFunctionWithFor [
 
