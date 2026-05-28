@@ -52,6 +52,42 @@ FASTPythonCFGTest >> testFunctionWithFor [
 	self assert: nullBlock isFinal
 ]
 
+{ #category : 'tests - for' }
+FASTPythonCFGTest >> testFunctionWithForConditionDoesNotMixWithPreviousStatements [
+	"Since the for loop, we should not mix its condition with previous statements. "
+
+	| forCondition forBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    y()
+    for x in i:
+        print(x)'.
+
+	self deny: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
+	
+	forCondition := startBlock nextBlock.
+	self assert: forCondition isConditional.
+	self deny: forCondition isFinal.
+	self assert: forCondition statements size equals: 2.
+	self assert: (forCondition statements first class isOfType: FASTPyIdentifier).
+	self assert: (forCondition statements second class isOfType: FASTPyIdentifier).
+	self assert: forCondition nextBlocks size equals: 2.
+	self assert: (forCondition nextBlocks select: #isNullBlock) size equals: 1.
+
+	forBlock := forCondition nextTrueBlock.
+	self deny: forBlock isConditional.
+	self deny: forBlock isFinal.
+	self assert: forBlock statements size equals: 1.
+	self assert: (forBlock statements first isOfType: FASTPyCall).
+	self assert: forBlock nextBlock equals: forCondition.
+
+	nullBlock := forCondition nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: nullBlock isFinal
+]
+
 { #category : 'tests - if' }
 FASTPythonCFGTest >> testFunctionWithIfThen [
 
@@ -445,6 +481,43 @@ FASTPythonCFGTest >> testFunctionWithWhile [
 	self assert: whileBlock nextBlock equals: startBlock.
 
 	nullBlock := startBlock nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: nullBlock isFinal
+]
+
+{ #category : 'tests - while' }
+FASTPythonCFGTest >> testFunctionWithWhileDoesNotMixWithPreviousStatements [
+	"Since the while loop, we should not mix its condition with previous statements. "
+
+	| whileCondition whileBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    y()
+    while i < 4:
+        i += 1
+        print(i)'.
+
+	self deny: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock statements first class isOfType: FASTPyCall).
+	
+	whileCondition := startBlock nextBlock.
+	self assert: whileCondition isConditional.
+	self deny: whileCondition isFinal.
+	self assert: whileCondition statements size equals: 1.
+	self assert: (whileCondition statements first class isOfType: FASTPyComparisonOperator).
+	self assert: whileCondition nextBlocks size equals: 2.
+	self assert: (whileCondition nextBlocks select: #isNullBlock) size equals: 1.
+
+	whileBlock := whileCondition nextTrueBlock.
+	self deny: whileBlock isConditional.
+	self deny: whileBlock isFinal.
+	self assert: whileBlock statements size equals: 2.
+	self assert: (whileBlock statements first isOfType: FASTPyAugmentedAssignment).
+	self assert: (whileBlock statements second isOfType: FASTPyCall).
+	self assert: whileBlock nextBlock equals: whileCondition .
+
+	nullBlock := whileCondition nextFalseBlock.
 	self assert: nullBlock isNullBlock.
 	self assert: nullBlock isFinal
 ]

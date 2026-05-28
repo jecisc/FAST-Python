@@ -69,6 +69,8 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
 
+	self buildBlockIfNeeded.
+
 	self visitFASTTConditionalStatement: aWhileStatement.
 
 	self buildConditional: FASTCFGLoopConditionalBlock wrapping: [
