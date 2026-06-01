@@ -18,6 +18,12 @@ FASTCFGBlock >> addNextBlock: aBlock [
 ]
 
 { #category : 'testing' }
+FASTCFGBlock >> endsWithBreakStatement [
+
+	^ self statements last isBreakStatement
+]
+
+{ #category : 'testing' }
 FASTCFGBlock >> isFull [
 
 	^ self nextBlock isNotNil

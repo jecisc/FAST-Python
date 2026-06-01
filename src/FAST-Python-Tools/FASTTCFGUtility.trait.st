@@ -31,6 +31,26 @@ FASTTCFGUtility >> allBlocks [
 ]
 
 { #category : 'running' }
+FASTTCFGUtility >> buildAndUseConditionalDuring: aBlock [
+
+	| conditional |
+	[
+		conditional := self buildBlockOfType: FASTCFGConditionalBlock.
+		currentConditionals push: conditional.
+
+		aBlock value ] ensure: [
+			self assert: conditional == currentConditionals top description: 'The top conditional does not match the one produced before the execution of the block'.
+			^ currentConditionals pop ]
+]
+
+{ #category : 'running' }
+FASTTCFGUtility >> buildAndUseLoopDuring: aBlock [
+	"For loops, we do an extra step compared to conditionals in order to build the loops if needed."
+
+	self finializeLoop: (self buildAndUseConditionalDuring: aBlock)
+]
+
+{ #category : 'running' }
 FASTTCFGUtility >> buildBlockIfNeeded [
 	"If we have statements stocked, we create a new block with them. Else we do nothing."
 
@@ -64,22 +84,18 @@ FASTTCFGUtility >> buildCFGForModel: aFASTModel [
 	^ startBlock
 ]
 
-{ #category : 'running' }
-FASTTCFGUtility >> buildConditional: aClass wrapping: aBlock [
-
-	| conditional |
-	[
-		conditional := self buildBlockOfType: aClass.
-		currentConditionals push: conditional.
-
-		aBlock value ] ensure: [
-			self assert: conditional == currentConditionals top description: 'The top conditional does not match the one produced before the execution of the block'.
-			currentConditionals pop ]
-]
-
 { #category : 'accessing' }
 FASTTCFGUtility >> currentStatements [
 	^ currentStatements
+]
+
+{ #category : 'running' }
+FASTTCFGUtility >> finializeLoop: loop [
+	"When we close a loop, we check all blocks that are not full and that do not end with a break to create the loop."
+
+	loop nextBlocks
+		reject: [ :block | block isFull or: [ block endsWithBreakStatement ] ]
+		thenDo: [ :block | block addNextBlock: loop ]
 ]
 
 { #category : 'initialization' }

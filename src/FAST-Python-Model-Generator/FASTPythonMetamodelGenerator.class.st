@@ -155,7 +155,8 @@ Class {
 		'tCallable',
 		'tSliceIndex',
 		'tAwaitable',
-		'tExecutable'
+		'tExecutable',
+		'tBreakStatement'
 	],
 	#category : 'FAST-Python-Model-Generator',
 	#package : 'FAST-Python-Model-Generator'
@@ -389,6 +390,7 @@ FASTPythonMetamodelGenerator >> defineHierarchy [
 	boolean --|> tBooleanLiteral.
 	
 	breakStatement --|> statement.
+	breakStatement --|> tBreakStatement.
 
 	call --|> expression.
 	call --|> tInvocation.
@@ -896,6 +898,7 @@ FASTPythonMetamodelGenerator >> defineTraits [
 	tAssignment := self remoteTrait: #TAssignment withPrefix: #FAST.
 	tBinaryExpression := self remoteTrait: #TBinaryExpression withPrefix: #FAST.
 	tBooleanLiteral := self remoteTrait: #TBooleanLiteral withPrefix: #FAST.
+	tBreakStatement := self remoteTrait: #TBreakStatement withPrefix: #FAST.
 	tComment := self remoteTrait: #TComment withPrefix: #FAST.
 	tConditionalStatement := self remoteTrait: #TConditionalStatement withPrefix: #FAST.
 	tExpression := self remoteTrait: #TExpression withPrefix: #FAST.

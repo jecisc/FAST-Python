@@ -125,6 +125,7 @@ FASTPyTVisitor >> visitFASTPyBooleanOperator: aBooleanOperator [
 FASTPyTVisitor >> visitFASTPyBreakStatement: aBreakStatement [
 
 	<generated>
+	self visitFASTTBreakStatement: aBreakStatement.
 	self visitFASTPyStatement: aBreakStatement
 ]
 
@@ -1169,6 +1170,13 @@ FASTPyTVisitor >> visitFASTTBooleanLiteral: aTBooleanLiteral [
 
 	<generated>
 	"We should visit FASTTLiteral but all its users in this language already visit it in their superclasses so we skip the call here."
+]
+
+{ #category : 'visiting' }
+FASTPyTVisitor >> visitFASTTBreakStatement: aTBreakStatement [
+
+	<generated>
+	"We should visit FASTTStatement but all its users in this language already visit it in their superclasses so we skip the call here."
 ]
 
 { #category : 'visiting' }

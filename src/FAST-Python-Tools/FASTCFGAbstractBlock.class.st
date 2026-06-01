@@ -23,6 +23,12 @@ FASTCFGAbstractBlock >> addPreviousBlock: aBlock [
 	(self previousBlocks includes: aBlock) ifFalse: [ self previousBlocks add: aBlock ]
 ]
 
+{ #category : 'accessing' }
+FASTCFGAbstractBlock >> allFollowingBlocks [
+
+	^ self deep: #nextBlocks collect: #yourself
+]
+
 { #category : 'initialization' }
 FASTCFGAbstractBlock >> initialize [
 

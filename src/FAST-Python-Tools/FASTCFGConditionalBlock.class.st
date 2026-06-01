@@ -18,6 +18,13 @@ FASTCFGConditionalBlock >> addNextBlock: aBlock [
 	^ self nextBlocks add: aBlock
 ]
 
+{ #category : 'testing' }
+FASTCFGConditionalBlock >> endsWithBreakStatement [
+	"I return true if I have my two next blocks and they both end with a break statement."
+
+	^ self isFull and: [ self nextBlocks allSatisfy: #endsWithBreakStatement ]
+]
+
 { #category : 'initialization' }
 FASTCFGConditionalBlock >> initialize [
 
@@ -55,7 +62,9 @@ FASTCFGConditionalBlock >> nextBlocks [
 { #category : 'accessing' }
 FASTCFGConditionalBlock >> nextFalseBlock [
 
-	^ self nextBlocks second
+	^ [ self nextBlocks second ]
+		  on: SubscriptOutOfBounds
+		  do: [ nil ]
 ]
 
 { #category : 'accessing' }

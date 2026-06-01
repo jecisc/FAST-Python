@@ -585,3 +585,42 @@ FASTPythonCFGTest >> testFunctionWithWhileWithBreak [
 	self assert: whileBlock nextBlock equals: nullBlock.
 	self assert: nullBlock isFinal
 ]
+
+{ #category : 'tests - while' }
+FASTPythonCFGTest >> testFunctionWithWhileWithBreakInIfThem [
+
+	| ifConditionalBlock thenBlock nullBlock |
+	self buildCFGFor: 'def f(i):
+    while i < 4:
+      a()
+      if i > 2:
+        b() 
+        break
+        c()'.
+
+	self assert: startBlock isConditional.
+	self deny: startBlock isFinal.
+	self assert: startBlock statements size equals: 1.
+	self assert: (startBlock statements first class isOfType: FASTPyComparisonOperator).
+	self assert: startBlock nextBlocks size equals: 2.
+	self assert: (startBlock nextBlocks select: #isNullBlock) size equals: 1.
+
+	ifConditionalBlock := startBlock nextTrueBlock.
+	self assert: ifConditionalBlock isConditional.
+	self deny: ifConditionalBlock isFinal.
+	self assert: ifConditionalBlock statements size equals: 2.
+	self assert: (ifConditionalBlock statements first isOfType: FASTPyCall).
+	self assert: (ifConditionalBlock statements second isOfType: FASTPyComparisonOperator).
+
+	thenBlock := ifConditionalBlock nextTrueBlock.
+	self deny: thenBlock isConditional.
+	self deny: thenBlock isFinal.
+	self assert: thenBlock statements size equals: 2.
+	self assert: (thenBlock statements first isOfType: FASTPyCall).
+	self assert: (thenBlock statements second isOfType: FASTPyBreakStatement).
+
+	nullBlock := startBlock nextFalseBlock.
+	self assert: nullBlock isNullBlock.
+	self assert: thenBlock nextBlock equals: nullBlock.
+	self assert: nullBlock isFinal
+]

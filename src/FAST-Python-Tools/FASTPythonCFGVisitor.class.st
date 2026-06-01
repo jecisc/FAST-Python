@@ -17,9 +17,10 @@ FASTPythonCFGVisitor >> initialize [
 
 { #category : 'visiting' }
 FASTPythonCFGVisitor >> visitFASTPyBreakStatement: aBreakStatement [
+	"We need to visit the statement before the TBreakStatement to add the break statement in the list of statements. Else the visit of #FASTPyStatement will be skipped by the exception raised FASTTBreakStatement"
 
-	super visitFASTPyBreakStatement: aBreakStatement.
-	FASTCFGBreakEncountered signal
+	self visitFASTPyStatement: aBreakStatement.
+	self visitFASTTBreakStatement: aBreakStatement
 ]
 
 { #category : 'visiting' }
@@ -27,7 +28,7 @@ FASTPythonCFGVisitor >> visitFASTPyConditionalExpression: aConditionalExpression
 
 	self visitFASTTConditionalStatement: aConditionalExpression.
 
-	self buildConditional: FASTCFGConditionalBlock wrapping: [
+	self buildAndUseConditionalDuring: [
 			self addStatement: aConditionalExpression thenExpression.
 			self buildBlockIfNeeded.
 			self addStatement: aConditionalExpression elseExpression.
@@ -39,7 +40,7 @@ FASTPythonCFGVisitor >> visitFASTPyElifClause: anElifClause [
 
 	self visitFASTTConditionalStatement: anElifClause.
 
-	self buildConditional: FASTCFGConditionalBlock wrapping: [ self visitFASTTStatementBlock: anElifClause ]
+	self buildAndUseConditionalDuring: [ self visitFASTTStatementBlock: anElifClause ]
 ]
 
 { #category : 'visiting' }
@@ -58,7 +59,7 @@ FASTPythonCFGVisitor >> visitFASTPyForStatement: aForStatement [
 	self addStatement: aForStatement left.
 	self addStatement: aForStatement right.
 
-	self buildConditional: FASTCFGLoopConditionalBlock wrapping: [
+	self buildAndUseLoopDuring: [
 			self visitFASTTStatementBlock: aForStatement.
 
 			self flag: #todo. "Manage and test else clause"
@@ -79,7 +80,7 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 
 	self visitFASTTConditionalStatement: anIfStatement.
 
-	self buildConditional: FASTCFGConditionalBlock wrapping: [
+	self buildAndUseConditionalDuring: [
 			self visitEntity: anIfStatement thenClause.
 			self visitCollection: anIfStatement elifClauses.
 			self visitFASTPyTWithElseClause: anIfStatement ]
@@ -89,14 +90,20 @@ FASTPythonCFGVisitor >> visitFASTPyIfStatement: anIfStatement [
 FASTPythonCFGVisitor >> visitFASTPyWhileStatement: aWhileStatement [
 
 	self buildBlockIfNeeded.
-
 	self visitFASTTConditionalStatement: aWhileStatement.
 
-	self buildConditional: FASTCFGLoopConditionalBlock wrapping: [
+	self buildAndUseLoopDuring: [
 			self visitFASTTStatementBlock: aWhileStatement.
 
 			self flag: #todo. "Manage and test else clause"
 			self visitFASTPyTWithElseClause: aWhileStatement ]
+]
+
+{ #category : 'visiting' }
+FASTPythonCFGVisitor >> visitFASTTBreakStatement: aBreakStatement [
+
+	super visitFASTTBreakStatement: aBreakStatement.
+	FASTCFGBreakEncountered signal
 ]
 
 { #category : 'visiting' }
@@ -121,5 +128,5 @@ FASTPythonCFGVisitor >> visitFASTTStatementBlock: aFASTTStatementBlock [
 		self visitCollection: aFASTTStatementBlock statements.
 		self buildBlockIfNeeded ]
 		on: FASTCFGBreakEncountered
-		do: [ self buildBlockIfNeeded nextBlock: nil ]
+		do: [ "End visit of the block and resume the rest of the visit." self buildBlockIfNeeded ]
 ]
