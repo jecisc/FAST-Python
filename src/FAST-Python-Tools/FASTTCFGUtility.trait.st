@@ -93,7 +93,7 @@ FASTTCFGUtility >> currentStatements [
 FASTTCFGUtility >> finializeLoop: loop [
 	"When we close a loop, we check all blocks that are not full and that do not end with a break to create the loop."
 
-	loop nextBlocks
+	loop allFollowingBlocks
 		reject: [ :block | block isFull or: [ block endsWithBreakStatement ] ]
 		thenDo: [ :block | block addNextBlock: loop ]
 ]
